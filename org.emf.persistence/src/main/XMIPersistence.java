@@ -19,7 +19,7 @@ import library.Employee;
 import library.Library;
 import library.LibraryPackage;
 
-public class XMIPersistence extends EMFPersistence
+public class XMIPersistence extends ModelCreator
 {
 
 	private static String fileSaveLocation ="library.xmi";

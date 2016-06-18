@@ -17,7 +17,7 @@ import library.Employee;
 import library.Library;
 import library.LibraryPackage;
 
-public class BinaryPersistence extends EMFPersistence
+public class BinaryPersistence extends ModelCreator
 {
 	private static String fileSaveLocation ="library.bin";
 	

@@ -12,7 +12,7 @@ import library.EmployeeType;
 import library.Library;
 import library.LibraryFactory;
 
-public abstract class EMFPersistence 
+public abstract class ModelCreator 
 {
 	/**
 	 * Creates and returns library model (and all its associated elements).
