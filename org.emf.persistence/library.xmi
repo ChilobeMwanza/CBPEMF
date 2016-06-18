@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="http://org.emf.persistence">
+  <Author name="Dan Brown" books="/3/@books.0 /3/@books.1"/>
+  <Author name="J K Rowling" books="/3/@books.2"/>
+  <Author name="Stephen Hawking" books="/3/@books.3 /3/@books.4 /3/@books.5"/>
+  <Library>
+    <books name="Harry Potter and the ISM" author="/0" idNumber="1.0"/>
+    <books name="Harry Potter and the MODE" author="/0" idNumber="1.2"/>
+    <books name="A super good day" author="/1" idNumber="0.45"/>
+    <books name="Hello World in Mode" author="/2" idNumber="0.54"/>
+    <books name="Hello World in Java" author="/2" idNumber="0.54"/>
+    <books name="Hello World in C++" author="/2" idNumber="0.54"/>
+    <employees name="James White" employeeType="contract"/>
+    <employees name="Peter Green" employeeType="contract"/>
+    <employees name="Joseph  Yellow" employeeType="permananent"/>
+    <employees name="Robert Black"/>
+  </Library>
+</xmi:XMI>
