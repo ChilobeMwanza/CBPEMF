@@ -1,5 +1,8 @@
 <p><strong>EMF PERSISTENCE</strong></p>
 <p>This project contains ecliplse project folders. The project org.emf.persistence is an epsilon plugin project and as such, it should work with a current version of epsilon without requiring any modifications to the users development environment. The project org.proto.persistence requires google protocol buffers to be installled on the users machine.</p>
 <p><strong>Projects</strong></p>
-<p><strong>org.emf.persistence:</strong></p>
+<p><strong>org.emf.persistence (EMF Serialisation using EMFs default XMI/Binary serializer):</strong></p>
 <p>In this project, a library model is created and persisted using emfs default persistence mechanisms (Binary and XMI). The persistence code is within the 'main' package. The Binary persistence code can be found in the BinaryPersistence.java file. The XMI persistence code can be found in the XMIPersistence.java file. By default both methods will save and load from to a location relative to the location of the eclipse project on disk. Command line arguments can be passed to both&nbsp;BinaryPersistence.java&nbsp;XMIPersistence.java in order to specify a save location, e.g C:/Test/output.xmi .</p>
+<p>&nbsp;</p>
+<p><strong>io.emf.protobuf_2_6_1 (EMF Serialisation using Protocol Buffers Version 2.6.1 as a serialisation layer)</strong></p>
+<p>This project attempts to use the&nbsp;latest stable release of <a href="https://github.com/google/protobuf/releases/tag/v2.6.1">google protocol buffers (2.6.1) </a>as a serialisation layer for EMF. The persistence code can be found within the 'main' package.&nbsp;</p>
