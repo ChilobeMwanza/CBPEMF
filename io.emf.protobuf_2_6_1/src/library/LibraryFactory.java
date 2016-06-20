@@ -49,15 +49,6 @@ public interface LibraryFactory extends EFactory {
 	Author createAuthor();
 
 	/**
-	 * Returns a new object of class '<em>Employee</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Employee</em>'.
-	 * @generated
-	 */
-	Employee createEmployee();
-
-	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

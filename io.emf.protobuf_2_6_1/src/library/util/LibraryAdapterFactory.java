@@ -80,10 +80,6 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 				return createAuthorAdapter();
 			}
 			@Override
-			public Adapter caseEmployee(Employee object) {
-				return createEmployeeAdapter();
-			}
-			@Override
 			public Adapter caseNamedElement(NamedElement object) {
 				return createNamedElementAdapter();
 			}
@@ -146,20 +142,6 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAuthorAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link library.Employee <em>Employee</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see library.Employee
-	 * @generated
-	 */
-	public Adapter createEmployeeAdapter() {
 		return null;
 	}
 

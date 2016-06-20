@@ -5,33 +5,20 @@ package library;
 class Library
 {
 	val Book[*] books;
-	val Employee[*] employees;
 }
 
 class Book extends NamedElement
 {
-    ref Author[1]#books author;
+    ref Author[1] author;
 	attr double idNumber;
 }
 
 class Author extends NamedElement
 {
-	ref Book[+]# author books;
-}
-
-class Employee extends NamedElement
-{
-	attr EmployeeType employeeType;
+	
 }
 
 abstract class NamedElement 
 {
 	attr String name;
-}
-
-enum EmployeeType
-{
- temp;
- permananent;
- contract;	
 }

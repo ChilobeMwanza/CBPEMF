@@ -7,7 +7,6 @@ import library.Book;
 import library.LibraryPackage;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -109,33 +108,11 @@ public class BookImpl extends NamedElementImpl implements Book {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetAuthor(Author newAuthor, NotificationChain msgs) {
+	public void setAuthor(Author newAuthor) {
 		Author oldAuthor = author;
 		author = newAuthor;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LibraryPackage.BOOK__AUTHOR, oldAuthor, newAuthor);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setAuthor(Author newAuthor) {
-		if (newAuthor != author) {
-			NotificationChain msgs = null;
-			if (author != null)
-				msgs = ((InternalEObject)author).eInverseRemove(this, LibraryPackage.AUTHOR__BOOKS, Author.class, msgs);
-			if (newAuthor != null)
-				msgs = ((InternalEObject)newAuthor).eInverseAdd(this, LibraryPackage.AUTHOR__BOOKS, Author.class, msgs);
-			msgs = basicSetAuthor(newAuthor, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.BOOK__AUTHOR, newAuthor, newAuthor));
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.BOOK__AUTHOR, oldAuthor, author));
 	}
 
 	/**
@@ -157,36 +134,6 @@ public class BookImpl extends NamedElementImpl implements Book {
 		idNumber = newIdNumber;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.BOOK__ID_NUMBER, oldIdNumber, idNumber));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case LibraryPackage.BOOK__AUTHOR:
-				if (author != null)
-					msgs = ((InternalEObject)author).eInverseRemove(this, LibraryPackage.AUTHOR__BOOKS, Author.class, msgs);
-				return basicSetAuthor((Author)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case LibraryPackage.BOOK__AUTHOR:
-				return basicSetAuthor(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

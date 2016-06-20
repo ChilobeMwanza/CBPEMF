@@ -5,7 +5,6 @@ package library.impl;
 import java.util.Collection;
 
 import library.Book;
-import library.Employee;
 import library.Library;
 import library.LibraryPackage;
 
@@ -30,7 +29,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link library.impl.LibraryImpl#getBooks <em>Books</em>}</li>
- *   <li>{@link library.impl.LibraryImpl#getEmployees <em>Employees</em>}</li>
  * </ul>
  *
  * @generated
@@ -45,16 +43,6 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 	 * @ordered
 	 */
 	protected EList<Book> books;
-
-	/**
-	 * The cached value of the '{@link #getEmployees() <em>Employees</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEmployees()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Employee> employees;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -92,25 +80,11 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Employee> getEmployees() {
-		if (employees == null) {
-			employees = new EObjectContainmentEList<Employee>(Employee.class, this, LibraryPackage.LIBRARY__EMPLOYEES);
-		}
-		return employees;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case LibraryPackage.LIBRARY__BOOKS:
 				return ((InternalEList<?>)getBooks()).basicRemove(otherEnd, msgs);
-			case LibraryPackage.LIBRARY__EMPLOYEES:
-				return ((InternalEList<?>)getEmployees()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -125,8 +99,6 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 		switch (featureID) {
 			case LibraryPackage.LIBRARY__BOOKS:
 				return getBooks();
-			case LibraryPackage.LIBRARY__EMPLOYEES:
-				return getEmployees();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -144,10 +116,6 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 				getBooks().clear();
 				getBooks().addAll((Collection<? extends Book>)newValue);
 				return;
-			case LibraryPackage.LIBRARY__EMPLOYEES:
-				getEmployees().clear();
-				getEmployees().addAll((Collection<? extends Employee>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -163,9 +131,6 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 			case LibraryPackage.LIBRARY__BOOKS:
 				getBooks().clear();
 				return;
-			case LibraryPackage.LIBRARY__EMPLOYEES:
-				getEmployees().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -180,8 +145,6 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 		switch (featureID) {
 			case LibraryPackage.LIBRARY__BOOKS:
 				return books != null && !books.isEmpty();
-			case LibraryPackage.LIBRARY__EMPLOYEES:
-				return employees != null && !employees.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -4,8 +4,6 @@ package library.impl;
 
 import library.Author;
 import library.Book;
-import library.Employee;
-import library.EmployeeType;
 import library.Library;
 import library.LibraryFactory;
 import library.LibraryPackage;
@@ -13,7 +11,6 @@ import library.NamedElement;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -52,21 +49,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass employeeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass namedElementEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum employeeTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -152,15 +135,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLibrary_Employees() {
-		return (EReference)libraryEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getBook() {
 		return bookEClass;
 	}
@@ -197,33 +171,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAuthor_Books() {
-		return (EReference)authorEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getEmployee() {
-		return employeeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEmployee_EmployeeType() {
-		return (EAttribute)employeeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getNamedElement() {
 		return namedElementEClass;
 	}
@@ -235,15 +182,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 */
 	public EAttribute getNamedElement_Name() {
 		return (EAttribute)namedElementEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EEnum getEmployeeType() {
-		return employeeTypeEEnum;
 	}
 
 	/**
@@ -276,23 +214,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		// Create classes and their features
 		libraryEClass = createEClass(LIBRARY);
 		createEReference(libraryEClass, LIBRARY__BOOKS);
-		createEReference(libraryEClass, LIBRARY__EMPLOYEES);
 
 		bookEClass = createEClass(BOOK);
 		createEReference(bookEClass, BOOK__AUTHOR);
 		createEAttribute(bookEClass, BOOK__ID_NUMBER);
 
 		authorEClass = createEClass(AUTHOR);
-		createEReference(authorEClass, AUTHOR__BOOKS);
-
-		employeeEClass = createEClass(EMPLOYEE);
-		createEAttribute(employeeEClass, EMPLOYEE__EMPLOYEE_TYPE);
 
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
-
-		// Create enums
-		employeeTypeEEnum = createEEnum(EMPLOYEE_TYPE);
 	}
 
 	/**
@@ -325,31 +255,19 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		// Add supertypes to classes
 		bookEClass.getESuperTypes().add(this.getNamedElement());
 		authorEClass.getESuperTypes().add(this.getNamedElement());
-		employeeEClass.getESuperTypes().add(this.getNamedElement());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(libraryEClass, Library.class, "Library", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLibrary_Books(), this.getBook(), null, "books", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getLibrary_Employees(), this.getEmployee(), null, "employees", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bookEClass, Book.class, "Book", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getBook_Author(), this.getAuthor(), this.getAuthor_Books(), "author", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBook_Author(), this.getAuthor(), null, "author", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBook_IdNumber(), ecorePackage.getEDouble(), "idNumber", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(authorEClass, Author.class, "Author", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAuthor_Books(), this.getBook(), this.getBook_Author(), "books", null, 1, -1, Author.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(employeeEClass, Employee.class, "Employee", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getEmployee_EmployeeType(), this.getEmployeeType(), "employeeType", null, 0, 1, Employee.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNamedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		// Initialize enums and add enum literals
-		initEEnum(employeeTypeEEnum, EmployeeType.class, "EmployeeType");
-		addEEnumLiteral(employeeTypeEEnum, EmployeeType.TEMP);
-		addEEnumLiteral(employeeTypeEEnum, EmployeeType.PERMANANENT);
-		addEEnumLiteral(employeeTypeEEnum, EmployeeType.CONTRACT);
 
 		// Create resource
 		createResource(eNS_URI);

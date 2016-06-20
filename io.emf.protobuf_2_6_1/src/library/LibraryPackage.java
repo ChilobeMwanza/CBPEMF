@@ -4,7 +4,6 @@ package library;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -77,22 +76,13 @@ public interface LibraryPackage extends EPackage {
 	int LIBRARY__BOOKS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Employees</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LIBRARY__EMPLOYEES = 1;
-
-	/**
 	 * The number of structural features of the '<em>Library</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = 2;
+	int LIBRARY_FEATURE_COUNT = 1;
 
 	/**
 	 * The number of operations of the '<em>Library</em>' class.
@@ -111,7 +101,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see library.impl.LibraryPackageImpl#getNamedElement()
 	 * @generated
 	 */
-	int NAMED_ELEMENT = 4;
+	int NAMED_ELEMENT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -215,22 +205,13 @@ public interface LibraryPackage extends EPackage {
 	int AUTHOR__NAME = NAMED_ELEMENT__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Books</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AUTHOR__BOOKS = NAMED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
 	 * The number of structural features of the '<em>Author</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AUTHOR_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int AUTHOR_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Author</em>' class.
@@ -240,62 +221,6 @@ public interface LibraryPackage extends EPackage {
 	 * @ordered
 	 */
 	int AUTHOR_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link library.impl.EmployeeImpl <em>Employee</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see library.impl.EmployeeImpl
-	 * @see library.impl.LibraryPackageImpl#getEmployee()
-	 * @generated
-	 */
-	int EMPLOYEE = 3;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMPLOYEE__NAME = NAMED_ELEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Employee Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMPLOYEE__EMPLOYEE_TYPE = NAMED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Employee</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMPLOYEE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Employee</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMPLOYEE_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link library.EmployeeType <em>Employee Type</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see library.EmployeeType
-	 * @see library.impl.LibraryPackageImpl#getEmployeeType()
-	 * @generated
-	 */
-	int EMPLOYEE_TYPE = 5;
 
 
 	/**
@@ -318,17 +243,6 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getLibrary_Books();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link library.Library#getEmployees <em>Employees</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Employees</em>'.
-	 * @see library.Library#getEmployees()
-	 * @see #getLibrary()
-	 * @generated
-	 */
-	EReference getLibrary_Employees();
 
 	/**
 	 * Returns the meta object for class '{@link library.Book <em>Book</em>}'.
@@ -373,38 +287,6 @@ public interface LibraryPackage extends EPackage {
 	EClass getAuthor();
 
 	/**
-	 * Returns the meta object for the reference list '{@link library.Author#getBooks <em>Books</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Books</em>'.
-	 * @see library.Author#getBooks()
-	 * @see #getAuthor()
-	 * @generated
-	 */
-	EReference getAuthor_Books();
-
-	/**
-	 * Returns the meta object for class '{@link library.Employee <em>Employee</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Employee</em>'.
-	 * @see library.Employee
-	 * @generated
-	 */
-	EClass getEmployee();
-
-	/**
-	 * Returns the meta object for the attribute '{@link library.Employee#getEmployeeType <em>Employee Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Employee Type</em>'.
-	 * @see library.Employee#getEmployeeType()
-	 * @see #getEmployee()
-	 * @generated
-	 */
-	EAttribute getEmployee_EmployeeType();
-
-	/**
 	 * Returns the meta object for class '{@link library.NamedElement <em>Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -424,16 +306,6 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getNamedElement_Name();
-
-	/**
-	 * Returns the meta object for enum '{@link library.EmployeeType <em>Employee Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Employee Type</em>'.
-	 * @see library.EmployeeType
-	 * @generated
-	 */
-	EEnum getEmployeeType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -477,14 +349,6 @@ public interface LibraryPackage extends EPackage {
 		EReference LIBRARY__BOOKS = eINSTANCE.getLibrary_Books();
 
 		/**
-		 * The meta object literal for the '<em><b>Employees</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference LIBRARY__EMPLOYEES = eINSTANCE.getLibrary_Employees();
-
-		/**
 		 * The meta object literal for the '{@link library.impl.BookImpl <em>Book</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -521,32 +385,6 @@ public interface LibraryPackage extends EPackage {
 		EClass AUTHOR = eINSTANCE.getAuthor();
 
 		/**
-		 * The meta object literal for the '<em><b>Books</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference AUTHOR__BOOKS = eINSTANCE.getAuthor_Books();
-
-		/**
-		 * The meta object literal for the '{@link library.impl.EmployeeImpl <em>Employee</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see library.impl.EmployeeImpl
-		 * @see library.impl.LibraryPackageImpl#getEmployee()
-		 * @generated
-		 */
-		EClass EMPLOYEE = eINSTANCE.getEmployee();
-
-		/**
-		 * The meta object literal for the '<em><b>Employee Type</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute EMPLOYEE__EMPLOYEE_TYPE = eINSTANCE.getEmployee_EmployeeType();
-
-		/**
 		 * The meta object literal for the '{@link library.impl.NamedElementImpl <em>Named Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -563,16 +401,6 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute NAMED_ELEMENT__NAME = eINSTANCE.getNamedElement_Name();
-
-		/**
-		 * The meta object literal for the '{@link library.EmployeeType <em>Employee Type</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see library.EmployeeType
-		 * @see library.impl.LibraryPackageImpl#getEmployeeType()
-		 * @generated
-		 */
-		EEnum EMPLOYEE_TYPE = eINSTANCE.getEmployeeType();
 
 	}
 
