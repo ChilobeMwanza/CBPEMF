@@ -1,0 +1,42 @@
+syntax = "proto2";
+package tutorial; //prevents naming conflicts between projects
+
+/*where the gen classes will live*/
+option java_package = "com.example.tutorial";
+/*name of class which will contain all of the classes
+ * in this file*/
+option java_outer_classname = "AddressBookProtos";
+
+message Person
+{
+	/*
+	 * The identifiers (1,2...n) identify unique tag field used
+	 * in binary encoding. Tag nums 1-15 require one less byte
+	 * for encoding than higher nums.
+	 */
+	required string name = 1;
+	required int32 id = 2;
+	optional string email = 3;
+
+	enum PhoneType
+	{
+		MOBILE = 0;
+		HOME = 1;
+		WORK = 2;
+	}
+
+	message PhoneNumber //note the nesting
+	{
+		required string number = 1;
+		optional PhoneType type = 2 [default = HOME];
+	}
+
+	repeated PhoneNumber phone =4;
+}
+
+message AddressBook
+{
+	repeated Person person = 1;
+}
+
+
