@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated simple_library -->
+      <package
+            uri="http://io.emf.change_based_persistence.text"
+            class="library.LibraryPackage"
+            genModel="model/simple_library.genmodel"/>
+   </extension>
+
+</plugin>

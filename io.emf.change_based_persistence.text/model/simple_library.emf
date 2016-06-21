@@ -1,0 +1,24 @@
+@namespace(uri="http://io.emf.change_based_persistence.text", prefix="")
+
+package library;
+
+class Library
+{
+	val Book[*] books;
+}
+
+class Book extends NamedElement
+{
+    ref Author[1] author;
+	attr double idNumber;
+}
+
+class Author extends NamedElement
+{
+	
+}
+
+abstract class NamedElement 
+{
+	attr String name;
+}
