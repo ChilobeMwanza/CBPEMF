@@ -2,14 +2,12 @@
  */
 package library.impl;
 
-import library.Author;
 import library.Book;
 import library.LibraryPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -21,23 +19,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link library.impl.BookImpl#getAuthor <em>Author</em>}</li>
  *   <li>{@link library.impl.BookImpl#getIdNumber <em>Id Number</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class BookImpl extends NamedElementImpl implements Book {
-	/**
-	 * The cached value of the '{@link #getAuthor() <em>Author</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAuthor()
-	 * @generated
-	 * @ordered
-	 */
-	protected Author author;
-
 	/**
 	 * The default value of the '{@link #getIdNumber() <em>Id Number</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -82,44 +69,6 @@ public class BookImpl extends NamedElementImpl implements Book {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Author getAuthor() {
-		if (author != null && author.eIsProxy()) {
-			InternalEObject oldAuthor = (InternalEObject)author;
-			author = (Author)eResolveProxy(oldAuthor);
-			if (author != oldAuthor) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LibraryPackage.BOOK__AUTHOR, oldAuthor, author));
-			}
-		}
-		return author;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Author basicGetAuthor() {
-		return author;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setAuthor(Author newAuthor) {
-		Author oldAuthor = author;
-		author = newAuthor;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.BOOK__AUTHOR, oldAuthor, author));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public double getIdNumber() {
 		return idNumber;
 	}
@@ -144,9 +93,6 @@ public class BookImpl extends NamedElementImpl implements Book {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case LibraryPackage.BOOK__AUTHOR:
-				if (resolve) return getAuthor();
-				return basicGetAuthor();
 			case LibraryPackage.BOOK__ID_NUMBER:
 				return getIdNumber();
 		}
@@ -161,9 +107,6 @@ public class BookImpl extends NamedElementImpl implements Book {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case LibraryPackage.BOOK__AUTHOR:
-				setAuthor((Author)newValue);
-				return;
 			case LibraryPackage.BOOK__ID_NUMBER:
 				setIdNumber((Double)newValue);
 				return;
@@ -179,9 +122,6 @@ public class BookImpl extends NamedElementImpl implements Book {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case LibraryPackage.BOOK__AUTHOR:
-				setAuthor((Author)null);
-				return;
 			case LibraryPackage.BOOK__ID_NUMBER:
 				setIdNumber(ID_NUMBER_EDEFAULT);
 				return;
@@ -197,8 +137,6 @@ public class BookImpl extends NamedElementImpl implements Book {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case LibraryPackage.BOOK__AUTHOR:
-				return author != null;
 			case LibraryPackage.BOOK__ID_NUMBER:
 				return idNumber != ID_NUMBER_EDEFAULT;
 		}

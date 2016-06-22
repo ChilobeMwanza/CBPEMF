@@ -9,13 +9,7 @@ class Library
 
 class Book extends NamedElement
 {
-    ref Author[1] author;
 	attr double idNumber;
-}
-
-class Author extends NamedElement
-{
-	
 }
 
 abstract class NamedElement 

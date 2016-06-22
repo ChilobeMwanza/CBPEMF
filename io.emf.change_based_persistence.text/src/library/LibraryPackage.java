@@ -101,7 +101,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see library.impl.LibraryPackageImpl#getNamedElement()
 	 * @generated
 	 */
-	int NAMED_ELEMENT = 3;
+	int NAMED_ELEMENT = 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -150,22 +150,13 @@ public interface LibraryPackage extends EPackage {
 	int BOOK__NAME = NAMED_ELEMENT__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Author</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOK__AUTHOR = NAMED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Id Number</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOK__ID_NUMBER = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int BOOK__ID_NUMBER = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Book</em>' class.
@@ -174,7 +165,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOK_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int BOOK_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Book</em>' class.
@@ -184,43 +175,6 @@ public interface LibraryPackage extends EPackage {
 	 * @ordered
 	 */
 	int BOOK_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link library.impl.AuthorImpl <em>Author</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see library.impl.AuthorImpl
-	 * @see library.impl.LibraryPackageImpl#getAuthor()
-	 * @generated
-	 */
-	int AUTHOR = 2;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AUTHOR__NAME = NAMED_ELEMENT__NAME;
-
-	/**
-	 * The number of structural features of the '<em>Author</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AUTHOR_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Author</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AUTHOR_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 
 	/**
@@ -255,17 +209,6 @@ public interface LibraryPackage extends EPackage {
 	EClass getBook();
 
 	/**
-	 * Returns the meta object for the reference '{@link library.Book#getAuthor <em>Author</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Author</em>'.
-	 * @see library.Book#getAuthor()
-	 * @see #getBook()
-	 * @generated
-	 */
-	EReference getBook_Author();
-
-	/**
 	 * Returns the meta object for the attribute '{@link library.Book#getIdNumber <em>Id Number</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -275,16 +218,6 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getBook_IdNumber();
-
-	/**
-	 * Returns the meta object for class '{@link library.Author <em>Author</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Author</em>'.
-	 * @see library.Author
-	 * @generated
-	 */
-	EClass getAuthor();
 
 	/**
 	 * Returns the meta object for class '{@link library.NamedElement <em>Named Element</em>}'.
@@ -359,30 +292,12 @@ public interface LibraryPackage extends EPackage {
 		EClass BOOK = eINSTANCE.getBook();
 
 		/**
-		 * The meta object literal for the '<em><b>Author</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference BOOK__AUTHOR = eINSTANCE.getBook_Author();
-
-		/**
 		 * The meta object literal for the '<em><b>Id Number</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute BOOK__ID_NUMBER = eINSTANCE.getBook_IdNumber();
-
-		/**
-		 * The meta object literal for the '{@link library.impl.AuthorImpl <em>Author</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see library.impl.AuthorImpl
-		 * @see library.impl.LibraryPackageImpl#getAuthor()
-		 * @generated
-		 */
-		EClass AUTHOR = eINSTANCE.getAuthor();
 
 		/**
 		 * The meta object literal for the '{@link library.impl.NamedElementImpl <em>Named Element</em>}' class.

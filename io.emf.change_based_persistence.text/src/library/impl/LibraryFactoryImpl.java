@@ -58,7 +58,6 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 		switch (eClass.getClassifierID()) {
 			case LibraryPackage.LIBRARY: return createLibrary();
 			case LibraryPackage.BOOK: return createBook();
-			case LibraryPackage.AUTHOR: return createAuthor();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -82,16 +81,6 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	public Book createBook() {
 		BookImpl book = new BookImpl();
 		return book;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Author createAuthor() {
-		AuthorImpl author = new AuthorImpl();
-		return author;
 	}
 
 	/**

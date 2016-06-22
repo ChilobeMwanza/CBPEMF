@@ -79,13 +79,6 @@ public class LibrarySwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case LibraryPackage.AUTHOR: {
-				Author author = (Author)theEObject;
-				T result = caseAuthor(author);
-				if (result == null) result = caseNamedElement(author);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case LibraryPackage.NAMED_ELEMENT: {
 				NamedElement namedElement = (NamedElement)theEObject;
 				T result = caseNamedElement(namedElement);
@@ -123,21 +116,6 @@ public class LibrarySwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseBook(Book object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Author</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Author</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseAuthor(Author object) {
 		return null;
 	}
 

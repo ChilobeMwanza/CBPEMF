@@ -12,7 +12,6 @@ package library;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link library.Book#getAuthor <em>Author</em>}</li>
  *   <li>{@link library.Book#getIdNumber <em>Id Number</em>}</li>
  * </ul>
  *
@@ -21,32 +20,6 @@ package library;
  * @generated
  */
 public interface Book extends NamedElement {
-	/**
-	 * Returns the value of the '<em><b>Author</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Author</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Author</em>' reference.
-	 * @see #setAuthor(Author)
-	 * @see library.LibraryPackage#getBook_Author()
-	 * @model required="true"
-	 * @generated
-	 */
-	Author getAuthor();
-
-	/**
-	 * Sets the value of the '{@link library.Book#getAuthor <em>Author</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Author</em>' reference.
-	 * @see #getAuthor()
-	 * @generated
-	 */
-	void setAuthor(Author value);
-
 	/**
 	 * Returns the value of the '<em><b>Id Number</b></em>' attribute.
 	 * <!-- begin-user-doc -->

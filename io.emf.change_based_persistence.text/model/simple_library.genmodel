@@ -10,10 +10,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simple_library.ecore#//Library/books"/>
     </genClasses>
     <genClasses ecoreClass="simple_library.ecore#//Book">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simple_library.ecore#//Book/author"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Book/idNumber"/>
     </genClasses>
-    <genClasses ecoreClass="simple_library.ecore#//Author"/>
     <genClasses image="false" ecoreClass="simple_library.ecore#//NamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//NamedElement/name"/>
     </genClasses>
