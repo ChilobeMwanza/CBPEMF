@@ -1,4 +1,4 @@
-@namespace(uri="http://io.emf.change_based_persistence.text", prefix="")
+@namespace(uri="http://io.emf.change_based_persistence.text", prefix="cm")
 
 package library;
 

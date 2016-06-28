@@ -14,12 +14,13 @@ public class EventAdapter extends EContentAdapter
 			return; 
 		
 		//Get the class of the object affected by the change.
-	    Class<? extends Object> affectedObject = notification.getNotifier().getClass();
+	    Class<? extends Object> affectedClass = notification.getNotifier().getClass();
 	    int eventType = notification.getEventType();
+	    Object object = notification.getNotifier();
 	    
-		System.out.println("Change made to: "+affectedObject
+	/*	System.out.println("Change made to: "+affectedClass
 		.getSimpleName());
 		
-		System.out.println("Event type :"+eventType);
+		System.out.println("Event type :"+eventType);*/
 	}
 }

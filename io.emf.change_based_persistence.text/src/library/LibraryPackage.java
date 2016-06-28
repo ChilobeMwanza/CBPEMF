@@ -46,7 +46,7 @@ public interface LibraryPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "";
+	String eNS_PREFIX = "cm";
 
 	/**
 	 * The singleton instance of the package.
