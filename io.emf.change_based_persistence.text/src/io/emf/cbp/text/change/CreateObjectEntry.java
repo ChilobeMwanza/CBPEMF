@@ -10,6 +10,6 @@ public class CreateObjectEntry extends Entry
 	public CreateObjectEntry(EObject eObject)
 	{
 		super(eObject);
-		className = eObject.getClass().getName();
+		className = eObject.eClass().getName();
 	}
 }

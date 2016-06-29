@@ -18,7 +18,7 @@ public class InitialEntry extends Entry
 		namespaceURI = eObject.eClass().getEPackage().getNsURI();
 		System.out.println("NamespaceURI:"+namespaceURI);
 		
-		className = eObject.getClass().getSimpleName();
+		className = eObject.eClass().getName();
 		System.out.println("Class Name: "+className);
 	}
 	
