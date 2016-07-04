@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.impl.ResourceImpl"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.common.util.URI"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
-<fullyQualifiedTypeName name="library.Library"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClass"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.notify.impl.AdapterImpl"/>
+<fullyQualifiedTypeName name="library.Library"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.notify.impl.AdapterFactoryImpl"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notifier"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Adapter"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.notify.AdapterFactory"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EContentAdapter"/>
+<fullyQualifiedTypeName name="library.Author"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notification"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.impl.ResourceImpl"/>
+<fullyQualifiedTypeName name="java.io.OutputStream"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="io.emf.cbp.resource.CBPResourceImpl"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.Resource"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="io.emf.cbp.resource.DeltaResourceImpl"/>
+<fullyQualifiedTypeName name="io.emf.cbp.text.change.RootObjectEntry"/>
+<fullyQualifiedTypeName name="io.emf.cbp.text.change.ChangeLog"/>
+<fullyQualifiedTypeName name="io.emf.cbp.text.change.Entry"/>
+<fullyQualifiedTypeName name="io.emf.cbp.text.change.InitialEntry"/>
+<fullyQualifiedTypeName name="main.PersistenceManager"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
+<fullyQualifiedTypeName name="io.emf.cbp.text.change.AbstractEntry"/>
+<fullyQualifiedTypeName name="io.emf.cbp.text.change.AddObjectEntry"/>
+<fullyQualifiedTypeName name="java.io.PrintWriter"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.io.FileWriter"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.util.URI"/>
+<fullyQualifiedTypeName name="java.io.BufferedWriter"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
 </qualifiedTypeNameHistroy>

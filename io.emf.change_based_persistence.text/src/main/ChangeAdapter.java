@@ -5,11 +5,12 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
 import library.Library;
 
-public class ChangeAdapter extends AdapterImpl 
+public class ChangeAdapter extends AdapterImpl //TBR
 {
 	@Override
 	public void notifyChanged(Notification notification)
 	{
+		/*
 		//if(notification.getNotifier() instanceof x)
 		if(notification.isTouch())
 		{

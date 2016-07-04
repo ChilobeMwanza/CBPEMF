@@ -1,0 +1,9 @@
+package io.emf.cbp.text.change;
+
+public class AddObjectEntry extends AbstractEntry implements Entry  
+{
+	public AddObjectEntry(EObject eObject)
+	{
+		super(eObject);
+	}
+}

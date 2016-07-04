@@ -1,0 +1,55 @@
+
+//http://www.javapractices.com/topic/TopicAction.do?Id=31
+package main;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+
+import org.eclipse.emf.common.util.URI;
+
+import io.emf.cbp.text.change.AbstractEntry;
+import io.emf.cbp.text.change.ChangeLog;
+import io.emf.cbp.text.change.Entry;
+
+public class PersistenceManager 
+{
+	private ChangeLog changeLog;
+	private URI uri;
+	private PrintWriter out ;
+	public PersistenceManager(URI uri,ChangeLog aChangeLog)
+	{
+		changeLog = aChangeLog;
+		//out = new PrintWriter(outputStream);
+		this.uri = uri;
+	
+	}
+	
+	public void save()
+	{
+		try
+		{
+			FileWriter fw = new FileWriter(uri.path(),true); //allows us to append to file
+			BufferedWriter bw = new BufferedWriter(fw);
+			out = new PrintWriter(bw);
+			
+			System.out.println(uri.path());
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		//System.out.println("Size of events list: "+changeLog.getEventsList().size());
+		for(AbstractEntry entry: changeLog.getEventsList())
+		{
+			for(String string: entry.getOutputStringsArray())
+			{
+				out.println(string);
+			}
+		}
+		
+	//	out.close();
+	}
+}

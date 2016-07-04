@@ -4,9 +4,9 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
-public class ChangeAdapterFactory extends AdapterFactoryImpl
+public class ChangeAdapterFactory extends AdapterFactoryImpl //tbr
 {
-	protected static final ChangeAdapter ADAPTER =
+	/*protected static final ChangeAdapter ADAPTER =
 			new ChangeAdapter();
 	
 	@Override
@@ -20,5 +20,5 @@ public class ChangeAdapterFactory extends AdapterFactoryImpl
 	public boolean isFactoryForType(Object type)
 	{
 		return type == ChangeAdapter.class;
-	}
+	}*/
 }

@@ -8,14 +8,14 @@ public enum ChangeLog
 	//public static final ChangeLog INSTANCE = new ChangeLog();
 	INSTANCE;
 	
-	private List<Entry> eventsList = new ArrayList<Entry>();
+	private List<AbstractEntry> eventsList = new ArrayList<AbstractEntry>();
 	
-	public void addEvent(Entry event)
+	public void addEvent(AbstractEntry entry)
 	{
-		eventsList.add(event);
+		eventsList.add(entry);
 	}
 	
-	public List<Entry> getEventsList()
+	public List<AbstractEntry> getEventsList()
 	{
 		return eventsList;
 	}

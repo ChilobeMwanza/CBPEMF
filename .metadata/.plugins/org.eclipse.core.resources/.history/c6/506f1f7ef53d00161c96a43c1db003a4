@@ -1,0 +1,17 @@
+package io.emf.cbp.text.change;
+
+import org.eclipse.emf.ecore.EObject;
+
+public class AddObjectEntry extends AbstractEntry implements Entry  
+{
+	String dfd;
+	public AddObjectEntry(EObject eObject)
+	{
+		super(eObject);
+	}
+	
+	public String[] getOutputStringsArray()
+	{
+		return null;
+	}
+}

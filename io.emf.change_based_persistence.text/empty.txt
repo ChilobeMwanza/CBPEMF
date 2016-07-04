@@ -1,0 +1,9 @@
+namespace prefix = cm
+namespaceURI = http://io.emf.change_based_persistence.text
+classname = Library
+namespace prefix = cm
+namespaceURI = http://io.emf.change_based_persistence.text
+classname = Library
+namespace prefix = cm
+namespaceURI = http://io.emf.change_based_persistence.text
+classname = Library
