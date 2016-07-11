@@ -24,11 +24,11 @@ public class InitialEntry extends AbstractEntry
 	
 	public String[] getOutputStringsArray()
 	{
-		String[] outputStrings = new String[3];
+		String[] outputStrings = new String[2];
 		
 		outputStrings[0] = "namespace prefix = "+namespacePrefix;
 		outputStrings[1] = "namespaceURI = "+namespaceURI;
-		outputStrings[2] ="classname = "+className;
+		//outputStrings[2] ="classname = "+className;
 		
 		return outputStrings;
 	}

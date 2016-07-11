@@ -13,6 +13,9 @@ public class AddObjectEntry extends AbstractEntry
 	public AddObjectEntry(EObject eObject,String destination)
 	{
 		super(eObject);
+		
+		this.objectClassName = eObject.eClass().getName();
+		this.destination = destination;
 	}
 	
 	public String[] getOutputStringsArray()
@@ -20,6 +23,6 @@ public class AddObjectEntry extends AbstractEntry
 		String[] outputStrings = new String[1];
 		
 		outputStrings[0] = "ADD "+objectClassName +" TO "+destination;
-		return null;
+		return outputStrings;
 	}
 }

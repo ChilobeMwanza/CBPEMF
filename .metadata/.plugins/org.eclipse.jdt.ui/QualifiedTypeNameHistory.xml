@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClass"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.impl.AdapterImpl"/>
 <fullyQualifiedTypeName name="library.Library"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.impl.AdapterFactoryImpl"/>
@@ -17,9 +16,7 @@
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="io.emf.cbp.resource.CBPResourceImpl"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.Resource"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="io.emf.cbp.resource.DeltaResourceImpl"/>
 <fullyQualifiedTypeName name="io.emf.cbp.text.change.RootObjectEntry"/>
 <fullyQualifiedTypeName name="io.emf.cbp.text.change.ChangeLog"/>
 <fullyQualifiedTypeName name="io.emf.cbp.text.change.Entry"/>
@@ -35,4 +32,14 @@
 <fullyQualifiedTypeName name="java.io.BufferedWriter"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="io.emf.cbp.resource.DeltaResourceImpl"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+<fullyQualifiedTypeName name="java.nio.charset.Charset"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EcorePackage"/>
 </qualifiedTypeNameHistroy>

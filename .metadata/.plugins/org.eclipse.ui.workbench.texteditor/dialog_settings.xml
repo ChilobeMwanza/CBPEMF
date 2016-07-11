@@ -2,12 +2,13 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="doSave" key="selection"/>
+		<item value="" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="epackagemap"/>
 			<item value="doSave"/>
 			<item value="public void save()"/>
 			<item value="save"/>
@@ -15,7 +16,6 @@
 			<item value="uri"/>
 			<item value="XMI_NS"/>
 			<item value="XMI_ID_NS"/>
-			<item value="isLoading"/>
 		</list>
 		<list key="replacehistory">
 		</list>

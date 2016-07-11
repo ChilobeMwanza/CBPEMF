@@ -1,0 +1,18 @@
+package main;
+
+import java.util.Map;
+
+public class TextDeserializer 
+{
+	
+	public TextDeserializer()
+	{
+		
+	}
+	
+	
+	public void load(Map<?,?> options)
+	{
+		
+	}
+}

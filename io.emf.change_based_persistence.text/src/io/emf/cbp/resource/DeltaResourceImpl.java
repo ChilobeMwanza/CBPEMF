@@ -26,29 +26,30 @@ public class DeltaResourceImpl extends ResourceImpl
 	
 	public DeltaResourceImpl()
 	{
-		//tbr
+		persistenceManager = new PersistenceManager(changeLog,this);
 	}
 	
 	
 	@Override
 	public void save(Map<?, ?> options)
 	{
-		persistenceManager = new PersistenceManager(options,changeLog);
-		persistenceManager.save();
+		persistenceManager.save(options);
 	}
 	
 	@Override
-	public void load(Map<?, ?> options)
+	public void load(Map<?, ?> options)throws IOException
 	{
-		System.out.println("Load called!");
+		System.out.println("DeltaResourceImpl.java: Load called!");
+		persistenceManager.load(options);
 	}
 	
 
 
 	//called when object is added to resource, directly or indirectly.
 	@Override
-	public void attached(EObject eObject) 
+	public void attached(EObject eObject) // this should be done via event manager. will avoid if(!loaded) e.t.c
 	{
+		System.out.println("DeltaResourceImpl.java: Attached called");
 		super.attached(eObject);
 		
 		if(!initEntryAdded)

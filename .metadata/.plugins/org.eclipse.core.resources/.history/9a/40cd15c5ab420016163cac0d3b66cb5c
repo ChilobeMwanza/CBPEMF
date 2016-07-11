@@ -1,0 +1,19 @@
+package main;
+
+import java.util.Map;
+
+public class TextDeserializer 
+{
+	private PersistenceManager persistenceManager;
+	
+	public TextDeserializer(PersistenceManager persistenceManager)
+	{
+		this.persistenceManager = persistenceManager;
+	}
+	
+	
+	public void load(Map<?,?> options)
+	{
+		
+	}
+}

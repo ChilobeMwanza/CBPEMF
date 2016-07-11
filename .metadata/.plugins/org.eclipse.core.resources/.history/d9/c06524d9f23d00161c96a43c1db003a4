@@ -1,5 +1,0 @@
-package io.emf.cbp.text.change;
-
-public class AbstractEntry {
-
-}

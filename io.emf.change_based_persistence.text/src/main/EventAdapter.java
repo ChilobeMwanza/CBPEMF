@@ -5,9 +5,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
 import io.emf.cbp.text.change.AddObjectEntry;
+import io.emf.cbp.text.change.ChangeLog;
 
 public class EventAdapter extends EContentAdapter
 {
+	private final ChangeLog changeLog = ChangeLog.INSTANCE;
+	
 	@Override
 	public void notifyChanged(Notification notification)
 	{
@@ -23,10 +26,10 @@ public class EventAdapter extends EContentAdapter
 	    
 	   // Object object = notification.getNewValue();
 	    
-		System.out.println("Change made to: "+affectedClass
-		.getSimpleName());
+	//	System.out.println("Change made to: "+affectedClass
+	//	.getSimpleName());
 		
-		System.out.println("Event type :"+eventType);
+	//	System.out.println("Event type :"+eventType);
 		
 		
 	  // System.out.println("debugging object: "+object.getClass().);
@@ -37,9 +40,10 @@ public class EventAdapter extends EContentAdapter
 		case 3:
 			EObject eObject = (EObject)notification.getNewValue();
 			AddObjectEntry entry = new AddObjectEntry(eObject,notification.getNotifier().getClass().getSimpleName());
+			changeLog.addEvent(entry);
 			break;
 		default:
-			System.out.println("default");
+			//System.out.println("EventAdapater.java default");
 			break;
 		}
 	}
