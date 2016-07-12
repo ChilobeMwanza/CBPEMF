@@ -1,3 +1,6 @@
+/**
+ * notification.getNotifier().getClass(); should use eclass instead, but how?
+ */
 package main;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -9,8 +12,12 @@ import io.emf.cbp.text.change.ChangeLog;
 
 public class EventAdapter extends EContentAdapter
 {
-	private final ChangeLog changeLog = ChangeLog.INSTANCE;
+	private ChangeLog changeLog;
 	
+	public EventAdapter(ChangeLog aChangelog)
+	{
+		this.changeLog = aChangelog;
+	}
 	@Override
 	public void notifyChanged(Notification notification)
 	{
@@ -21,7 +28,10 @@ public class EventAdapter extends EContentAdapter
 		
 		//Get the class of the object affected by the change.
 	    Class<? extends Object> affectedClass = notification.getNotifier().getClass(); //if we just want a name, get notifer works.
-	    int eventType = notification.getEventType();
+		 
+		
+	   
+		 int eventType = notification.getEventType();
 	   // Object object = notification.getNotifier();
 	    
 	   // Object object = notification.getNewValue();

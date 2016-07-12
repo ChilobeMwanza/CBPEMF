@@ -14,21 +14,26 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import io.emf.cbp.text.change.ChangeLog;
 import io.emf.cbp.text.change.CreateObjectEntry;
 import io.emf.cbp.text.change.InitialEntry;
+import main.EventAdapter;
 import main.PersistenceManager;
 
 
 public class DeltaResourceImpl extends ResourceImpl
 {
-	private final ChangeLog changeLog = ChangeLog.INSTANCE;
+	private  ChangeLog changeLog = new ChangeLog();
     private PersistenceManager persistenceManager;
 	
 	private boolean initEntryAdded = false;
-	
-	public DeltaResourceImpl()
+		
+	public DeltaResourceImpl(URI uri)
 	{
-		persistenceManager = new PersistenceManager(changeLog,this);
+		super(uri);
+		EventAdapter adapter = new EventAdapter(changeLog);
+		this.eAdapters().add(adapter); 
+		
+		persistenceManager = new PersistenceManager(changeLog,this); //is changelog variable pointing to same changelog as adapter?
 	}
-	
+
 	
 	@Override
 	public void save(Map<?, ?> options)
@@ -43,8 +48,6 @@ public class DeltaResourceImpl extends ResourceImpl
 		persistenceManager.load(options);
 	}
 	
-
-
 	//called when object is added to resource, directly or indirectly.
 	@Override
 	public void attached(EObject eObject) // this should be done via event manager. will avoid if(!loaded) e.t.c

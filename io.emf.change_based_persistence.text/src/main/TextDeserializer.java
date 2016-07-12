@@ -23,10 +23,10 @@ public class TextDeserializer
 	
 	public void load(Map<?,?> options) throws IOException
 	{
-		fileLocation = (String)options.get("FILE_LOCATION");
+		//fileLocation = (String)options.get("FILE_LOCATION");
 		
 		BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(fileLocation), persistenceManager.TEXT_ENCODING));
+				new InputStreamReader(new FileInputStream(persistenceManager.getURI().path()), persistenceManager.TEXT_ENCODING));
 		
 		String line;
 		while((line = br.readLine()) != null)
@@ -36,7 +36,6 @@ public class TextDeserializer
 		br.close();
 		
 		loadMetamodel("dfd");
-		
 	}
 	
 	

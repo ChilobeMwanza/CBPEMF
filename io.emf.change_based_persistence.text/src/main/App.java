@@ -25,38 +25,36 @@ import library.LibraryFactory;
 
 public class App 
 {
-	private static String fileSaveLocation ="library.txt";
+	//private static String fileSaveLocation ="library.txt";
 	
 	public static void main(String[] args) throws Exception
 	{
 		// TODO Auto-generated method stub
 		App app = new App();
-		app.loadResource();
-		//app.createResource();
+		//app.loadResource();
+		app.createResource();
 	}
 	
 	public void loadResource() throws IOException
 	{
-		Resource resource = new DeltaResourceImpl();
+		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
+		resource.load(null);
+		//Resource resource = new DeltaResourceImpl();
 		
-		Map<String, String> loadOptions = new HashMap<String, String>();
-		loadOptions.put("FILE_LOCATION", fileSaveLocation);
+		//Map<String, String> loadOptions = new HashMap<String, String>();
+		//loadOptions.put("FILE_LOCATION", fileSaveLocation);
 		
-		resource.load(loadOptions);
+		//resource.load(loadOptions);
 	}
 	
 	public void createResource() throws Exception
 	{
-		EventAdapter adapter = new EventAdapter();
-		//AnotherAdapter adapter = new AnotherAdapter();
-		
 		//Resource resource = new XMIResourceImpl();
 		
-		Resource resource = new DeltaResourceImpl();
 		
-		resource.eAdapters().add(adapter);    //adapter is on the resource
+		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
 		
-		
+
 		
 		//Create root object, add it to resource.
 		Library lib = LibraryFactory.eINSTANCE.createLibrary();
@@ -83,10 +81,10 @@ public class App
 		
 		//resource.save(new FileOutputStream(new File("library.xmi")),null);
 
-		Map<String, String> saveOptions = new HashMap<String, String>();
-		saveOptions.put("FILE_SAVE_LOCATION", fileSaveLocation);
+		//Map<String, String> saveOptions = new HashMap<String, String>();
+		//saveOptions.put("FILE_SAVE_LOCATION", fileSaveLocation);
 		
-		resource.save(saveOptions);
+		resource.save(null);
 	    
 	}
 

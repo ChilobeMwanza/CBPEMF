@@ -42,14 +42,20 @@ public class PersistenceManager
 		resource.getContents().addAll(objects);
 	}
 	
+	public URI getURI()
+	{
+		return resource.getURI();
+	}
+	
 	//when the logic gets more complex, this is moving to its own serializer class.
 	public void save(Map<?,?> options)
 	{
-		String fileSaveLocation = (String) options.get("FILE_SAVE_LOCATION");
+		//String fileSaveLocation = (String) options.get("FILE_SAVE_LOCATION");
 		try
 		{
+			
 			BufferedWriter bw = new BufferedWriter
-				    (new OutputStreamWriter(new FileOutputStream(fileSaveLocation,true),Charset.forName(TEXT_ENCODING).newEncoder()));
+				    (new OutputStreamWriter(new FileOutputStream(resource.getURI().path(),true),Charset.forName(TEXT_ENCODING).newEncoder()));
 			
 			PrintWriter out = new PrintWriter(bw);
 			
