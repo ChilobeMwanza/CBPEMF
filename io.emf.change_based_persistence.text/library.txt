@@ -1,12 +1,4 @@
-namespace prefix = cm 
-namespaceURI = http://io.emf.change_based_persistence.text
+NAMESPACEURI = http://io.emf.change_based_persistence.text
 ADD Library TO DeltaResourceImpl
-namespace prefix = cm
-namespaceURI = http://io.emf.change_based_persistence.text
-ADD Library TO DeltaResourceImpl
-namespace prefix = cm
-namespaceURI = http://io.emf.change_based_persistence.text
-ADD Library TO DeltaResourceImpl
-namespace prefix = cm
-namespaceURI = http://io.emf.change_based_persistence.text
-ADD Library TO DeltaResourceImpl
+
+

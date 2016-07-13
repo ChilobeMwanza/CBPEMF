@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClass"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.impl.AdapterImpl"/>
 <fullyQualifiedTypeName name="library.Library"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.impl.AdapterFactoryImpl"/>
@@ -22,7 +21,6 @@
 <fullyQualifiedTypeName name="io.emf.cbp.text.change.Entry"/>
 <fullyQualifiedTypeName name="io.emf.cbp.text.change.InitialEntry"/>
 <fullyQualifiedTypeName name="main.PersistenceManager"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
 <fullyQualifiedTypeName name="io.emf.cbp.text.change.AbstractEntry"/>
 <fullyQualifiedTypeName name="io.emf.cbp.text.change.AddObjectEntry"/>
 <fullyQualifiedTypeName name="java.io.PrintWriter"/>
@@ -32,7 +30,6 @@
 <fullyQualifiedTypeName name="java.io.BufferedWriter"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
-<fullyQualifiedTypeName name="io.emf.cbp.resource.DeltaResourceImpl"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
 <fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
@@ -40,6 +37,17 @@
 <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
 <fullyQualifiedTypeName name="java.nio.charset.Charset"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
+<fullyQualifiedTypeName name="io.emf.cbp.resource.DeltaResourceImpl"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EcorePackage"/>
+<fullyQualifiedTypeName name="library.LibraryPackage"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl"/>
+<fullyQualifiedTypeName name="java.util.StringTokenizer"/>
+<fullyQualifiedTypeName name="javax.swing.event.HyperlinkEvent.EventType"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage.Registry"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EcoreFactory"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClass"/>
+<fullyQualifiedTypeName name="main.TextDeserializer.EventType"/>
 </qualifiedTypeNameHistroy>

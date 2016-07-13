@@ -31,10 +31,12 @@ public class PersistenceManager
 	private DeltaResourceImpl resource;
 	public final String TEXT_ENCODING = "Ascii";
 	
+	
 	public PersistenceManager(ChangeLog aChangeLog, DeltaResourceImpl resource)
 	{
 		changeLog = aChangeLog;
 		this.resource = resource;
+		
 	}
 	
 	public void addObjectsToContents(List<EObject> objects)
@@ -42,10 +44,17 @@ public class PersistenceManager
 		resource.getContents().addAll(objects);
 	}
 	
+	
+	public void addObjectToContents(EObject object)
+	{
+		resource.getContents().add(object);
+	}
+	
 	public URI getURI()
 	{
 		return resource.getURI();
 	}
+
 	
 	//when the logic gets more complex, this is moving to its own serializer class.
 	public void save(Map<?,?> options)

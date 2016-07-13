@@ -1,6 +1,5 @@
 INDEX VERSION 1.127+X:\Documents\Code\Java\emf_serialization\.metadata\.plugins\org.eclipse.jdt.core
 2508434064.index
-2589329503.index
 674429010.index
 687999956.index
 1682061959.index
@@ -8,3 +7,4 @@ INDEX VERSION 1.127+X:\Documents\Code\Java\emf_serialization\.metadata\.plugins\
 3765262130.index
 3001355213.index
 3642407785.index
+2589329503.index

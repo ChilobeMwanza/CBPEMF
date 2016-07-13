@@ -1,8 +1,6 @@
 /**
  * BUGS/ISSUES
- * 1) Passing file save location to resource via uri creates a new file,this
- * 	  breaks the mechanism which allows us to append to files (As opposed to 
- *    creating a new file each time). Same applies if you do resource.save(new FileOutputStream(new File("empty.txt")),null);
+ * 1) Registering of the epackage accross sessions.
  */
 
 package main;
@@ -14,46 +12,74 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 //import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+
+
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+
+
 
 import io.emf.cbp.resource.DeltaResourceImpl;
 import library.Book;
 import library.Library;
 import library.LibraryFactory;
+import library.LibraryPackage;
 
 public class App 
 {
-	//private static String fileSaveLocation ="library.txt";
+	private static String fileSaveLocation ="library.txt";
 	
 	public static void main(String[] args) throws Exception
 	{
 		// TODO Auto-generated method stub
 		App app = new App();
-		//app.loadResource();
-		app.createResource();
+		app.loadResource();
+		//app.createResource();
 	}
 	
 	public void loadResource() throws IOException
 	{
-		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
+		ResourceSetImpl rs = new ResourceSetImpl();
+		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put
+		("txt", new Resource.Factory()
+		{
+			@Override
+			public Resource createResource(URI uri)
+			{
+				return new DeltaResourceImpl(uri);
+			}
+		});
+		
+		rs.getPackageRegistry().put(LibraryPackage.eINSTANCE.getNsURI(), 
+				LibraryPackage.eINSTANCE);
+		
+		Resource resource = rs.createResource(URI.createFileURI(fileSaveLocation));
 		resource.load(null);
-		//Resource resource = new DeltaResourceImpl();
+		
+		
+		
+		Library library = (Library) resource.getContents().get(0);
+		
 		
 		//Map<String, String> loadOptions = new HashMap<String, String>();
 		//loadOptions.put("FILE_LOCATION", fileSaveLocation);
 		
-		//resource.load(loadOptions);
 	}
+	
 	
 	public void createResource() throws Exception
 	{
 		//Resource resource = new XMIResourceImpl();
 		
-		
+		System.out.println(EPackage.Registry.INSTANCE.containsKey("http://io.emf.change_based_persistence.text"));
 		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
 		
+		EPackage epackage = LibraryPackage.eINSTANCE; //1
+		
+		System.out.println(epackage.getNsURI());
 
 		
 		//Create root object, add it to resource.
@@ -84,7 +110,7 @@ public class App
 		//Map<String, String> saveOptions = new HashMap<String, String>();
 		//saveOptions.put("FILE_SAVE_LOCATION", fileSaveLocation);
 		
-		resource.save(null);
+		//resource.save(null);
 	    
 	}
 
