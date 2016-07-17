@@ -42,12 +42,5 @@ public class SetAttributeEntry extends AbstractEntry
 	public Object getNewValue() 
 	{
 		return newValue;
-	}
-
-	@Override
-	public String[] getOutputStringsArray() { //tbr
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+	}	
 }

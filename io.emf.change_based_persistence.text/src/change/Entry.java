@@ -1,9 +1,11 @@
 package change;
 
+import java.util.UUID;
+
 import org.eclipse.emf.ecore.EObject;
 
 public interface Entry 
 {
 	public EObject getEObject();
-	public String[] getOutputStringsArray();
+	public UUID getUUID();
 }

@@ -17,6 +17,7 @@ public class ChangeLog
 	
 	public ChangeLog() {};
 	private List<AbstractEntry> eventsList = new ArrayList<AbstractEntry>();
+	private List<Entry>blah;
 
 	public void addEvent(AbstractEntry entry)
 	{
@@ -80,9 +81,6 @@ public class ChangeLog
 	{
 		for(AbstractEntry e : list)
 		{
-			if(e instanceof InitialEntry)
-				System.out.println("NamespaceURI = "+e.getEObject().eClass().getEPackage().getNsURI());
-		
 			if(e instanceof NewObjectEntry)
 				System.out.println("CREATE "+e.getEObject().eClass().getName()+" "+e.getUUID().toString());
 			

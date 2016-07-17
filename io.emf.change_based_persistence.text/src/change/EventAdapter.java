@@ -3,11 +3,8 @@
  */
 package change;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.UUID;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -18,7 +15,6 @@ import com.google.common.collect.HashBiMap;
 
 public class EventAdapter extends EContentAdapter
 {
-	private boolean initEntryAdded = false;
 	private ChangeLog changeLog;
 	private final String RESOURCE_NAME = "DeltaResourceImpl";
 	
@@ -28,12 +24,6 @@ public class EventAdapter extends EContentAdapter
 	{
 		this.changeLog = aChangelog;
 	}
-	
-	public EventAdapter()
-	{
-		
-	}
-	
 	
 	@Override
 	public void notifyChanged(Notification msg)

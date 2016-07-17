@@ -14,8 +14,7 @@ import java.util.UUID;
 import org.eclipse.emf.ecore.EObject;
 
 import change.AbstractEntry;
-import change.AddToResourceEntry;
-import change.InitialEntry;
+
 
 public class TextSerializer 
 {
@@ -33,12 +32,9 @@ public class TextSerializer
 		//String fileSaveLocation = (String) options.get("FILE_SAVE_LOCATION");
 		for(AbstractEntry e : manager.getResource().getChangeLog().getEventsList() )
 		{
-			if(e instanceof InitialEntry)  //should be if else
-				createInitialEntry(e.getEObject());
-			if(e instanceof AddToResourceEntry)
-			{
-				serialiseAddObjectToResourceE(e.getEObject(),e.getUUID());
-			}
+			//if(e instanceof InitialEntry)  //should be if else
+				//createInitialEntry(e.getEObject());
+			
 		}
 		
 		//finally append strings to file
@@ -46,22 +42,15 @@ public class TextSerializer
 		
 	}
 	
-	private void createInitialEntry(EObject obj)
+	/*private void createInitialEntry(EObject obj)
 	{
 		String str = "NamespaceURI = "+obj.eClass().getEPackage().getNsURI(); 
 		outputList.add(str);
 		
 		System.out.println(obj.eClass().getName());
 		//System.out.println(manager.getResource().getURIFragment(obj));
-	}
-	
-	private void serialiseAddObjectToResourceE(EObject obj, UUID id) //id can be obtained from object!, change!
-	{
-		//String str = "CREATE "+obj.eClass().getName()+" "+id.toString();
-		
-		outputList.add("CREATE "+obj.eClass().getName()+" "+id.toString());
-		outputList.add("ADD "+obj.eClass().getName()+" "+id.toString()+" TO RESOURCE");
-	}
+	}*/
+
 	
 	private void appendStringsToFile(boolean appendMode)
 	{

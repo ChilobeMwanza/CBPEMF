@@ -1,0 +1,21 @@
+package change;
+
+import java.util.UUID;
+
+import org.eclipse.emf.ecore.EObject;
+//can be far simpler. don't need a whole class just to get namespace uri
+public class InitialEntry extends AbstractEntry  
+{
+	//private String namespacePrefix;
+	private String namespaceURI;
+	//private String className;
+	
+	public InitialEntry(EObject eObject) 
+	{
+		super(eObject, UUID.randomUUID());
+		
+		namespaceURI = eObject.eClass().getEPackage().getNsURI(); //tbr
+	}
+	
+
+}

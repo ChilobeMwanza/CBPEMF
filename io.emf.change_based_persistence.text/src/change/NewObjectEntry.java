@@ -19,9 +19,4 @@ public class NewObjectEntry extends AbstractEntry
 		this((EObject)msg.getNotifier(),id) ;
 	}
 
-	@Override
-	public String[] getOutputStringsArray() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
