@@ -2,14 +2,24 @@
 
 package library;
 
-class Library
+class Library extends NamedElement
 {
 	val Book[*] books;
+	attr int numEmployees;
+	attr double aDouble;
+	attr String[*] employeeNames;
+	attr int [*] numbersList;
 }
 
 class Book extends NamedElement
 {
 	attr double idNumber;
+	val Author anAuthor;
+}
+
+class Author extends NamedElement
+{
+	
 }
 
 abstract class NamedElement 

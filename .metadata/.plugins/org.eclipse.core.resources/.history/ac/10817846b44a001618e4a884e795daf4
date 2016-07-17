@@ -1,0 +1,11 @@
+package change;
+
+import org.eclipse.emf.ecore.EObject;
+
+public class NewObjectEntry 
+{
+	public NewObjectEntry(EObject value)
+	{
+		//super(value);
+	}
+}

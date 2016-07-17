@@ -8,10 +8,16 @@
   <genPackages prefix="Library" disposableProviderFactory="true" ecorePackage="simple_library.ecore#/">
     <genClasses ecoreClass="simple_library.ecore#//Library">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simple_library.ecore#//Library/books"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/numEmployees"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/aDouble"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/employeeNames"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/numbersList"/>
     </genClasses>
     <genClasses ecoreClass="simple_library.ecore#//Book">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Book/idNumber"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simple_library.ecore#//Book/anAuthor"/>
     </genClasses>
+    <genClasses ecoreClass="simple_library.ecore#//Author"/>
     <genClasses image="false" ecoreClass="simple_library.ecore#//NamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//NamedElement/name"/>
     </genClasses>

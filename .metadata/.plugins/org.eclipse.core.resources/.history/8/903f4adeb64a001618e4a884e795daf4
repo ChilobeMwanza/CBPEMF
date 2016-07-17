@@ -1,0 +1,34 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
+
+/*
+ * Items can be added to other items via containment relationships e.g. Add library to book. Or add library to resource e.t.c
+ */
+public class AddToResourceEntry extends AbstractEntry  
+{
+	
+	
+	private EObject eObject;
+	
+	public AddToResourceEntry(EObject eObject)
+	{
+		super(eObject);
+		
+		this.eObject = eObject;
+		
+	}
+	
+	
+	public AddToResourceEntry(Notification msg)
+	{
+		this((EObject)msg.getNotifier());
+	}
+	
+	public String[] getOutputStringsArray()
+	{
+		
+		return null;
+	}
+}

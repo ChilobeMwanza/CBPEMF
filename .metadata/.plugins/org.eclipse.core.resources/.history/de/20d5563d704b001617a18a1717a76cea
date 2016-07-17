@@ -1,0 +1,10 @@
+package change;
+
+public class SetAttributeEntry extends AbstractEntry
+{
+	public SetAttributeEntry(EObject obj)
+	{
+		super(obj);
+	}
+	
+}

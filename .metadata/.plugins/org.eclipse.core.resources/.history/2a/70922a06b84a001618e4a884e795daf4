@@ -1,0 +1,11 @@
+package main;
+
+public class TextSerializer 
+{
+	private PersistenceManager manager;
+	
+	public TextSerializer(PersistenceManager manager)
+	{
+		
+	}
+}

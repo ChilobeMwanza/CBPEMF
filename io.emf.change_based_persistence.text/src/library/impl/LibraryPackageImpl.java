@@ -2,6 +2,7 @@
  */
 package library.impl;
 
+import library.Author;
 import library.Book;
 import library.Library;
 import library.LibraryFactory;
@@ -35,6 +36,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	private EClass bookEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass authorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -127,6 +135,42 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getLibrary_NumEmployees() {
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLibrary_ADouble() {
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLibrary_EmployeeNames() {
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLibrary_NumbersList() {
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBook() {
 		return bookEClass;
 	}
@@ -138,6 +182,24 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 */
 	public EAttribute getBook_IdNumber() {
 		return (EAttribute)bookEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBook_AnAuthor() {
+		return (EReference)bookEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAuthor() {
+		return authorEClass;
 	}
 
 	/**
@@ -188,9 +250,16 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		// Create classes and their features
 		libraryEClass = createEClass(LIBRARY);
 		createEReference(libraryEClass, LIBRARY__BOOKS);
+		createEAttribute(libraryEClass, LIBRARY__NUM_EMPLOYEES);
+		createEAttribute(libraryEClass, LIBRARY__ADOUBLE);
+		createEAttribute(libraryEClass, LIBRARY__EMPLOYEE_NAMES);
+		createEAttribute(libraryEClass, LIBRARY__NUMBERS_LIST);
 
 		bookEClass = createEClass(BOOK);
 		createEAttribute(bookEClass, BOOK__ID_NUMBER);
+		createEReference(bookEClass, BOOK__AN_AUTHOR);
+
+		authorEClass = createEClass(AUTHOR);
 
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
@@ -224,14 +293,23 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		libraryEClass.getESuperTypes().add(this.getNamedElement());
 		bookEClass.getESuperTypes().add(this.getNamedElement());
+		authorEClass.getESuperTypes().add(this.getNamedElement());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(libraryEClass, Library.class, "Library", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLibrary_Books(), this.getBook(), null, "books", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLibrary_NumEmployees(), ecorePackage.getEInt(), "numEmployees", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLibrary_ADouble(), ecorePackage.getEDouble(), "aDouble", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLibrary_EmployeeNames(), ecorePackage.getEString(), "employeeNames", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLibrary_NumbersList(), ecorePackage.getEInt(), "numbersList", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bookEClass, Book.class, "Book", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBook_IdNumber(), ecorePackage.getEDouble(), "idNumber", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBook_AnAuthor(), this.getAuthor(), null, "anAuthor", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(authorEClass, Author.class, "Author", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNamedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

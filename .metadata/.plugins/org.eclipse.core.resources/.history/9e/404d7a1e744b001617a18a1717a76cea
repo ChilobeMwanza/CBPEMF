@@ -1,0 +1,25 @@
+package change;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+
+public class SetAttributeEntry extends AbstractEntry
+{
+	private final EAttribute eAttribute;
+	private final Object newValue;
+	
+	
+	public SetAttributeEntry(EObject obj, EAttribute attr, Object newValue)
+	{
+		super(obj);
+		
+		this.newValue = newValue;
+	}
+
+	@Override
+	public String[] getOutputStringsArray() { //tbr
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+}

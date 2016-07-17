@@ -1,6 +1,8 @@
 /**
  * BUGS/ISSUES
- * 1) Registering of the epackage accross sessions.
+ * 1) In order for this implementation to work, newly created model elements
+ * must be added directly to the resource, or added to an object that who's hierachy
+ * eventually leads to the resource. 
  */
 
 package main;
@@ -12,6 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 //import org.eclipse.emf.common.notify.AdapterFactory;
@@ -20,9 +25,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-
-
-import io.emf.cbp.resource.DeltaResourceImpl;
+import change.EventAdapter;
+import impl.DeltaResourceImpl;
 import library.Book;
 import library.Library;
 import library.LibraryFactory;
@@ -36,8 +40,8 @@ public class App
 	{
 		// TODO Auto-generated method stub
 		App app = new App();
-		app.loadResource();
-		//app.createResource();
+	//	app.loadResource();
+		app.createResource();
 	}
 	
 	public void loadResource() throws IOException
@@ -49,7 +53,7 @@ public class App
 			@Override
 			public Resource createResource(URI uri)
 			{
-				return new DeltaResourceImpl(uri);
+				return new DeltaResourceImpl(uri,LibraryPackage.eINSTANCE);
 			}
 		});
 		
@@ -59,10 +63,7 @@ public class App
 		Resource resource = rs.createResource(URI.createFileURI(fileSaveLocation));
 		resource.load(null);
 		
-		
-		
 		Library library = (Library) resource.getContents().get(0);
-		
 		
 		//Map<String, String> loadOptions = new HashMap<String, String>();
 		//loadOptions.put("FILE_LOCATION", fileSaveLocation);
@@ -73,44 +74,38 @@ public class App
 	public void createResource() throws Exception
 	{
 		//Resource resource = new XMIResourceImpl();
-		
-		System.out.println(EPackage.Registry.INSTANCE.containsKey("http://io.emf.change_based_persistence.text"));
-		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
-		
-		EPackage epackage = LibraryPackage.eINSTANCE; //1
-		
-		System.out.println(epackage.getNsURI());
 
+		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"),LibraryPackage.eINSTANCE);
 		
 		//Create root object, add it to resource.
-		Library lib = LibraryFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib);
+		Library lib1 = LibraryFactory.eINSTANCE.createLibrary();
+		
+		Library lib2 = LibraryFactory.eINSTANCE.createLibrary();
+		lib2.setName("dfdf");
+		lib2.getNumbersList().add(1);
+		
+		lib1.getEmployeeNames().add("Employee 1");
+		lib1.getEmployeeNames().add("Employee 2");
+		lib1.getEmployeeNames().add("Employee 3");
+		
+		lib1.setName("Awesome Library");
+		lib1.setNumEmployees(27);
+		lib1.getNumbersList().add(1);
+		lib1.getNumbersList().add(2);
+		lib1.getNumbersList().add(3);
+		lib1.setADouble(3.1415);
 		
 		
-		//Library lib2 = LibraryFactory.eINSTANCE.createLibrary();
-	//	resource.getContents().add(lib2);
 		
+		resource.getContents().add(lib1);
+		resource.getContents().add(lib2);
 		
-		//create book, make some (untracked) changes to book
-	 //   Book book = LibraryFactory.eINSTANCE.createBook();
-	  //  book.setIdNumber(666);
-	  //  book.setName("Harry Potter and the MODE");
-	    
-	    //Add book to library
-	  //  lib.getBooks().add(book);
-	    
-	 
-	    //add library to contents
-	    //resource.getContents().add(lib);
-	    
-	    //changes made to lib or book past this point are tracked...
+         
 		
-		//resource.save(new FileOutputStream(new File("library.xmi")),null);
-
 		//Map<String, String> saveOptions = new HashMap<String, String>();
 		//saveOptions.put("FILE_SAVE_LOCATION", fileSaveLocation);
 		
-		//resource.save(null);
+		resource.save(null);
 	    
 	}
 

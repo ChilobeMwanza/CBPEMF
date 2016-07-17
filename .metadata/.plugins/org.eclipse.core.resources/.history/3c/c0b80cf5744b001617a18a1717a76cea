@@ -1,0 +1,37 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+
+public class SetAttributeEntry extends AbstractEntry
+{
+	private final EAttribute eAttribute;
+	private final Object newValue;
+	
+	
+	public SetAttributeEntry(EObject obj, EAttribute eAttribute, Object newValue)
+	{
+		super(obj);
+		
+		this.newValue = newValue;
+		this.eAttribute = eAttribute;
+	}
+	
+	public SetAttributeEntry(Notification msg)
+	{
+		this((EObject)msg.getNotifier(),(EAttribute)msg.getFeature(),msg.getNewValue());
+	}
+	
+	public EAttribute geteAttribute() 
+	{
+		return eAttribute;
+	}
+
+	@Override
+	public String[] getOutputStringsArray() { //tbr
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+}
