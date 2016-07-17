@@ -15,7 +15,10 @@ public class ChangeLog
 {
 	//public static final ChangeLog INSTANCE = new ChangeLog();
 	
-	public ChangeLog() {};
+	public ChangeLog(DeltaResourceImpl res)
+	{
+		
+	}
 	private List<AbstractEntry> eventsList = new ArrayList<AbstractEntry>();
 
 	public void addEvent(AbstractEntry entry)
@@ -69,6 +72,7 @@ public class ChangeLog
 			{
 				if(c.getUUID() == a.getUUID())
 					sortedList.add(c);
+				
 			}
 			
 		}
@@ -89,6 +93,7 @@ public class ChangeLog
 			if(e instanceof SetAttributeEntry)
 			{
 				SetAttributeEntry s = (SetAttributeEntry)e;
+				//System.out.println("Set Attribute Entry");
 				System.out.println("SET " + e.getEObject().eClass().getName()+" "+e.getUUID()+" "+s.geteAttribute().getName());
 			}
 		}

@@ -15,7 +15,10 @@ public class ChangeLog
 {
 	//public static final ChangeLog INSTANCE = new ChangeLog();
 	
-	public ChangeLog() {};
+	public ChangeLog(DeltaResourceImpl res)
+	{
+		
+	}
 	private List<AbstractEntry> eventsList = new ArrayList<AbstractEntry>();
 
 	public void addEvent(AbstractEntry entry)
@@ -68,7 +71,9 @@ public class ChangeLog
 			for(AbstractEntry c : setAttrManyList) //get all 'set attribute many' entries for this item
 			{
 				if(c.getUUID() == a.getUUID())
+				{
 					sortedList.add(c);
+				}
 			}
 			
 		}
@@ -81,14 +86,20 @@ public class ChangeLog
 		for(AbstractEntry e : list)
 		{
 			if(e instanceof InitialEntry)
+			{
+				//System.out.println("InitialEntry:");
 				System.out.println("NamespaceURI = "+e.getEObject().eClass().getEPackage().getNsURI());
-		
+				
+			}
 			if(e instanceof NewObjectEntry)
+			{
+				//System.out.println("NewObjectEntry:");
 				System.out.println("CREATE "+e.getEObject().eClass().getName()+" "+e.getUUID().toString());
-			
+			}
 			if(e instanceof SetAttributeEntry)
 			{
 				SetAttributeEntry s = (SetAttributeEntry)e;
+				//System.out.println("Set Attribute Entry");
 				System.out.println("SET " + e.getEObject().eClass().getName()+" "+e.getUUID()+" "+s.geteAttribute().getName());
 			}
 		}
