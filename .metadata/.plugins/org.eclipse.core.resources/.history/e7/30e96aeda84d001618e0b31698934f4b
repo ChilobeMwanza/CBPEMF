@@ -10,7 +10,7 @@
 
 package change;
 
-
+import java.util.UUID;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;

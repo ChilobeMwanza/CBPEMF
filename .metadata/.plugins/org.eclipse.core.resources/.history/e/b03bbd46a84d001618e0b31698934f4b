@@ -1,13 +1,15 @@
 package change;
 
+import java.util.UUID;
+
 import org.eclipse.emf.ecore.EObject;
 
 public abstract class AbstractEntry implements Entry
 {
 	private EObject eObject;
-	private Double id;
+	private UUID id;
 	
-	public AbstractEntry(EObject eObject, Double id)
+	public AbstractEntry(EObject eObject, UUID id)
 	{
 		this.eObject = eObject;
 		this.id = id;
@@ -18,8 +20,9 @@ public abstract class AbstractEntry implements Entry
 		return eObject;
 	}
 	
-	public Double getID()
+	public UUID getUUID()
 	{
 		return id;
 	}
+	
 }

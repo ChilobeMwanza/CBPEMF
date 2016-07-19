@@ -10,7 +10,7 @@
 
 package change;
 
-
+import java.util.UUID;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
@@ -22,14 +22,14 @@ public class SetAttributeEntry extends AbstractEntry
 	private final Object newValue;
 	
 	
-	public SetAttributeEntry(EObject obj, EAttribute eAttribute, Object newValue, Double id)
+	public SetAttributeEntry(EObject obj, EAttribute eAttribute, Object newValue, UUID id)
 	{
 		super(obj, id);
 		this.newValue = newValue;
 		this.eAttribute = eAttribute;
 	}
 	
-	public SetAttributeEntry(Notification msg, Double id)
+	public SetAttributeEntry(Notification msg, UUID id)
 	{
 		this((EObject)msg.getNotifier(),(EAttribute)msg.getFeature(),msg.getNewValue(), id);
 	}

@@ -45,10 +45,10 @@ public class DeltaResourceImpl extends ResourceImpl
 		//persistenceManager.save(options);
 		
 		changeLog.showLogEntries();
-		//System.out.println();
-        //System.out.println();
-       // System.out.println("Sorted changelog:");
-		//changeLog.showLogEntries(changeLog.sortChangeLog());
+		System.out.println();
+        System.out.println();
+        System.out.println("Sorted changelog:");
+		changeLog.showLogEntries(changeLog.sortChangeLog());
 	}
 	
 	@Override

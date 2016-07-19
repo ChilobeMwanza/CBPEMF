@@ -1,5 +1,7 @@
 package change;
 
+import java.util.UUID;
+
 import org.eclipse.emf.ecore.EObject;
 
 public abstract class AbstractEntry implements Entry
@@ -22,4 +24,5 @@ public abstract class AbstractEntry implements Entry
 	{
 		return id;
 	}
+	
 }

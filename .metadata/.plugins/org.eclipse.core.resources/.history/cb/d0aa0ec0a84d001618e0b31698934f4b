@@ -22,4 +22,5 @@ public abstract class AbstractEntry implements Entry
 	{
 		return id;
 	}
+	
 }

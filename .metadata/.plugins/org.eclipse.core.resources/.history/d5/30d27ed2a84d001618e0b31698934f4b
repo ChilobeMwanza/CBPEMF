@@ -1,7 +1,9 @@
 //A new object has been created.
 
 package change;
+import java.util.UUID;
 
+//tbr
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 

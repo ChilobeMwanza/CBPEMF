@@ -81,7 +81,7 @@ public class EventAdapter extends EContentAdapter
 		if(map.get(obj) == null)
 		{
 			//System.out.println("Event Adapter: map is null for this obj, adding entry");
-			map.put(obj, count++);
+			map.put(obj, UUID.randomUUID());
 		}
 		else //tbr after handle remove
 		{

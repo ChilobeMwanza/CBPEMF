@@ -18,13 +18,11 @@ public class EventAdapter extends EContentAdapter
 	private ChangeLog changeLog;
 	private final String RESOURCE_NAME = "DeltaResourceImpl";
 	
-	BiMap<EObject,Double> map = HashBiMap.create(); //bi map , 
-	Double count;
+	BiMap<EObject,UUID> map = HashBiMap.create(); //bi map , 
 		
 	public EventAdapter(ChangeLog aChangelog)
 	{
 		this.changeLog = aChangelog;
-		count = 0.0;
 	}
 	
 	@Override
@@ -81,7 +79,7 @@ public class EventAdapter extends EContentAdapter
 		if(map.get(obj) == null)
 		{
 			//System.out.println("Event Adapter: map is null for this obj, adding entry");
-			map.put(obj, count++);
+			map.put(obj, UUID.randomUUID());
 		}
 		else //tbr after handle remove
 		{
