@@ -1,3 +1,709 @@
-NamespaceURI = http://io.emf.change_based_persistence.text
-CREATE Library 2576ec11-4ecb-4362-9458-4ff6258f7cc1
-ADD Library 2576ec11-4ecb-4362-9458-4ff6258f7cc1 TO RESOURCE
+NAMESPACE_URI http://io.emf.change_based_persistence.text
+CREATE Library 0.0
+SET name Library 0.0 "First Library"
+SET aDouble Library 0.0 "20.0"
+ADD_R Library 0.0
+CREATE Book 1.0
+SET name Book 1.0 "Hello!"
+SET idNumber Book 1.0 "1.0"
+ADD Book 1.0 goodBooks Library 0.0
+CREATE Book 2.0
+SET name Book 2.0 "0.9332342150150335"
+SET idNumber Book 2.0 "0.4687453484087749"
+ADD Book 2.0 badBooks Library 0.0
+CREATE Author 3.0
+SET name Author 3.0 "0.6047804669043494"
+ADD Author 3.0 anAuthor Book 2.0
+CREATE Book 4.0
+SET name Book 4.0 "0.6202658064793922"
+SET idNumber Book 4.0 "0.5288860658041411"
+ADD Book 4.0 badBooks Library 0.0
+CREATE Author 5.0
+SET name Author 5.0 "0.04626854696674254"
+ADD Author 5.0 anAuthor Book 4.0
+CREATE Book 6.0
+SET name Book 6.0 "0.2281853121140699"
+SET idNumber Book 6.0 "0.3104034399079506"
+ADD Book 6.0 badBooks Library 0.0
+CREATE Author 7.0
+SET name Author 7.0 "0.15308736343917806"
+ADD Author 7.0 anAuthor Book 6.0
+CREATE Book 8.0
+SET name Book 8.0 "0.5607722870663582"
+SET idNumber Book 8.0 "0.07601385088073032"
+ADD Book 8.0 badBooks Library 0.0
+CREATE Author 9.0
+SET name Author 9.0 "0.16474458229278088"
+ADD Author 9.0 anAuthor Book 8.0
+CREATE Book 10.0
+SET name Book 10.0 "0.6372857685229205"
+SET idNumber Book 10.0 "0.27416475910827653"
+ADD Book 10.0 badBooks Library 0.0
+CREATE Author 11.0
+SET name Author 11.0 "0.32153264057478304"
+ADD Author 11.0 anAuthor Book 10.0
+CREATE Book 12.0
+SET name Book 12.0 "0.9609205440180005"
+SET idNumber Book 12.0 "0.8717583421348859"
+ADD Book 12.0 badBooks Library 0.0
+CREATE Author 13.0
+SET name Author 13.0 "0.8109733646779033"
+ADD Author 13.0 anAuthor Book 12.0
+CREATE Book 14.0
+SET name Book 14.0 "0.3550982127672895"
+SET idNumber Book 14.0 "0.9170731778763941"
+ADD Book 14.0 badBooks Library 0.0
+CREATE Author 15.0
+SET name Author 15.0 "0.42022650409418716"
+ADD Author 15.0 anAuthor Book 14.0
+CREATE Book 16.0
+SET name Book 16.0 "0.5266958230124421"
+SET idNumber Book 16.0 "0.7371202101963591"
+ADD Book 16.0 badBooks Library 0.0
+CREATE Author 17.0
+SET name Author 17.0 "0.23838223516607238"
+ADD Author 17.0 anAuthor Book 16.0
+CREATE Book 18.0
+SET name Book 18.0 "0.9729712234633"
+SET idNumber Book 18.0 "0.6694973333958227"
+ADD Book 18.0 badBooks Library 0.0
+CREATE Author 19.0
+SET name Author 19.0 "0.12380040272141701"
+ADD Author 19.0 anAuthor Book 18.0
+CREATE Book 20.0
+SET name Book 20.0 "0.043700214158899464"
+SET idNumber Book 20.0 "0.34996025068391723"
+ADD Book 20.0 badBooks Library 0.0
+CREATE Author 21.0
+SET name Author 21.0 "0.6268386930763483"
+ADD Author 21.0 anAuthor Book 20.0
+CREATE Book 22.0
+SET name Book 22.0 "0.8808209966509103"
+SET idNumber Book 22.0 "0.14770401834037783"
+ADD Book 22.0 badBooks Library 0.0
+CREATE Author 23.0
+SET name Author 23.0 "0.7773791129872933"
+ADD Author 23.0 anAuthor Book 22.0
+CREATE Book 24.0
+SET name Book 24.0 "0.22637643500331384"
+SET idNumber Book 24.0 "0.4754407731571195"
+ADD Book 24.0 badBooks Library 0.0
+CREATE Author 25.0
+SET name Author 25.0 "0.35835532710821105"
+ADD Author 25.0 anAuthor Book 24.0
+CREATE Book 26.0
+SET name Book 26.0 "0.7649145416468466"
+SET idNumber Book 26.0 "0.40455207386744296"
+ADD Book 26.0 badBooks Library 0.0
+CREATE Author 27.0
+SET name Author 27.0 "0.6495516703859976"
+ADD Author 27.0 anAuthor Book 26.0
+CREATE Book 28.0
+SET name Book 28.0 "0.6175408442021739"
+SET idNumber Book 28.0 "0.6139068415432485"
+ADD Book 28.0 badBooks Library 0.0
+CREATE Author 29.0
+SET name Author 29.0 "0.22767514964326885"
+ADD Author 29.0 anAuthor Book 28.0
+CREATE Book 30.0
+SET name Book 30.0 "0.2597456702026967"
+SET idNumber Book 30.0 "0.4306225587016905"
+ADD Book 30.0 badBooks Library 0.0
+CREATE Author 31.0
+SET name Author 31.0 "0.7565657639619433"
+ADD Author 31.0 anAuthor Book 30.0
+CREATE Book 32.0
+SET name Book 32.0 "0.9279756530155024"
+SET idNumber Book 32.0 "0.2506028934573248"
+ADD Book 32.0 badBooks Library 0.0
+CREATE Author 33.0
+SET name Author 33.0 "0.40908450383003914"
+ADD Author 33.0 anAuthor Book 32.0
+CREATE Book 34.0
+SET name Book 34.0 "0.4510445876184168"
+SET idNumber Book 34.0 "0.020777751419743362"
+ADD Book 34.0 badBooks Library 0.0
+CREATE Author 35.0
+SET name Author 35.0 "0.1718907670949794"
+ADD Author 35.0 anAuthor Book 34.0
+CREATE Book 36.0
+SET name Book 36.0 "0.9597408492768857"
+SET idNumber Book 36.0 "0.06194311840188227"
+ADD Book 36.0 badBooks Library 0.0
+CREATE Author 37.0
+SET name Author 37.0 "0.13541741454413214"
+ADD Author 37.0 anAuthor Book 36.0
+CREATE Book 38.0
+SET name Book 38.0 "0.06365484052549442"
+SET idNumber Book 38.0 "0.4054480081567058"
+ADD Book 38.0 badBooks Library 0.0
+CREATE Author 39.0
+SET name Author 39.0 "0.644539195459376"
+ADD Author 39.0 anAuthor Book 38.0
+CREATE Book 40.0
+SET name Book 40.0 "0.4015842173650451"
+SET idNumber Book 40.0 "0.10697646997323962"
+ADD Book 40.0 badBooks Library 0.0
+CREATE Author 41.0
+SET name Author 41.0 "0.7195656393221663"
+ADD Author 41.0 anAuthor Book 40.0
+CREATE Book 42.0
+SET name Book 42.0 "0.44404592563054457"
+SET idNumber Book 42.0 "0.680042281504785"
+ADD Book 42.0 badBooks Library 0.0
+CREATE Author 43.0
+SET name Author 43.0 "0.35564352369261776"
+ADD Author 43.0 anAuthor Book 42.0
+CREATE Book 44.0
+SET name Book 44.0 "0.8291431924879814"
+SET idNumber Book 44.0 "0.13306442034091315"
+ADD Book 44.0 badBooks Library 0.0
+CREATE Author 45.0
+SET name Author 45.0 "0.42012075383853453"
+ADD Author 45.0 anAuthor Book 44.0
+CREATE Book 46.0
+SET name Book 46.0 "0.3010854745046002"
+SET idNumber Book 46.0 "0.5898087466386079"
+ADD Book 46.0 badBooks Library 0.0
+CREATE Author 47.0
+SET name Author 47.0 "0.1451698825295199"
+ADD Author 47.0 anAuthor Book 46.0
+CREATE Book 48.0
+SET name Book 48.0 "0.11720907072931996"
+SET idNumber Book 48.0 "0.8713440674003244"
+ADD Book 48.0 badBooks Library 0.0
+CREATE Author 49.0
+SET name Author 49.0 "0.925146688707651"
+ADD Author 49.0 anAuthor Book 48.0
+CREATE Book 50.0
+SET name Book 50.0 "0.08572132228174167"
+SET idNumber Book 50.0 "0.10314693184475132"
+ADD Book 50.0 badBooks Library 0.0
+CREATE Author 51.0
+SET name Author 51.0 "0.11059990111022644"
+ADD Author 51.0 anAuthor Book 50.0
+CREATE Book 52.0
+SET name Book 52.0 "0.7787008811927124"
+SET idNumber Book 52.0 "0.3568856985598957"
+ADD Book 52.0 badBooks Library 0.0
+CREATE Author 53.0
+SET name Author 53.0 "0.902493859904274"
+ADD Author 53.0 anAuthor Book 52.0
+CREATE Book 54.0
+SET name Book 54.0 "0.652648068100998"
+SET idNumber Book 54.0 "0.0675820971208958"
+ADD Book 54.0 badBooks Library 0.0
+CREATE Author 55.0
+SET name Author 55.0 "0.11009223990805728"
+ADD Author 55.0 anAuthor Book 54.0
+CREATE Book 56.0
+SET name Book 56.0 "0.009587011059858264"
+SET idNumber Book 56.0 "0.4440472775729849"
+ADD Book 56.0 badBooks Library 0.0
+CREATE Author 57.0
+SET name Author 57.0 "0.1893672964806642"
+ADD Author 57.0 anAuthor Book 56.0
+CREATE Book 58.0
+SET name Book 58.0 "0.783957076576061"
+SET idNumber Book 58.0 "0.14502195211716717"
+ADD Book 58.0 badBooks Library 0.0
+CREATE Author 59.0
+SET name Author 59.0 "0.05908421240475159"
+ADD Author 59.0 anAuthor Book 58.0
+CREATE Book 60.0
+SET name Book 60.0 "0.13708821067563892"
+SET idNumber Book 60.0 "0.4097305323173981"
+ADD Book 60.0 badBooks Library 0.0
+CREATE Author 61.0
+SET name Author 61.0 "0.11278028685702346"
+ADD Author 61.0 anAuthor Book 60.0
+CREATE Book 62.0
+SET name Book 62.0 "0.3921683879456034"
+SET idNumber Book 62.0 "0.8940618138776295"
+ADD Book 62.0 badBooks Library 0.0
+CREATE Author 63.0
+SET name Author 63.0 "0.5784266246204678"
+ADD Author 63.0 anAuthor Book 62.0
+CREATE Book 64.0
+SET name Book 64.0 "0.858256743399873"
+SET idNumber Book 64.0 "0.7532810396445158"
+ADD Book 64.0 badBooks Library 0.0
+CREATE Author 65.0
+SET name Author 65.0 "0.03766137629756472"
+ADD Author 65.0 anAuthor Book 64.0
+CREATE Book 66.0
+SET name Book 66.0 "0.9307714727933584"
+SET idNumber Book 66.0 "0.9564023089659774"
+ADD Book 66.0 badBooks Library 0.0
+CREATE Author 67.0
+SET name Author 67.0 "0.29274887814647566"
+ADD Author 67.0 anAuthor Book 66.0
+CREATE Book 68.0
+SET name Book 68.0 "0.9074957275430382"
+SET idNumber Book 68.0 "0.46574977394478245"
+ADD Book 68.0 badBooks Library 0.0
+CREATE Author 69.0
+SET name Author 69.0 "0.21921490374179176"
+ADD Author 69.0 anAuthor Book 68.0
+CREATE Book 70.0
+SET name Book 70.0 "0.1941826588238007"
+SET idNumber Book 70.0 "0.6331836805014834"
+ADD Book 70.0 badBooks Library 0.0
+CREATE Author 71.0
+SET name Author 71.0 "0.07049218892428499"
+ADD Author 71.0 anAuthor Book 70.0
+CREATE Book 72.0
+SET name Book 72.0 "0.3166719591273399"
+SET idNumber Book 72.0 "0.4041214516802186"
+ADD Book 72.0 badBooks Library 0.0
+CREATE Author 73.0
+SET name Author 73.0 "0.1260125857676293"
+ADD Author 73.0 anAuthor Book 72.0
+CREATE Book 74.0
+SET name Book 74.0 "0.30246572414416795"
+SET idNumber Book 74.0 "0.9483837954332094"
+ADD Book 74.0 badBooks Library 0.0
+CREATE Author 75.0
+SET name Author 75.0 "0.5944648093682716"
+ADD Author 75.0 anAuthor Book 74.0
+CREATE Book 76.0
+SET name Book 76.0 "0.11397397311264224"
+SET idNumber Book 76.0 "0.26576885103497216"
+ADD Book 76.0 badBooks Library 0.0
+CREATE Author 77.0
+SET name Author 77.0 "0.6324455714483491"
+ADD Author 77.0 anAuthor Book 76.0
+CREATE Book 78.0
+SET name Book 78.0 "0.0527313590580436"
+SET idNumber Book 78.0 "0.505416373938539"
+ADD Book 78.0 badBooks Library 0.0
+CREATE Author 79.0
+SET name Author 79.0 "0.6282783177038598"
+ADD Author 79.0 anAuthor Book 78.0
+CREATE Book 80.0
+SET name Book 80.0 "0.4532402575869421"
+SET idNumber Book 80.0 "0.6095372359648825"
+ADD Book 80.0 badBooks Library 0.0
+CREATE Author 81.0
+SET name Author 81.0 "0.4326910040277724"
+ADD Author 81.0 anAuthor Book 80.0
+CREATE Book 82.0
+SET name Book 82.0 "0.8391855083005008"
+SET idNumber Book 82.0 "0.8866110562552978"
+ADD Book 82.0 badBooks Library 0.0
+CREATE Author 83.0
+SET name Author 83.0 "0.14590753201694184"
+ADD Author 83.0 anAuthor Book 82.0
+CREATE Book 84.0
+SET name Book 84.0 "0.7516678341891114"
+SET idNumber Book 84.0 "0.5541016718928978"
+ADD Book 84.0 badBooks Library 0.0
+CREATE Author 85.0
+SET name Author 85.0 "0.07922456472962913"
+ADD Author 85.0 anAuthor Book 84.0
+CREATE Book 86.0
+SET name Book 86.0 "0.15456068259363265"
+SET idNumber Book 86.0 "0.03215141593340409"
+ADD Book 86.0 badBooks Library 0.0
+CREATE Author 87.0
+SET name Author 87.0 "0.4870433685369525"
+ADD Author 87.0 anAuthor Book 86.0
+CREATE Book 88.0
+SET name Book 88.0 "0.3400236444522907"
+SET idNumber Book 88.0 "0.14004802165650232"
+ADD Book 88.0 badBooks Library 0.0
+CREATE Author 89.0
+SET name Author 89.0 "0.6199891230926303"
+ADD Author 89.0 anAuthor Book 88.0
+CREATE Book 90.0
+SET name Book 90.0 "0.991240766735935"
+SET idNumber Book 90.0 "0.3959509383983051"
+ADD Book 90.0 badBooks Library 0.0
+CREATE Author 91.0
+SET name Author 91.0 "0.9299149684205904"
+ADD Author 91.0 anAuthor Book 90.0
+CREATE Book 92.0
+SET name Book 92.0 "0.46700935765699114"
+SET idNumber Book 92.0 "0.8548582399974491"
+ADD Book 92.0 badBooks Library 0.0
+CREATE Author 93.0
+SET name Author 93.0 "0.619338378222913"
+ADD Author 93.0 anAuthor Book 92.0
+CREATE Book 94.0
+SET name Book 94.0 "0.7617548129142655"
+SET idNumber Book 94.0 "0.813402511682732"
+ADD Book 94.0 badBooks Library 0.0
+CREATE Author 95.0
+SET name Author 95.0 "0.4977612656580257"
+ADD Author 95.0 anAuthor Book 94.0
+CREATE Book 96.0
+SET name Book 96.0 "0.7414387352872432"
+SET idNumber Book 96.0 "0.7718580642494396"
+ADD Book 96.0 badBooks Library 0.0
+CREATE Author 97.0
+SET name Author 97.0 "0.665413654827734"
+ADD Author 97.0 anAuthor Book 96.0
+CREATE Book 98.0
+SET name Book 98.0 "0.20332006023573013"
+SET idNumber Book 98.0 "0.9543559519324358"
+ADD Book 98.0 badBooks Library 0.0
+CREATE Author 99.0
+SET name Author 99.0 "0.5689198233617311"
+ADD Author 99.0 anAuthor Book 98.0
+CREATE Book 100.0
+SET name Book 100.0 "0.40741366640721444"
+SET idNumber Book 100.0 "0.9743123504556576"
+ADD Book 100.0 badBooks Library 0.0
+CREATE Author 101.0
+SET name Author 101.0 "0.3541581918662844"
+ADD Author 101.0 anAuthor Book 100.0
+CREATE Book 102.0
+SET name Book 102.0 "0.964486534067715"
+SET idNumber Book 102.0 "0.17035109068693566"
+ADD Book 102.0 badBooks Library 0.0
+CREATE Author 103.0
+SET name Author 103.0 "0.49923792925165034"
+ADD Author 103.0 anAuthor Book 102.0
+CREATE Book 104.0
+SET name Book 104.0 "0.31564530889056663"
+SET idNumber Book 104.0 "0.05020673113695151"
+ADD Book 104.0 badBooks Library 0.0
+CREATE Author 105.0
+SET name Author 105.0 "0.30807910749192513"
+ADD Author 105.0 anAuthor Book 104.0
+CREATE Book 106.0
+SET name Book 106.0 "0.5852752310897247"
+SET idNumber Book 106.0 "0.09622415061836265"
+ADD Book 106.0 badBooks Library 0.0
+CREATE Author 107.0
+SET name Author 107.0 "0.21673484777296825"
+ADD Author 107.0 anAuthor Book 106.0
+CREATE Book 108.0
+SET name Book 108.0 "0.3372495511940654"
+SET idNumber Book 108.0 "0.12468425196113542"
+ADD Book 108.0 badBooks Library 0.0
+CREATE Author 109.0
+SET name Author 109.0 "0.4433578719800466"
+ADD Author 109.0 anAuthor Book 108.0
+CREATE Book 110.0
+SET name Book 110.0 "0.5639870518646742"
+SET idNumber Book 110.0 "0.822751565780466"
+ADD Book 110.0 badBooks Library 0.0
+CREATE Author 111.0
+SET name Author 111.0 "0.7615710704616027"
+ADD Author 111.0 anAuthor Book 110.0
+CREATE Book 112.0
+SET name Book 112.0 "0.9454144866228568"
+SET idNumber Book 112.0 "0.11534212768109042"
+ADD Book 112.0 badBooks Library 0.0
+CREATE Author 113.0
+SET name Author 113.0 "0.3960879898102577"
+ADD Author 113.0 anAuthor Book 112.0
+CREATE Book 114.0
+SET name Book 114.0 "0.38944057061346227"
+SET idNumber Book 114.0 "0.030913563407562794"
+ADD Book 114.0 badBooks Library 0.0
+CREATE Author 115.0
+SET name Author 115.0 "0.3406973571001213"
+ADD Author 115.0 anAuthor Book 114.0
+CREATE Book 116.0
+SET name Book 116.0 "0.11783203519007035"
+SET idNumber Book 116.0 "0.16723275934450132"
+ADD Book 116.0 badBooks Library 0.0
+CREATE Author 117.0
+SET name Author 117.0 "0.5082601763063517"
+ADD Author 117.0 anAuthor Book 116.0
+CREATE Book 118.0
+SET name Book 118.0 "0.33900085123094603"
+SET idNumber Book 118.0 "0.5534360425582088"
+ADD Book 118.0 badBooks Library 0.0
+CREATE Author 119.0
+SET name Author 119.0 "0.3892286843074768"
+ADD Author 119.0 anAuthor Book 118.0
+CREATE Book 120.0
+SET name Book 120.0 "0.8631185377149908"
+SET idNumber Book 120.0 "0.8629378188113003"
+ADD Book 120.0 badBooks Library 0.0
+CREATE Author 121.0
+SET name Author 121.0 "0.8544718101447011"
+ADD Author 121.0 anAuthor Book 120.0
+CREATE Book 122.0
+SET name Book 122.0 "0.5794907364595646"
+SET idNumber Book 122.0 "0.21117054827759774"
+ADD Book 122.0 badBooks Library 0.0
+CREATE Author 123.0
+SET name Author 123.0 "0.7946547058734792"
+ADD Author 123.0 anAuthor Book 122.0
+CREATE Book 124.0
+SET name Book 124.0 "0.9939118892138674"
+SET idNumber Book 124.0 "0.16884022118542907"
+ADD Book 124.0 badBooks Library 0.0
+CREATE Author 125.0
+SET name Author 125.0 "0.5559357979468196"
+ADD Author 125.0 anAuthor Book 124.0
+CREATE Book 126.0
+SET name Book 126.0 "0.535904784896261"
+SET idNumber Book 126.0 "0.9381355820270522"
+ADD Book 126.0 badBooks Library 0.0
+CREATE Author 127.0
+SET name Author 127.0 "0.18237258427967906"
+ADD Author 127.0 anAuthor Book 126.0
+CREATE Book 128.0
+SET name Book 128.0 "0.12608633029311456"
+SET idNumber Book 128.0 "0.8289366693337354"
+ADD Book 128.0 badBooks Library 0.0
+CREATE Author 129.0
+SET name Author 129.0 "0.7208055316317981"
+ADD Author 129.0 anAuthor Book 128.0
+CREATE Book 130.0
+SET name Book 130.0 "0.5346296121938336"
+SET idNumber Book 130.0 "0.5590831862158211"
+ADD Book 130.0 badBooks Library 0.0
+CREATE Author 131.0
+SET name Author 131.0 "0.49049958435142527"
+ADD Author 131.0 anAuthor Book 130.0
+CREATE Book 132.0
+SET name Book 132.0 "0.817612334909341"
+SET idNumber Book 132.0 "0.25631266959750587"
+ADD Book 132.0 badBooks Library 0.0
+CREATE Author 133.0
+SET name Author 133.0 "0.20759405420976818"
+ADD Author 133.0 anAuthor Book 132.0
+CREATE Book 134.0
+SET name Book 134.0 "0.6033348327836663"
+SET idNumber Book 134.0 "0.688560410745548"
+ADD Book 134.0 badBooks Library 0.0
+CREATE Author 135.0
+SET name Author 135.0 "0.9091558087120074"
+ADD Author 135.0 anAuthor Book 134.0
+CREATE Book 136.0
+SET name Book 136.0 "0.733919975386919"
+SET idNumber Book 136.0 "0.90072029243442"
+ADD Book 136.0 badBooks Library 0.0
+CREATE Author 137.0
+SET name Author 137.0 "0.5168980414270453"
+ADD Author 137.0 anAuthor Book 136.0
+CREATE Book 138.0
+SET name Book 138.0 "0.7854420708243319"
+SET idNumber Book 138.0 "0.07377250458608575"
+ADD Book 138.0 badBooks Library 0.0
+CREATE Author 139.0
+SET name Author 139.0 "0.2269405783627062"
+ADD Author 139.0 anAuthor Book 138.0
+CREATE Book 140.0
+SET name Book 140.0 "0.37299109184914825"
+SET idNumber Book 140.0 "0.6364065542098662"
+ADD Book 140.0 badBooks Library 0.0
+CREATE Author 141.0
+SET name Author 141.0 "0.25796843167814254"
+ADD Author 141.0 anAuthor Book 140.0
+CREATE Book 142.0
+SET name Book 142.0 "0.9665784200693953"
+SET idNumber Book 142.0 "0.9701593490342477"
+ADD Book 142.0 badBooks Library 0.0
+CREATE Author 143.0
+SET name Author 143.0 "0.23957314363229154"
+ADD Author 143.0 anAuthor Book 142.0
+CREATE Book 144.0
+SET name Book 144.0 "0.2584694253296582"
+SET idNumber Book 144.0 "0.26216589567893855"
+ADD Book 144.0 badBooks Library 0.0
+CREATE Author 145.0
+SET name Author 145.0 "0.1399993641913141"
+ADD Author 145.0 anAuthor Book 144.0
+CREATE Book 146.0
+SET name Book 146.0 "0.6240297952997917"
+SET idNumber Book 146.0 "0.4053854387254803"
+ADD Book 146.0 badBooks Library 0.0
+CREATE Author 147.0
+SET name Author 147.0 "0.8289196431915344"
+ADD Author 147.0 anAuthor Book 146.0
+CREATE Book 148.0
+SET name Book 148.0 "0.3403813766227691"
+SET idNumber Book 148.0 "0.6271326299489486"
+ADD Book 148.0 badBooks Library 0.0
+CREATE Author 149.0
+SET name Author 149.0 "0.4293134078248493"
+ADD Author 149.0 anAuthor Book 148.0
+CREATE Book 150.0
+SET name Book 150.0 "0.005153568315700685"
+SET idNumber Book 150.0 "0.2132043908708683"
+ADD Book 150.0 badBooks Library 0.0
+CREATE Author 151.0
+SET name Author 151.0 "0.7330464772874238"
+ADD Author 151.0 anAuthor Book 150.0
+CREATE Book 152.0
+SET name Book 152.0 "0.2800139851110406"
+SET idNumber Book 152.0 "0.8795674571839546"
+ADD Book 152.0 badBooks Library 0.0
+CREATE Author 153.0
+SET name Author 153.0 "0.4657552686456641"
+ADD Author 153.0 anAuthor Book 152.0
+CREATE Book 154.0
+SET name Book 154.0 "0.4710904754013202"
+SET idNumber Book 154.0 "0.6840556475496913"
+ADD Book 154.0 badBooks Library 0.0
+CREATE Author 155.0
+SET name Author 155.0 "0.6895649998024873"
+ADD Author 155.0 anAuthor Book 154.0
+CREATE Book 156.0
+SET name Book 156.0 "0.15939257507003213"
+SET idNumber Book 156.0 "0.6171769029755025"
+ADD Book 156.0 badBooks Library 0.0
+CREATE Author 157.0
+SET name Author 157.0 "0.6142939922685372"
+ADD Author 157.0 anAuthor Book 156.0
+CREATE Book 158.0
+SET name Book 158.0 "0.35891084762293324"
+SET idNumber Book 158.0 "0.4368233951065942"
+ADD Book 158.0 badBooks Library 0.0
+CREATE Author 159.0
+SET name Author 159.0 "0.25727806888337335"
+ADD Author 159.0 anAuthor Book 158.0
+CREATE Book 160.0
+SET name Book 160.0 "0.18980044651850825"
+SET idNumber Book 160.0 "0.3285609345328824"
+ADD Book 160.0 badBooks Library 0.0
+CREATE Author 161.0
+SET name Author 161.0 "0.9576780051287404"
+ADD Author 161.0 anAuthor Book 160.0
+CREATE Book 162.0
+SET name Book 162.0 "0.016389881775365822"
+SET idNumber Book 162.0 "0.44034923881279253"
+ADD Book 162.0 badBooks Library 0.0
+CREATE Author 163.0
+SET name Author 163.0 "0.088794543017788"
+ADD Author 163.0 anAuthor Book 162.0
+CREATE Book 164.0
+SET name Book 164.0 "0.11292787756383371"
+SET idNumber Book 164.0 "0.03531671485281651"
+ADD Book 164.0 badBooks Library 0.0
+CREATE Author 165.0
+SET name Author 165.0 "0.9264628251116787"
+ADD Author 165.0 anAuthor Book 164.0
+CREATE Book 166.0
+SET name Book 166.0 "0.24365760990827112"
+SET idNumber Book 166.0 "0.9503300163795508"
+ADD Book 166.0 badBooks Library 0.0
+CREATE Author 167.0
+SET name Author 167.0 "0.04500579352919376"
+ADD Author 167.0 anAuthor Book 166.0
+CREATE Book 168.0
+SET name Book 168.0 "0.02943994483886958"
+SET idNumber Book 168.0 "0.849108552614994"
+ADD Book 168.0 badBooks Library 0.0
+CREATE Author 169.0
+SET name Author 169.0 "0.7741922992372391"
+ADD Author 169.0 anAuthor Book 168.0
+CREATE Book 170.0
+SET name Book 170.0 "0.3766146397943968"
+SET idNumber Book 170.0 "0.8453145017547294"
+ADD Book 170.0 badBooks Library 0.0
+CREATE Author 171.0
+SET name Author 171.0 "0.2886611862403623"
+ADD Author 171.0 anAuthor Book 170.0
+CREATE Book 172.0
+SET name Book 172.0 "0.3618025045548845"
+SET idNumber Book 172.0 "0.6705002505605175"
+ADD Book 172.0 badBooks Library 0.0
+CREATE Author 173.0
+SET name Author 173.0 "0.495184073239626"
+ADD Author 173.0 anAuthor Book 172.0
+CREATE Book 174.0
+SET name Book 174.0 "0.6067186387780791"
+SET idNumber Book 174.0 "0.4846771633027669"
+ADD Book 174.0 badBooks Library 0.0
+CREATE Author 175.0
+SET name Author 175.0 "0.2681469838798658"
+ADD Author 175.0 anAuthor Book 174.0
+CREATE Book 176.0
+SET name Book 176.0 "0.9917666266538887"
+SET idNumber Book 176.0 "0.1962602463032731"
+ADD Book 176.0 badBooks Library 0.0
+CREATE Author 177.0
+SET name Author 177.0 "0.15435304739663624"
+ADD Author 177.0 anAuthor Book 176.0
+CREATE Book 178.0
+SET name Book 178.0 "0.8358827302983621"
+SET idNumber Book 178.0 "0.7336059222242282"
+ADD Book 178.0 badBooks Library 0.0
+CREATE Author 179.0
+SET name Author 179.0 "0.375258341415463"
+ADD Author 179.0 anAuthor Book 178.0
+CREATE Book 180.0
+SET name Book 180.0 "0.41052289621670046"
+SET idNumber Book 180.0 "0.035795848801432495"
+ADD Book 180.0 badBooks Library 0.0
+CREATE Author 181.0
+SET name Author 181.0 "0.15377721336222538"
+ADD Author 181.0 anAuthor Book 180.0
+CREATE Book 182.0
+SET name Book 182.0 "0.6960108403389332"
+SET idNumber Book 182.0 "0.3390861412891225"
+ADD Book 182.0 badBooks Library 0.0
+CREATE Author 183.0
+SET name Author 183.0 "0.5254181247632045"
+ADD Author 183.0 anAuthor Book 182.0
+CREATE Book 184.0
+SET name Book 184.0 "0.005612876111668608"
+SET idNumber Book 184.0 "0.12882510286725535"
+ADD Book 184.0 badBooks Library 0.0
+CREATE Author 185.0
+SET name Author 185.0 "0.24712217972369743"
+ADD Author 185.0 anAuthor Book 184.0
+CREATE Book 186.0
+SET name Book 186.0 "0.14922804130322287"
+SET idNumber Book 186.0 "0.9522547369163636"
+ADD Book 186.0 badBooks Library 0.0
+CREATE Author 187.0
+SET name Author 187.0 "0.1304800073684923"
+ADD Author 187.0 anAuthor Book 186.0
+CREATE Book 188.0
+SET name Book 188.0 "0.5795135764068414"
+SET idNumber Book 188.0 "0.9157072878741268"
+ADD Book 188.0 badBooks Library 0.0
+CREATE Author 189.0
+SET name Author 189.0 "0.9753180962275199"
+ADD Author 189.0 anAuthor Book 188.0
+CREATE Book 190.0
+SET name Book 190.0 "0.9531240525549242"
+SET idNumber Book 190.0 "0.0038807211399378705"
+ADD Book 190.0 badBooks Library 0.0
+CREATE Author 191.0
+SET name Author 191.0 "0.9998697229122537"
+ADD Author 191.0 anAuthor Book 190.0
+CREATE Book 192.0
+SET name Book 192.0 "0.4685577438568076"
+SET idNumber Book 192.0 "0.24624920681302032"
+ADD Book 192.0 badBooks Library 0.0
+CREATE Author 193.0
+SET name Author 193.0 "0.02662940832245242"
+ADD Author 193.0 anAuthor Book 192.0
+CREATE Book 194.0
+SET name Book 194.0 "0.8981641331196939"
+SET idNumber Book 194.0 "0.5005092660720583"
+ADD Book 194.0 badBooks Library 0.0
+CREATE Author 195.0
+SET name Author 195.0 "0.8741572045630471"
+ADD Author 195.0 anAuthor Book 194.0
+CREATE Book 196.0
+SET name Book 196.0 "0.4975554001742055"
+SET idNumber Book 196.0 "0.7763896326605118"
+ADD Book 196.0 badBooks Library 0.0
+CREATE Author 197.0
+SET name Author 197.0 "0.009948466353433827"
+ADD Author 197.0 anAuthor Book 196.0
+CREATE Book 198.0
+SET name Book 198.0 "0.07156396338867987"
+SET idNumber Book 198.0 "0.9402816606102226"
+ADD Book 198.0 badBooks Library 0.0
+CREATE Author 199.0
+SET name Author 199.0 "0.24687736676609495"
+ADD Author 199.0 anAuthor Book 198.0
+CREATE Book 200.0
+SET name Book 200.0 "0.6770562250681321"
+SET idNumber Book 200.0 "0.34591084182527454"
+ADD Book 200.0 badBooks Library 0.0
+CREATE Author 201.0
+SET name Author 201.0 "0.5071320091424455"
+ADD Author 201.0 anAuthor Book 200.0

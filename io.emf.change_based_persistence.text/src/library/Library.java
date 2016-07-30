@@ -13,7 +13,8 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link library.Library#getBooks <em>Books</em>}</li>
+ *   <li>{@link library.Library#getGoodBooks <em>Good Books</em>}</li>
+ *   <li>{@link library.Library#getBadBooks <em>Bad Books</em>}</li>
  *   <li>{@link library.Library#getNumEmployees <em>Num Employees</em>}</li>
  *   <li>{@link library.Library#getADouble <em>ADouble</em>}</li>
  *   <li>{@link library.Library#getEmployeeNames <em>Employee Names</em>}</li>
@@ -26,20 +27,36 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface Library extends NamedElement {
 	/**
-	 * Returns the value of the '<em><b>Books</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Good Books</b></em>' containment reference list.
 	 * The list contents are of type {@link library.Book}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Books</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Good Books</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Books</em>' containment reference list.
-	 * @see library.LibraryPackage#getLibrary_Books()
+	 * @return the value of the '<em>Good Books</em>' containment reference list.
+	 * @see library.LibraryPackage#getLibrary_GoodBooks()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Book> getBooks();
+	EList<Book> getGoodBooks();
+
+	/**
+	 * Returns the value of the '<em><b>Bad Books</b></em>' containment reference list.
+	 * The list contents are of type {@link library.Book}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Bad Books</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Bad Books</em>' containment reference list.
+	 * @see library.LibraryPackage#getLibrary_BadBooks()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Book> getBadBooks();
 
 	/**
 	 * Returns the value of the '<em><b>Num Employees</b></em>' attribute.

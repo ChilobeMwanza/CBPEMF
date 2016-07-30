@@ -22,16 +22,16 @@ public class SetAttributeEntry extends AbstractEntry
 	private final Object newValue;
 	
 	
-	public SetAttributeEntry(EObject obj, EAttribute eAttribute, Object newValue, Double id)
+	public SetAttributeEntry(EObject obj, EAttribute eAttribute, Object newValue)
 	{
-		super(obj, id);
+		super(obj);
 		this.newValue = newValue;
 		this.eAttribute = eAttribute;
 	}
 	
 	public SetAttributeEntry(Notification msg, Double id)
 	{
-		this((EObject)msg.getNotifier(),(EAttribute)msg.getFeature(),msg.getNewValue(), id);
+		this((EObject)msg.getNotifier(),(EAttribute)msg.getFeature(),msg.getNewValue());
 	}
 	
 	public EAttribute geteAttribute() 

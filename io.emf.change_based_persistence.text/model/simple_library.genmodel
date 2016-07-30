@@ -7,7 +7,8 @@
   <foreignModel>simple_library.ecore</foreignModel>
   <genPackages prefix="Library" disposableProviderFactory="true" ecorePackage="simple_library.ecore#/">
     <genClasses ecoreClass="simple_library.ecore#//Library">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simple_library.ecore#//Library/books"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simple_library.ecore#//Library/goodBooks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simple_library.ecore#//Library/badBooks"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/numEmployees"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/aDouble"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/employeeNames"/>

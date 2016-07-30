@@ -1,0 +1,178 @@
+/**
+ * BUGS/ISSUES
+ * 1) In order for this implementation to work, newly created model elements
+ * must be added directly to the resource, or added to an object that who's hierachy
+ * eventually leads to the resource. 
+ */
+
+package main;
+
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
+
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+//import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.ecore.resource.Resource;
+
+
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+
+import change.SetAttributeEntry;
+import impl.DeltaResourceImpl;
+import library.Author;
+import library.Book;
+import library.Library;
+import library.LibraryFactory;
+import library.LibraryPackage;
+
+public class App 
+{
+	private static  final String classname = "App";
+	
+	private static String fileSaveLocation ="library.txt";
+	
+	public static void main(String[] args) throws Exception
+	{
+		
+		List<EObject> savedList = new ArrayList<EObject>();
+		List<EObject> loadedList = new ArrayList<EObject>();
+		
+		// TODO Auto-generated method stub
+		App app = new App();
+		
+		savedList = app.createResource();
+		loadedList = app.loadResource() ;
+		
+		
+		/* Verify that saved and serialised data are the same*/
+	
+		System.out.println(classname + " verifying serialised data");
+		
+		if(savedList.size() != loadedList.size())
+		{
+			System.out.println(classname+ "Error! mismatch between savedList size and LoadedList size");
+			System.exit(0);
+		}
+	
+		for(int i = 0; i < savedList.size(); i++)
+		{
+			EObject obj1 = savedList.get(i);
+			EObject obj2 = savedList.get(i);
+			
+			/*Comapare attributes*/
+			for(EAttribute attr1 : obj1.eClass().getEAllAttributes()) //e vs eall
+			{
+				for(EAttribute attr2 : obj2.eClass().getEAllAttributes())
+				{
+					if(attr1 == attr2)
+					{
+						Object value1 = obj1.eGet(attr1);
+						Object value2 = obj2.eGet(attr2);
+						
+						if(value1.hashCode() != value2.hashCode())
+						{
+							System.out.println(classname+ " Error! attributes not the same");
+							System.exit(0);
+						}
+					}
+				}
+			}
+		}
+		
+		System.out.println("Verification complete.");
+	}
+	
+	public List<EObject> loadResource() throws IOException
+	{
+		ResourceSetImpl rs = new ResourceSetImpl();
+		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put
+		("txt", new Resource.Factory()
+		{
+			@Override
+			public Resource createResource(URI uri)
+			{
+				return new DeltaResourceImpl(uri);
+			}
+		});
+		
+		rs.getPackageRegistry().put(LibraryPackage.eINSTANCE.getNsURI(), 
+				LibraryPackage.eINSTANCE);
+		
+		Resource resource = rs.createResource(URI.createFileURI(fileSaveLocation));
+		resource.load(null);
+		
+		//Map<String, String> loadOptions = new HashMap<String, String>();
+		//loadOptions.put("FILE_LOCATION", fileSaveLocation);
+		
+		List<EObject> objectsList = new ArrayList<EObject>();
+		
+		for(TreeIterator<EObject> it = resource.getAllContents(); it.hasNext();)
+		{
+			objectsList.add(it.next());
+		}
+		
+		Library lib = (Library) resource.getContents().get(0);
+		lib.setName("dsd");
+		
+		resource.getContents().clear();
+		
+		return objectsList;
+		
+	}
+	
+	public List<EObject> createResource() throws Exception
+	{
+		//Resource resource = new XMIResourceImpl(URI.createURI("library.txt"));
+		
+		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
+		
+		Library lib = LibraryFactory.eINSTANCE.createLibrary();
+		
+		
+		lib.setName("First Library");
+		lib.setADouble(20);
+        
+		Book book = LibraryFactory.eINSTANCE.createBook();
+
+		book.setIdNumber(1);
+		
+		//lib1.getGoodBooks().add(book);
+		book.setName("Hello!");
+		
+		//Library lib2 = LibraryFactory.eINSTANCE.createLibrary();
+		lib.getGoodBooks().add(book);
+		
+		resource.getContents().add(lib);
+		
+		
+		//resource.getContents().add(lib2); 
+
+		//Map<String, String> saveOptions = new HashMap<String, String>();
+		//saveOptions.put("FILE_SAVE_LOCATION", fileSaveLocation);
+		
+		resource.save(null); 
+		List<EObject> objectsList = new ArrayList<EObject>();
+		
+		for(TreeIterator<EObject> it = resource.getAllContents(); it.hasNext();)
+		{
+			objectsList.add(it.next());
+		}
+		resource.getContents().clear();
+		
+		return objectsList;
+	}
+	
+	
+	
+	
+
+}

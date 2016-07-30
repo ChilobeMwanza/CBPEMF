@@ -30,7 +30,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link library.impl.LibraryImpl#getBooks <em>Books</em>}</li>
+ *   <li>{@link library.impl.LibraryImpl#getGoodBooks <em>Good Books</em>}</li>
+ *   <li>{@link library.impl.LibraryImpl#getBadBooks <em>Bad Books</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getNumEmployees <em>Num Employees</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getADouble <em>ADouble</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getEmployeeNames <em>Employee Names</em>}</li>
@@ -41,14 +42,24 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class LibraryImpl extends NamedElementImpl implements Library {
 	/**
-	 * The cached value of the '{@link #getBooks() <em>Books</em>}' containment reference list.
+	 * The cached value of the '{@link #getGoodBooks() <em>Good Books</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getBooks()
+	 * @see #getGoodBooks()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Book> books;
+	protected EList<Book> goodBooks;
+
+	/**
+	 * The cached value of the '{@link #getBadBooks() <em>Bad Books</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBadBooks()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Book> badBooks;
 
 	/**
 	 * The default value of the '{@link #getNumEmployees() <em>Num Employees</em>}' attribute.
@@ -134,11 +145,23 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Book> getBooks() {
-		if (books == null) {
-			books = new EObjectContainmentEList<Book>(Book.class, this, LibraryPackage.LIBRARY__BOOKS);
+	public EList<Book> getGoodBooks() {
+		if (goodBooks == null) {
+			goodBooks = new EObjectContainmentEList<Book>(Book.class, this, LibraryPackage.LIBRARY__GOOD_BOOKS);
 		}
-		return books;
+		return goodBooks;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Book> getBadBooks() {
+		if (badBooks == null) {
+			badBooks = new EObjectContainmentEList<Book>(Book.class, this, LibraryPackage.LIBRARY__BAD_BOOKS);
+		}
+		return badBooks;
 	}
 
 	/**
@@ -215,8 +238,10 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case LibraryPackage.LIBRARY__BOOKS:
-				return ((InternalEList<?>)getBooks()).basicRemove(otherEnd, msgs);
+			case LibraryPackage.LIBRARY__GOOD_BOOKS:
+				return ((InternalEList<?>)getGoodBooks()).basicRemove(otherEnd, msgs);
+			case LibraryPackage.LIBRARY__BAD_BOOKS:
+				return ((InternalEList<?>)getBadBooks()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -229,8 +254,10 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case LibraryPackage.LIBRARY__BOOKS:
-				return getBooks();
+			case LibraryPackage.LIBRARY__GOOD_BOOKS:
+				return getGoodBooks();
+			case LibraryPackage.LIBRARY__BAD_BOOKS:
+				return getBadBooks();
 			case LibraryPackage.LIBRARY__NUM_EMPLOYEES:
 				return getNumEmployees();
 			case LibraryPackage.LIBRARY__ADOUBLE:
@@ -252,9 +279,13 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case LibraryPackage.LIBRARY__BOOKS:
-				getBooks().clear();
-				getBooks().addAll((Collection<? extends Book>)newValue);
+			case LibraryPackage.LIBRARY__GOOD_BOOKS:
+				getGoodBooks().clear();
+				getGoodBooks().addAll((Collection<? extends Book>)newValue);
+				return;
+			case LibraryPackage.LIBRARY__BAD_BOOKS:
+				getBadBooks().clear();
+				getBadBooks().addAll((Collection<? extends Book>)newValue);
 				return;
 			case LibraryPackage.LIBRARY__NUM_EMPLOYEES:
 				setNumEmployees((Integer)newValue);
@@ -282,8 +313,11 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case LibraryPackage.LIBRARY__BOOKS:
-				getBooks().clear();
+			case LibraryPackage.LIBRARY__GOOD_BOOKS:
+				getGoodBooks().clear();
+				return;
+			case LibraryPackage.LIBRARY__BAD_BOOKS:
+				getBadBooks().clear();
 				return;
 			case LibraryPackage.LIBRARY__NUM_EMPLOYEES:
 				setNumEmployees(NUM_EMPLOYEES_EDEFAULT);
@@ -309,8 +343,10 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case LibraryPackage.LIBRARY__BOOKS:
-				return books != null && !books.isEmpty();
+			case LibraryPackage.LIBRARY__GOOD_BOOKS:
+				return goodBooks != null && !goodBooks.isEmpty();
+			case LibraryPackage.LIBRARY__BAD_BOOKS:
+				return badBooks != null && !badBooks.isEmpty();
 			case LibraryPackage.LIBRARY__NUM_EMPLOYEES:
 				return numEmployees != NUM_EMPLOYEES_EDEFAULT;
 			case LibraryPackage.LIBRARY__ADOUBLE:

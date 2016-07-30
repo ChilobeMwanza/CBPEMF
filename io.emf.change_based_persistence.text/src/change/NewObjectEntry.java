@@ -7,14 +7,14 @@ import org.eclipse.emf.ecore.EObject;
 
 public class NewObjectEntry extends AbstractEntry
 {
-	public NewObjectEntry(EObject value, Double id)
+	public NewObjectEntry(EObject value)
 	{
-		super(value, id);
+		super(value);
 	}
 	
-	public NewObjectEntry(Notification msg, Double id)
+	public NewObjectEntry(Notification msg)
 	{
-		this((EObject)msg.getNotifier(),id) ;
+		this((EObject)msg.getNotifier()) ;
 	}
 
 }

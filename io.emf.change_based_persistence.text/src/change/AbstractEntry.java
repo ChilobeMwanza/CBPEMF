@@ -5,12 +5,12 @@ import org.eclipse.emf.ecore.EObject;
 public abstract class AbstractEntry implements Entry
 {
 	private EObject eObject;
-	private Double id;
+	private Double id; //tbr
 	
-	public AbstractEntry(EObject eObject, Double id)
+	public AbstractEntry(EObject eObject)
 	{
 		this.eObject = eObject;
-		this.id = id;
+		//this.id = id;
 	}
 	
 	public EObject getEObject()
@@ -18,8 +18,10 @@ public abstract class AbstractEntry implements Entry
 		return eObject;
 	}
 	
-	public Double getID()
+	/*public Double getID()
 	{
 		return id;
-	}
+	}*/
 }
+
+//why do we store eobjects?

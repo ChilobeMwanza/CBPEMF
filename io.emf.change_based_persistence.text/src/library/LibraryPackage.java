@@ -113,13 +113,22 @@ public interface LibraryPackage extends EPackage {
 	int LIBRARY__NAME = NAMED_ELEMENT__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Books</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Good Books</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__BOOKS = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int LIBRARY__GOOD_BOOKS = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Bad Books</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__BAD_BOOKS = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Num Employees</b></em>' attribute.
@@ -128,7 +137,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__NUM_EMPLOYEES = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int LIBRARY__NUM_EMPLOYEES = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>ADouble</b></em>' attribute.
@@ -137,7 +146,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__ADOUBLE = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int LIBRARY__ADOUBLE = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Employee Names</b></em>' attribute list.
@@ -146,7 +155,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__EMPLOYEE_NAMES = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int LIBRARY__EMPLOYEE_NAMES = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Numbers List</b></em>' attribute list.
@@ -155,7 +164,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__NUMBERS_LIST = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int LIBRARY__NUMBERS_LIST = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Library</em>' class.
@@ -164,7 +173,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int LIBRARY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of operations of the '<em>Library</em>' class.
@@ -279,15 +288,26 @@ public interface LibraryPackage extends EPackage {
 	EClass getLibrary();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link library.Library#getBooks <em>Books</em>}'.
+	 * Returns the meta object for the containment reference list '{@link library.Library#getGoodBooks <em>Good Books</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Books</em>'.
-	 * @see library.Library#getBooks()
+	 * @return the meta object for the containment reference list '<em>Good Books</em>'.
+	 * @see library.Library#getGoodBooks()
 	 * @see #getLibrary()
 	 * @generated
 	 */
-	EReference getLibrary_Books();
+	EReference getLibrary_GoodBooks();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link library.Library#getBadBooks <em>Bad Books</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Bad Books</em>'.
+	 * @see library.Library#getBadBooks()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EReference getLibrary_BadBooks();
 
 	/**
 	 * Returns the meta object for the attribute '{@link library.Library#getNumEmployees <em>Num Employees</em>}'.
@@ -430,12 +450,20 @@ public interface LibraryPackage extends EPackage {
 		EClass LIBRARY = eINSTANCE.getLibrary();
 
 		/**
-		 * The meta object literal for the '<em><b>Books</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Good Books</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference LIBRARY__BOOKS = eINSTANCE.getLibrary_Books();
+		EReference LIBRARY__GOOD_BOOKS = eINSTANCE.getLibrary_GoodBooks();
+
+		/**
+		 * The meta object literal for the '<em><b>Bad Books</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LIBRARY__BAD_BOOKS = eINSTANCE.getLibrary_BadBooks();
 
 		/**
 		 * The meta object literal for the '<em><b>Num Employees</b></em>' attribute feature.
