@@ -21,8 +21,6 @@ public class PersistenceManager
 	private final DeltaResourceImpl resource;
 	public final String TEXT_ENCODING = "Ascii";
 	
-	
-	
 	public PersistenceManager(ChangeLog aChangeLog, DeltaResourceImpl resource)
 	{
 		this.changeLog = aChangeLog;

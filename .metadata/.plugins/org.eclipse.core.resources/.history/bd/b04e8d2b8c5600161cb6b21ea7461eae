@@ -1,0 +1,30 @@
+package util;
+
+import java.io.OutputStream;
+import java.io.PrintStream;
+
+public class CustomPrintStream extends PrintStream 
+{
+
+	String className;
+	
+	public CustomPrintStream(OutputStream out, String className)
+	{
+		super(out,true);
+		this.className = className;
+	}
+	
+	@Override
+	public void print(String s)
+	{
+	//	String outputString = className + " :"+s;
+		super.println(s);
+	}
+	@Override
+	public void println(String s)
+	{
+		//String outputString = className + " :"+s;
+		//super.println(outputString);
+	}
+
+}

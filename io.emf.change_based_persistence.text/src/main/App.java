@@ -9,6 +9,7 @@ package main;
 
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,6 +35,7 @@ import library.Library;
 import library.LibraryFactory;
 import library.LibraryPackage;
 
+
 public class App 
 {
 	private static  final String classname = "App";
@@ -43,6 +45,8 @@ public class App
 	public static void main(String[] args) throws Exception
 	{
 		
+	
+
 		List<EObject> savedList = new ArrayList<EObject>();
 		List<EObject> loadedList = new ArrayList<EObject>();
 		
@@ -51,52 +55,10 @@ public class App
 		
 		savedList = app.createResource();
 		loadedList = app.loadResource() ;
-		
-		
-		/* Verify that saved and serialised data are the same*/
 	
-		Library lib = (Library) loadedList.get(0);
-		
+		app.verify(savedList, loadedList);
 	
-		System.out.println(classname + " verifying serialised data");
 		
-		System.out.println(classname + " total num elements " +loadedList.size());
-		if(savedList.size() != loadedList.size())
-		{
-			System.out.println(classname+ "Error! mismatch between savedList size and LoadedList size");
-			System.exit(0);
-		}
-	
-		for(int i = 0; i < savedList.size(); i++)
-		{
-			EObject obj1 = savedList.get(i);
-			EObject obj2 = loadedList.get(i);
-			
-		
-			/*Comapare attributes*/
-			for(EAttribute attr1 : obj1.eClass().getEAllAttributes()) //e vs eall
-			{
-				for(EAttribute attr2 : obj2.eClass().getEAllAttributes())
-				{
-					if(attr1 == attr2)
-					{
-						
-						Object value1 = obj1.eGet(attr1);
-						Object value2 = obj2.eGet(attr2);
-						
-						if(value1.hashCode() != value2.hashCode())
-						{
-							System.out.println(classname+ " Error! attributes not the same");
-							System.out.println(obj1.eClass().getName()+"1 attribute : "+attr1.getName() + " value: "+obj1.eGet(attr1).toString());
-							System.out.println(obj2.eClass().getName()+"2 attribute : "+attr2.getName() + " value: "+obj2.eGet(attr2).toString());
-							System.exit(0);
-						}
-					}
-				}
-			}
-		}
-		
-		System.out.println("Verification complete.");
 	}
 	
 	public List<EObject> loadResource() throws IOException
@@ -145,6 +107,16 @@ public class App
 		
 		lib.setName("First Library");
 		lib.setADouble(20);
+		
+		
+		lib.getEmployeeNames().add("Peter Green");
+		lib.getEmployeeNames().add("John White");
+		lib.getEmployeeNames().add("Peter Black");
+		
+		
+		lib.getNumbersList().add(34);
+		lib.getNumbersList().add(56);
+		lib.getNumbersList().add(44);
         
 		Book book = LibraryFactory.eINSTANCE.createBook();
 
@@ -154,6 +126,7 @@ public class App
 		book.setName("Hello!");
 		
 		//Library lib2 = LibraryFactory.eINSTANCE.createLibrary();
+		
 		lib.getGoodBooks().add(book);
 		
 		/*
@@ -189,8 +162,61 @@ public class App
 		return objectsList;
 	}
 	
+	private void verify(List<EObject> savedList, List<EObject>loadedList)
+	{
+	
+		
+		/* Verify that saved and serialised data are the same*/
+		System.out.println(" total num elements " +loadedList.size());
+		System.out.println(" verifying serialised data");
+		
+		
+		if(savedList.size() != loadedList.size())
+		{
+			System.out.println("Error! mismatch between savedList size and LoadedList size");
+			System.exit(0);
+		}
+	
+		for(int i = 0; i < savedList.size(); i++)
+		{
+			EObject obj1 = savedList.get(i);
+			EObject obj2 = loadedList.get(i);
+			
+		
+			/*Comapare attributes*/
+			for(EAttribute attr1 : obj1.eClass().getEAllAttributes()) //e vs eall
+			{
+				for(EAttribute attr2 : obj2.eClass().getEAllAttributes())
+				{
+					if(attr1 == attr2)
+					{
+						
+						Object value1 = obj1.eGet(attr1);
+						Object value2 = obj2.eGet(attr2);
+					
+						if(value2 == null)
+							System.out.println(classname+"null");
+						if(value1.hashCode() != value2.hashCode())
+						{
+							System.out.println(" Error! attributes not the same");
+							System.out.println(obj1.eClass().getName()+"1 attribute : "+attr1.getName() + " value: "+obj1.eGet(attr1).toString());
+							System.out.println(obj2.eClass().getName()+"2 attribute : "+attr2.getName() + " value: "+obj2.eGet(attr2).toString());
+							System.exit(0);
+						}
+					}
+				}
+			}
+		}
+		
+		
+		sysout(" Verification complete.");
+	}
 	
 	
 	
+	private void sysout(String str)
+	{
+		System.out.println(this.getClass().getSimpleName()+": "+str);
+	}
 
 }

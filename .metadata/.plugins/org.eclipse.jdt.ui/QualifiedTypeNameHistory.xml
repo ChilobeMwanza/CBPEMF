@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.emf.common.util.URI"/>
-<fullyQualifiedTypeName name="java.io.BufferedWriter"/>
-<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
-<fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
-<fullyQualifiedTypeName name="java.nio.charset.Charset"/>
 <fullyQualifiedTypeName name="io.emf.cbp.resource.DeltaResourceImpl"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EcorePackage"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl"/>
@@ -41,23 +36,28 @@
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="impl.DeltaResourceImpl"/>
 <fullyQualifiedTypeName name="change.SetAttributeEntry"/>
-<fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="change.AddLinkEntry"/>
 <fullyQualifiedTypeName name="change.ChangeLog"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EAttribute"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EStructuralFeature"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EDataType"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.Diagnostician"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.util.Diagnostic"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
 <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
 <fullyQualifiedTypeName name="java.util.regex.Matcher"/>
 <fullyQualifiedTypeName name="change.AddToResourceEntry"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.common.util.EList"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EReference"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClass"/>
 <fullyQualifiedTypeName name="javax.swing.text.html.HTMLDocument.Iterator"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EDataType"/>
+<fullyQualifiedTypeName name="java.io.OutputStream"/>
+<fullyQualifiedTypeName name="java.io.PrintStream"/>
+<fullyQualifiedTypeName name="util.CustomPrintStream"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.util.EList"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.util.BasicEList"/>
 </qualifiedTypeNameHistroy>

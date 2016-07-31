@@ -9,12 +9,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -159,13 +161,26 @@ public class TextDeserializer
 		
 		EObject obj = changelog.getEObject(obj_id);
 		
-		EStructuralFeature feature = obj.eClass().getEStructuralFeature(getNthWord(line,2));
+		EAttribute attr = (EAttribute) obj.eClass().getEStructuralFeature(getNthWord(line,2));
 		
-		EDataType eDataType = (EDataType)feature.getEType();
-		
-		Object newValue = EcoreUtil.createFromString(eDataType, getValue(line));
-		
-		obj.eSet(feature, newValue);
+		if(attr.isMany())
+		{
+			EList<Object> attrValueList = (EList<Object>) obj.eGet(attr); 
+			
+			String[] attrValueStrings =  createArrayFromString(getValue(line));
+			
+			for(String str : attrValueStrings)
+			{
+				Object object = EcoreUtil.createFromString(attr.getEAttributeType(),str);
+				attrValueList.add(object);
+			}
+		}
+		else
+		{
+			Object newValue = EcoreUtil.createFromString(attr.getEAttributeType(),getValue(line));
+			obj.eSet(attr, newValue);
+		}
+
 	}
 	private EPackage loadMetamodel(String metamodelURI)
 	{
@@ -211,6 +226,21 @@ public class TextDeserializer
 		return null;
 	}
 	
+	private String[] createArrayFromString(String input)
+	{
+		String str = input.substring(1, input.length() -1); //remove [ and ]
+		
+		String [] stringArray = str.split(",");
+		
+		for(int i = 0; i < stringArray.length; i++)
+		{
+			stringArray[i] = stringArray[i].trim(); //remove trailing / leading white spaces
+			//System.out.println(classname+" "+stringArray[i]);
+		}
+		
+	    return stringArray;
+		
+	}
 	private String getValue(String str)
 	{
 		Pattern p = Pattern.compile("\"([^\"]*)\"");
