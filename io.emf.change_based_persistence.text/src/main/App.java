@@ -104,11 +104,16 @@ public class App
 		
 		
 		Library lib = LibraryFactory.eINSTANCE.createLibrary();
-		lib.getEmployeeNames().add("Peter White");
-		lib.getEmployeeNames().add("David Green");
+		
 		
 		
 		resource.getContents().add(lib);
+		List<String> list = new ArrayList<String>();
+		list.add("Chris K");
+		list.add("Jerome Black");
+		
+		lib.getEmployeeNames().addAll(list);
+		
 		lib.getEmployeeNames().add("Jacob Black");
 		lib.getEmployeeNames().add("April Brown");
 		

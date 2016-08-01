@@ -1,6 +1,6 @@
 NAMESPACE_URI http://io.emf.change_based_persistence.text
 CREATE Library 0.0
-SET employeeNames Library 0.0 "[Peter White, David Green, Jacob Black, April Brown]"
 ADD_R Library 0.0
+SET employeeNames Library 0.0 "[Chris K, Jerome Black]"
 SET employeeNames Library 0.0 "Jacob Black"
 SET employeeNames Library 0.0 "April Brown"

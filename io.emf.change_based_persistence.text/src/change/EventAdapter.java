@@ -63,6 +63,10 @@ public class EventAdapter extends EContentAdapter
 			else if(msg.getFeature() instanceof EAttribute) //Java object, e.g. String added to eattribute of eobject
 				handleEAttributeChangeEvent(msg);
 			break;
+		case Notification.ADD_MANY : 
+			if(msg.getFeature() instanceof EAttribute) //Java object, e.g. String added to eattribute of eobject
+				handleEAttributeChangeEvent(msg);
+			break;
 		case Notification.REMOVE:
 			EObject obj = (EObject)msg.getOldValue();
 			out(obj.eClass().getName()+" was removed from ");

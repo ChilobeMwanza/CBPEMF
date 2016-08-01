@@ -57,22 +57,35 @@ public class EventAdapter extends EContentAdapter
 	
 		switch(msg.getEventType())
 		{
-		case Notification.ADD:
-			handleAddEvent(msg);
-			out("add!");
-		//	AddToResourceEntry entry = new AddToResourceEntry(eObject,msg.getNotifier().getClass().getSimpleName());
+		case Notification.ADD :
+			if(msg.getNewValue() instanceof EObject) //EObject added to EObject or resource
+				handleAddEObjectEvent(msg);
+			else if(msg.getFeature() instanceof EAttribute) //Java object, e.g. String added to eattribute of eobject
+				handleEAttributeChangeEvent(msg);
 			break;
 		case Notification.REMOVE:
 			EObject obj = (EObject)msg.getOldValue();
 			out(obj.eClass().getName()+" was removed from ");
+			break;
+		case Notification.SET:
+			//out("le set happened! ");
+			break;
 		default:
 			//System.out.println("EventAdapater.java default");
 			break;
 		}
 	}
 	
-	
-	private void handleAddEvent(Notification msg)
+	private void handleEAttributeChangeEvent(Notification msg)
+	{
+		SetAttributeEntry setAttrEntry = new SetAttributeEntry(msg);
+		changeLog.addEvent(setAttrEntry); //add to entry
+	}
+	private void handleRemoveEvent(Notification msg)
+	{
+		
+	}
+	private void handleAddEObjectEvent(Notification msg)
 	{
 		EObject obj = (EObject)msg.getNewValue();
 		
@@ -148,6 +161,7 @@ public class EventAdapter extends EContentAdapter
 		{
 			if(obj.eIsSet(attr))
 			{
+				Object attrValue = obj.eGet(attr);
 				SetAttributeEntry setAttrEntry = new SetAttributeEntry(obj,attr,obj.eGet(attr));
 				changeLog.addEvent(setAttrEntry); //add to entry
 			}
