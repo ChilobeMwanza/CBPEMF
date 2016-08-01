@@ -7,10 +7,12 @@ import library.Book;
 import library.Library;
 import library.LibraryFactory;
 import library.LibraryPackage;
+import library.LibraryType;
 import library.NamedElement;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -50,6 +52,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	private EClass namedElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum libraryTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -180,6 +189,33 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getLibrary_LibraryTypeAttrSingle() {
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLibrary_LibraryTypeAttrMany() {
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLibrary_LibraryTypeAttrTwo() {
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBook() {
 		return bookEClass;
 	}
@@ -234,6 +270,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getLibraryType() {
+		return libraryTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public LibraryFactory getLibraryFactory() {
 		return (LibraryFactory)getEFactoryInstance();
 	}
@@ -264,6 +309,9 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEAttribute(libraryEClass, LIBRARY__ADOUBLE);
 		createEAttribute(libraryEClass, LIBRARY__EMPLOYEE_NAMES);
 		createEAttribute(libraryEClass, LIBRARY__NUMBERS_LIST);
+		createEAttribute(libraryEClass, LIBRARY__LIBRARY_TYPE_ATTR_SINGLE);
+		createEAttribute(libraryEClass, LIBRARY__LIBRARY_TYPE_ATTR_MANY);
+		createEAttribute(libraryEClass, LIBRARY__LIBRARY_TYPE_ATTR_TWO);
 
 		bookEClass = createEClass(BOOK);
 		createEAttribute(bookEClass, BOOK__ID_NUMBER);
@@ -273,6 +321,9 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
+
+		// Create enums
+		libraryTypeEEnum = createEEnum(LIBRARY_TYPE);
 	}
 
 	/**
@@ -315,6 +366,9 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEAttribute(getLibrary_ADouble(), ecorePackage.getEDouble(), "aDouble", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_EmployeeNames(), ecorePackage.getEString(), "employeeNames", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_NumbersList(), ecorePackage.getEInt(), "numbersList", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLibrary_LibraryTypeAttrSingle(), this.getLibraryType(), "libraryTypeAttrSingle", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLibrary_LibraryTypeAttrMany(), this.getLibraryType(), "libraryTypeAttrMany", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLibrary_LibraryTypeAttrTwo(), this.getLibraryType(), "libraryTypeAttrTwo", null, 2, 2, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bookEClass, Book.class, "Book", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBook_IdNumber(), ecorePackage.getEDouble(), "idNumber", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -324,6 +378,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNamedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(libraryTypeEEnum, LibraryType.class, "LibraryType");
+		addEEnumLiteral(libraryTypeEEnum, LibraryType.A);
+		addEEnumLiteral(libraryTypeEEnum, LibraryType.B);
+		addEEnumLiteral(libraryTypeEEnum, LibraryType.C);
+		addEEnumLiteral(libraryTypeEEnum, LibraryType.D);
+		addEEnumLiteral(libraryTypeEEnum, LibraryType.E);
+		addEEnumLiteral(libraryTypeEEnum, LibraryType.F);
 
 		// Create resource
 		createResource(eNS_URI);

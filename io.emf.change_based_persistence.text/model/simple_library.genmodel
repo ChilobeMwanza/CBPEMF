@@ -6,6 +6,14 @@
     operationReflection="true" importOrganizing="true">
   <foreignModel>simple_library.ecore</foreignModel>
   <genPackages prefix="Library" disposableProviderFactory="true" ecorePackage="simple_library.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="simple_library.ecore#//LibraryType">
+      <genEnumLiterals ecoreEnumLiteral="simple_library.ecore#//LibraryType/A"/>
+      <genEnumLiterals ecoreEnumLiteral="simple_library.ecore#//LibraryType/B"/>
+      <genEnumLiterals ecoreEnumLiteral="simple_library.ecore#//LibraryType/C"/>
+      <genEnumLiterals ecoreEnumLiteral="simple_library.ecore#//LibraryType/D"/>
+      <genEnumLiterals ecoreEnumLiteral="simple_library.ecore#//LibraryType/E"/>
+      <genEnumLiterals ecoreEnumLiteral="simple_library.ecore#//LibraryType/F"/>
+    </genEnums>
     <genClasses ecoreClass="simple_library.ecore#//Library">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simple_library.ecore#//Library/goodBooks"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simple_library.ecore#//Library/badBooks"/>
@@ -13,6 +21,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/aDouble"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/employeeNames"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/numbersList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/libraryTypeAttrSingle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/libraryTypeAttrMany"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/libraryTypeAttrTwo"/>
     </genClasses>
     <genClasses ecoreClass="simple_library.ecore#//Book">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Book/idNumber"/>

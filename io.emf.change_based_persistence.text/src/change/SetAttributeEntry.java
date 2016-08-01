@@ -29,7 +29,7 @@ public class SetAttributeEntry extends AbstractEntry
 		this.eAttribute = eAttribute;
 	}
 	
-	public SetAttributeEntry(Notification msg, Double id)
+	public SetAttributeEntry(Notification msg)
 	{
 		this((EObject)msg.getNotifier(),(EAttribute)msg.getFeature(),msg.getNewValue());
 	}

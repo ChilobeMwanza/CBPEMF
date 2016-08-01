@@ -57,54 +57,53 @@ public class EventAdapter extends EContentAdapter
 	
 		switch(msg.getEventType())
 		{
-		case Notification.ADD:
-			if(msg.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME))
-				addObjectToResource((EObject)msg.getNewValue());
-			//System.out.println("EventAdapter: Add just happened!");
-			//EObject eObject = (EObject)msg.getNewValue();
-		//	AddToResourceEntry entry = new AddToResourceEntry(eObject,msg.getNotifier().getClass().getSimpleName());
-			//changeLog.addEvent(entry);
+		case Notification.ADD :
+			if(msg.getNewValue() instanceof EObject) //EObject added to EObject or resource
+				handleAddEObjectEvent(msg);
+			else if(msg.getFeature() instanceof EAttribute) //Java object, e.g. String added to eattribute of eobject
+				handleEAttributeChangeEvent(msg);
 			break;
 		case Notification.REMOVE:
-			
+			EObject obj = (EObject)msg.getOldValue();
+			out(obj.eClass().getName()+" was removed from ");
+			break;
+		case Notification.SET:
+			//out("le set happened! ");
+			break;
 		default:
 			//System.out.println("EventAdapater.java default");
 			break;
 		}
 	}
 	
-/*	void doSomething(Eobject a)
+	private void handleEAttributeChangeEvent(Notification msg)
 	{
-	create object a
-	set attributes
-	add a to to destination
-
-	for each child of a,c
-	doSomething(c,dest)
-	}*/
-
-
-	private void addObjectToResource(EObject obj)
+		SetAttributeEntry setAttrEntry = new SetAttributeEntry(msg);
+		changeLog.addEvent(setAttrEntry); //add to entry
+	}
+	private void handleRemoveEvent(Notification msg)
 	{
-		createNewObjectEntry(obj);
+		
+	}
+	private void handleAddEObjectEvent(Notification msg)
+	{
+		EObject obj = (EObject)msg.getNewValue();
+		
+		createNewObjectEntry(obj); 
 		changeLog.addObjectToMap(obj);
-		createSetAttributeEntries(obj);
+		createSetAttributeEntries (obj);
 		
-		AddToResourceEntry entry = new AddToResourceEntry(obj);
-		changeLog.addEvent(entry);
+		//If obj is added directly to resource...
+		if(msg.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME)) 
+			createAddToResourceEntry(obj);
+		else 
+			createAddLinkEntry(obj,obj.eContainer(),obj.eContainmentFeature()); 
 		
-		//Stopwatch stopwatch = new Stopwatch();
-		
-	
-		//handleContainments(obj);
-	
-		//stopwatch.resume();
 		handleContainments(obj);
-		//stopwatch.pause();
-		//System.out.println("non recursive speed: " + stopwatch.getElapsed());
 	}
 	
-	private void handleContainmentsRecursive(EObject obj)
+	
+	private void handleContainmentsRecursive(EObject obj) //TBR
 	{
 		for(EObject o: obj.eContents())//for all the objects containment refs
 		{
@@ -149,6 +148,12 @@ public class EventAdapter extends EContentAdapter
 		AddLinkEntry entry = new AddLinkEntry(obj,dest,eRef);
 		changeLog.addEvent(entry);
 	}
+	
+	private void createAddToResourceEntry(EObject obj)
+	{
+		AddToResourceEntry entry = new AddToResourceEntry(obj);
+		changeLog.addEvent(entry);
+	}
 
 	private void createSetAttributeEntries(EObject obj)
 	{
@@ -167,5 +172,10 @@ public class EventAdapter extends EContentAdapter
 		/*Create 'NewObjectEntry' for this object*/
 		NewObjectEntry entry = new NewObjectEntry(obj);
 		changeLog.addEvent(entry);
+	}
+	
+	private void out(String str)
+	{
+		System.out.println(this.getClass().getSimpleName()+": "+str);
 	}
 }

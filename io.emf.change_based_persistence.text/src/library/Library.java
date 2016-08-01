@@ -19,6 +19,9 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link library.Library#getADouble <em>ADouble</em>}</li>
  *   <li>{@link library.Library#getEmployeeNames <em>Employee Names</em>}</li>
  *   <li>{@link library.Library#getNumbersList <em>Numbers List</em>}</li>
+ *   <li>{@link library.Library#getLibraryTypeAttrSingle <em>Library Type Attr Single</em>}</li>
+ *   <li>{@link library.Library#getLibraryTypeAttrMany <em>Library Type Attr Many</em>}</li>
+ *   <li>{@link library.Library#getLibraryTypeAttrTwo <em>Library Type Attr Two</em>}</li>
  * </ul>
  *
  * @see library.LibraryPackage#getLibrary()
@@ -141,5 +144,70 @@ public interface Library extends NamedElement {
 	 * @generated
 	 */
 	EList<Integer> getNumbersList();
+
+	/**
+	 * Returns the value of the '<em><b>Library Type Attr Single</b></em>' attribute.
+	 * The literals are from the enumeration {@link library.LibraryType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Library Type Attr Single</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Library Type Attr Single</em>' attribute.
+	 * @see library.LibraryType
+	 * @see #setLibraryTypeAttrSingle(LibraryType)
+	 * @see library.LibraryPackage#getLibrary_LibraryTypeAttrSingle()
+	 * @model
+	 * @generated
+	 */
+	LibraryType getLibraryTypeAttrSingle();
+
+	/**
+	 * Sets the value of the '{@link library.Library#getLibraryTypeAttrSingle <em>Library Type Attr Single</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Library Type Attr Single</em>' attribute.
+	 * @see library.LibraryType
+	 * @see #getLibraryTypeAttrSingle()
+	 * @generated
+	 */
+	void setLibraryTypeAttrSingle(LibraryType value);
+
+	/**
+	 * Returns the value of the '<em><b>Library Type Attr Many</b></em>' attribute list.
+	 * The list contents are of type {@link library.LibraryType}.
+	 * The literals are from the enumeration {@link library.LibraryType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Library Type Attr Many</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Library Type Attr Many</em>' attribute list.
+	 * @see library.LibraryType
+	 * @see library.LibraryPackage#getLibrary_LibraryTypeAttrMany()
+	 * @model
+	 * @generated
+	 */
+	EList<LibraryType> getLibraryTypeAttrMany();
+
+	/**
+	 * Returns the value of the '<em><b>Library Type Attr Two</b></em>' attribute list.
+	 * The list contents are of type {@link library.LibraryType}.
+	 * The literals are from the enumeration {@link library.LibraryType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Library Type Attr Two</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Library Type Attr Two</em>' attribute list.
+	 * @see library.LibraryType
+	 * @see library.LibraryPackage#getLibrary_LibraryTypeAttrTwo()
+	 * @model lower="2" upper="2"
+	 * @generated
+	 */
+	EList<LibraryType> getLibraryTypeAttrTwo();
 
 } // Library

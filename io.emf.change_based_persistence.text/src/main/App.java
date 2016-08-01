@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 import impl.DeltaResourceImpl;
@@ -34,12 +35,11 @@ import library.Book;
 import library.Library;
 import library.LibraryFactory;
 import library.LibraryPackage;
+import library.LibraryType;
 
 
 public class App 
 {
-	private static  final String classname = "App";
-	
 	private static String fileSaveLocation ="library.txt";
 	
 	public static void main(String[] args) throws Exception
@@ -102,47 +102,22 @@ public class App
 		
 		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
 		
+		
 		Library lib = LibraryFactory.eINSTANCE.createLibrary();
+		lib.getEmployeeNames().add("Peter White");
+		lib.getEmployeeNames().add("David Green");
 		
-		
-		lib.setName("First Library");
-		lib.setADouble(20);
-		
-		
-		lib.getEmployeeNames().add("Peter Green");
-		lib.getEmployeeNames().add("John White");
-		lib.getEmployeeNames().add("Peter Black");
-		
-		
-		lib.getNumbersList().add(34);
-		lib.getNumbersList().add(56);
-		lib.getNumbersList().add(44);
-        
-		Book book = LibraryFactory.eINSTANCE.createBook();
-
-		book.setIdNumber(1);
-		
-		//lib1.getGoodBooks().add(book);
-		book.setName("Hello!");
-		
-		//Library lib2 = LibraryFactory.eINSTANCE.createLibrary();
-		
-		lib.getGoodBooks().add(book);
-		
-		/*
-		Random random = new Random();
-		for(int i = 0; i < 100; i++)
-		{
-			Book b = LibraryFactory.eINSTANCE.createBook();
-			Author a = LibraryFactory.eINSTANCE.createAuthor();
-			a.setName(Double.toString(random.nextDouble()));
-			b.setAnAuthor(a);
-			b.setName(Double.toString(random.nextDouble()));
-			b.setIdNumber(random.nextDouble());
-			lib.getBadBooks().add(b);
-		}*/
 		
 		resource.getContents().add(lib);
+		lib.getEmployeeNames().add("Jacob Black");
+		lib.getEmployeeNames().add("April Brown");
+		
+	//	lib.getEmployeeNames().add("4");
+		
+		
+		//Library lib3 = LibraryFactory.eINSTANCE.createLibrary();
+	//	lib3.getBadBooks().add(book1);
+		
 		
 		
 		//resource.getContents().add(lib2); 
@@ -164,19 +139,28 @@ public class App
 	
 	private void verify(List<EObject> savedList, List<EObject>loadedList)
 	{
-	
-		
 		/* Verify that saved and serialised data are the same*/
-		System.out.println(" total num elements " +loadedList.size());
-		System.out.println(" verifying serialised data");
+		if(EcoreUtil.equals(savedList, loadedList))
+		{
+			out("Serialsed data Verified!");
+			return;
+		}
+		else
+		{
+			out("verificaiton failed! attempting to find cause of failure!");
+		}
 		
 		
+		/* Check saved list and loaded list contain same number of elements*/
 		if(savedList.size() != loadedList.size())
 		{
-			System.out.println("Error! mismatch between savedList size and LoadedList size");
+			out(" : mismatch between savedList size and loadedList size");
 			System.exit(0);
 		}
 	
+		
+		
+		/* Compare attributes and their values */
 		for(int i = 0; i < savedList.size(); i++)
 		{
 			EObject obj1 = savedList.get(i);
@@ -188,19 +172,18 @@ public class App
 			{
 				for(EAttribute attr2 : obj2.eClass().getEAllAttributes())
 				{
-					if(attr1 == attr2)
+					if(attr1 == attr2 && obj1.eIsSet(attr1))
 					{
 						
 						Object value1 = obj1.eGet(attr1);
 						Object value2 = obj2.eGet(attr2);
 					
-						if(value2 == null)
-							System.out.println(classname+"null");
+						
 						if(value1.hashCode() != value2.hashCode())
 						{
-							System.out.println(" Error! attributes not the same");
-							System.out.println(obj1.eClass().getName()+"1 attribute : "+attr1.getName() + " value: "+obj1.eGet(attr1).toString());
-							System.out.println(obj2.eClass().getName()+"2 attribute : "+attr2.getName() + " value: "+obj2.eGet(attr2).toString());
+							out(" mismatched attributes :");
+							out(obj1.eClass().getName()+"1 attribute : "+attr1.getName() + " value: "+obj1.eGet(attr1).toString());
+							out(obj2.eClass().getName()+"2 attribute : "+attr2.getName() + " value: "+obj2.eGet(attr2).toString());
 							System.exit(0);
 						}
 					}
@@ -208,15 +191,20 @@ public class App
 			}
 		}
 		
+		out("Failed to find reason for verification failure! Have you implemented the logic ?");
 		
-		sysout(" Verification complete.");
 	}
 	
 	
 	
-	private void sysout(String str)
+	private void out(String str)
 	{
 		System.out.println(this.getClass().getSimpleName()+": "+str);
+	}
+	
+	private void out(Boolean bool)
+	{
+		System.out.println(this.getClass().getSimpleName()+": "+bool);
 	}
 
 }

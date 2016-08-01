@@ -4,6 +4,7 @@ package library;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -167,13 +168,40 @@ public interface LibraryPackage extends EPackage {
 	int LIBRARY__NUMBERS_LIST = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Library Type Attr Single</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__LIBRARY_TYPE_ATTR_SINGLE = NAMED_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Library Type Attr Many</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__LIBRARY_TYPE_ATTR_MANY = NAMED_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Library Type Attr Two</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__LIBRARY_TYPE_ATTR_TWO = NAMED_ELEMENT_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the '<em>Library</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int LIBRARY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of operations of the '<em>Library</em>' class.
@@ -276,6 +304,16 @@ public interface LibraryPackage extends EPackage {
 	 */
 	int AUTHOR_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
+	/**
+	 * The meta object id for the '{@link library.LibraryType <em>Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see library.LibraryType
+	 * @see library.impl.LibraryPackageImpl#getLibraryType()
+	 * @generated
+	 */
+	int LIBRARY_TYPE = 4;
+
 
 	/**
 	 * Returns the meta object for class '{@link library.Library <em>Library</em>}'.
@@ -354,6 +392,39 @@ public interface LibraryPackage extends EPackage {
 	EAttribute getLibrary_NumbersList();
 
 	/**
+	 * Returns the meta object for the attribute '{@link library.Library#getLibraryTypeAttrSingle <em>Library Type Attr Single</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Library Type Attr Single</em>'.
+	 * @see library.Library#getLibraryTypeAttrSingle()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EAttribute getLibrary_LibraryTypeAttrSingle();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link library.Library#getLibraryTypeAttrMany <em>Library Type Attr Many</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Library Type Attr Many</em>'.
+	 * @see library.Library#getLibraryTypeAttrMany()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EAttribute getLibrary_LibraryTypeAttrMany();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link library.Library#getLibraryTypeAttrTwo <em>Library Type Attr Two</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Library Type Attr Two</em>'.
+	 * @see library.Library#getLibraryTypeAttrTwo()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EAttribute getLibrary_LibraryTypeAttrTwo();
+
+	/**
 	 * Returns the meta object for class '{@link library.Book <em>Book</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -415,6 +486,16 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getNamedElement_Name();
+
+	/**
+	 * Returns the meta object for enum '{@link library.LibraryType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Type</em>'.
+	 * @see library.LibraryType
+	 * @generated
+	 */
+	EEnum getLibraryType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -498,6 +579,30 @@ public interface LibraryPackage extends EPackage {
 		EAttribute LIBRARY__NUMBERS_LIST = eINSTANCE.getLibrary_NumbersList();
 
 		/**
+		 * The meta object literal for the '<em><b>Library Type Attr Single</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LIBRARY__LIBRARY_TYPE_ATTR_SINGLE = eINSTANCE.getLibrary_LibraryTypeAttrSingle();
+
+		/**
+		 * The meta object literal for the '<em><b>Library Type Attr Many</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LIBRARY__LIBRARY_TYPE_ATTR_MANY = eINSTANCE.getLibrary_LibraryTypeAttrMany();
+
+		/**
+		 * The meta object literal for the '<em><b>Library Type Attr Two</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LIBRARY__LIBRARY_TYPE_ATTR_TWO = eINSTANCE.getLibrary_LibraryTypeAttrTwo();
+
+		/**
 		 * The meta object literal for the '{@link library.impl.BookImpl <em>Book</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -550,6 +655,16 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute NAMED_ELEMENT__NAME = eINSTANCE.getNamedElement_Name();
+
+		/**
+		 * The meta object literal for the '{@link library.LibraryType <em>Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see library.LibraryType
+		 * @see library.impl.LibraryPackageImpl#getLibraryType()
+		 * @generated
+		 */
+		EEnum LIBRARY_TYPE = eINSTANCE.getLibraryType();
 
 	}
 

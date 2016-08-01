@@ -163,21 +163,29 @@ public class TextDeserializer
 		
 		EAttribute attr = (EAttribute) obj.eClass().getEStructuralFeature(getNthWord(line,2));
 		
+		String attrValue = getValue(line);
+		
 		if(attr.isMany())
 		{
 			EList<Object> attrValueList = (EList<Object>) obj.eGet(attr); 
 			
-			String[] attrValueStrings =  createArrayFromString(getValue(line));
-			
-			for(String str : attrValueStrings)
+			if(attrValue.charAt(0) == '[') //if we have an array of values
 			{
-				Object object = EcoreUtil.createFromString(attr.getEAttributeType(),str);
-				attrValueList.add(object);
+				String[] attrValueStrings =  createArrayFromString(attrValue);
+				
+				for(String str : attrValueStrings)
+				{
+					attrValueList.add(EcoreUtil.createFromString(attr.getEAttributeType(),str));
+				}
+			}
+			else // if a single value
+			{
+				attrValueList.add(EcoreUtil.createFromString(attr.getEAttributeType(),attrValue));
 			}
 		}
 		else
 		{
-			Object newValue = EcoreUtil.createFromString(attr.getEAttributeType(),getValue(line));
+			Object newValue = EcoreUtil.createFromString(attr.getEAttributeType(),attrValue);
 			obj.eSet(attr, newValue);
 		}
 
@@ -228,18 +236,18 @@ public class TextDeserializer
 	
 	private String[] createArrayFromString(String input)
 	{
-		String str = input.substring(1, input.length() -1); //remove [ and ]
+		String str = input;
+		String [] stringArray;
 		
-		String [] stringArray = str.split(",");
+		str = input.substring(1, input.length() -1); //remove [ and ]	
+		stringArray = str.split(",");
 		
 		for(int i = 0; i < stringArray.length; i++)
 		{
 			stringArray[i] = stringArray[i].trim(); //remove trailing / leading white spaces
-			//System.out.println(classname+" "+stringArray[i]);
 		}
 		
 	    return stringArray;
-		
 	}
 	private String getValue(String str)
 	{

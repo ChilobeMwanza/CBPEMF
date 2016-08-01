@@ -7,6 +7,7 @@ import java.util.Collection;
 import library.Book;
 import library.Library;
 import library.LibraryPackage;
+import library.LibraryType;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -36,6 +37,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link library.impl.LibraryImpl#getADouble <em>ADouble</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getEmployeeNames <em>Employee Names</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getNumbersList <em>Numbers List</em>}</li>
+ *   <li>{@link library.impl.LibraryImpl#getLibraryTypeAttrSingle <em>Library Type Attr Single</em>}</li>
+ *   <li>{@link library.impl.LibraryImpl#getLibraryTypeAttrMany <em>Library Type Attr Many</em>}</li>
+ *   <li>{@link library.impl.LibraryImpl#getLibraryTypeAttrTwo <em>Library Type Attr Two</em>}</li>
  * </ul>
  *
  * @generated
@@ -120,6 +124,46 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 	 * @ordered
 	 */
 	protected EList<Integer> numbersList;
+
+	/**
+	 * The default value of the '{@link #getLibraryTypeAttrSingle() <em>Library Type Attr Single</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLibraryTypeAttrSingle()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final LibraryType LIBRARY_TYPE_ATTR_SINGLE_EDEFAULT = LibraryType.A;
+
+	/**
+	 * The cached value of the '{@link #getLibraryTypeAttrSingle() <em>Library Type Attr Single</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLibraryTypeAttrSingle()
+	 * @generated
+	 * @ordered
+	 */
+	protected LibraryType libraryTypeAttrSingle = LIBRARY_TYPE_ATTR_SINGLE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getLibraryTypeAttrMany() <em>Library Type Attr Many</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLibraryTypeAttrMany()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<LibraryType> libraryTypeAttrMany;
+
+	/**
+	 * The cached value of the '{@link #getLibraryTypeAttrTwo() <em>Library Type Attr Two</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLibraryTypeAttrTwo()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<LibraryType> libraryTypeAttrTwo;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -235,6 +279,51 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public LibraryType getLibraryTypeAttrSingle() {
+		return libraryTypeAttrSingle;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLibraryTypeAttrSingle(LibraryType newLibraryTypeAttrSingle) {
+		LibraryType oldLibraryTypeAttrSingle = libraryTypeAttrSingle;
+		libraryTypeAttrSingle = newLibraryTypeAttrSingle == null ? LIBRARY_TYPE_ATTR_SINGLE_EDEFAULT : newLibraryTypeAttrSingle;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_SINGLE, oldLibraryTypeAttrSingle, libraryTypeAttrSingle));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<LibraryType> getLibraryTypeAttrMany() {
+		if (libraryTypeAttrMany == null) {
+			libraryTypeAttrMany = new EDataTypeUniqueEList<LibraryType>(LibraryType.class, this, LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_MANY);
+		}
+		return libraryTypeAttrMany;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<LibraryType> getLibraryTypeAttrTwo() {
+		if (libraryTypeAttrTwo == null) {
+			libraryTypeAttrTwo = new EDataTypeUniqueEList<LibraryType>(LibraryType.class, this, LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_TWO);
+		}
+		return libraryTypeAttrTwo;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -266,6 +355,12 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 				return getEmployeeNames();
 			case LibraryPackage.LIBRARY__NUMBERS_LIST:
 				return getNumbersList();
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_SINGLE:
+				return getLibraryTypeAttrSingle();
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_MANY:
+				return getLibraryTypeAttrMany();
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_TWO:
+				return getLibraryTypeAttrTwo();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -301,6 +396,17 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 				getNumbersList().clear();
 				getNumbersList().addAll((Collection<? extends Integer>)newValue);
 				return;
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_SINGLE:
+				setLibraryTypeAttrSingle((LibraryType)newValue);
+				return;
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_MANY:
+				getLibraryTypeAttrMany().clear();
+				getLibraryTypeAttrMany().addAll((Collection<? extends LibraryType>)newValue);
+				return;
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_TWO:
+				getLibraryTypeAttrTwo().clear();
+				getLibraryTypeAttrTwo().addAll((Collection<? extends LibraryType>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -331,6 +437,15 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 			case LibraryPackage.LIBRARY__NUMBERS_LIST:
 				getNumbersList().clear();
 				return;
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_SINGLE:
+				setLibraryTypeAttrSingle(LIBRARY_TYPE_ATTR_SINGLE_EDEFAULT);
+				return;
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_MANY:
+				getLibraryTypeAttrMany().clear();
+				return;
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_TWO:
+				getLibraryTypeAttrTwo().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -355,6 +470,12 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 				return employeeNames != null && !employeeNames.isEmpty();
 			case LibraryPackage.LIBRARY__NUMBERS_LIST:
 				return numbersList != null && !numbersList.isEmpty();
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_SINGLE:
+				return libraryTypeAttrSingle != LIBRARY_TYPE_ATTR_SINGLE_EDEFAULT;
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_MANY:
+				return libraryTypeAttrMany != null && !libraryTypeAttrMany.isEmpty();
+			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_TWO:
+				return libraryTypeAttrTwo != null && !libraryTypeAttrTwo.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -377,6 +498,12 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 		result.append(employeeNames);
 		result.append(", numbersList: ");
 		result.append(numbersList);
+		result.append(", libraryTypeAttrSingle: ");
+		result.append(libraryTypeAttrSingle);
+		result.append(", libraryTypeAttrMany: ");
+		result.append(libraryTypeAttrMany);
+		result.append(", libraryTypeAttrTwo: ");
+		result.append(libraryTypeAttrTwo);
 		result.append(')');
 		return result.toString();
 	}

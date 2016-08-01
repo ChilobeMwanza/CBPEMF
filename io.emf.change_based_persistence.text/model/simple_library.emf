@@ -10,6 +10,11 @@ class Library extends NamedElement
 	attr double aDouble;
 	attr String[*] employeeNames;
 	attr int [*] numbersList;
+	
+	/*Attr Enums*/
+	attr LibraryType libraryTypeAttrSingle;
+	attr LibraryType [*] libraryTypeAttrMany;
+	attr LibraryType [2] libraryTypeAttrTwo; 
 }
 
 class Book extends NamedElement
@@ -26,4 +31,14 @@ class Author extends NamedElement
 abstract class NamedElement 
 {
 	attr String name;
+}
+
+enum LibraryType
+{
+	A;
+	B;
+	C;
+	D;
+	E;
+	F;
 }

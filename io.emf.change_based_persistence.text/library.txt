@@ -1,11 +1,6 @@
 NAMESPACE_URI http://io.emf.change_based_persistence.text
 CREATE Library 0.0
-SET name Library 0.0 "First Library"
-SET aDouble Library 0.0 "20.0"
-SET employeeNames Library 0.0 "[Peter Green, John White, Peter Black]"
-SET numbersList Library 0.0 "[34, 56, 44]"
+SET employeeNames Library 0.0 "[Peter White, David Green, Jacob Black, April Brown]"
 ADD_R Library 0.0
-CREATE Book 1.0
-SET name Book 1.0 "Hello!"
-SET idNumber Book 1.0 "1.0"
-ADD Book 1.0 goodBooks Library 0.0
+SET employeeNames Library 0.0 "Jacob Black"
+SET employeeNames Library 0.0 "April Brown"
