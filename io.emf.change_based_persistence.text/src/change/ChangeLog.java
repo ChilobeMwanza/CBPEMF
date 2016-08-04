@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.BiMap;
@@ -19,17 +20,14 @@ import impl.DeltaResourceImpl;
 
 public class ChangeLog 
 {
-	private final List<AbstractEntry> eventsList;
+	private final List<Notification> notificationsList;
 	private final BiMap<EObject,Double> map; //change to normal map
-
-	
-	
 	
 	private Double count;
 	
 	public ChangeLog()
 	{
-		eventsList = new ArrayList<AbstractEntry>();
+		notificationsList = new ArrayList<Notification>();
 		map = HashBiMap.create();
 		count = 0.0;
 	}
@@ -75,31 +73,31 @@ public class ChangeLog
 		return  map.inverse().get(id);
 	}
 	
-	public void addEvent(AbstractEntry entry)
+	public void addNotification(Notification n)
 	{
-		eventsList.add(entry);
+		notificationsList.add(n);
 	}
 	
-	public List<AbstractEntry> getEventsList()
+	public List<Notification> getEventsList()
 	{
-		return eventsList;
+		return notificationsList;
 	}
 	
-	public List<AbstractEntry> sortChangeLog()
+	/*public List<AbstractEntry> sortChangeLog()
 	{
 		return sortChangeLog(eventsList);
-	}
+	}*/
 	
 
-	
+	/*
 	public List<AbstractEntry> sortChangeLog(List<AbstractEntry> list)
 	{
-		/* Create List for each type of event*/ //this could be built in to the class itself, would remove first for loop.
+		
 		List<AbstractEntry> newObjectEntryList = new ArrayList<AbstractEntry>();
 		List<AbstractEntry> setAttrSingleList = new ArrayList<AbstractEntry>();
 		List<AbstractEntry> setAttrManyList = new ArrayList<AbstractEntry>();
 		
-		/* Sort List entries into appropriate list*/
+		
 		for(AbstractEntry e: list)
 		{
 			if(e instanceof NewObjectEntry)
@@ -114,9 +112,9 @@ public class ChangeLog
 			}	
 		}
 		
-		/*Create a sorted list of entries*/
+		
 		List<AbstractEntry> sortedList = new ArrayList<AbstractEntry>();
-		/*for(AbstractEntry a : newObjectEntryList)
+		for(AbstractEntry a : newObjectEntryList)
 		{
 			sortedList.add(a);
 			for(AbstractEntry b: setAttrSingleList) //get all set 'attribute single entries' for this item
@@ -130,12 +128,12 @@ public class ChangeLog
 					sortedList.add(c);
 			}
 			
-		}*/
+		}
 		
 		return sortedList;
-	}
+	} */
 	
-	public void showLogEntries(List<AbstractEntry> list)
+	/*public void showLogEntries(List<AbstractEntry> list)
 	{
 		for(AbstractEntry e : list)
 		{
@@ -154,5 +152,5 @@ public class ChangeLog
 	public void showLogEntries()
 	{
 		showLogEntries(eventsList);
-	}
+	}*/
 }

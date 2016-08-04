@@ -1,0 +1,11 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+
+public class AddEvent extends AbstractEvent
+{
+	public AddEvent(Notification n)
+	{
+		super(n);
+	}
+}

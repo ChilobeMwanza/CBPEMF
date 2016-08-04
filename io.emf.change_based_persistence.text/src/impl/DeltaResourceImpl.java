@@ -18,6 +18,7 @@ import change.ChangeLog;
 import change.EventAdapter;
 
 import drivers.PersistenceManager;
+import util.Printer;
 
 
 public class DeltaResourceImpl extends ResourceImpl
@@ -25,6 +26,9 @@ public class DeltaResourceImpl extends ResourceImpl
 	private final  ChangeLog changeLog;
 	private final BiMap<EObject,Double> map ;
     private PersistenceManager persistenceManager;
+    EventAdapter eventAdapter;
+    
+    Printer out = new Printer (this.getClass());
     
 	public DeltaResourceImpl(URI uri)
 	{
@@ -33,9 +37,8 @@ public class DeltaResourceImpl extends ResourceImpl
 		map = HashBiMap.create(); //bi map , 
 		changeLog = new ChangeLog();
 	
-		
-		EventAdapter adapter = new EventAdapter(changeLog);
-		this.eAdapters().add(adapter); 
+		eventAdapter = new EventAdapter(changeLog);
+		this.eAdapters().add(eventAdapter); 
 		
 		persistenceManager = new PersistenceManager(changeLog,this); //is changelog variable pointing to same changelog as adapter?
 		
@@ -65,8 +68,13 @@ public class DeltaResourceImpl extends ResourceImpl
 	@Override
 	public void load(Map<?, ?> options)throws IOException
 	{
-		System.out.println("DeltaResourceImpl.java: Load called!");
+		eventAdapter.setEnabled(false);
+		
+		out.println("DeltaResourceImpl.java: Load called!");
+		
 		persistenceManager.load(options);
+		
+		eventAdapter.setEnabled(true);
 	}
 	
 	/*@Override

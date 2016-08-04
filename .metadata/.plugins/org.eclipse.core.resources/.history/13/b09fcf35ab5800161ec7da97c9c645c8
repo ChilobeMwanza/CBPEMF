@@ -1,0 +1,10 @@
+package util;
+
+public class Printer 
+{
+	private String classname;
+	public Printer(Class c)
+	{
+		
+	}
+}

@@ -30,8 +30,6 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
-import change.AddToResourceEntry;
 import change.ChangeLog;
 
 public class TextDeserializer 
@@ -118,22 +116,33 @@ public class TextDeserializer
 	
 	private void handleAddEntry(String line)
 	{
-		EObject dest_obj = changelog.getEObject(Double.valueOf(getNthWord(line,6)));
-		EObject obj_to_add = changelog.getEObject(Double.valueOf(getNthWord(line,3)));
 		
-		EReference ref = (EReference) dest_obj.eClass().getEStructuralFeature(getNthWord(line,4));
+		EObject dest_obj = changelog.getEObject(Double.valueOf(getNthWord(line,4)));
+		
+		
+		//EObject obj_to_add = changelog.getEObject(Double.valueOf(getNthWord(line,3)));
+		
+		EReference ref = (EReference) dest_obj.eClass().getEStructuralFeature(getNthWord(line,2));
+		
+		String[] obj_str_array = createArrayFromString(getValue(line));
+		
 		
 		/* Handle containment references*/
 		if(ref.isContainment())
 		{
 			if(ref.isMany())
 			{
-				EList<EObject> refValue = (EList<EObject>) dest_obj.eGet(ref);
-				refValue.add(obj_to_add); 
-			//	dest_obj.eSet(ref, refValue); //calling eSet results in nothing being added, why?
+				EList<EObject> ref_value_list = (EList<EObject>) dest_obj.eGet(ref);
+				
+				for(String str : obj_str_array)
+				{
+					EObject obj_to_add = changelog.getEObject(Double.valueOf(getNthWord(str,2)));
+					ref_value_list.add(obj_to_add);
+				}
 			}
 			else
 			{
+				EObject obj_to_add = changelog.getEObject(Double.valueOf(getNthWord(obj_str_array[0],2)));
 				dest_obj.eSet(ref, obj_to_add);
 			}
 		}
@@ -141,17 +150,29 @@ public class TextDeserializer
 	
 	private void handleAddToResourceEntry(String line)
 	{
+		String[] obj_str_array = createArrayFromString(getValue(line));
 		
-		EObject obj = changelog.getEObject(Double.valueOf(getNthWord(line,3)));
-		persistenceManager.addObjectToContents(obj);
+		for(String str : obj_str_array)
+		{
+			EObject obj = changelog.getEObject(Double.valueOf(getNthWord(str,2)));
+			persistenceManager.addObjectToContents(obj);
+		}
+		
 	}
 	
 	private void handleCreateEntry(String line)
 	{
-		EObject obj = createEObject(getNthWord(line,2));
-		Double id = Double.valueOf(getNthWord(line,3));
-		changelog.addObjectToMap(obj, id);
-		updateCounter(id);
+		String[] obj_str_array = createArrayFromString(getValue(line));
+		for(String str : obj_str_array)
+		{
+			EObject obj = createEObject(getNthWord(str,1));
+			Double id = Double.valueOf(getNthWord(str,2));
+			changelog.addObjectToMap(obj, id);
+			updateCounter(id);
+		}
+		
+		
+		
 	}
 	
 	private void handleSetAttributeEntry(String line) //add some checks here, to make sure no nulls
@@ -167,20 +188,12 @@ public class TextDeserializer
 		
 		if(attr.isMany())
 		{
-			EList<Object> attrValueList = (EList<Object>) obj.eGet(attr); 
+			EList<Object> attrValueList = (EList<Object>) obj.eGet(attr);  //change nam of var!
+			String[] obj_attr_str_array = createArrayFromString(getValue(line));
 			
-			if(attrValue.charAt(0) == '[') //if we have an array of values
+			for(String str : obj_attr_str_array)
 			{
-				String[] attrValueStrings =  createArrayFromString(attrValue);
-				
-				for(String str : attrValueStrings)
-				{
-					attrValueList.add(EcoreUtil.createFromString(attr.getEAttributeType(),str));
-				}
-			}
-			else // if a single value
-			{
-				attrValueList.add(EcoreUtil.createFromString(attr.getEAttributeType(),attrValue));
+				attrValueList.add(EcoreUtil.createFromString(attr.getEAttributeType(),str));
 			}
 		}
 		else
@@ -239,19 +252,19 @@ public class TextDeserializer
 		String str = input;
 		String [] stringArray;
 		
-		str = input.substring(1, input.length() -1); //remove [ and ]	
+		//str = input.substring(0, input.length() -1); //remove [ and ]	
 		stringArray = str.split(",");
 		
-		for(int i = 0; i < stringArray.length; i++)
+		/*for(int i = 0; i < stringArray.length; i++)
 		{
 			stringArray[i] = stringArray[i].trim(); //remove trailing / leading white spaces
-		}
+		}*/
 		
 	    return stringArray;
 	}
 	private String getValue(String str)
 	{
-		Pattern p = Pattern.compile("\"([^\"]*)\"");
+		Pattern p = Pattern.compile("\\[(.*?)\\]");
 		Matcher m = p.matcher(str);
 		
 		String result = "";

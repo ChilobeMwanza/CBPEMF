@@ -1,0 +1,11 @@
+package util;
+
+public class Printer 
+{
+	private String classname extends Printstream;
+	
+	public Printer(Class c)
+	{
+		classname =
+	}
+}

@@ -1,11 +1,11 @@
 /*
  * todo:
- * multi valued containment refs 
  * single non containment ref
  * multi value  non containment ref
+ * deletion
  * opposite ref
- * get object events from notifications
- * object deletions
+ * enums
+ * resume after load (as in pick up where you left off)
  * thoroughness (i.e of supported types e.t.c, start with enum)
  */
 package drivers;
@@ -18,32 +18,34 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import change.AbstractEntry;
-import change.AddLinkEntry;
-import change.AddToResourceEntry;
 import change.ChangeLog;
-import change.NewObjectEntry;
-import change.SetAttributeEntry;
+
+import util.Printer;
 
 public class TextSerializer 
 {
+	private final String RESOURCE_NAME = "DeltaResourceImpl";
+	private  final String classname = this.getClass().getSimpleName();
 	private final PersistenceManager manager;
 	private boolean appendMode = false;
 	private List<String> outputList;
-    private List<AbstractEntry> eventsList;
-	private final String classname = this.getClass().getSimpleName();
+    private List<Notification> notificationsList;
+    Printer out = new Printer (this.getClass());
 	private final ChangeLog changelog; 
 	
 	public TextSerializer(PersistenceManager manager, ChangeLog aChangeLog)
@@ -51,113 +53,161 @@ public class TextSerializer
 		this.manager =  manager;
 		this.changelog = aChangeLog;
 		this.outputList = new ArrayList<String>();
-		this.eventsList = new ArrayList<AbstractEntry>();
+		this.notificationsList = new ArrayList<Notification>();
 		
-		eventsList = manager.getChangeLog().getEventsList();
+		notificationsList = manager.getChangeLog().getEventsList();
 	}
 	
 	public void save(Map<?,?> options)
 	{
-		if(eventsList.isEmpty())
+		if(notificationsList.isEmpty())
 			return;
 		
 		if(!appendMode)
-			createInitialEntry();
+			serialiseInitialEntry();
 		
 		//String fileSaveLocation = (String) options.get("FILE_SAVE_LOCATION");
 		
-		for(AbstractEntry e : eventsList )
+		for(Notification n : notificationsList)
 		{
-			if(e instanceof NewObjectEntry)
-				createNewObjectEntry((NewObjectEntry) e);
-			else if(e instanceof SetAttributeEntry)
-				createSetAttributeEntry((SetAttributeEntry) e);
-			else if(e instanceof AddToResourceEntry)
-				serialiseAddToResourceEntry((AddToResourceEntry)e);
-			else if(e instanceof AddLinkEntry)
-				serialiseAddLinkEntry((AddLinkEntry) e);
-			
+			switch(n.getEventType())
+			{
+				case Notification.ADD:
+				{
+					if(n.getNewValue() instanceof EObject) //EObject added to EObject or to resource
+						handleAddEObjectEvent(n);
+					else if(n.getFeature() instanceof EAttribute)//Java object, e.g. String added to eattribute of eobject
+						handleAddToEAttributeEvent(n);
+					break;
+				}
+				case Notification.ADD_MANY:
+				{
+					List<Object> list =  (List<Object>) n.getNewValue();
+					if(list.get(0) instanceof EObject)
+					{
+						handleAddManyEObjectsEvent(n);
+					}
+					else if(n.getFeature() instanceof EAttribute)
+					{
+						handleAddManyToEAttributeEvent(n);
+					}
+					break;
+				}
+				case Notification.SET:
+				{
+					if(n.getFeature() instanceof EAttribute)
+					{
+						handleAddToEAttributeEvent(n);
+					}
+					else 
+					{
+						handleAddEObjectEvent(n);
+					}
+				}
+			}
 		}
 		
 		//finally append strings to file
 		appendStringsToFile(appendMode);
+	}
+	private void handleAddToEAttributeEvent(Notification n)
+	{
+		EObject obj = (EObject) n.getNotifier();
+		EAttribute attr = (EAttribute) n.getFeature();
+		String newValue = EcoreUtil.convertToString(attr.getEAttributeType(),  n.getNewValue());
 		
+		outputList.add("SET "+attr.getName()+" "+obj.eClass().getName()+" "+changelog.getObjectId(obj)+" ["+newValue+"]");
 	}
 	
-	private void serialiseAddLinkEntry(AddLinkEntry e)
+	private void handleAddManyToEAttributeEvent(Notification n)
 	{
-		EReference ref = e.getReference();
-		EObject newObj = e.getNewObj();
-		EObject destObj = e.getEObject();
+		EObject obj = (EObject) n.getNotifier();
+		EAttribute attr = (EAttribute) n.getFeature();
+		List<Object> attr_values_list = (List<Object>) n.getNewValue();
 		
-		if(ref.getEOpposite() != null)
-			return;
 		
-		outputList.add("ADD "+newObj.eClass().getName()+" "+changelog.getObjectId(newObj)
-		+" "+ref.getName()+" "+destObj.eClass().getName()+" "+
-				changelog.getObjectId(destObj));
+		String obj_list_str = "[";
 		
-		//System.out.println(className+" "+ref.);
-		
+		for(Object object: attr_values_list)
+		{
+			String newValue = EcoreUtil.convertToString(attr.getEAttributeType(), object);
+			obj_list_str = obj_list_str + newValue+",";
+		}
+		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final "," , add "]"
+		outputList.add("SET "+attr.getName()+" "+obj.eClass().getName()+" "+changelog.getObjectId(obj)+" "+obj_list_str);
 	}
 	
-	private void serialiseAddToResourceEntry(AddToResourceEntry e)
+	private void serialiseInitialEntry()
 	{
-		EObject obj = e.getEObject();
-		outputList.add("ADD_R "+obj.eClass().getName()+" "+changelog.getObjectId(obj)); 
-	}
-	
-	private void createInitialEntry()
-	{
-		EObject obj = eventsList.get(0).getEObject(); 
+		EObject obj = null;
+		for(Notification n : notificationsList)
+		{
+			if(n.getEventType() == Notification.ADD)
+			{
+				obj = (EObject) n.getNewValue();
+				break;
+			}
+			else if(n.getEventType() == Notification.ADD_MANY)
+			{
+				List<EObject> objectsList = (List<EObject>) n.getNewValue();
+				obj = objectsList.get(0);
+				break;
+			}
+		}
 		outputList.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
 	}
 	
-	private void createNewObjectEntry(NewObjectEntry e)
+	private void handleAddEObjectEvent(Notification n)
 	{
-		EObject obj = e.getEObject();
-		outputList.add("CREATE "+obj.eClass().getName()+ " "+manager.getChangeLog().getObjectId(obj));
-	}
-	
-	private boolean isSimpleType(String str) //TBR
-	{
-		String[] types = new String[]{"EString","EDouble"};
-		if(Arrays.asList(types).contains(str))
-			return true;
-		return false;
+		EObject obj = (EObject)n.getNewValue();
 		
-	}
-	/*
-	 * Many, many datatypes not supported.
-	 */
-	private void createSetAttributeEntry(SetAttributeEntry e)
-	{
+		changelog.addObjectToMap(obj);
 		
-		/*
-		 * null values
-		 * many 
-		 */
-		//check that null is possible
-		EObject obj = e.getEObject();
-		Object newValue = e.getNewValue();
-		EAttribute attr = e.geteAttribute();
+		outputList.add("CREATE ["+obj.eClass().getName()+ " "+
+				changelog.getObjectId(obj)+"]");
 		
-		//EDataType eDataType = (EDataType) atrr.getEType();
-		
-		if(attr instanceof EEnum || newValue == null)
-			return;
-
-		if(attr.getEType().getName().equals("EString"))
+		if(n.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME))
 		{
-			outputList.add("SET "+attr.getName()+" "+obj.eClass().getName()+" "+changelog.getObjectId(obj) +" \""+newValue+"\"");
+			outputList.add("ADD_R ["+obj.eClass().getName()+" "+
+					changelog.getObjectId(obj)+"]"); 
 		}
 		else
 		{
-			String value = EcoreUtil.convertToString(attr.getEAttributeType(), newValue);
-			outputList.add("SET "+attr.getName()+" "+obj.eClass().getName()+" "+changelog.getObjectId(obj) +" \""+value+"\"");
+			EObject dest_obj = (EObject) n.getNotifier();
+			outputList.add("ADD "+obj.eContainmentFeature().getName()+" "+dest_obj.eClass().getName()+" "
+					+changelog.getObjectId(dest_obj)+" ["+obj.eClass().getName()+" "
+					+changelog.getObjectId(obj)+"]");
 		}
 	}
-
+	
+	private void handleAddManyEObjectsEvent(Notification n)
+	{
+		List<EObject> obj_list = (List<EObject>) n.getNewValue();
+		
+		String obj_list_str = "[";
+		
+		for(EObject obj : obj_list)
+		{
+			changelog.addObjectToMap(obj);
+			obj_list_str = obj_list_str + obj.eClass().getName()+" "+changelog.getObjectId(obj)+","; 
+		}
+		
+	    obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final "," , add "]"
+	    outputList.add("CREATE "+obj_list_str);
+	    
+	    if(n.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME))
+	    {
+	    	outputList.add("ADD_R "+obj_list_str);
+	    }	
+	    else
+	    {
+	    	EObject dest_obj = (EObject) n.getNotifier();
+	    	
+	    	outputList.add("ADD "+((EReference)n.getFeature()).getName()+" "+dest_obj.eClass().getName()+" "
+					+changelog.getObjectId(dest_obj)+" "+obj_list_str);
+	    }
+	}
+	
 	private void appendStringsToFile(boolean appendMode)
 	{
 		try

@@ -1,0 +1,18 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+
+public class AbstractEvent 
+{
+	private final Notification notification;
+	
+	public AbstractEvent(Notification n)
+	{
+		this.notification = n;
+	}
+	
+	public Notification getNotification()
+	{
+		return this.notification;
+	}
+}

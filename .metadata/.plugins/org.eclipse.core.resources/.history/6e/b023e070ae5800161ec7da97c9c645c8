@@ -1,0 +1,11 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+
+public class AddManyEvent 
+{
+	public AddManyEvent(Notification n)
+	{
+		
+	}
+}

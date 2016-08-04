@@ -1,0 +1,13 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+
+public class NotificationAddEvent 
+{
+	private final Notification msg;
+	
+	public NotificationAddEvent (Notification msg)
+	{
+		this.msg = msg;
+	}
+}

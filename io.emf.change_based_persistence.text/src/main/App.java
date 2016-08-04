@@ -16,6 +16,7 @@ import java.util.Random;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -103,19 +104,82 @@ public class App
 		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
 		
 		
-		Library lib = LibraryFactory.eINSTANCE.createLibrary();
+		
+		Library lib1 = LibraryFactory.eINSTANCE.createLibrary();
+		Library lib2 = LibraryFactory.eINSTANCE.createLibrary();
+		
+		Library lib3 = LibraryFactory.eINSTANCE.createLibrary();
+		Library lib4 = LibraryFactory.eINSTANCE.createLibrary();
+		
+		List<EObject> list = new ArrayList<EObject>();
+		list.add(lib3);
+		list.add(lib4);
+		
+		resource.getContents().add(lib1);
+		resource.getContents().add(lib2);
+		
+		
+		resource.getContents().addAll(list);
+		
+		List<String> namesList = new ArrayList<String>();
+		
+		namesList.add("Peter Black");
+		namesList.add("April May");
+		namesList.add("Harry Potter");
+		
+		
+		lib1.getEmployeeNames().addAll(namesList);
+		lib1.getEmployeeNames().add("Jacob white");
+	    lib1.getNumbersList().add(37);
+	    lib1.setADouble(22.5);
+	    
+	   // lib1.getEmployeeNames().addAll(namesList);
+		
+	//	resource.getContents().addAll(list);
 		
 		
 		
-		resource.getContents().add(lib);
-		List<String> list = new ArrayList<String>();
-		list.add("Chris K");
-		list.add("Jerome Black");
+		Book book1 = LibraryFactory.eINSTANCE.createBook();
+		lib1.getBadBooks().add(book1);
 		
-		lib.getEmployeeNames().addAll(list);
+		Author author = LibraryFactory.eINSTANCE.createAuthor();
+		book1.setAnAuthor(author);
+		author.setName("hello!");
 		
-		lib.getEmployeeNames().add("Jacob Black");
-		lib.getEmployeeNames().add("April Brown");
+		
+		Book book2 = LibraryFactory.eINSTANCE.createBook();
+	
+		Book book3 = LibraryFactory.eINSTANCE.createBook();
+		
+		Book book4 = LibraryFactory.eINSTANCE.createBook();
+		
+		Book book5 = LibraryFactory.eINSTANCE.createBook();
+	
+		List<Book> booklist = new ArrayList<Book>();
+		booklist.add(book2);
+		booklist.add(book3);
+		booklist.add(book4);
+		booklist.add(book5);
+		
+		lib1.getGoodBooks().addAll(booklist);
+		
+		
+		
+		//book2.setName("shit book!");
+		
+		 //resource.getContents().addAll(list);
+		
+		
+		
+		//resource.getContents().add(lib);
+		//List<String> list = new ArrayList<String>();
+		//list.add("Chris K");
+		//list.add("Jerome Black");
+		
+		//lib.getEmployeeNames().addAll(list);
+		
+	//	lib.getEmployeeNames().add("Jacob Black");
+	//	lib.getEmployeeNames().add("April Brown");
 		
 	//	lib.getEmployeeNames().add("4");
 		
@@ -159,7 +223,7 @@ public class App
 		/* Check saved list and loaded list contain same number of elements*/
 		if(savedList.size() != loadedList.size())
 		{
-			out(" : mismatch between savedList size and loadedList size");
+			out(" : mismatch between savedList size :"+savedList.size()+" and loadedList size:"+loadedList.size());
 			System.exit(0);
 		}
 	

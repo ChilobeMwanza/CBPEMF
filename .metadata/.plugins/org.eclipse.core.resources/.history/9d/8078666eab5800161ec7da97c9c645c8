@@ -1,0 +1,13 @@
+package util;
+
+import java.io.PrintStream;
+
+public class Printer extends PrintStream
+{
+	private String classname;
+	
+	public Printer(Class c)
+	{
+		classname = c.getSimpleName();
+	}
+}

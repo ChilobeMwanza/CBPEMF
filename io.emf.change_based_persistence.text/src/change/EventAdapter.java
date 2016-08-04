@@ -17,6 +17,9 @@ public class EventAdapter extends EContentAdapter
 {
 	private ChangeLog changeLog;
 	private final String RESOURCE_NAME = "DeltaResourceImpl";
+	private  final String classname = this.getClass().getSimpleName();
+	
+	private boolean adapterEnabled = true;
 	
 	public EventAdapter(ChangeLog aChangelog)
 	{
@@ -26,20 +29,17 @@ public class EventAdapter extends EContentAdapter
 	
 	
 	@Override
-	public void notifyChanged(Notification msg)
+	public void notifyChanged(Notification n)
 	{
-		super.notifyChanged(msg);
-		
-		
-	
+		super.notifyChanged(n);
 		
 
-		if(msg.isTouch())
+		if(n.isTouch() || !adapterEnabled)
 			return; 
 		//System.out.println("EventAdapter: "+msg.getEventType());
 		
 		//Get the class of the object affected by the change.
-	    Class<? extends Object> affectedClass = msg.getNotifier().getClass(); //if we just want a name, get notifer works.
+	    Class<? extends Object> affectedClass = n.getNotifier().getClass(); //if we just want a name, get notifer works.
 		 
 		
 	   // Object object = notification.getNotifier();
@@ -55,41 +55,47 @@ public class EventAdapter extends EContentAdapter
 	  // System.out.println("debugging object: "+object.getClass().);
 		
 	
-		switch(msg.getEventType())
+		switch(n.getEventType())
 		{
-		case Notification.ADD :
-			if(msg.getNewValue() instanceof EObject) //EObject added to EObject or resource
-				handleAddEObjectEvent(msg);
-			else if(msg.getFeature() instanceof EAttribute) //Java object, e.g. String added to eattribute of eobject
-				handleEAttributeChangeEvent(msg);
-			break;
-		case Notification.ADD_MANY : 
-			if(msg.getFeature() instanceof EAttribute) //Java object, e.g. String added to eattribute of eobject
-				handleEAttributeChangeEvent(msg);
-			break;
-		case Notification.REMOVE:
-			EObject obj = (EObject)msg.getOldValue();
-			out(obj.eClass().getName()+" was removed from ");
-			break;
-		case Notification.SET:
-			//out("le set happened! ");
-			break;
-		default:
-			//System.out.println("EventAdapater.java default");
-			break;
+			case Notification.ADD :
+			{
+				changeLog.addNotification(n);
+				break;		
+			}
+			case Notification.ADD_MANY : 
+			{
+				changeLog.addNotification(n);
+				break;
+			}
+			case Notification.REMOVE:
+				/*EObject obj = (EObject)msg.getOldValue();
+				out(obj.eClass().getName()+" was removed from ");*/
+				break;
+			case Notification.SET:
+				if(n.getFeature() instanceof EAttribute || n.getNewValue() instanceof EObject)
+				{
+					changeLog.addNotification(n);
+				}
+				
+				break;
+			default:
+				//System.out.println("EventAdapater.java default");
+				break;
 		}
 	}
 	
-	private void handleEAttributeChangeEvent(Notification msg)
+	/*private void handleEAttributeChangeEvent(Notification msg)
 	{
 		SetAttributeEntry setAttrEntry = new SetAttributeEntry(msg);
 		changeLog.addEvent(setAttrEntry); //add to entry
-	}
+	}*/
+	
 	private void handleRemoveEvent(Notification msg)
 	{
 		
 	}
-	private void handleAddEObjectEvent(Notification msg)
+	
+	/*private void handleAddEObjectEvent(Notification msg)
 	{
 		EObject obj = (EObject)msg.getNewValue();
 		
@@ -104,10 +110,10 @@ public class EventAdapter extends EContentAdapter
 			createAddLinkEntry(obj,obj.eContainer(),obj.eContainmentFeature()); 
 		
 		handleContainments(obj);
-	}
+	}*/
 	
 	
-	private void handleContainmentsRecursive(EObject obj) //TBR
+	/*private void handleContainmentsRecursive(EObject obj) //TBR
 	{
 		for(EObject o: obj.eContents())//for all the objects containment refs
 		{
@@ -127,9 +133,14 @@ public class EventAdapter extends EContentAdapter
 			handleContainmentsRecursive(o);
 			
 	    } 
+	}*/
+	
+	public void setEnabled(boolean bool)
+	{
+		adapterEnabled = bool;
 	}
 	
-	private void handleContainments(EObject root) 
+	/*private void handleContainments(EObject root) 
 	{
 		//List <EObject> objects = new ArrayList<EObject>();
 		
@@ -145,23 +156,23 @@ public class EventAdapter extends EContentAdapter
 						+ " has not yet been created!");
 			createAddLinkEntry(obj,obj.eContainer(),obj.eContainmentFeature());
 		}
-	}
+	}*/
 	
-	private void createAddLinkEntry(EObject obj, EObject dest, EReference eRef)
+	/*private void createAddLinkEntry(EObject obj, EObject dest, EReference eRef)
 	{
 		AddLinkEntry entry = new AddLinkEntry(obj,dest,eRef);
 		changeLog.addEvent(entry);
-	}
+	}*/
 	
-	private void createAddToResourceEntry(EObject obj)
+/*	private void createAddToResourceEntry(EObject obj)
 	{
 		AddToResourceEntry entry = new AddToResourceEntry(obj);
 		changeLog.addEvent(entry);
-	}
+	}*/
 
-	private void createSetAttributeEntries(EObject obj)
+	/*private void createSetAttributeEntries(EObject obj)
 	{
-		for(EAttribute attr : obj.eClass().getEAllAttributes()) //e vs eall
+		for(EAttribute attr : obj.eClass().getEAllAttributes()) 
 		{
 			if(obj.eIsSet(attr))
 			{
@@ -169,14 +180,14 @@ public class EventAdapter extends EContentAdapter
 				changeLog.addEvent(setAttrEntry); //add to entry
 			}
 		}
-	}
+	}*/
 	
-	private void createNewObjectEntry(EObject obj)
+	/*private void createNewObjectEntry(EObject obj)
 	{
-		/*Create 'NewObjectEntry' for this object*/
+	
 		NewObjectEntry entry = new NewObjectEntry(obj);
 		changeLog.addEvent(entry);
-	}
+	} */
 	
 	private void out(String str)
 	{

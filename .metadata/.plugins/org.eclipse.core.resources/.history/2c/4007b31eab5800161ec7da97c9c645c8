@@ -1,0 +1,9 @@
+package util;
+
+public class Printer 
+{
+	public Printer(Class c)
+	{
+		
+	}
+}
