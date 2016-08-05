@@ -13,6 +13,7 @@ import java.util.Random;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -26,6 +27,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
@@ -166,8 +168,17 @@ public class App
 		carsList.add(v4);
 		
 		lib3.getReserveLibraryCars().addAll(carsList);
-	
 		
+		v4.setName("dfd");
+		v2.setVehicleID(33.0f);
+
+		out("checking for adapaters:");
+		for(Adapter e: v2.eAdapters() )
+		{
+			out(e.toString());
+			
+		}
+	
 	//	v1.setVehicleID(40.0f);
 		//v1.setName("super car");
 		
@@ -194,9 +205,8 @@ public class App
 		}
 		else
 		{
-			out("verificaiton failed! attempting to find cause of failure!");
+			out("verificaiton failed! attempting to find cause of failure...");
 		}
-		
 		
 		/* Check saved list and loaded list contain same number of elements*/
 		if(savedList.size() != loadedList.size())
@@ -258,7 +268,7 @@ public class App
 							out("value of f2: \""+f2.getName()+"\" is null" );
 							System.exit(0);
 						}
-						if(!EcoreUtil.equals(f1, f2))
+						else if(!EcoreUtil.equals(f1, f2))
 						{
 							out("mismatched structural features:");
 							out(obj1.eClass().getName()+"1 reference : "+f1.getName()+" value: "+value1);
@@ -272,7 +282,7 @@ public class App
 			
 		}
 		
-		out("Failed to find reason for verification failure! Have you implemented the logic ?");
+		out("Unable to determine cause of verification failure! Have you implemented the logic ?");
 		
 	}
 	

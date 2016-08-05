@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage.Registry"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EcoreFactory"/>
-<fullyQualifiedTypeName name="main.TextDeserializer.EventType"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.impl.EFactoryImpl"/>
 <fullyQualifiedTypeName name="change.InitialEntry"/>
 <fullyQualifiedTypeName name="library.LibraryPackage"/>
@@ -56,8 +53,11 @@
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notification"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.util.EList"/>
 <fullyQualifiedTypeName name="java.util.Collection"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EStructuralFeature"/>
 <fullyQualifiedTypeName name="library.Vehicle"/>
 <fullyQualifiedTypeName name="library.LibraryFactory"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EContentAdapter"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EReference"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EStructuralFeature"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EContentsEList"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notifier"/>
 </qualifiedTypeNameHistroy>

@@ -1,14 +1,19 @@
 /*
  * todo:
  * deletion
+ * permit setting of null values ?
  * opposite ref
  * enums
+ * escape delimiter
  * resume after load (as in pick up where you left off)
  * thoroughness (i.e of supported types e.t.c, start with enum)
  * optimisation algorithm
  * check everything works with non generated emf (Reflective)
  * make txt format less verbose
  * binary
+ * 
+ * List of known unsupported features:
+ * derived attributes
  */
 package drivers;
 

@@ -79,7 +79,7 @@ public class TextDeserializer
 		
 		while((line = br.readLine()) != null)
 		{
-			System.out.println(line);
+			//System.out.println(line);
 			StringTokenizer st = new StringTokenizer(line);
 			
 			EventType eventType = EventType.NULL;
