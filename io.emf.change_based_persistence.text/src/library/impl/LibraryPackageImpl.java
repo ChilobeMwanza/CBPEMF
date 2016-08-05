@@ -9,6 +9,7 @@ import library.LibraryFactory;
 import library.LibraryPackage;
 import library.LibraryType;
 import library.NamedElement;
+import library.Vehicle;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -45,6 +46,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	private EClass authorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass vehicleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -189,8 +197,26 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getLibrary_MainLibraryCar() {
+		return (EReference)libraryEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLibrary_ReserveLibraryCars() {
+		return (EReference)libraryEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getLibrary_LibraryTypeAttrSingle() {
-		return (EAttribute)libraryEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -199,7 +225,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	public EAttribute getLibrary_LibraryTypeAttrMany() {
-		return (EAttribute)libraryEClass.getEStructuralFeatures().get(7);
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -208,7 +234,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	public EAttribute getLibrary_LibraryTypeAttrTwo() {
-		return (EAttribute)libraryEClass.getEStructuralFeatures().get(8);
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -245,6 +271,24 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 */
 	public EClass getAuthor() {
 		return authorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getVehicle() {
+		return vehicleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getVehicle_VehicleID() {
+		return (EAttribute)vehicleEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -309,6 +353,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEAttribute(libraryEClass, LIBRARY__ADOUBLE);
 		createEAttribute(libraryEClass, LIBRARY__EMPLOYEE_NAMES);
 		createEAttribute(libraryEClass, LIBRARY__NUMBERS_LIST);
+		createEReference(libraryEClass, LIBRARY__MAIN_LIBRARY_CAR);
+		createEReference(libraryEClass, LIBRARY__RESERVE_LIBRARY_CARS);
 		createEAttribute(libraryEClass, LIBRARY__LIBRARY_TYPE_ATTR_SINGLE);
 		createEAttribute(libraryEClass, LIBRARY__LIBRARY_TYPE_ATTR_MANY);
 		createEAttribute(libraryEClass, LIBRARY__LIBRARY_TYPE_ATTR_TWO);
@@ -318,6 +364,9 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(bookEClass, BOOK__AN_AUTHOR);
 
 		authorEClass = createEClass(AUTHOR);
+
+		vehicleEClass = createEClass(VEHICLE);
+		createEAttribute(vehicleEClass, VEHICLE__VEHICLE_ID);
 
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
@@ -357,6 +406,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		libraryEClass.getESuperTypes().add(this.getNamedElement());
 		bookEClass.getESuperTypes().add(this.getNamedElement());
 		authorEClass.getESuperTypes().add(this.getNamedElement());
+		vehicleEClass.getESuperTypes().add(this.getNamedElement());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(libraryEClass, Library.class, "Library", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -366,6 +416,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEAttribute(getLibrary_ADouble(), ecorePackage.getEDouble(), "aDouble", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_EmployeeNames(), ecorePackage.getEString(), "employeeNames", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_NumbersList(), ecorePackage.getEInt(), "numbersList", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLibrary_MainLibraryCar(), this.getVehicle(), null, "mainLibraryCar", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLibrary_ReserveLibraryCars(), this.getVehicle(), null, "reserveLibraryCars", null, 2, 2, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_LibraryTypeAttrSingle(), this.getLibraryType(), "libraryTypeAttrSingle", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_LibraryTypeAttrMany(), this.getLibraryType(), "libraryTypeAttrMany", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_LibraryTypeAttrTwo(), this.getLibraryType(), "libraryTypeAttrTwo", null, 2, 2, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -375,6 +427,9 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getBook_AnAuthor(), this.getAuthor(), null, "anAuthor", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(authorEClass, Author.class, "Author", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(vehicleEClass, Vehicle.class, "Vehicle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getVehicle_VehicleID(), ecorePackage.getEFloat(), "vehicleID", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNamedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

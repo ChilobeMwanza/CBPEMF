@@ -13,6 +13,9 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="numbersList" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainLibraryCar" eType="#//Vehicle"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reserveLibraryCars" lowerBound="2"
+        upperBound="2" eType="#//Vehicle"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="libraryTypeAttrSingle"
         eType="#//LibraryType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="libraryTypeAttrMany" upperBound="-1"
@@ -26,6 +29,9 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Author" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="vehicleID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>

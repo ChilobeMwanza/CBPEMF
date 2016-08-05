@@ -8,6 +8,7 @@ import library.Book;
 import library.Library;
 import library.LibraryPackage;
 import library.LibraryType;
+import library.Vehicle;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -37,6 +39,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link library.impl.LibraryImpl#getADouble <em>ADouble</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getEmployeeNames <em>Employee Names</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getNumbersList <em>Numbers List</em>}</li>
+ *   <li>{@link library.impl.LibraryImpl#getMainLibraryCar <em>Main Library Car</em>}</li>
+ *   <li>{@link library.impl.LibraryImpl#getReserveLibraryCars <em>Reserve Library Cars</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getLibraryTypeAttrSingle <em>Library Type Attr Single</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getLibraryTypeAttrMany <em>Library Type Attr Many</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getLibraryTypeAttrTwo <em>Library Type Attr Two</em>}</li>
@@ -124,6 +128,26 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 	 * @ordered
 	 */
 	protected EList<Integer> numbersList;
+
+	/**
+	 * The cached value of the '{@link #getMainLibraryCar() <em>Main Library Car</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMainLibraryCar()
+	 * @generated
+	 * @ordered
+	 */
+	protected Vehicle mainLibraryCar;
+
+	/**
+	 * The cached value of the '{@link #getReserveLibraryCars() <em>Reserve Library Cars</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReserveLibraryCars()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Vehicle> reserveLibraryCars;
 
 	/**
 	 * The default value of the '{@link #getLibraryTypeAttrSingle() <em>Library Type Attr Single</em>}' attribute.
@@ -279,6 +303,56 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Vehicle getMainLibraryCar() {
+		if (mainLibraryCar != null && mainLibraryCar.eIsProxy()) {
+			InternalEObject oldMainLibraryCar = (InternalEObject)mainLibraryCar;
+			mainLibraryCar = (Vehicle)eResolveProxy(oldMainLibraryCar);
+			if (mainLibraryCar != oldMainLibraryCar) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LibraryPackage.LIBRARY__MAIN_LIBRARY_CAR, oldMainLibraryCar, mainLibraryCar));
+			}
+		}
+		return mainLibraryCar;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Vehicle basicGetMainLibraryCar() {
+		return mainLibraryCar;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMainLibraryCar(Vehicle newMainLibraryCar) {
+		Vehicle oldMainLibraryCar = mainLibraryCar;
+		mainLibraryCar = newMainLibraryCar;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.LIBRARY__MAIN_LIBRARY_CAR, oldMainLibraryCar, mainLibraryCar));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Vehicle> getReserveLibraryCars() {
+		if (reserveLibraryCars == null) {
+			reserveLibraryCars = new EObjectResolvingEList<Vehicle>(Vehicle.class, this, LibraryPackage.LIBRARY__RESERVE_LIBRARY_CARS);
+		}
+		return reserveLibraryCars;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public LibraryType getLibraryTypeAttrSingle() {
 		return libraryTypeAttrSingle;
 	}
@@ -355,6 +429,11 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 				return getEmployeeNames();
 			case LibraryPackage.LIBRARY__NUMBERS_LIST:
 				return getNumbersList();
+			case LibraryPackage.LIBRARY__MAIN_LIBRARY_CAR:
+				if (resolve) return getMainLibraryCar();
+				return basicGetMainLibraryCar();
+			case LibraryPackage.LIBRARY__RESERVE_LIBRARY_CARS:
+				return getReserveLibraryCars();
 			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_SINGLE:
 				return getLibraryTypeAttrSingle();
 			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_MANY:
@@ -395,6 +474,13 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 			case LibraryPackage.LIBRARY__NUMBERS_LIST:
 				getNumbersList().clear();
 				getNumbersList().addAll((Collection<? extends Integer>)newValue);
+				return;
+			case LibraryPackage.LIBRARY__MAIN_LIBRARY_CAR:
+				setMainLibraryCar((Vehicle)newValue);
+				return;
+			case LibraryPackage.LIBRARY__RESERVE_LIBRARY_CARS:
+				getReserveLibraryCars().clear();
+				getReserveLibraryCars().addAll((Collection<? extends Vehicle>)newValue);
 				return;
 			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_SINGLE:
 				setLibraryTypeAttrSingle((LibraryType)newValue);
@@ -437,6 +523,12 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 			case LibraryPackage.LIBRARY__NUMBERS_LIST:
 				getNumbersList().clear();
 				return;
+			case LibraryPackage.LIBRARY__MAIN_LIBRARY_CAR:
+				setMainLibraryCar((Vehicle)null);
+				return;
+			case LibraryPackage.LIBRARY__RESERVE_LIBRARY_CARS:
+				getReserveLibraryCars().clear();
+				return;
 			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_SINGLE:
 				setLibraryTypeAttrSingle(LIBRARY_TYPE_ATTR_SINGLE_EDEFAULT);
 				return;
@@ -470,6 +562,10 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 				return employeeNames != null && !employeeNames.isEmpty();
 			case LibraryPackage.LIBRARY__NUMBERS_LIST:
 				return numbersList != null && !numbersList.isEmpty();
+			case LibraryPackage.LIBRARY__MAIN_LIBRARY_CAR:
+				return mainLibraryCar != null;
+			case LibraryPackage.LIBRARY__RESERVE_LIBRARY_CARS:
+				return reserveLibraryCars != null && !reserveLibraryCars.isEmpty();
 			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_SINGLE:
 				return libraryTypeAttrSingle != LIBRARY_TYPE_ATTR_SINGLE_EDEFAULT;
 			case LibraryPackage.LIBRARY__LIBRARY_TYPE_ATTR_MANY:

@@ -1,12 +1,14 @@
 /*
  * todo:
- * single non containment ref
- * multi value  non containment ref
  * deletion
  * opposite ref
  * enums
  * resume after load (as in pick up where you left off)
  * thoroughness (i.e of supported types e.t.c, start with enum)
+ * optimisation algorithm
+ * check everything works with non generated emf (Reflective)
+ * make txt format less verbose
+ * binary
  */
 package drivers;
 
@@ -173,8 +175,9 @@ public class TextSerializer
 		}
 		else
 		{
+			
 			EObject dest_obj = (EObject) n.getNotifier();
-			outputList.add("ADD "+obj.eContainmentFeature().getName()+" "+dest_obj.eClass().getName()+" "
+			outputList.add("ADD "+((EReference)n.getFeature()).getName()+" "+dest_obj.eClass().getName()+" "
 					+changelog.getObjectId(dest_obj)+" ["+obj.eClass().getName()+" "
 					+changelog.getObjectId(obj)+"]");
 		}

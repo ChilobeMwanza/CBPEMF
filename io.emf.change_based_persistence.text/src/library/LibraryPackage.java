@@ -65,7 +65,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see library.impl.LibraryPackageImpl#getNamedElement()
 	 * @generated
 	 */
-	int NAMED_ELEMENT = 3;
+	int NAMED_ELEMENT = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -168,13 +168,31 @@ public interface LibraryPackage extends EPackage {
 	int LIBRARY__NUMBERS_LIST = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Main Library Car</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__MAIN_LIBRARY_CAR = NAMED_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Reserve Library Cars</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__RESERVE_LIBRARY_CARS = NAMED_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
 	 * The feature id for the '<em><b>Library Type Attr Single</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__LIBRARY_TYPE_ATTR_SINGLE = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int LIBRARY__LIBRARY_TYPE_ATTR_SINGLE = NAMED_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Library Type Attr Many</b></em>' attribute list.
@@ -183,7 +201,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__LIBRARY_TYPE_ATTR_MANY = NAMED_ELEMENT_FEATURE_COUNT + 7;
+	int LIBRARY__LIBRARY_TYPE_ATTR_MANY = NAMED_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Library Type Attr Two</b></em>' attribute list.
@@ -192,7 +210,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__LIBRARY_TYPE_ATTR_TWO = NAMED_ELEMENT_FEATURE_COUNT + 8;
+	int LIBRARY__LIBRARY_TYPE_ATTR_TWO = NAMED_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Library</em>' class.
@@ -201,7 +219,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 9;
+	int LIBRARY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of operations of the '<em>Library</em>' class.
@@ -305,6 +323,52 @@ public interface LibraryPackage extends EPackage {
 	int AUTHOR_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link library.impl.VehicleImpl <em>Vehicle</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see library.impl.VehicleImpl
+	 * @see library.impl.LibraryPackageImpl#getVehicle()
+	 * @generated
+	 */
+	int VEHICLE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VEHICLE__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Vehicle ID</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VEHICLE__VEHICLE_ID = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Vehicle</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VEHICLE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Vehicle</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VEHICLE_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link library.LibraryType <em>Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -312,7 +376,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see library.impl.LibraryPackageImpl#getLibraryType()
 	 * @generated
 	 */
-	int LIBRARY_TYPE = 4;
+	int LIBRARY_TYPE = 5;
 
 
 	/**
@@ -392,6 +456,28 @@ public interface LibraryPackage extends EPackage {
 	EAttribute getLibrary_NumbersList();
 
 	/**
+	 * Returns the meta object for the reference '{@link library.Library#getMainLibraryCar <em>Main Library Car</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Main Library Car</em>'.
+	 * @see library.Library#getMainLibraryCar()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EReference getLibrary_MainLibraryCar();
+
+	/**
+	 * Returns the meta object for the reference list '{@link library.Library#getReserveLibraryCars <em>Reserve Library Cars</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Reserve Library Cars</em>'.
+	 * @see library.Library#getReserveLibraryCars()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EReference getLibrary_ReserveLibraryCars();
+
+	/**
 	 * Returns the meta object for the attribute '{@link library.Library#getLibraryTypeAttrSingle <em>Library Type Attr Single</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -465,6 +551,27 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getAuthor();
+
+	/**
+	 * Returns the meta object for class '{@link library.Vehicle <em>Vehicle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Vehicle</em>'.
+	 * @see library.Vehicle
+	 * @generated
+	 */
+	EClass getVehicle();
+
+	/**
+	 * Returns the meta object for the attribute '{@link library.Vehicle#getVehicleID <em>Vehicle ID</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Vehicle ID</em>'.
+	 * @see library.Vehicle#getVehicleID()
+	 * @see #getVehicle()
+	 * @generated
+	 */
+	EAttribute getVehicle_VehicleID();
 
 	/**
 	 * Returns the meta object for class '{@link library.NamedElement <em>Named Element</em>}'.
@@ -579,6 +686,22 @@ public interface LibraryPackage extends EPackage {
 		EAttribute LIBRARY__NUMBERS_LIST = eINSTANCE.getLibrary_NumbersList();
 
 		/**
+		 * The meta object literal for the '<em><b>Main Library Car</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LIBRARY__MAIN_LIBRARY_CAR = eINSTANCE.getLibrary_MainLibraryCar();
+
+		/**
+		 * The meta object literal for the '<em><b>Reserve Library Cars</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LIBRARY__RESERVE_LIBRARY_CARS = eINSTANCE.getLibrary_ReserveLibraryCars();
+
+		/**
 		 * The meta object literal for the '<em><b>Library Type Attr Single</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -637,6 +760,24 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EClass AUTHOR = eINSTANCE.getAuthor();
+
+		/**
+		 * The meta object literal for the '{@link library.impl.VehicleImpl <em>Vehicle</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see library.impl.VehicleImpl
+		 * @see library.impl.LibraryPackageImpl#getVehicle()
+		 * @generated
+		 */
+		EClass VEHICLE = eINSTANCE.getVehicle();
+
+		/**
+		 * The meta object literal for the '<em><b>Vehicle ID</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VEHICLE__VEHICLE_ID = eINSTANCE.getVehicle_VehicleID();
 
 		/**
 		 * The meta object literal for the '{@link library.impl.NamedElementImpl <em>Named Element</em>}' class.

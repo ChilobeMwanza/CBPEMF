@@ -1,8 +1,5 @@
 /**
  * BUGS/ISSUES
- * 1) In order for this implementation to work, newly created model elements
- * must be added directly to the resource, or added to an object that who's hierachy
- * eventually leads to the resource. 
  */
 
 package main;
@@ -22,6 +19,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 //import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -37,6 +36,7 @@ import library.Library;
 import library.LibraryFactory;
 import library.LibraryPackage;
 import library.LibraryType;
+import library.Vehicle;
 
 
 public class App 
@@ -45,9 +45,6 @@ public class App
 	
 	public static void main(String[] args) throws Exception
 	{
-		
-	
-
 		List<EObject> savedList = new ArrayList<EObject>();
 		List<EObject> loadedList = new ArrayList<EObject>();
 		
@@ -58,8 +55,6 @@ public class App
 		loadedList = app.loadResource() ;
 	
 		app.verify(savedList, loadedList);
-	
-		
 	}
 	
 	public List<EObject> loadResource() throws IOException
@@ -103,8 +98,6 @@ public class App
 		
 		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
 		
-		
-		
 		Library lib1 = LibraryFactory.eINSTANCE.createLibrary();
 		Library lib2 = LibraryFactory.eINSTANCE.createLibrary();
 		
@@ -118,7 +111,6 @@ public class App
 		resource.getContents().add(lib1);
 		resource.getContents().add(lib2);
 		
-		
 		resource.getContents().addAll(list);
 		
 		List<String> namesList = new ArrayList<String>();
@@ -126,7 +118,6 @@ public class App
 		namesList.add("Peter Black");
 		namesList.add("April May");
 		namesList.add("Harry Potter");
-		
 		
 		lib1.getEmployeeNames().addAll(namesList);
 		lib1.getEmployeeNames().add("Jacob white");
@@ -136,8 +127,6 @@ public class App
 	   // lib1.getEmployeeNames().addAll(namesList);
 		
 	//	resource.getContents().addAll(list);
-		
-		
 		
 		Book book1 = LibraryFactory.eINSTANCE.createBook();
 		lib1.getBadBooks().add(book1);
@@ -163,37 +152,26 @@ public class App
 		
 		lib1.getGoodBooks().addAll(booklist);
 		
-		
-		
-		//book2.setName("shit book!");
-		
-		 //resource.getContents().addAll(list);
-		
-		
-		
-		//resource.getContents().add(lib);
-		//List<String> list = new ArrayList<String>();
-		//list.add("Chris K");
-		//list.add("Jerome Black");
-		
-		//lib.getEmployeeNames().addAll(list);
-		
-	//	lib.getEmployeeNames().add("Jacob Black");
-	//	lib.getEmployeeNames().add("April Brown");
-		
-	//	lib.getEmployeeNames().add("4");
-		
-		
-		//Library lib3 = LibraryFactory.eINSTANCE.createLibrary();
-	//	lib3.getBadBooks().add(book1);
-		
-		
-		
-		//resource.getContents().add(lib2); 
 
-		//Map<String, String> saveOptions = new HashMap<String, String>();
-		//saveOptions.put("FILE_SAVE_LOCATION", fileSaveLocation);
+		Vehicle v1 = LibraryFactory.eINSTANCE.createVehicle();
+		lib2.setMainLibraryCar(v1);
 		
+		Vehicle v2 = LibraryFactory.eINSTANCE.createVehicle();
+		Vehicle v3 = LibraryFactory.eINSTANCE.createVehicle();
+		Vehicle v4 = LibraryFactory.eINSTANCE.createVehicle();
+		
+		List<Vehicle> carsList = new ArrayList<Vehicle>();
+		carsList.add(v2);
+		carsList.add(v3);
+		carsList.add(v4);
+		
+		lib3.getReserveLibraryCars().addAll(carsList);
+	
+		
+	//	v1.setVehicleID(40.0f);
+		//v1.setName("super car");
+		
+		/*SAVE STARTS HERE*/
 		resource.save(null); 
 		List<EObject> objectsList = new ArrayList<EObject>();
 		
@@ -227,17 +205,15 @@ public class App
 			System.exit(0);
 		}
 	
-		
-		
 		/* Compare attributes and their values */
 		for(int i = 0; i < savedList.size(); i++)
 		{
 			EObject obj1 = savedList.get(i);
 			EObject obj2 = loadedList.get(i);
 			
-		
+			
 			/*Comapare attributes*/
-			for(EAttribute attr1 : obj1.eClass().getEAllAttributes()) //e vs eall
+			/*for(EAttribute attr1 : obj1.eClass().getEAllAttributes()) //e vs eall
 			{
 				for(EAttribute attr2 : obj2.eClass().getEAllAttributes())
 				{
@@ -257,7 +233,43 @@ public class App
 						}
 					}
 				}
+			}*/
+			
+			/*Compare structural features*/
+		
+			for(EStructuralFeature f1 : obj1.eClass().getEAllStructuralFeatures()) //combine two loops into one
+			{
+				for(EStructuralFeature f2 : obj1.eClass().getEAllStructuralFeatures())
+				{
+					if(f1 == f2 && obj1.eIsSet(f1))
+					{
+						Object value1 = obj1.eGet(f1);
+						Object value2 = obj2.eGet(f2);
+						
+						if(value1 == null)
+						{
+							out("mismatched structural features:");
+							out("value of f1: \""+f1.getName()+"\" is null" );
+							System.exit(0);
+						}
+						else if(value2 == null)
+						{
+							out("mismatched structural features:");
+							out("value of f2: \""+f2.getName()+"\" is null" );
+							System.exit(0);
+						}
+						if(!EcoreUtil.equals(f1, f2))
+						{
+							out("mismatched structural features:");
+							out(obj1.eClass().getName()+"1 reference : "+f1.getName()+" value: "+value1);
+							out(obj2.eClass().getName()+"2 reference : "+f2.getName()+" value: "+value2);
+							System.exit(0);
+						}
+						
+					}
+				}
 			}
+			
 		}
 		
 		out("Failed to find reason for verification failure! Have you implemented the logic ?");

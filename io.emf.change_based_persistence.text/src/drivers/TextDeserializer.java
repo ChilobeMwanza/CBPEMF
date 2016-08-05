@@ -126,25 +126,20 @@ public class TextDeserializer
 		
 		String[] obj_str_array = createArrayFromString(getValue(line));
 		
-		
-		/* Handle containment references*/
-		if(ref.isContainment())
+		if(ref.isMany())
 		{
-			if(ref.isMany())
+			EList<EObject> ref_value_list = (EList<EObject>) dest_obj.eGet(ref);
+			
+			for(String str : obj_str_array)
 			{
-				EList<EObject> ref_value_list = (EList<EObject>) dest_obj.eGet(ref);
-				
-				for(String str : obj_str_array)
-				{
-					EObject obj_to_add = changelog.getEObject(Double.valueOf(getNthWord(str,2)));
-					ref_value_list.add(obj_to_add);
-				}
+				EObject obj_to_add = changelog.getEObject(Double.valueOf(getNthWord(str,2)));
+				ref_value_list.add(obj_to_add);
 			}
-			else
-			{
-				EObject obj_to_add = changelog.getEObject(Double.valueOf(getNthWord(obj_str_array[0],2)));
-				dest_obj.eSet(ref, obj_to_add);
-			}
+		}
+		else
+		{
+			EObject obj_to_add = changelog.getEObject(Double.valueOf(getNthWord(obj_str_array[0],2)));
+			dest_obj.eSet(ref, obj_to_add);
 		}
 	}
 	

@@ -21,6 +21,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/aDouble"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/employeeNames"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/numbersList"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simple_library.ecore#//Library/mainLibraryCar"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simple_library.ecore#//Library/reserveLibraryCars"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/libraryTypeAttrSingle"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/libraryTypeAttrMany"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Library/libraryTypeAttrTwo"/>
@@ -30,6 +32,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simple_library.ecore#//Book/anAuthor"/>
     </genClasses>
     <genClasses ecoreClass="simple_library.ecore#//Author"/>
+    <genClasses ecoreClass="simple_library.ecore#//Vehicle">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Vehicle/vehicleID"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="simple_library.ecore#//NamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//NamedElement/name"/>
     </genClasses>

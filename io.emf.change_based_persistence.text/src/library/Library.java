@@ -19,6 +19,8 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link library.Library#getADouble <em>ADouble</em>}</li>
  *   <li>{@link library.Library#getEmployeeNames <em>Employee Names</em>}</li>
  *   <li>{@link library.Library#getNumbersList <em>Numbers List</em>}</li>
+ *   <li>{@link library.Library#getMainLibraryCar <em>Main Library Car</em>}</li>
+ *   <li>{@link library.Library#getReserveLibraryCars <em>Reserve Library Cars</em>}</li>
  *   <li>{@link library.Library#getLibraryTypeAttrSingle <em>Library Type Attr Single</em>}</li>
  *   <li>{@link library.Library#getLibraryTypeAttrMany <em>Library Type Attr Many</em>}</li>
  *   <li>{@link library.Library#getLibraryTypeAttrTwo <em>Library Type Attr Two</em>}</li>
@@ -144,6 +146,48 @@ public interface Library extends NamedElement {
 	 * @generated
 	 */
 	EList<Integer> getNumbersList();
+
+	/**
+	 * Returns the value of the '<em><b>Main Library Car</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Main Library Car</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Main Library Car</em>' reference.
+	 * @see #setMainLibraryCar(Vehicle)
+	 * @see library.LibraryPackage#getLibrary_MainLibraryCar()
+	 * @model
+	 * @generated
+	 */
+	Vehicle getMainLibraryCar();
+
+	/**
+	 * Sets the value of the '{@link library.Library#getMainLibraryCar <em>Main Library Car</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Main Library Car</em>' reference.
+	 * @see #getMainLibraryCar()
+	 * @generated
+	 */
+	void setMainLibraryCar(Vehicle value);
+
+	/**
+	 * Returns the value of the '<em><b>Reserve Library Cars</b></em>' reference list.
+	 * The list contents are of type {@link library.Vehicle}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Reserve Library Cars</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Reserve Library Cars</em>' reference list.
+	 * @see library.LibraryPackage#getLibrary_ReserveLibraryCars()
+	 * @model lower="2" upper="2"
+	 * @generated
+	 */
+	EList<Vehicle> getReserveLibraryCars();
 
 	/**
 	 * Returns the value of the '<em><b>Library Type Attr Single</b></em>' attribute.
