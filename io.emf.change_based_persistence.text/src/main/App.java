@@ -119,7 +119,7 @@ public class App
 		
 		namesList.add("Peter Black");
 		namesList.add("April May");
-		namesList.add("Harry Potter");
+		namesList.add(null);
 		
 		lib1.getEmployeeNames().addAll(namesList);
 		lib1.getEmployeeNames().add("Jacob white");
@@ -168,16 +168,10 @@ public class App
 		carsList.add(v4);
 		
 		lib3.getReserveLibraryCars().addAll(carsList);
-		
-		v4.setName("dfd");
-		v2.setVehicleID(33.0f);
+		v1.setName("Bat Mobile!");
+		v1.setName(null);
 
-		out("checking for adapaters:");
-		for(Adapter e: v2.eAdapters() )
-		{
-			out(e.toString());
-			
-		}
+		
 	
 	//	v1.setVehicleID(40.0f);
 		//v1.setName("super car");
@@ -211,8 +205,8 @@ public class App
 		/* Check saved list and loaded list contain same number of elements*/
 		if(savedList.size() != loadedList.size())
 		{
-			out(" : mismatch between savedList size :"+savedList.size()+" and loadedList size:"+loadedList.size());
-			System.exit(0);
+			out("Error : mismatch between savedList size :"+savedList.size()+" and loadedList size:"+loadedList.size());
+			return;
 		}
 	
 		/* Compare attributes and their values */
@@ -246,34 +240,35 @@ public class App
 			}*/
 			
 			/*Compare structural features*/
-		
+			
+			
 			for(EStructuralFeature f1 : obj1.eClass().getEAllStructuralFeatures()) //combine two loops into one
 			{
 				for(EStructuralFeature f2 : obj1.eClass().getEAllStructuralFeatures())
 				{
-					if(f1 == f2 && obj1.eIsSet(f1))
+					if(f1==f2 && obj1.eIsSet(f1))
 					{
 						Object value1 = obj1.eGet(f1);
 						Object value2 = obj2.eGet(f2);
 						
+						boolean null_value = false;
+						
 						if(value1 == null)
 						{
-							out("mismatched structural features:");
-							out("value of f1: \""+f1.getName()+"\" is null" );
-							System.exit(0);
+							out("Warning: value of f1: \""+f1.getName()+"\" is null" );
+							null_value = true;
 						}
 						else if(value2 == null)
 						{
-							out("mismatched structural features:");
-							out("value of f2: \""+f2.getName()+"\" is null" );
-							System.exit(0);
+							out("Warning: value of EObject:\""+obj2.eClass().getName()+"\" feature:\""+f2.getName()+"\" is null");
+							null_value = true;
 						}
-						else if(!EcoreUtil.equals(f1, f2))
+						if(!null_value && !EcoreUtil.equals(f1, f2))
 						{
-							out("mismatched structural features:");
+							out("Error: mismatched structural features:");
 							out(obj1.eClass().getName()+"1 reference : "+f1.getName()+" value: "+value1);
 							out(obj2.eClass().getName()+"2 reference : "+f2.getName()+" value: "+value2);
-							System.exit(0);
+							return;
 						}
 						
 					}

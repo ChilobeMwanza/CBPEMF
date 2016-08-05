@@ -121,6 +121,8 @@ public class TextSerializer
 	{
 		EObject obj = (EObject) n.getNotifier();
 		EAttribute attr = (EAttribute) n.getFeature();
+		
+	
 		String newValue = EcoreUtil.convertToString(attr.getEAttributeType(),  n.getNewValue());
 		
 		outputList.add("SET "+attr.getName()+" "+obj.eClass().getName()+" "+changelog.getObjectId(obj)+" ["+newValue+"]");

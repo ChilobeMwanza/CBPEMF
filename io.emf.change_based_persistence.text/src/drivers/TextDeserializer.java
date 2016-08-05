@@ -181,6 +181,7 @@ public class TextDeserializer
 		
 		String attrValue = getValue(line);
 		
+		
 		if(attr.isMany())
 		{
 			EList<Object> attrValueList = (EList<Object>) obj.eGet(attr);  //change nam of var!
@@ -188,13 +189,18 @@ public class TextDeserializer
 			
 			for(String str : obj_attr_str_array)
 			{
-				attrValueList.add(EcoreUtil.createFromString(attr.getEAttributeType(),str));
+				if(str.equals("null"))
+					attrValueList.add(null);
+				else
+					attrValueList.add(EcoreUtil.createFromString(attr.getEAttributeType(),str));
 			}
 		}
 		else
 		{
-			Object newValue = EcoreUtil.createFromString(attr.getEAttributeType(),attrValue);
-			obj.eSet(attr, newValue);
+			if(attrValue.equals("null"))
+				obj.eSet(attr, null);
+			else
+				obj.eSet(attr, EcoreUtil.createFromString(attr.getEAttributeType(),attrValue));
 		}
 
 	}
