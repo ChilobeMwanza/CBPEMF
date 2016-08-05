@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link library.impl.LibraryImpl#getGoodBooks <em>Good Books</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getBadBooks <em>Bad Books</em>}</li>
+ *   <li>{@link library.impl.LibraryImpl#getSuperBook <em>Super Book</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getNumEmployees <em>Num Employees</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getADouble <em>ADouble</em>}</li>
  *   <li>{@link library.impl.LibraryImpl#getEmployeeNames <em>Employee Names</em>}</li>
@@ -68,6 +69,16 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 	 * @ordered
 	 */
 	protected EList<Book> badBooks;
+
+	/**
+	 * The cached value of the '{@link #getSuperBook() <em>Super Book</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSuperBook()
+	 * @generated
+	 * @ordered
+	 */
+	protected Book superBook;
 
 	/**
 	 * The default value of the '{@link #getNumEmployees() <em>Num Employees</em>}' attribute.
@@ -230,6 +241,49 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 			badBooks = new EObjectContainmentEList<Book>(Book.class, this, LibraryPackage.LIBRARY__BAD_BOOKS);
 		}
 		return badBooks;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Book getSuperBook() {
+		return superBook;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetSuperBook(Book newSuperBook, NotificationChain msgs) {
+		Book oldSuperBook = superBook;
+		superBook = newSuperBook;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LibraryPackage.LIBRARY__SUPER_BOOK, oldSuperBook, newSuperBook);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSuperBook(Book newSuperBook) {
+		if (newSuperBook != superBook) {
+			NotificationChain msgs = null;
+			if (superBook != null)
+				msgs = ((InternalEObject)superBook).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LibraryPackage.LIBRARY__SUPER_BOOK, null, msgs);
+			if (newSuperBook != null)
+				msgs = ((InternalEObject)newSuperBook).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LibraryPackage.LIBRARY__SUPER_BOOK, null, msgs);
+			msgs = basicSetSuperBook(newSuperBook, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.LIBRARY__SUPER_BOOK, newSuperBook, newSuperBook));
 	}
 
 	/**
@@ -405,6 +459,8 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 				return ((InternalEList<?>)getGoodBooks()).basicRemove(otherEnd, msgs);
 			case LibraryPackage.LIBRARY__BAD_BOOKS:
 				return ((InternalEList<?>)getBadBooks()).basicRemove(otherEnd, msgs);
+			case LibraryPackage.LIBRARY__SUPER_BOOK:
+				return basicSetSuperBook(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -421,6 +477,8 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 				return getGoodBooks();
 			case LibraryPackage.LIBRARY__BAD_BOOKS:
 				return getBadBooks();
+			case LibraryPackage.LIBRARY__SUPER_BOOK:
+				return getSuperBook();
 			case LibraryPackage.LIBRARY__NUM_EMPLOYEES:
 				return getNumEmployees();
 			case LibraryPackage.LIBRARY__ADOUBLE:
@@ -460,6 +518,9 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 			case LibraryPackage.LIBRARY__BAD_BOOKS:
 				getBadBooks().clear();
 				getBadBooks().addAll((Collection<? extends Book>)newValue);
+				return;
+			case LibraryPackage.LIBRARY__SUPER_BOOK:
+				setSuperBook((Book)newValue);
 				return;
 			case LibraryPackage.LIBRARY__NUM_EMPLOYEES:
 				setNumEmployees((Integer)newValue);
@@ -511,6 +572,9 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 			case LibraryPackage.LIBRARY__BAD_BOOKS:
 				getBadBooks().clear();
 				return;
+			case LibraryPackage.LIBRARY__SUPER_BOOK:
+				setSuperBook((Book)null);
+				return;
 			case LibraryPackage.LIBRARY__NUM_EMPLOYEES:
 				setNumEmployees(NUM_EMPLOYEES_EDEFAULT);
 				return;
@@ -554,6 +618,8 @@ public class LibraryImpl extends NamedElementImpl implements Library {
 				return goodBooks != null && !goodBooks.isEmpty();
 			case LibraryPackage.LIBRARY__BAD_BOOKS:
 				return badBooks != null && !badBooks.isEmpty();
+			case LibraryPackage.LIBRARY__SUPER_BOOK:
+				return superBook != null;
 			case LibraryPackage.LIBRARY__NUM_EMPLOYEES:
 				return numEmployees != NUM_EMPLOYEES_EDEFAULT;
 			case LibraryPackage.LIBRARY__ADOUBLE:

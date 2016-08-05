@@ -6,6 +6,7 @@ class Library extends NamedElement
 {
 	val Book[*] goodBooks;
 	val Book[*] badBooks;
+	val Book superBook;
 	attr int numEmployees;
 	attr double aDouble;
 	attr String[*] employeeNames;

@@ -132,13 +132,22 @@ public interface LibraryPackage extends EPackage {
 	int LIBRARY__BAD_BOOKS = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Super Book</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__SUPER_BOOK = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Num Employees</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__NUM_EMPLOYEES = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int LIBRARY__NUM_EMPLOYEES = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>ADouble</b></em>' attribute.
@@ -147,7 +156,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__ADOUBLE = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int LIBRARY__ADOUBLE = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Employee Names</b></em>' attribute list.
@@ -156,7 +165,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__EMPLOYEE_NAMES = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int LIBRARY__EMPLOYEE_NAMES = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Numbers List</b></em>' attribute list.
@@ -165,7 +174,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__NUMBERS_LIST = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int LIBRARY__NUMBERS_LIST = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Main Library Car</b></em>' reference.
@@ -174,7 +183,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__MAIN_LIBRARY_CAR = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int LIBRARY__MAIN_LIBRARY_CAR = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Reserve Library Cars</b></em>' reference list.
@@ -183,7 +192,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__RESERVE_LIBRARY_CARS = NAMED_ELEMENT_FEATURE_COUNT + 7;
+	int LIBRARY__RESERVE_LIBRARY_CARS = NAMED_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Library Type Attr Single</b></em>' attribute.
@@ -192,7 +201,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__LIBRARY_TYPE_ATTR_SINGLE = NAMED_ELEMENT_FEATURE_COUNT + 8;
+	int LIBRARY__LIBRARY_TYPE_ATTR_SINGLE = NAMED_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Library Type Attr Many</b></em>' attribute list.
@@ -201,7 +210,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__LIBRARY_TYPE_ATTR_MANY = NAMED_ELEMENT_FEATURE_COUNT + 9;
+	int LIBRARY__LIBRARY_TYPE_ATTR_MANY = NAMED_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Library Type Attr Two</b></em>' attribute list.
@@ -210,7 +219,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__LIBRARY_TYPE_ATTR_TWO = NAMED_ELEMENT_FEATURE_COUNT + 10;
+	int LIBRARY__LIBRARY_TYPE_ATTR_TWO = NAMED_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of structural features of the '<em>Library</em>' class.
@@ -219,7 +228,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 11;
+	int LIBRARY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 12;
 
 	/**
 	 * The number of operations of the '<em>Library</em>' class.
@@ -410,6 +419,17 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getLibrary_BadBooks();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link library.Library#getSuperBook <em>Super Book</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Super Book</em>'.
+	 * @see library.Library#getSuperBook()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EReference getLibrary_SuperBook();
 
 	/**
 	 * Returns the meta object for the attribute '{@link library.Library#getNumEmployees <em>Num Employees</em>}'.
@@ -652,6 +672,14 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EReference LIBRARY__BAD_BOOKS = eINSTANCE.getLibrary_BadBooks();
+
+		/**
+		 * The meta object literal for the '<em><b>Super Book</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LIBRARY__SUPER_BOOK = eINSTANCE.getLibrary_SuperBook();
 
 		/**
 		 * The meta object literal for the '<em><b>Num Employees</b></em>' attribute feature.

@@ -1,7 +1,6 @@
 /*
  * todo:
  * deletion
- * permit setting of null values ?
  * opposite ref
  * enums
  * escape delimiter
@@ -170,17 +169,18 @@ public class TextSerializer
 	{
 		EObject obj = (EObject)n.getNewValue();
 		
-		changelog.addObjectToMap(obj);
+		if(changelog.addObjectToMap(obj)) //make 'create' entries for obj which don't already exist
+		{
+			outputList.add("CREATE ["+obj.eClass().getName()+ " "+
+					changelog.getObjectId(obj)+"]");
+		}
 		
-		outputList.add("CREATE ["+obj.eClass().getName()+ " "+
-				changelog.getObjectId(obj)+"]");
-		
-		if(n.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME))
+		if(n.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME)) //add eobject to resource
 		{
 			outputList.add("ADD_R ["+obj.eClass().getName()+" "+
 					changelog.getObjectId(obj)+"]"); 
 		}
-		else
+		else //add eobject to eobject
 		{
 			
 			EObject dest_obj = (EObject) n.getNotifier();
@@ -194,27 +194,39 @@ public class TextSerializer
 	{
 		List<EObject> obj_list = (List<EObject>) n.getNewValue();
 		
-		String obj_list_str = "[";
+		String added_obj_list_str = "["; //list of obj to add
+		String obj_create_list_str = "["; //list of obj to create
+
 		
 		for(EObject obj : obj_list)
 		{
-			changelog.addObjectToMap(obj);
-			obj_list_str = obj_list_str + obj.eClass().getName()+" "+changelog.getObjectId(obj)+","; 
+			if(changelog.addObjectToMap(obj)) //if obj does not already exist
+			{
+				obj_create_list_str = obj_create_list_str + obj.eClass().getName()+" "
+						+ ""+changelog.getObjectId(obj)+","; 
+			}
+			
+			added_obj_list_str = added_obj_list_str + obj.eClass().getName()+" "+changelog.getObjectId(obj)+","; 
 		}
 		
-	    obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final "," , add "]"
-	    outputList.add("CREATE "+obj_list_str);
+		if(obj_create_list_str.length()>1) //if we have items to create...
+		{
+			 obj_create_list_str = obj_create_list_str.substring(0,added_obj_list_str.length()-1)+"]"; // remove final "," , add "]"
+			 outputList.add("CREATE "+ obj_create_list_str);
+		}
+		
+	    added_obj_list_str = added_obj_list_str.substring(0,added_obj_list_str.length()-1)+"]"; // remove final "," , add "]"
 	    
-	    if(n.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME))
+	    if(n.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME)) //add eobject to resource
 	    {
-	    	outputList.add("ADD_R "+obj_list_str);
+	    	outputList.add("ADD_R "+added_obj_list_str);
 	    }	
-	    else
+	    else //add eobject to eobject
 	    {
 	    	EObject dest_obj = (EObject) n.getNotifier();
 	    	
 	    	outputList.add("ADD "+((EReference)n.getFeature()).getName()+" "+dest_obj.eClass().getName()+" "
-					+changelog.getObjectId(dest_obj)+" "+obj_list_str);
+					+changelog.getObjectId(dest_obj)+" "+added_obj_list_str);
 	    }
 	}
 	

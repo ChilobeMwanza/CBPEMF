@@ -161,8 +161,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLibrary_NumEmployees() {
-		return (EAttribute)libraryEClass.getEStructuralFeatures().get(2);
+	public EReference getLibrary_SuperBook() {
+		return (EReference)libraryEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLibrary_ADouble() {
+	public EAttribute getLibrary_NumEmployees() {
 		return (EAttribute)libraryEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -179,7 +179,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLibrary_EmployeeNames() {
+	public EAttribute getLibrary_ADouble() {
 		return (EAttribute)libraryEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -188,7 +188,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLibrary_NumbersList() {
+	public EAttribute getLibrary_EmployeeNames() {
 		return (EAttribute)libraryEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -197,8 +197,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLibrary_MainLibraryCar() {
-		return (EReference)libraryEClass.getEStructuralFeatures().get(6);
+	public EAttribute getLibrary_NumbersList() {
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -206,7 +206,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLibrary_ReserveLibraryCars() {
+	public EReference getLibrary_MainLibraryCar() {
 		return (EReference)libraryEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -215,8 +215,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLibrary_LibraryTypeAttrSingle() {
-		return (EAttribute)libraryEClass.getEStructuralFeatures().get(8);
+	public EReference getLibrary_ReserveLibraryCars() {
+		return (EReference)libraryEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLibrary_LibraryTypeAttrMany() {
+	public EAttribute getLibrary_LibraryTypeAttrSingle() {
 		return (EAttribute)libraryEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -233,8 +233,17 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLibrary_LibraryTypeAttrTwo() {
+	public EAttribute getLibrary_LibraryTypeAttrMany() {
 		return (EAttribute)libraryEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLibrary_LibraryTypeAttrTwo() {
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -349,6 +358,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		libraryEClass = createEClass(LIBRARY);
 		createEReference(libraryEClass, LIBRARY__GOOD_BOOKS);
 		createEReference(libraryEClass, LIBRARY__BAD_BOOKS);
+		createEReference(libraryEClass, LIBRARY__SUPER_BOOK);
 		createEAttribute(libraryEClass, LIBRARY__NUM_EMPLOYEES);
 		createEAttribute(libraryEClass, LIBRARY__ADOUBLE);
 		createEAttribute(libraryEClass, LIBRARY__EMPLOYEE_NAMES);
@@ -412,6 +422,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEClass(libraryEClass, Library.class, "Library", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLibrary_GoodBooks(), this.getBook(), null, "goodBooks", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLibrary_BadBooks(), this.getBook(), null, "badBooks", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLibrary_SuperBook(), this.getBook(), null, "superBook", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_NumEmployees(), ecorePackage.getEInt(), "numEmployees", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_ADouble(), ecorePackage.getEDouble(), "aDouble", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_EmployeeNames(), ecorePackage.getEString(), "employeeNames", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

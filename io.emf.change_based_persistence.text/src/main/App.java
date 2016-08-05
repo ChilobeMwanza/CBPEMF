@@ -154,7 +154,8 @@ public class App
 		
 		lib1.getGoodBooks().addAll(booklist);
 		
-
+		lib1.getBadBooks().addAll(booklist);
+		
 		Vehicle v1 = LibraryFactory.eINSTANCE.createVehicle();
 		lib2.setMainLibraryCar(v1);
 		
@@ -172,7 +173,8 @@ public class App
 		v1.setName(null);
 
 		
-	
+		lib2.setMainLibraryCar(v4);
+		
 	//	v1.setVehicleID(40.0f);
 		//v1.setName("super car");
 		

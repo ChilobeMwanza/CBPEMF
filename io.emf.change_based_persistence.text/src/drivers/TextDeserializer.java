@@ -160,14 +160,11 @@ public class TextDeserializer
 		String[] obj_str_array = createArrayFromString(getValue(line));
 		for(String str : obj_str_array)
 		{
-			EObject obj = createEObject(getNthWord(str,1));
 			Double id = Double.valueOf(getNthWord(str,2));
+			EObject obj = createEObject(getNthWord(str,1));
 			changelog.addObjectToMap(obj, id);
-			updateCounter(id);
+			updateCounter(id);	
 		}
-		
-		
-		
 	}
 	
 	private void handleSetAttributeEntry(String line) //add some checks here, to make sure no nulls

@@ -40,7 +40,7 @@ public class ChangeLog
 	public boolean addObjectToMap(EObject obj)
 	{
 		//System.out.println(obj.eClass().getName());
-		if(map.get(obj) == null)
+		if(map.get(obj)== null)
 		{
 			map.put(obj, count++);
 			return true;
@@ -49,7 +49,7 @@ public class ChangeLog
 	}
 	public boolean addObjectToMap(EObject obj, double id)
 	{
-		if(map.get(obj) == null)
+		if(getEObject(id) == null)
 		{
 			map.put(obj, id);
 			return true;
@@ -83,74 +83,4 @@ public class ChangeLog
 		return notificationsList;
 	}
 	
-	/*public List<AbstractEntry> sortChangeLog()
-	{
-		return sortChangeLog(eventsList);
-	}*/
-	
-
-	/*
-	public List<AbstractEntry> sortChangeLog(List<AbstractEntry> list)
-	{
-		
-		List<AbstractEntry> newObjectEntryList = new ArrayList<AbstractEntry>();
-		List<AbstractEntry> setAttrSingleList = new ArrayList<AbstractEntry>();
-		List<AbstractEntry> setAttrManyList = new ArrayList<AbstractEntry>();
-		
-		
-		for(AbstractEntry e: list)
-		{
-			if(e instanceof NewObjectEntry)
-				newObjectEntryList.add(e);
-			else if(e instanceof SetAttributeEntry)
-			{
-				SetAttributeEntry s = (SetAttributeEntry)e;
-				if(s.geteAttribute().isMany())
-					setAttrManyList.add(e);
-				else
-					setAttrSingleList.add(e);
-			}	
-		}
-		
-		
-		List<AbstractEntry> sortedList = new ArrayList<AbstractEntry>();
-		for(AbstractEntry a : newObjectEntryList)
-		{
-			sortedList.add(a);
-			for(AbstractEntry b: setAttrSingleList) //get all set 'attribute single entries' for this item
-			{
-				if(b.getID() == a.getID())
-					sortedList.add(b);
-			}
-			for(AbstractEntry c : setAttrManyList) //get all 'set attribute many' entries for this item
-			{
-				if(c.getID() == a.getID())
-					sortedList.add(c);
-			}
-			
-		}
-		
-		return sortedList;
-	} */
-	
-	/*public void showLogEntries(List<AbstractEntry> list)
-	{
-		for(AbstractEntry e : list)
-		{
-			
-			if(e instanceof NewObjectEntry)
-				//System.out.println("CREATE "+e.getEObject().eClass().getName()+" "+e.getID().toString());
-			
-			if(e instanceof SetAttributeEntry)
-			{
-				SetAttributeEntry s = (SetAttributeEntry)e;
-				//System.out.println("SET " + e.getEObject().eClass().getName()+" "+e.getID()+" "+s.geteAttribute().getName());
-			}
-		}
-	}
-	
-	public void showLogEntries()
-	{
-		showLogEntries(eventsList);
-	}*/
 }

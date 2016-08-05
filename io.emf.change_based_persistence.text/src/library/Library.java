@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link library.Library#getGoodBooks <em>Good Books</em>}</li>
  *   <li>{@link library.Library#getBadBooks <em>Bad Books</em>}</li>
+ *   <li>{@link library.Library#getSuperBook <em>Super Book</em>}</li>
  *   <li>{@link library.Library#getNumEmployees <em>Num Employees</em>}</li>
  *   <li>{@link library.Library#getADouble <em>ADouble</em>}</li>
  *   <li>{@link library.Library#getEmployeeNames <em>Employee Names</em>}</li>
@@ -62,6 +63,32 @@ public interface Library extends NamedElement {
 	 * @generated
 	 */
 	EList<Book> getBadBooks();
+
+	/**
+	 * Returns the value of the '<em><b>Super Book</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Super Book</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Super Book</em>' containment reference.
+	 * @see #setSuperBook(Book)
+	 * @see library.LibraryPackage#getLibrary_SuperBook()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Book getSuperBook();
+
+	/**
+	 * Sets the value of the '{@link library.Library#getSuperBook <em>Super Book</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Super Book</em>' containment reference.
+	 * @see #getSuperBook()
+	 * @generated
+	 */
+	void setSuperBook(Book value);
 
 	/**
 	 * Returns the value of the '<em><b>Num Employees</b></em>' attribute.
