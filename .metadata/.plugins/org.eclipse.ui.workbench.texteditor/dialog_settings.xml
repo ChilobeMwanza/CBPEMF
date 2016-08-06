@@ -2,29 +2,32 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="CREATE" key="selection"/>
+		<item value="focus_obj" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="CREATE"/>
-			<item value="addObject"/>
-			<item value="null"/>
-			<item value="isC"/>
-			<item value="is"/>
-			<item value="contain"/>
-			<item value="convertTo"/>
-			<item value="getNthWord"/>
+			<item value="dest_obj"/>
+			<item value="handleAddToEAttributeEvent"/>
+			<item value="handleAddEObjectEvent"/>
+			<item value="UNSET"/>
+			<item value="unset"/>
+			<item value="ADD"/>
+			<item value="SET"/>
+			<item value="getValue"/>
 		</list>
 		<list key="replacehistory">
+			<item value="focus_obj"/>
+			<item value="handleSetEAttributeEvent"/>
+			<item value="handleSetEReferenceEvent"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="305" key="DIALOG_WIDTH"/>
-		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|5|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="444" key="DIALOG_HEIGHT"/>
-		<item value="2028" key="DIALOG_X_ORIGIN"/>
-		<item value="331" key="DIALOG_Y_ORIGIN"/>
+		<item value="784" key="DIALOG_X_ORIGIN"/>
+		<item value="560" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

@@ -27,15 +27,24 @@ public class PersistenceManager
 		this.resource = resource;
 	}
 	
-	public void addObjectsToContents(List<EObject> objects)
+	public boolean addEObjectsToContents(List<EObject> objects)
 	{
-		resource.getContents().addAll(objects);
+		return resource.getContents().addAll(objects);
 	}
 	
-	
-	public void addObjectToContents(EObject object)
+	public boolean removeEObjectsFromContents(List<EObject> objects)
 	{
-		resource.getContents().add(object);
+		return resource.getContents().removeAll(objects);
+	}
+	
+	public boolean addEObjectToContents(EObject object)
+	{
+		return resource.getContents().add(object);
+	}
+	
+	public boolean removeEObjectFromContents(EObject obj)
+	{
+		return resource.getContents().remove(obj);
 	}
 	
 	public URI getURI()

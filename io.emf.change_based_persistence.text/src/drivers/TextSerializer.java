@@ -1,5 +1,6 @@
 /*
  * todo:
+ * DIFF BETWEEN SET AND ADD IS ARTIFICIAL!
  * deletion
  * opposite ref
  * enums
@@ -80,35 +81,52 @@ public class TextSerializer
 			{
 				case Notification.ADD:
 				{
-					if(n.getNewValue() instanceof EObject) //EObject added to EObject or to resource
-						handleAddEObjectEvent(n);
-					else if(n.getFeature() instanceof EAttribute)//Java object, e.g. String added to eattribute of eobject
-						handleAddToEAttributeEvent(n);
-					break;
-				}
-				case Notification.ADD_MANY:
-				{
-					List<Object> list =  (List<Object>) n.getNewValue();
-					if(list.get(0) instanceof EObject)
-					{
-						handleAddManyEObjectsEvent(n);
-					}
+					if(n.getNewValue() instanceof EObject) 
+						handleSetEReferenceSingleEvent(n);
 					else if(n.getFeature() instanceof EAttribute)
-					{
-						handleAddManyToEAttributeEvent(n);
-					}
+						handleSetEAttributeSingleEvent(n);
+					
 					break;
 				}
 				case Notification.SET:
 				{
-					if(n.getFeature() instanceof EAttribute)
-					{
-						handleAddToEAttributeEvent(n);
-					}
-					else 
-					{
-						handleAddEObjectEvent(n);
-					}
+					if(n.getNewValue() instanceof EObject)
+						handleSetEReferenceSingleEvent(n);
+					
+					else if(n.getFeature() instanceof EAttribute)
+						handleSetEAttributeSingleEvent(n);
+					
+					else if(n.getNewValue() == null)
+						handleUnsetEReferenceSingleEvent(n);
+					break;
+				}
+				case Notification.ADD_MANY:
+				{
+					@SuppressWarnings("unchecked")
+					List<Object> list =  (List<Object>) n.getNewValue();
+					if(list.get(0) instanceof EObject)
+						handleAddManyEObjectsEvent(n);
+					
+					else if(n.getFeature() instanceof EAttribute)
+						handleSetEAttributeManyEvent(n);
+					
+					break;
+				}
+				case Notification.REMOVE:
+				{
+					if(n.getOldValue() instanceof EObject)
+						handleUnsetEReferenceSingleEvent(n);
+					else if(n.getFeature() instanceof EAttribute)
+						 handleUnsetEAttributeSingleEvent(n);
+					break;
+				}
+				case Notification.REMOVE_MANY:
+				{
+					break;
+				}
+				default:
+				{
+					System.out.println(classname+"Unhandled notification!");
 				}
 			}
 		}
@@ -116,21 +134,35 @@ public class TextSerializer
 		//finally append strings to file
 		appendStringsToFile(appendMode);
 	}
-	private void handleAddToEAttributeEvent(Notification n)
+	
+	private void handleSetEAttributeSingleEvent(Notification n)
 	{
-		EObject obj = (EObject) n.getNotifier();
+		EObject focus_obj = (EObject) n.getNotifier();
+		
 		EAttribute attr = (EAttribute) n.getFeature();
 		
-	
 		String newValue = EcoreUtil.convertToString(attr.getEAttributeType(),  n.getNewValue());
 		
-		outputList.add("SET "+attr.getName()+" "+obj.eClass().getName()+" "+changelog.getObjectId(obj)+" ["+newValue+"]");
+		outputList.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" ["+newValue+"]");
 	}
 	
-	private void handleAddManyToEAttributeEvent(Notification n)
+	private void handleUnsetEAttributeSingleEvent(Notification n)
 	{
-		EObject obj = (EObject) n.getNotifier();
+		EObject focus_obj = (EObject) n.getNotifier();
 		EAttribute attr = (EAttribute) n.getFeature();
+		
+		String oldValue = EcoreUtil.convertToString(attr.getEAttributeType(),  n.getOldValue());
+		
+		outputList.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "
+					+changelog.getObjectId(focus_obj)+" ["+oldValue+"]");
+	}
+	
+	private void handleSetEAttributeManyEvent(Notification n)
+	{
+		EObject focus_obj = (EObject) n.getNotifier();
+		EAttribute attr = (EAttribute) n.getFeature();
+		
+		@SuppressWarnings("unchecked")
 		List<Object> attr_values_list = (List<Object>) n.getNewValue();
 		
 		
@@ -138,59 +170,57 @@ public class TextSerializer
 		
 		for(Object object: attr_values_list)
 		{
-			String newValue = EcoreUtil.convertToString(attr.getEAttributeType(), object);
+			String newValue = (EcoreUtil.convertToString(attr.getEAttributeType(), object));
 			obj_list_str = obj_list_str + newValue+",";
 		}
 		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final "," , add "]"
-		outputList.add("SET "+attr.getName()+" "+obj.eClass().getName()+" "+changelog.getObjectId(obj)+" "+obj_list_str);
+		outputList.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
 	}
 	
-	private void serialiseInitialEntry()
+	private void handleUnsetEAttributeManyEvent(Notification n)
 	{
-		EObject obj = null;
-		for(Notification n : notificationsList)
-		{
-			if(n.getEventType() == Notification.ADD)
-			{
-				obj = (EObject) n.getNewValue();
-				break;
-			}
-			else if(n.getEventType() == Notification.ADD_MANY)
-			{
-				List<EObject> objectsList = (List<EObject>) n.getNewValue();
-				obj = objectsList.get(0);
-				break;
-			}
-		}
-		outputList.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
+		//TO DO
 	}
 	
-	private void handleAddEObjectEvent(Notification n)
+	private void handleSetEReferenceSingleEvent(Notification n)
 	{
-		EObject obj = (EObject)n.getNewValue();
+		EObject added_obj = (EObject)n.getNewValue();
 		
-		if(changelog.addObjectToMap(obj)) //make 'create' entries for obj which don't already exist
-		{
-			outputList.add("CREATE ["+obj.eClass().getName()+ " "+
-					changelog.getObjectId(obj)+"]");
-		}
-		
+		if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
+			outputList.add("CREATE ["+added_obj.eClass().getName()+ " "+changelog.getObjectId(added_obj)+"]");
+			
 		if(n.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME)) //add eobject to resource
 		{
-			outputList.add("ADD_R ["+obj.eClass().getName()+" "+
-					changelog.getObjectId(obj)+"]"); 
+			outputList.add("ADD_R ["+added_obj.eClass().getName()+" "+changelog.getObjectId(added_obj)+"]"); 
 		}
 		else //add eobject to eobject
 		{
-			
-			EObject dest_obj = (EObject) n.getNotifier();
-			outputList.add("ADD "+((EReference)n.getFeature()).getName()+" "+dest_obj.eClass().getName()+" "
-					+changelog.getObjectId(dest_obj)+" ["+obj.eClass().getName()+" "
-					+changelog.getObjectId(obj)+"]");
+			EObject focus_obj = (EObject) n.getNotifier();
+			outputList.add("SET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
+					+changelog.getObjectId(focus_obj)+" ["+added_obj.eClass().getName()+" "
+					+changelog.getObjectId(added_obj)+"]");
 		}
 	}
 	
-	private void handleAddManyEObjectsEvent(Notification n)
+	private void handleUnsetEReferenceSingleEvent(Notification n)
+	{
+		EObject removed_obj = (EObject)n.getOldValue();
+		
+		if(n.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME)) //delete eobject from resource
+		{
+			outputList.add("DEL_R ["+removed_obj.eClass().getName()+" "+
+					changelog.getObjectId(removed_obj)+"]"); 
+		}
+		else
+		{
+			EObject focus_obj = (EObject) n.getNotifier();
+			outputList.add("UNSET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
+					+changelog.getObjectId(focus_obj)+" ["+removed_obj.eClass().getName()+" "
+					+changelog.getObjectId(removed_obj)+"]");
+		}
+	}
+	
+	private void handleSetEReferenceManyEvent(Notification n)
 	{
 		List<EObject> obj_list = (List<EObject>) n.getNewValue();
 		
@@ -223,12 +253,36 @@ public class TextSerializer
 	    }	
 	    else //add eobject to eobject
 	    {
-	    	EObject dest_obj = (EObject) n.getNotifier();
+	    	EObject focus_obj = (EObject) n.getNotifier();
 	    	
-	    	outputList.add("ADD "+((EReference)n.getFeature()).getName()+" "+dest_obj.eClass().getName()+" "
-					+changelog.getObjectId(dest_obj)+" "+added_obj_list_str);
+	    	outputList.add("SET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
+					+changelog.getObjectId(focus_obj)+" "+added_obj_list_str);
 	    }
 	}
+	
+
+	
+	private void serialiseInitialEntry()
+	{
+		EObject obj = null;
+		for(Notification n : notificationsList)
+		{
+			if(n.getEventType() == Notification.ADD)
+			{
+				obj = (EObject) n.getNewValue();
+				break;
+			}
+			else if(n.getEventType() == Notification.ADD_MANY)
+			{
+				List<EObject> objectsList = (List<EObject>) n.getNewValue();
+				obj = objectsList.get(0);
+				break;
+			}
+		}
+		outputList.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
+	}
+	
+
 	
 	private void appendStringsToFile(boolean appendMode)
 	{

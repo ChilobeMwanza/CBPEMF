@@ -97,86 +97,29 @@ public class App
 	public List<EObject> createResource() throws Exception
 	{
 		//Resource resource = new XMIResourceImpl(URI.createURI("library.txt"));
+		//check unset many valued feature
 		
 		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
 		
+		
 		Library lib1 = LibraryFactory.eINSTANCE.createLibrary();
-		Library lib2 = LibraryFactory.eINSTANCE.createLibrary();
-		
-		Library lib3 = LibraryFactory.eINSTANCE.createLibrary();
-		Library lib4 = LibraryFactory.eINSTANCE.createLibrary();
-		
-		List<EObject> list = new ArrayList<EObject>();
-		list.add(lib3);
-		list.add(lib4);
-		
 		resource.getContents().add(lib1);
-		resource.getContents().add(lib2);
 		
-		resource.getContents().addAll(list);
+		Book b = LibraryFactory.eINSTANCE.createBook();
+		b.setName("super book");
 		
-		List<String> namesList = new ArrayList<String>();
-		
-		namesList.add("Peter Black");
-		namesList.add("April May");
-		namesList.add(null);
-		
-		lib1.getEmployeeNames().addAll(namesList);
-		lib1.getEmployeeNames().add("Jacob white");
-	    lib1.getNumbersList().add(37);
-	    lib1.setADouble(22.5);
-	    
-	   // lib1.getEmployeeNames().addAll(namesList);
-		
-	//	resource.getContents().addAll(list);
-		
-		Book book1 = LibraryFactory.eINSTANCE.createBook();
-		lib1.getBadBooks().add(book1);
-		
-		Author author = LibraryFactory.eINSTANCE.createAuthor();
-		book1.setAnAuthor(author);
-		author.setName("hello!");
+		lib1.setSuperBook(b);
 		
 		
-		Book book2 = LibraryFactory.eINSTANCE.createBook();
-	
-		Book book3 = LibraryFactory.eINSTANCE.createBook();
-		
-		Book book4 = LibraryFactory.eINSTANCE.createBook();
-		
-		Book book5 = LibraryFactory.eINSTANCE.createBook();
-	
-		List<Book> booklist = new ArrayList<Book>();
-		booklist.add(book2);
-		booklist.add(book3);
-		booklist.add(book4);
-		booklist.add(book5);
-		
-		lib1.getGoodBooks().addAll(booklist);
-		
-		lib1.getBadBooks().addAll(booklist);
+		b.setName("dfd");
+		//resource.getContents().add(lib1);
 		
 		Vehicle v1 = LibraryFactory.eINSTANCE.createVehicle();
-		lib2.setMainLibraryCar(v1);
-		
-		Vehicle v2 = LibraryFactory.eINSTANCE.createVehicle();
-		Vehicle v3 = LibraryFactory.eINSTANCE.createVehicle();
-		Vehicle v4 = LibraryFactory.eINSTANCE.createVehicle();
-		
-		List<Vehicle> carsList = new ArrayList<Vehicle>();
-		carsList.add(v2);
-		carsList.add(v3);
-		carsList.add(v4);
-		
-		lib3.getReserveLibraryCars().addAll(carsList);
-		v1.setName("Bat Mobile!");
-		v1.setName(null);
-
-		
-		lib2.setMainLibraryCar(v4);
-		
-	//	v1.setVehicleID(40.0f);
-		//v1.setName("super car");
+		lib1.setMainLibraryCar(v1);
+		lib1.getEmployeeNames().add("hello");
+		lib1.getEmployeeNames().add("smith");
+		lib1.getEmployeeNames().remove(0);
+	
 		
 		/*SAVE STARTS HERE*/
 		resource.save(null); 

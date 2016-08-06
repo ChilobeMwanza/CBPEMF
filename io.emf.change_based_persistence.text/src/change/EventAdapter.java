@@ -38,25 +38,41 @@ public class EventAdapter extends EContentAdapter
 		{
 			case Notification.ADD :
 			{
+			
 				changelog.addNotification(n);
 				break;		
 			}
 			case Notification.ADD_MANY : 
 			{
+				
 				changelog.addNotification(n);
 				break;
 			}
 			case Notification.REMOVE:
 			{
-				//changelog.addNotification(n);
+				changelog.addNotification(n);
+				break;
+			}
+			case Notification.REMOVE_MANY:
+			{
+				changelog.addNotification(n);
 				break;
 			}
 			case Notification.SET:
 			{
-				if(n.getFeature() instanceof EAttribute || n.getNewValue() instanceof EObject)
+				if(n.getNotifier() instanceof EObject)
 				{
 					changelog.addNotification(n);
 				}
+				
+				/*if(n.getFeature() instanceof EAttribute || n.getNewValue() instanceof EObject)
+				{
+					changelog.addNotification(n);
+				}
+				else
+				{
+					System.out.println(classname+" "+n.toString());
+				}*/
 				break;
 			}
 			case Notification.UNSET: //tbr

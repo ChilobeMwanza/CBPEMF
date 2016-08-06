@@ -41,10 +41,13 @@ public class TextDeserializer
 	
 	private enum EventType
 	{
-		SET,
+		SET_A,
+		UNSET_A,
 		ADD_R,
 	    CREATE,
-		ADD,
+		SET_R,
+		DEL_R,
+		UNSET_R,
 		NULL;
 	}
 	private final String RESOURCE_NAME = "DeltaResourceImpl";
@@ -93,19 +96,28 @@ public class TextDeserializer
 			/* Switches over various event types, calls appropriate handler method*/
 			switch(eventType)
 			{
-			case ADD:
-				handleAddEntry(line);
+			case CREATE:
+				handleCreateEvent(line);
+				break;
+			case SET_A:
+				handleSetEAttributeEvent(line);
+				break;
+			case SET_R:
+				handleSetEReferenceEvent(line);
+				break;
+			case UNSET_A: 
+				handleUnsetEAttributeEvent(line);
+				break;
+			case UNSET_R:
+				handleUnsetEReferenceEvent(line);
 				break;
 			case ADD_R:
-				handleAddToResourceEntry(line);
+				handleAddToResourceEvent(line);
 				break;
-			case CREATE:
-				handleCreateEntry(line);
+			case DEL_R:
+				handleRemoveFromResourceEvent(line);
 				break;
 			case NULL:
-				break;
-			case SET:
-				handleSetAttributeEntry(line);
 				break;
 			default:
 				break;
@@ -114,48 +126,107 @@ public class TextDeserializer
 		br.close();
 	}
 	
-	private void handleAddEntry(String line)
+	private void handleSetEReferenceEvent(String line)
 	{
+		EObject focus_obj = changelog.getEObject(Double.valueOf(getNthWord(line,4)));
+		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
 		
-		EObject dest_obj = changelog.getEObject(Double.valueOf(getNthWord(line,4)));
-		
-		
-		//EObject obj_to_add = changelog.getEObject(Double.valueOf(getNthWord(line,3)));
-		
-		EReference ref = (EReference) dest_obj.eClass().getEStructuralFeature(getNthWord(line,2));
-		
-		String[] obj_str_array = createArrayFromString(getValue(line));
+		String[] feature_values_array = createArrayFromString(getValue(line));
 		
 		if(ref.isMany())
 		{
-			EList<EObject> ref_value_list = (EList<EObject>) dest_obj.eGet(ref);
+			@SuppressWarnings("unchecked")
+			EList<EObject> feature_value_list = (EList<EObject>) focus_obj.eGet(ref);
 			
-			for(String str : obj_str_array)
+			for(String str : feature_values_array)
 			{
-				EObject obj_to_add = changelog.getEObject(Double.valueOf(getNthWord(str,2)));
-				ref_value_list.add(obj_to_add);
+				feature_value_list.add(changelog.getEObject(Double.valueOf(getNthWord(str,2))));
 			}
 		}
 		else
 		{
-			EObject obj_to_add = changelog.getEObject(Double.valueOf(getNthWord(obj_str_array[0],2)));
-			dest_obj.eSet(ref, obj_to_add);
+			focus_obj.eSet(ref, changelog.getEObject(Double.valueOf(getNthWord(feature_values_array [0],2))));
 		}
 	}
 	
-	private void handleAddToResourceEntry(String line)
+	private void handleUnsetEReferenceEvent(String line)
+	{
+		EObject focus_obj = changelog.getEObject(Double.valueOf(getNthWord(line,4)));
+		
+		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
+		
+		if(ref.isMany())
+		{
+			String[] feature_values_array = createArrayFromString(getValue(line));
+			
+			@SuppressWarnings("unchecked")
+			EList<EObject> feature_value_list = (EList<EObject>) focus_obj.eGet(ref);
+			
+			for(String str : feature_values_array)
+			{
+				feature_value_list.remove(changelog.getEObject(Double.valueOf(getNthWord(str,2))));				
+			}
+		}
+		else
+		{
+			focus_obj.eUnset(ref);
+		}
+	}
+	
+	private void handleSetEAttributeEvent(String line) 
+	{
+		EObject focus_obj = changelog.getEObject(Double.valueOf(getNthWord(line,4)));
+		EAttribute attr = (EAttribute)focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
+		
+		String[] feature_values_array = createArrayFromString(getValue(line));
+		
+		if(attr.isMany())
+		{
+			@SuppressWarnings("unchecked")
+			EList<Object> feature_value_list = (EList<Object>) focus_obj.eGet(attr);  //change nam of var!
+			
+			for(String str : feature_values_array)
+			{
+				if(str.equals("null"))
+					feature_value_list.add(null);
+				else
+					feature_value_list.add(EcoreUtil.createFromString(attr.getEAttributeType(),str));
+			}
+		}
+		else
+		{
+			if(feature_values_array [0].equals("null"))
+				focus_obj.eSet(attr, null);
+			else
+				focus_obj.eSet(attr, EcoreUtil.createFromString(attr.getEAttributeType(),feature_values_array [0]));
+		}
+	}
+	
+
+	
+	private void handleAddToResourceEvent(String line)
 	{
 		String[] obj_str_array = createArrayFromString(getValue(line));
 		
 		for(String str : obj_str_array)
 		{
 			EObject obj = changelog.getEObject(Double.valueOf(getNthWord(str,2)));
-			persistenceManager.addObjectToContents(obj);
+			persistenceManager.addEObjectToContents(obj);
 		}
-		
 	}
 	
-	private void handleCreateEntry(String line)
+	private void handleRemoveFromResourceEvent(String line)
+	{
+		String[] obj_str_array = createArrayFromString(getValue(line));
+		
+		for(String str : obj_str_array)
+		{
+			EObject obj = changelog.getEObject(Double.valueOf(getNthWord(str,2)));
+			persistenceManager.removeEObjectFromContents(obj);
+		}
+	}
+	
+	private void handleCreateEvent(String line)
 	{
 		String[] obj_str_array = createArrayFromString(getValue(line));
 		for(String str : obj_str_array)
@@ -167,17 +238,14 @@ public class TextDeserializer
 		}
 	}
 	
-	private void handleSetAttributeEntry(String line) //add some checks here, to make sure no nulls
-	{
 	
+	private void handleUnsetEAttributeEvent(String line)
+	{
 		double obj_id = Double.valueOf(getNthWord(line,4));
 		
 		EObject obj = changelog.getEObject(obj_id);
 		
 		EAttribute attr = (EAttribute) obj.eClass().getEStructuralFeature(getNthWord(line,2));
-		
-		String attrValue = getValue(line);
-		
 		
 		if(attr.isMany())
 		{
@@ -186,21 +254,15 @@ public class TextDeserializer
 			
 			for(String str : obj_attr_str_array)
 			{
-				if(str.equals("null"))
-					attrValueList.add(null);
-				else
-					attrValueList.add(EcoreUtil.createFromString(attr.getEAttributeType(),str));
+				attrValueList.remove(EcoreUtil.createFromString(attr.getEAttributeType(),str));
 			}
 		}
 		else
 		{
-			if(attrValue.equals("null"))
-				obj.eSet(attr, null);
-			else
-				obj.eSet(attr, EcoreUtil.createFromString(attr.getEAttributeType(),attrValue));
+			obj.eUnset(attr);
 		}
-
 	}
+	
 	private EPackage loadMetamodel(String metamodelURI)
 	{
 		//EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage("http://io.emf.change_based_persistence.text");
@@ -220,7 +282,7 @@ public class TextDeserializer
 		if(getNthWord(line,4).equals(RESOURCE_NAME)) //add object directly to resource
 		{
 			EObject eObject = ePackage.getEFactoryInstance().create((EClass) ePackage.getEClassifier(getNthWord(line,2)));
-			persistenceManager.addObjectToContents(eObject);
+			persistenceManager.addEObjectToContents(eObject);
 		}
 	}
 	

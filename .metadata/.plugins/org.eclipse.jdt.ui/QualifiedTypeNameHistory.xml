@@ -42,7 +42,6 @@
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="java.io.PrintStream"/>
 <fullyQualifiedTypeName name="util.CustomPrintStream"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.util.BasicEList"/>
 <fullyQualifiedTypeName name="library.LibraryType"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EStructuralFeature"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EContentsEList"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notifier"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
 </qualifiedTypeNameHistroy>
