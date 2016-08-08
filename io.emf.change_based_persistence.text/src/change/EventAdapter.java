@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.util.EContentsEList;
 public class EventAdapter extends EContentAdapter
 {
 	private ChangeLog changelog;
-	private final String RESOURCE_NAME = "DeltaResourceImpl";
 	private  final String classname = this.getClass().getSimpleName();
 	
 	private boolean adapterEnabled = true;
@@ -38,13 +37,11 @@ public class EventAdapter extends EContentAdapter
 		{
 			case Notification.ADD :
 			{
-			
 				changelog.addNotification(n);
 				break;		
 			}
 			case Notification.ADD_MANY : 
 			{
-				
 				changelog.addNotification(n);
 				break;
 			}

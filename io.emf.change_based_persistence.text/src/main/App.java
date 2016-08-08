@@ -103,22 +103,29 @@ public class App
 		
 		
 		Library lib1 = LibraryFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib1);
-		
-		Book b = LibraryFactory.eINSTANCE.createBook();
-		b.setName("super book");
-		
-		lib1.setSuperBook(b);
-		
-		
-		b.setName("dfd");
-		//resource.getContents().add(lib1);
-		
 		Vehicle v1 = LibraryFactory.eINSTANCE.createVehicle();
-		lib1.setMainLibraryCar(v1);
-		lib1.getEmployeeNames().add("hello");
-		lib1.getEmployeeNames().add("smith");
-		lib1.getEmployeeNames().remove(0);
+		Vehicle v2 = LibraryFactory.eINSTANCE.createVehicle();
+		Library lib3 = LibraryFactory.eINSTANCE.createLibrary();
+		
+		List <EObject> addList = new ArrayList<EObject>();
+		addList.add(lib1);
+		addList.add(v1);
+		addList.add(lib3);
+		addList.add(v2);
+		
+		resource.getContents().addAll(addList);
+		
+
+		List<EObject> removeList = new ArrayList<EObject>();
+		removeList.add(lib3);
+		removeList.add(v1);
+		
+		resource.getContents().removeAll(removeList);
+	    
+	    
+		
+	//test remove from resource
+		
 	
 		
 		/*SAVE STARTS HERE*/
@@ -144,7 +151,7 @@ public class App
 		}
 		else
 		{
-			out("verificaiton failed! attempting to find cause of failure...");
+			out("verification failed! attempting to find cause of failure...");
 		}
 		
 		/* Check saved list and loaded list contain same number of elements*/

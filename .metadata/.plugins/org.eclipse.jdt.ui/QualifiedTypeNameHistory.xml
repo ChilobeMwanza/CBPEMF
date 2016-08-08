@@ -23,7 +23,6 @@
 <fullyQualifiedTypeName name="change.NewObjectEntry"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
-<fullyQualifiedTypeName name="impl.DeltaResourceImpl"/>
 <fullyQualifiedTypeName name="change.SetAttributeEntry"/>
 <fullyQualifiedTypeName name="change.AddLinkEntry"/>
 <fullyQualifiedTypeName name="change.ChangeLog"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EContentsEList"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notifier"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="impl.DeltaResourceImpl"/>
 </qualifiedTypeNameHistroy>

@@ -50,7 +50,7 @@ public class TextDeserializer
 		UNSET_R,
 		NULL;
 	}
-	private final String RESOURCE_NAME = "DeltaResourceImpl";
+	
 	private PersistenceManager persistenceManager;
 	//private String fileLocation;
 	
@@ -277,14 +277,14 @@ public class TextDeserializer
 		return ePackage;
 	}
 	
-	private void handleAddEvent(String line)
+	/*private void handleAddEvent(String line)
 	{
 		if(getNthWord(line,4).equals(RESOURCE_NAME)) //add object directly to resource
 		{
 			EObject eObject = ePackage.getEFactoryInstance().create((EClass) ePackage.getEClassifier(getNthWord(line,2)));
 			persistenceManager.addEObjectToContents(eObject);
 		}
-	}
+	}*/
 	
 	//should check for errors here
 	private EObject createEObject(String eClassName) //does this need to be a method?
