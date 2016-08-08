@@ -26,6 +26,17 @@ class Book extends NamedElement
 	val Author anAuthor;
 }
 
+class Student extends NamedElement
+{
+	ref Module [*]#registeredStudents registeredModules;
+	val Vehicle registeredCar;
+}
+
+class Module extends NamedElement
+{
+	ref Student[*]#registeredModules registeredStudents;
+}
+
 class Author extends NamedElement
 {
 	

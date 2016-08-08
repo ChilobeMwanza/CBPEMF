@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.impl.EFactoryImpl"/>
-<fullyQualifiedTypeName name="change.InitialEntry"/>
 <fullyQualifiedTypeName name="library.LibraryPackage"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClassifier"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notifier"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="impl.DeltaResourceImpl"/>
+<fullyQualifiedTypeName name="library.Module"/>
+<fullyQualifiedTypeName name="library.Student"/>
 </qualifiedTypeNameHistroy>

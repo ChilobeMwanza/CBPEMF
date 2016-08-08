@@ -38,12 +38,15 @@ import library.Library;
 import library.LibraryFactory;
 import library.LibraryPackage;
 import library.LibraryType;
+import library.Module;
+import library.Student;
 import library.Vehicle;
 
 
 public class App 
 {
 	private static String fileSaveLocation ="library.txt";
+	private  final String classname = this.getClass().getSimpleName();
 	
 	public static void main(String[] args) throws Exception
 	{
@@ -97,30 +100,51 @@ public class App
 	public List<EObject> createResource() throws Exception
 	{
 		//Resource resource = new XMIResourceImpl(URI.createURI("library.txt"));
-		//check unset many valued feature
+		//check many e.t.c for eposite ref
 		
 		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
 		
+		Module m1 = LibraryFactory.eINSTANCE.createModule();
+		Module m2 = LibraryFactory.eINSTANCE.createModule();
+		Module m3 = LibraryFactory.eINSTANCE.createModule();
 		
-		Library lib1 = LibraryFactory.eINSTANCE.createLibrary();
-		Vehicle v1 = LibraryFactory.eINSTANCE.createVehicle();
-		Vehicle v2 = LibraryFactory.eINSTANCE.createVehicle();
-		Library lib3 = LibraryFactory.eINSTANCE.createLibrary();
+		List<Module> moduleslist = new ArrayList<Module>();
+		moduleslist.add(m1);
+		moduleslist.add(m2);
+		moduleslist.add(m3);
 		
-		List <EObject> addList = new ArrayList<EObject>();
-		addList.add(lib1);
-		addList.add(v1);
-		addList.add(lib3);
-		addList.add(v2);
 		
-		resource.getContents().addAll(addList);
+		resource.getContents().addAll(moduleslist);
 		
+		
+		Student s1 = LibraryFactory.eINSTANCE.createStudent();
+		Student s2 = LibraryFactory.eINSTANCE.createStudent();
+	
+		
+		List<Student> sl1 = new ArrayList<Student>();
+		sl1.add(s1);
+		sl1.add(s2);
+		
+		m1.getRegisteredStudents().addAll(sl1);
+		
+		
+		
+		m1.setName("mode");
 
-		List<EObject> removeList = new ArrayList<EObject>();
-		removeList.add(lib3);
-		removeList.add(v1);
+		m1.getRegisteredStudents().add(s1);
 		
-		resource.getContents().removeAll(removeList);
+		
+		s1.setName("peter white");
+		
+		s1.getRegisteredModules().add(m2);
+		
+	//	System.out.println(classname);
+		
+		for(Module m: s1.getRegisteredModules())
+		{
+			System.out.println(m.getName());
+		}
+		
 	    
 	    
 		

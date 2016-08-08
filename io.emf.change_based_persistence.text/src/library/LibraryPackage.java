@@ -65,7 +65,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see library.impl.LibraryPackageImpl#getNamedElement()
 	 * @generated
 	 */
-	int NAMED_ELEMENT = 4;
+	int NAMED_ELEMENT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -295,6 +295,107 @@ public interface LibraryPackage extends EPackage {
 	int BOOK_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link library.impl.StudentImpl <em>Student</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see library.impl.StudentImpl
+	 * @see library.impl.LibraryPackageImpl#getStudent()
+	 * @generated
+	 */
+	int STUDENT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STUDENT__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Registered Modules</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STUDENT__REGISTERED_MODULES = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Registered Car</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STUDENT__REGISTERED_CAR = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Student</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STUDENT_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Student</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STUDENT_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link library.impl.ModuleImpl <em>Module</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see library.impl.ModuleImpl
+	 * @see library.impl.LibraryPackageImpl#getModule()
+	 * @generated
+	 */
+	int MODULE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Registered Students</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE__REGISTERED_STUDENTS = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Module</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Module</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link library.impl.AuthorImpl <em>Author</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -302,7 +403,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see library.impl.LibraryPackageImpl#getAuthor()
 	 * @generated
 	 */
-	int AUTHOR = 2;
+	int AUTHOR = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -339,7 +440,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see library.impl.LibraryPackageImpl#getVehicle()
 	 * @generated
 	 */
-	int VEHICLE = 3;
+	int VEHICLE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -385,7 +486,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see library.impl.LibraryPackageImpl#getLibraryType()
 	 * @generated
 	 */
-	int LIBRARY_TYPE = 5;
+	int LIBRARY_TYPE = 7;
 
 
 	/**
@@ -561,6 +662,59 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getBook_AnAuthor();
+
+	/**
+	 * Returns the meta object for class '{@link library.Student <em>Student</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Student</em>'.
+	 * @see library.Student
+	 * @generated
+	 */
+	EClass getStudent();
+
+	/**
+	 * Returns the meta object for the reference list '{@link library.Student#getRegisteredModules <em>Registered Modules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Registered Modules</em>'.
+	 * @see library.Student#getRegisteredModules()
+	 * @see #getStudent()
+	 * @generated
+	 */
+	EReference getStudent_RegisteredModules();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link library.Student#getRegisteredCar <em>Registered Car</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Registered Car</em>'.
+	 * @see library.Student#getRegisteredCar()
+	 * @see #getStudent()
+	 * @generated
+	 */
+	EReference getStudent_RegisteredCar();
+
+	/**
+	 * Returns the meta object for class '{@link library.Module <em>Module</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Module</em>'.
+	 * @see library.Module
+	 * @generated
+	 */
+	EClass getModule();
+
+	/**
+	 * Returns the meta object for the reference list '{@link library.Module#getRegisteredStudents <em>Registered Students</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Registered Students</em>'.
+	 * @see library.Module#getRegisteredStudents()
+	 * @see #getModule()
+	 * @generated
+	 */
+	EReference getModule_RegisteredStudents();
 
 	/**
 	 * Returns the meta object for class '{@link library.Author <em>Author</em>}'.
@@ -778,6 +932,50 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EReference BOOK__AN_AUTHOR = eINSTANCE.getBook_AnAuthor();
+
+		/**
+		 * The meta object literal for the '{@link library.impl.StudentImpl <em>Student</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see library.impl.StudentImpl
+		 * @see library.impl.LibraryPackageImpl#getStudent()
+		 * @generated
+		 */
+		EClass STUDENT = eINSTANCE.getStudent();
+
+		/**
+		 * The meta object literal for the '<em><b>Registered Modules</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STUDENT__REGISTERED_MODULES = eINSTANCE.getStudent_RegisteredModules();
+
+		/**
+		 * The meta object literal for the '<em><b>Registered Car</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STUDENT__REGISTERED_CAR = eINSTANCE.getStudent_RegisteredCar();
+
+		/**
+		 * The meta object literal for the '{@link library.impl.ModuleImpl <em>Module</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see library.impl.ModuleImpl
+		 * @see library.impl.LibraryPackageImpl#getModule()
+		 * @generated
+		 */
+		EClass MODULE = eINSTANCE.getModule();
+
+		/**
+		 * The meta object literal for the '<em><b>Registered Students</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODULE__REGISTERED_STUDENTS = eINSTANCE.getModule_RegisteredStudents();
 
 		/**
 		 * The meta object literal for the '{@link library.impl.AuthorImpl <em>Author</em>}' class.

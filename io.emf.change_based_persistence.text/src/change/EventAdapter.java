@@ -110,12 +110,21 @@ public class EventAdapter extends EContentAdapter
      */
     protected boolean shouldAdapt(EStructuralFeature feature)
     {
+    	
+    		/*if(((EReference)feature).getEOpposite()!= null)
+    		{
+    			return false;
+    		}*/
+    	
         return true;
     }
     
     @Override
     protected void setTarget(EObject target)
     {
+        if(target.eAdapters().contains(this))
+        	return;
+        
         super.setTarget(target);
         for (EContentsEList.FeatureIterator<EObject> featureIterator = (EContentsEList.FeatureIterator<EObject>) target.eCrossReferences()
                                                                                                                        .iterator(); featureIterator.hasNext();)

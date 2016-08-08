@@ -30,6 +30,16 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="anAuthor" eType="#//Author"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Student" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredModules" upperBound="-1"
+        eType="#//Module" eOpposite="#//Module/registeredStudents"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredCar" eType="#//Vehicle"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Module" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredStudents" upperBound="-1"
+        eType="#//Student" eOpposite="#//Student/registeredModules"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Author" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Vehicle" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="vehicleID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>

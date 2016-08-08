@@ -8,7 +8,9 @@ import library.Library;
 import library.LibraryFactory;
 import library.LibraryPackage;
 import library.LibraryType;
+import library.Module;
 import library.NamedElement;
+import library.Student;
 import library.Vehicle;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -39,6 +41,20 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	private EClass bookEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass studentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass moduleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -278,6 +294,51 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getStudent() {
+		return studentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStudent_RegisteredModules() {
+		return (EReference)studentEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStudent_RegisteredCar() {
+		return (EReference)studentEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getModule() {
+		return moduleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getModule_RegisteredStudents() {
+		return (EReference)moduleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAuthor() {
 		return authorEClass;
 	}
@@ -373,6 +434,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEAttribute(bookEClass, BOOK__ID_NUMBER);
 		createEReference(bookEClass, BOOK__AN_AUTHOR);
 
+		studentEClass = createEClass(STUDENT);
+		createEReference(studentEClass, STUDENT__REGISTERED_MODULES);
+		createEReference(studentEClass, STUDENT__REGISTERED_CAR);
+
+		moduleEClass = createEClass(MODULE);
+		createEReference(moduleEClass, MODULE__REGISTERED_STUDENTS);
+
 		authorEClass = createEClass(AUTHOR);
 
 		vehicleEClass = createEClass(VEHICLE);
@@ -415,6 +483,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		// Add supertypes to classes
 		libraryEClass.getESuperTypes().add(this.getNamedElement());
 		bookEClass.getESuperTypes().add(this.getNamedElement());
+		studentEClass.getESuperTypes().add(this.getNamedElement());
+		moduleEClass.getESuperTypes().add(this.getNamedElement());
 		authorEClass.getESuperTypes().add(this.getNamedElement());
 		vehicleEClass.getESuperTypes().add(this.getNamedElement());
 
@@ -436,6 +506,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEClass(bookEClass, Book.class, "Book", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBook_IdNumber(), ecorePackage.getEDouble(), "idNumber", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBook_AnAuthor(), this.getAuthor(), null, "anAuthor", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(studentEClass, Student.class, "Student", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getStudent_RegisteredModules(), this.getModule(), this.getModule_RegisteredStudents(), "registeredModules", null, 0, -1, Student.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStudent_RegisteredCar(), this.getVehicle(), null, "registeredCar", null, 0, 1, Student.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(moduleEClass, Module.class, "Module", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getModule_RegisteredStudents(), this.getStudent(), this.getStudent_RegisteredModules(), "registeredStudents", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(authorEClass, Author.class, "Author", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

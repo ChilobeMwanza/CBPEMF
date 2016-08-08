@@ -18,17 +18,17 @@ import change.ChangeLog;
 import change.EventAdapter;
 
 import drivers.PersistenceManager;
-import util.Printer;
 
 
 public class DeltaResourceImpl extends ResourceImpl
 {
+	private  final String classname = this.getClass().getSimpleName();
 	private final  ChangeLog changeLog;
 	private final BiMap<EObject,Double> map ;
     private PersistenceManager persistenceManager;
     EventAdapter eventAdapter;
     
-    Printer out = new Printer (this.getClass());
+   
     
 	public DeltaResourceImpl(URI uri)
 	{
@@ -70,7 +70,7 @@ public class DeltaResourceImpl extends ResourceImpl
 	{
 		eventAdapter.setEnabled(false);
 		
-		out.println("DeltaResourceImpl.java: Load called!");
+		System.out.println(classname+" DeltaResourceImpl.java: Load called!");
 		
 		persistenceManager.load(options);
 		

@@ -32,6 +32,13 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Book/idNumber"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simple_library.ecore#//Book/anAuthor"/>
     </genClasses>
+    <genClasses ecoreClass="simple_library.ecore#//Student">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simple_library.ecore#//Student/registeredModules"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simple_library.ecore#//Student/registeredCar"/>
+    </genClasses>
+    <genClasses ecoreClass="simple_library.ecore#//Module">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simple_library.ecore#//Module/registeredStudents"/>
+    </genClasses>
     <genClasses ecoreClass="simple_library.ecore#//Author"/>
     <genClasses ecoreClass="simple_library.ecore#//Vehicle">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simple_library.ecore#//Vehicle/vehicleID"/>

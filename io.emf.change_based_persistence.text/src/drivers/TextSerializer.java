@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import change.ChangeLog;
 import impl.DeltaResourceImpl;
-import util.Printer;
+
 
 public class TextSerializer 
 {
@@ -41,7 +41,6 @@ public class TextSerializer
 	private boolean appendMode = false;
 	private List<String> outputList;
     private List<Notification> notificationsList;
-    Printer out = new Printer (this.getClass());
 	private final ChangeLog changelog; 
 	
 	public TextSerializer(PersistenceManager manager, ChangeLog aChangeLog)
