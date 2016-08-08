@@ -104,28 +104,24 @@ public class App
 		
 		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
 		
-		Module m1 = LibraryFactory.eINSTANCE.createModule();
-		Student s1 = LibraryFactory.eINSTANCE.createStudent();
-		
-		resource.getContents().add(m1);
-		resource.getContents().add(s1);
-		
-		s1.setName("peter white");
-		
-		m1.getRegisteredStudents().add(s1);
-		
-		
-		System.out.println(classname);
-		for(Student s: m1.getRegisteredStudents())
-		{
-			System.out.println(s.getName());
-		}
-		
-		for(Module m: s1.getRegisteredModules())
-		{
-			System.out.println(m.getName());
-		}
+	    Library lib1 = LibraryFactory.eINSTANCE.createLibrary();
+	    Library lib2 = LibraryFactory.eINSTANCE.createLibrary();
+	    Library lib3 = LibraryFactory.eINSTANCE.createLibrary();
 	    
+	    List<EObject> addlist = new ArrayList<EObject>();
+	    
+	    addlist.add(lib1);
+	    addlist.add(lib2);
+	    addlist.add(lib3);
+	    
+	    resource.getContents().addAll(addlist);
+	    
+	    List <EObject> dellist = new ArrayList<EObject>();
+	    
+	    dellist.add(lib1);
+	    dellist.add(lib3);
+	    
+	    resource.getContents().removeAll(dellist);
 	    
 		
 	//test remove from resource

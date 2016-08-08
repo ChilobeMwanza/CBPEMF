@@ -1,10 +1,4 @@
 NAMESPACE_URI http://io.emf.change_based_persistence.text
-CREATE [Module 0.0,Module 1.0,Module 2.0]
-ADD_R [Module 0.0,Module 1.0,Module 2.0]
-CREATE [Student 3.0,Student 4.0]
-SET_R registeredStudents Module 0.0 [Student 3.0,Student 4.0]
-SET_A name Module 0.0 [mode]
-SET_A name Student 3.0 [peter white]
-SET_R registeredStudents Module 1.0 [Student 3.0]
-SET_R registeredModules Student 3.0 [Module 1.0]
-SET_R registeredModules Student 3.0 [Module 1.0]
+CREATE [Library 0.0,Library 1.0,Library 2.0]
+ADD_R [Library 0.0,Library 1.0,Library 2.0]
+SET_A libraryTypeAttrMany Library 0.0 [A,B,C]

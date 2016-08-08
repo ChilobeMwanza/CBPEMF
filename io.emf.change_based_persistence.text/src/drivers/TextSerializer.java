@@ -1,7 +1,5 @@
 /*
  * todo:
- * opposite ref
- * enums
  * escape delimiter :: PUT THAT SHIT IN QUOTES
  * resume after load (as in pick up where you left off)
  * thoroughness (i.e of supported types e.t.c, start with enum)

@@ -104,51 +104,38 @@ public class App
 		
 		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
 		
-		Module m1 = LibraryFactory.eINSTANCE.createModule();
-		Module m2 = LibraryFactory.eINSTANCE.createModule();
-		Module m3 = LibraryFactory.eINSTANCE.createModule();
+	    Library lib1 = LibraryFactory.eINSTANCE.createLibrary();
+	    Library lib2 = LibraryFactory.eINSTANCE.createLibrary();
+	    Library lib3 = LibraryFactory.eINSTANCE.createLibrary();
+	    
+	    List<EObject> addlist = new ArrayList<EObject>();
+	    
+	    addlist.add(lib1);
+	    addlist.add(lib2);
+	    addlist.add(lib3);
+	    
+	    resource.getContents().addAll(addlist);
+	    
+	    LibraryType l1 = LibraryType.A;
+	    LibraryType l2 = LibraryType.B;
+	    LibraryType l3 = LibraryType.C;
+	    
+	    List<LibraryType> list = new ArrayList<LibraryType>();
+	    
+	    list.add(l1);
+	    list.add(l2);
+	    list.add(l3);
+	    
+	    lib1.getLibraryTypeAttrMany().addAll(list);
+	    
+	    List<LibraryType> lists = new ArrayList<LibraryType>();
+	    lists.add(l1);
+	    lists.add(l2);
+	    
+	    lib1.getLibraryTypeAttrMany().remove(lists);
+	    
 		
-		List<Module> moduleslist = new ArrayList<Module>();
-		moduleslist.add(m1);
-		moduleslist.add(m2);
-		moduleslist.add(m3);
-		
-		
-		resource.getContents().addAll(moduleslist);
-		
-		
-		Student s1 = LibraryFactory.eINSTANCE.createStudent();
-		Student s2 = LibraryFactory.eINSTANCE.createStudent();
 	
-		
-		List<Student> sl1 = new ArrayList<Student>();
-		sl1.add(s1);
-		sl1.add(s2);
-		
-		m1.getRegisteredStudents().addAll(sl1);
-		
-		
-		
-		m1.setName("mode");
-
-		m1.getRegisteredStudents().add(s1);
-		
-		
-		s1.setName("peter white");
-		
-		s1.getRegisteredModules().add(m2);
-		
-	//	System.out.println(classname);
-		
-		for(Module m: s1.getRegisteredModules())
-		{
-			System.out.println(m.getName());
-		}
-		
-	    
-	    
-		
-	//test remove from resource
 		
 	
 		

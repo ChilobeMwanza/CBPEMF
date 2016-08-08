@@ -104,53 +104,32 @@ public class App
 		
 		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
 		
-		Module m1 = LibraryFactory.eINSTANCE.createModule();
-		Module m2 = LibraryFactory.eINSTANCE.createModule();
-		Module m3 = LibraryFactory.eINSTANCE.createModule();
-		
-		Student s1 = LibraryFactory.eINSTANCE.createStudent();
-		Student s2 = LibraryFactory.eINSTANCE.createStudent();
-		Student s3 = LibraryFactory.eINSTANCE.createStudent();
-		Student s4 = LibraryFactory.eINSTANCE.createStudent();
-		Student s5 = LibraryFactory.eINSTANCE.createStudent();
-		Student s6 = LibraryFactory.eINSTANCE.createStudent();
-		
-		List<Module> moduleslist = new ArrayList<Module>();
-		moduleslist.add(m1);
-		moduleslist.add(m2);
-		moduleslist.add(m3);
-		
-		resource.getContents().addAll(moduleslist);
-
-		m1.getRegisteredStudents().add(s1);
-		
-		
-		
-		m1.setName("Mode");
-		s1.setName("peter white");
-		
-		m1.getRegisteredStudents().add(s1);
-		
-		System.out.println(classname+ " student registered modules list start");
-		
-		for(Module m : s1.getRegisteredModules())
-		{
-			System.out.println(m.getName());
-		}
-		
-		System.out.println(classname+" end");
-		
-		System.out.println(classname+" module registered students list start");
-		/*for(Module m: s1.getRegisteredModules())
-		{
-			System.out.println(m.getName());
-		}*/
-		
-		System.out.println("end");
+	    Library lib1 = LibraryFactory.eINSTANCE.createLibrary();
+	    Library lib2 = LibraryFactory.eINSTANCE.createLibrary();
+	    Library lib3 = LibraryFactory.eINSTANCE.createLibrary();
 	    
+	    List<EObject> addlist = new ArrayList<EObject>();
+	    
+	    addlist.add(lib1);
+	    addlist.add(lib2);
+	    addlist.add(lib3);
+	    
+	    resource.getContents().addAll(addlist);
+	    
+	    LibraryType l1 = LibraryType.A;
+	    LibraryType l2 = LibraryType.B;
+	    LibraryType l3 = LibraryType.C;
+	    
+	    List<LibraryType> list = new ArrayList<LibraryType>();
+	    
+	    list.add(l1);
+	    list.add(l2);
+	    list.add(l3);
+	    
+	    lib1.getLibraryTypeAttrMany().addAll(list);
 	    
 		
-	//test remove from resource
+	
 		
 	
 		

@@ -96,7 +96,7 @@ public class EventAdapter extends EContentAdapter
 	
 	
 	/* The following code (which allows subclass EContentAdapter to receive notifications across non containment 
-	 * references was copied verbatim from : http://wiki.eclipse.org/EMF/Recipes#Recipe:_Subclass_EContentAdapter
+	 * references was copied (almost, see setTarget) verbatim from : http://wiki.eclipse.org/EMF/Recipes#Recipe:_Subclass_EContentAdapter
 	 * _to_receive_notifications_across_non-containment_references*/
 	
 	
@@ -122,7 +122,7 @@ public class EventAdapter extends EContentAdapter
     @Override
     protected void setTarget(EObject target)
     {
-        if(target.eAdapters().contains(this))
+        if(target.eAdapters().contains(this)) //fixes stack overflow on oposite ref
         	return;
         
         super.setTarget(target);

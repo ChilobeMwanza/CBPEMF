@@ -15,16 +15,14 @@ import org.eclipse.emf.ecore.util.EContentsEList;
 public class EventAdapter extends EContentAdapter
 {
 	private ChangeLog changelog;
-	private final String RESOURCE_NAME = "DeltaResourceImpl";
 	private  final String classname = this.getClass().getSimpleName();
 	
 	private boolean adapterEnabled = true;
 	
 	public EventAdapter(ChangeLog aChangelog)
 	{
-		super(); //new
+		super(); 
 		this.changelog = aChangelog;
-		
 	}
 	
 	@Override
@@ -49,15 +47,29 @@ public class EventAdapter extends EContentAdapter
 			}
 			case Notification.REMOVE:
 			{
-				//changelog.addNotification(n);
+				changelog.addNotification(n);
+				break;
+			}
+			case Notification.REMOVE_MANY:
+			{
+				changelog.addNotification(n);
 				break;
 			}
 			case Notification.SET:
 			{
-				if(n.getFeature() instanceof EAttribute || n.getNewValue() instanceof EObject)
+				if(n.getNotifier() instanceof EObject)
 				{
 					changelog.addNotification(n);
 				}
+				
+				/*if(n.getFeature() instanceof EAttribute || n.getNewValue() instanceof EObject)
+				{
+					changelog.addNotification(n);
+				}
+				else
+				{
+					System.out.println(classname+" "+n.toString());
+				}*/
 				break;
 			}
 			case Notification.UNSET: //tbr
@@ -77,17 +89,16 @@ public class EventAdapter extends EContentAdapter
 		}
 	}
 	
-	
-	
-	/* Following code (which allows subclass EContentAdapter to recieve notificatoins across non containment 
-	 * references was copied verbatim from : 
-	 * 	http://wiki.eclipse.org/EMF/Recipes#Recipe:_Subclass_EContentAdapter_to_receive_notifications_across_
-	 * non-containment_references*/
-	
 	public void setEnabled(boolean bool)
 	{
 		adapterEnabled = bool;
 	}
+	
+	
+	/* The following code (which allows subclass EContentAdapter to receive notifications across non containment 
+	 * references was copied verbatim from : http://wiki.eclipse.org/EMF/Recipes#Recipe:_Subclass_EContentAdapter
+	 * _to_receive_notifications_across_non-containment_references*/
+	
 	
 	/**
      * By default, all cross document references are followed. Usually this is
@@ -99,12 +110,21 @@ public class EventAdapter extends EContentAdapter
      */
     protected boolean shouldAdapt(EStructuralFeature feature)
     {
+    	
+    		/*if(((EReference)feature).getEOpposite()!= null)
+    		{
+    			return false;
+    		}*/
+    	
         return true;
     }
     
     @Override
     protected void setTarget(EObject target)
     {
+        if(target.eAdapters().contains(this))
+        	return;
+        
         super.setTarget(target);
         for (EContentsEList.FeatureIterator<EObject> featureIterator = (EContentsEList.FeatureIterator<EObject>) target.eCrossReferences()
                                                                                                                        .iterator(); featureIterator.hasNext();)
