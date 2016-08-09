@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="library.LibraryPackage"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClassifier"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
 <fullyQualifiedTypeName name="java.lang.instrument.Instrumentation"/>
@@ -16,11 +15,8 @@
 <fullyQualifiedTypeName name="org.eclipse.epsilon.profiling.Stopwatch"/>
 <fullyQualifiedTypeName name="library.Author"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
-<fullyQualifiedTypeName name="java.io.BufferedReader"/>
-<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
 <fullyQualifiedTypeName name="change.NewObjectEntry"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
-<fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="change.SetAttributeEntry"/>
 <fullyQualifiedTypeName name="change.AddLinkEntry"/>
 <fullyQualifiedTypeName name="change.ChangeLog"/>
@@ -60,4 +56,8 @@
 <fullyQualifiedTypeName name="impl.DeltaResourceImpl"/>
 <fullyQualifiedTypeName name="library.Module"/>
 <fullyQualifiedTypeName name="library.Student"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.io.File"/>
 </qualifiedTypeNameHistroy>

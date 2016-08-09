@@ -2,12 +2,13 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="n.getNotifier() instanceof DeltaResourceImpl" key="selection"/>
+		<item value="getNth" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="getNth"/>
 			<item value="n.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME)"/>
 			<item value="dest_obj"/>
 			<item value="handleAddToEAttributeEvent"/>
@@ -15,7 +16,6 @@
 			<item value="UNSET"/>
 			<item value="unset"/>
 			<item value="ADD"/>
-			<item value="SET"/>
 		</list>
 		<list key="replacehistory">
 			<item value="n.getNotifier() instanceof DeltaResourceImpl"/>

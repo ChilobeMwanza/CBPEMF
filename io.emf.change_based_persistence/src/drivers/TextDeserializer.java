@@ -37,7 +37,7 @@ public class TextDeserializer
 	private final String classname = this.getClass().getSimpleName();
 	private EPackage ePackage = null;
 	private ChangeLog changelog;
-	private double counter = 0;
+	
 	
 	private enum EventType
 	{
@@ -187,9 +187,6 @@ public class TextDeserializer
 			
 			for(String str : feature_values_array)
 			{
-				System.out.println(classname+" "+str);
-				
-				
 				if(str.equals("null"))
 					feature_value_list.add(null);
 				else
@@ -235,8 +232,7 @@ public class TextDeserializer
 		{
 			Double id = Double.valueOf(getNthWord(str,2));
 			EObject obj = createEObject(getNthWord(str,1));
-			changelog.addObjectToMap(obj, id);
-			updateCounter(id);	
+			changelog.addObjectToMap(obj, id);	
 		}
 	}
 	
@@ -280,26 +276,12 @@ public class TextDeserializer
 		return ePackage;
 	}
 	
-	/*private void handleAddEvent(String line)
-	{
-		if(getNthWord(line,4).equals(RESOURCE_NAME)) //add object directly to resource
-		{
-			EObject eObject = ePackage.getEFactoryInstance().create((EClass) ePackage.getEClassifier(getNthWord(line,2)));
-			manager.addEObjectToContents(eObject);
-		}
-	}*/
 	
 	//should check for errors here
 	private EObject createEObject(String eClassName) //does this need to be a method?
 	{
 		return ePackage.getEFactoryInstance().create((EClass)
 				ePackage.getEClassifier(eClassName));
-	}
-	
-	private void updateCounter(Double d)
-	{
-		if(d > counter)
-			counter = d;
 	}
 	
 	private String getNthWord(String input, int n)

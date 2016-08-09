@@ -49,7 +49,7 @@ public class DeltaResourceImpl extends ResourceImpl
 	{
 		
 		persistenceManager.save(options);
-	    System.out.println("DeltaResourceImpl: Print file contents : ");
+	    System.out.println("DeltaResourceImpl: Print save file contents : ");
 		try
 		{
 			showSaveFileContents();
@@ -70,7 +70,7 @@ public class DeltaResourceImpl extends ResourceImpl
 	{
 		eventAdapter.setEnabled(false);
 		
-		System.out.println(classname+" DeltaResourceImpl.java: Load called!");
+		System.out.println(classname+": Load called!");
 		
 		persistenceManager.load(options);
 		

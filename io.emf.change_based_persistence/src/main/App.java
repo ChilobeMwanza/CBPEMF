@@ -99,10 +99,10 @@ public class App
 	
 	public List<EObject> createResource() throws Exception
 	{
-		//Resource resource = new XMIResourceImpl(URI.createURI("library.txt"));
-		//check many e.t.c for eposite ref
 		
 		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
+		
+	//	resource.getContents().addAll(loadResource());
 		
 	    Library lib1 = LibraryFactory.eINSTANCE.createLibrary();
 	    resource.getContents().add(lib1);
@@ -113,23 +113,7 @@ public class App
 	    
 	    lib1.getEmployeeNames().addAll(names);
 	    
-	    
-	    Vehicle v1 = LibraryFactory.eINSTANCE.createVehicle();
-	    Vehicle v2 = LibraryFactory.eINSTANCE.createVehicle();
-	    Vehicle v3 = LibraryFactory.eINSTANCE.createVehicle();
-	    
-	    List<Vehicle> list = new ArrayList<Vehicle>();
-	    list.add(v1);
-	    list.add(v2);
-	    list.add(v3);
-	    
-	    lib1.getReserveLibraryCars().addAll(list);
-	    
-	    List<Vehicle> removelist = new ArrayList<Vehicle>();
-	    removelist.add(v1);
-	    removelist.add(v3);
-	    
-	    lib1.getReserveLibraryCars().removeAll(removelist);
+	   
 	    //lib1.setName("York library");
 	    
 	   // Book b1  = LibraryFactory.eINSTANCE.createBook();

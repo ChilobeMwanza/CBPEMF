@@ -1,9 +1,0 @@
-package change;
-
-public class AddEvent extends AbstractEvent
-{
-	public AddEvent(Notification n)
-	{
-		super(n);
-	}
-}

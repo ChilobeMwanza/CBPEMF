@@ -2,7 +2,7 @@
  * todo:
  * resume after load (as in pick up where you left off)
  * add some unit tests
- * check support for *complex types* ?
+ * catch exeptions (i.e file not found, at load)
  * optimisation algorithm
  * check everything works with non generated emf (Reflective)
  * make txt format less verbose
@@ -11,9 +11,13 @@
  */
 package drivers;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
@@ -23,6 +27,7 @@ import java.util.Map;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -34,7 +39,7 @@ public class TextSerializer
 {
 	private  final String classname = this.getClass().getSimpleName();
 	private final PersistenceManager manager;
-	private boolean appendMode = false;
+	private boolean appendMode = true;
 	private List<String> outputList;
     private List<Notification> notificationsList;
 	private final ChangeLog changelog; 
@@ -54,8 +59,14 @@ public class TextSerializer
 		if(notificationsList.isEmpty())
 			return;
 		
-		if(!appendMode)
+		/*Check if we are saving to an existing file, if not, add namespace uri entry*/
+		File f = new File(manager.getURI().path());
+		
+		if(!f.exists() || f.isDirectory())
 			serialiseInitialEntry();
+		
+	
+			
 		
 		//String fileSaveLocation = (String) options.get("FILE_SAVE_LOCATION");
 		
@@ -326,6 +337,7 @@ public class TextSerializer
 		}
 		outputList.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
 	}
+	
 	
 	private void appendStringsToFile(boolean appendMode)
 	{
