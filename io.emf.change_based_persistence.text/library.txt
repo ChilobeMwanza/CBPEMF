@@ -1,4 +1,0 @@
-NAMESPACE_URI http://io.emf.change_based_persistence.text
-CREATE [Library 0.0,Library 1.0,Library 2.0]
-ADD_R [Library 0.0,Library 1.0,Library 2.0]
-SET_A libraryTypeAttrMany Library 0.0 [A,B,C]
