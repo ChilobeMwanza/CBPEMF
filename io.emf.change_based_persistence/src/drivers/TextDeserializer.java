@@ -5,6 +5,7 @@
 package drivers;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,7 +37,7 @@ public class TextDeserializer
 {
 	private final String classname = this.getClass().getSimpleName();
 	private EPackage ePackage = null;
-	private ChangeLog changelog;
+	private final ChangeLog changelog;
 	
 	
 	private enum EventType
@@ -62,7 +63,11 @@ public class TextDeserializer
 	
 	public void load(Map<?,?> options) throws IOException
 	{
-		//fileLocation = (String)options.get("FILE_LOCATION");
+		
+		/*Check that file exists before attempting to load it*/
+		File f = new File(manager.getURI().path());
+		if(!f.exists() || f.isDirectory())
+			return;
 		
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(new FileInputStream(manager.getURI().path()), manager.TEXT_ENCODING));
@@ -236,7 +241,6 @@ public class TextDeserializer
 		}
 	}
 	
-	
 	private void handleUnsetEAttributeEvent(String line)
 	{
 		double obj_id = Double.valueOf(getNthWord(line,4));
@@ -309,17 +313,6 @@ public class TextDeserializer
 		
 		return output;
 	}
-	
-	
-	/*private String[] createArrayFromString(String str)
-	{
-		
-		String [] stringArray;
-		
-		stringArray = str.split(",");
-		
-	    return stringArray;
-	}*/
 	
 	//returns everything inbetween []
 	private String getValueInSquareBrackets(String str)

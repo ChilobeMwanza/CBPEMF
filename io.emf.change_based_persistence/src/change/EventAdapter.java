@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.util.EContentsEList;
 
 public class EventAdapter extends EContentAdapter
 {
-	private ChangeLog changelog;
+	private final ChangeLog changelog;
 	private  final String classname = this.getClass().getSimpleName();
 	
 	private boolean adapterEnabled = true;

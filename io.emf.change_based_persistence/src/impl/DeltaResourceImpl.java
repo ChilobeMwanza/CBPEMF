@@ -2,6 +2,7 @@
 package impl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,8 +24,7 @@ import drivers.PersistenceManager;
 public class DeltaResourceImpl extends ResourceImpl
 {
 	private  final String classname = this.getClass().getSimpleName();
-	private final  ChangeLog changeLog;
-	private final BiMap<EObject,Double> map ;
+	private final ChangeLog changeLog;
     private PersistenceManager persistenceManager;
     EventAdapter eventAdapter;
     
@@ -34,7 +34,6 @@ public class DeltaResourceImpl extends ResourceImpl
 	{
 		super(uri);
 		
-		map = HashBiMap.create(); //bi map , 
 		changeLog = new ChangeLog();
 	
 		eventAdapter = new EventAdapter(changeLog);
@@ -49,20 +48,31 @@ public class DeltaResourceImpl extends ResourceImpl
 	{
 		
 		persistenceManager.save(options);
-	    System.out.println("DeltaResourceImpl: Print save file contents : ");
-		try
-		{
-			showSaveFileContents();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
 		
-		//System.out.println();
-        //System.out.println();
-       // System.out.println("Sorted changelog:");
-		//changeLog.showLogEntries(changeLog.sortChangeLog());
+		/*If save file exists, print contents to console*/
+		File f = new File(this.uri.path());
+		
+		if(f.exists() && !f.isDirectory())
+		{
+			System.out.println("DeltaResourceImpl: Print save file contents : ");
+			
+			try
+			{
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						new FileInputStream(this.uri.path()),"Ascii"));
+				String line;
+				
+				while((line = in.readLine())!= null)
+				{
+					System.out.println(line);
+				}
+				in.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -76,34 +86,10 @@ public class DeltaResourceImpl extends ResourceImpl
 		
 		eventAdapter.setEnabled(true);
 	}
-	
-	/*@Override
-	public void attached(EObject eObject) // tbr
-	{
-		super.attached(eObject);
-	}*/
 		
 	public ChangeLog getChangeLog()
 	{
 		return this.changeLog;
-	}
-	
-	public BiMap<EObject,Double> getMap()
-	{
-		return this.map;
-	}
-	
-	public void showSaveFileContents() throws Exception
-	{
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				new FileInputStream(this.uri.path()),"Ascii"));
-		String line;
-		
-		while((line = in.readLine())!= null)
-		{
-			System.out.println(line);
-		}
-		in.close();
 	}
 	
 }

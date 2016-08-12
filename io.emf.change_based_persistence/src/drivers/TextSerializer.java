@@ -1,5 +1,9 @@
 /*
  * todo:
+ * use long for id, not double
+ * at load, id is not updating.
+ * remove deleted items from changelog.
+ * 
  * resume after load (as in pick up where you left off)
  * add some unit tests
  * catch exeptions (i.e file not found, at load)
@@ -230,11 +234,13 @@ public class TextSerializer
 	private void handleUnsetEReferenceSingleEvent(Notification n)
 	{
 		EObject removed_obj = (EObject)n.getOldValue();
-		
+		double removed_obj_id = changelog.getObjectId(removed_obj);
 		if(n.getNotifier() instanceof DeltaResourceImpl) //delete eobject from resource
 		{
 			outputList.add("DEL_R ["+removed_obj.eClass().getName()+" "+
-					changelog.getObjectId(removed_obj)+"]"); 
+					removed_obj_id+"]"); 
+			
+			changelog.deleteEObjectFromMap(removed_obj_id);
 		}
 		else if(n.getNotifier() instanceof EObject)
 		{
@@ -242,7 +248,9 @@ public class TextSerializer
 			
 			outputList.add("UNSET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
 					+changelog.getObjectId(focus_obj)+" ["+removed_obj.eClass().getName()+" "
-					+changelog.getObjectId(removed_obj)+"]");
+					+removed_obj_id+"]");
+			
+			changelog.deleteEObjectFromMap(removed_obj_id);
 		}
 	}
 	
@@ -296,12 +304,14 @@ public class TextSerializer
 		
 		for (EObject obj : removed_obj_list)
 		{
-			obj_delete_list_str = obj_delete_list_str +  obj.eClass().getName()+" "+changelog.getObjectId(obj)+manager.DELIMITER; 
+			double removed_obj_id = changelog.getObjectId(obj);
+			
+			obj_delete_list_str = obj_delete_list_str +  obj.eClass().getName()+" "+removed_obj_id +manager.DELIMITER; 
+			
+			changelog.deleteEObjectFromMap(removed_obj_id);	
 		}
 		
 		obj_delete_list_str = obj_delete_list_str.substring(0,obj_delete_list_str.length()-1)+"]";
-		
-		
 		
 		if(n.getNotifier() instanceof DeltaResourceImpl) //DELETE OBJs FROM RESOURCE
 		{
