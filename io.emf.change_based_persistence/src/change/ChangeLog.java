@@ -22,22 +22,22 @@ import util.KDebug;
 public class ChangeLog 
 {
 	private final List<Notification> notificationsList;
-	private final BiMap<EObject,Double> map; 
+	private final BiMap<EObject,Long> map; 
 	private final String classname = this.getClass().getSimpleName();
 	
 	/* needs to be static so we can track the latest (highest) available 
 	 * id globally across instantiations of this changelog. A new changelog is instantiated 
 	 * at save and at load. if this var is not static, current id reverts to 0*/
-	private static double current_id; 
+	private static long current_id; 
 	
 	public ChangeLog()
 	{
 		notificationsList = new ArrayList<Notification>();
 		map = HashBiMap.create();
-		current_id = 0.0;
+		current_id = 0;
 	}
 	
-	public BiMap<EObject,Double> getObjectToIdMap()
+	public BiMap<EObject,Long> getObjectToIdMap()
 	{
 		return map;
 	}
@@ -54,13 +54,13 @@ public class ChangeLog
 		return false;
 	}
 	
-	public boolean deleteEObjectFromMap(double id)
+	public boolean deleteEObjectFromMap(long id)
 	{
 		map.remove(id);
 		return true;
 	}
 	
-	public boolean addObjectToMap(EObject obj, double id)
+	public boolean addObjectToMap(EObject obj, long id)
 	{
 		if(getEObject(id) == null)
 		{
@@ -75,9 +75,9 @@ public class ChangeLog
 		return false;
 	}
 	
-	public double getObjectId(EObject obj)
+	public long getObjectId(EObject obj)
 	{
-		double id = -1;
+		long id = -1;
 		
 		if(map.get(obj)!= null)
 			id = map.get(obj);
@@ -85,7 +85,7 @@ public class ChangeLog
 		return id;
 	}
 	
-	public EObject getEObject(double id)
+	public EObject getEObject(long id)
 	{
 		return  map.inverse().get(id);
 	}

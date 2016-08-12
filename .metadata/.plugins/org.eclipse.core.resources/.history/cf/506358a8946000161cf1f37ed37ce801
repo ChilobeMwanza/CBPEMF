@@ -1,8 +1,12 @@
 /*
  * todo:
+ * use long for id, not double
+ * at load, id is not updating.
+ * remove deleted items from changelog.
+ * 
  * resume after load (as in pick up where you left off)
  * add some unit tests
- * check support for *complex types* ?
+ * catch exeptions (i.e file not found, at load)
  * optimisation algorithm
  * check everything works with non generated emf (Reflective)
  * make txt format less verbose
@@ -13,6 +17,7 @@ package drivers;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -58,8 +63,14 @@ public class TextSerializer
 		if(notificationsList.isEmpty())
 			return;
 		
-		if(!appendMode)
+		/*Check if we are saving to an existing file, if not, add namespace uri entry*/
+		File f = new File(manager.getURI().path());
+		
+		if(!f.exists() || f.isDirectory())
 			serialiseInitialEntry();
+		
+	
+			
 		
 		//String fileSaveLocation = (String) options.get("FILE_SAVE_LOCATION");
 		
@@ -223,11 +234,13 @@ public class TextSerializer
 	private void handleUnsetEReferenceSingleEvent(Notification n)
 	{
 		EObject removed_obj = (EObject)n.getOldValue();
-		
+		double removed_obj_id = changelog.getObjectId(removed_obj);
 		if(n.getNotifier() instanceof DeltaResourceImpl) //delete eobject from resource
 		{
 			outputList.add("DEL_R ["+removed_obj.eClass().getName()+" "+
-					changelog.getObjectId(removed_obj)+"]"); 
+					removed_obj_id+"]"); 
+			
+			changelog.deleteEObjectFromMap(removed_obj_id);
 		}
 		else if(n.getNotifier() instanceof EObject)
 		{
@@ -235,7 +248,9 @@ public class TextSerializer
 			
 			outputList.add("UNSET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
 					+changelog.getObjectId(focus_obj)+" ["+removed_obj.eClass().getName()+" "
-					+changelog.getObjectId(removed_obj)+"]");
+					+removed_obj_id+"]");
+			
+			changelog.deleteEObjectFromMap(removed_obj_id);
 		}
 	}
 	
@@ -289,12 +304,14 @@ public class TextSerializer
 		
 		for (EObject obj : removed_obj_list)
 		{
-			obj_delete_list_str = obj_delete_list_str +  obj.eClass().getName()+" "+changelog.getObjectId(obj)+manager.DELIMITER; 
+			double removed_obj_id = changelog.getObjectId(obj);
+			
+			obj_delete_list_str = obj_delete_list_str +  obj.eClass().getName()+" "+removed_obj_id +manager.DELIMITER; 
+			
+			changelog.deleteEObjectFromMap(removed_obj_id);	
 		}
 		
 		obj_delete_list_str = obj_delete_list_str.substring(0,obj_delete_list_str.length()-1)+"]";
-		
-		
 		
 		if(n.getNotifier() instanceof DeltaResourceImpl) //DELETE OBJs FROM RESOURCE
 		{
@@ -331,48 +348,7 @@ public class TextSerializer
 		outputList.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
 	}
 	
-	private void checkIfResume()
-	{
-		try
-		{
-			BufferedReader br = new BufferedReader(
-					new InputStreamReader(new FileInputStream(manager.getURI().path()), 
-							manager.TEXT_ENCODING));
-			
-			String line;
-			
-			if((line = br.readLine()) != null)
-			{
-				ePackage = loadMetamodel(getNthWord(line,2));
-			}
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
 	
-	private String getNthWord(String input, int n)
-	{
-		String [] stringArray = input.split(" ");
-		if(n-1 < stringArray.length)
-			return stringArray[n-1];
-		return null;
-	}
-	
-	private EPackage loadMetamodel(String metamodelURI)
-	{
-		//EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage("http://io.emf.change_based_persistence.text");
-		EPackage ePackage = null;
-		if(EPackage.Registry.INSTANCE.containsKey(metamodelURI))
-			ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelURI);
-		else
-		{
-			System.out.println(classname+" could not load metamodel!");
-			System.exit(0);
-		}
-		return ePackage;
-	}
 	private void appendStringsToFile(boolean appendMode)
 	{
 		try

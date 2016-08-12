@@ -133,7 +133,7 @@ public class TextDeserializer
 	
 	private void handleSetEReferenceEvent(String line)
 	{
-		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,4)));
+		EObject focus_obj = changelog.getEObject(Double.valueOf(getNthWord(line,4)));
 		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
 		
 		String[] feature_values_array = tokeniseString(getValueInSquareBrackets(line));
@@ -145,18 +145,18 @@ public class TextDeserializer
 			
 			for(String str : feature_values_array)
 			{
-				feature_value_list.add(changelog.getEObject(Long.valueOf(getNthWord(str,2))));
+				feature_value_list.add(changelog.getEObject(Double.valueOf(getNthWord(str,2))));
 			}
 		}
 		else
 		{
-			focus_obj.eSet(ref, changelog.getEObject(Long.valueOf(getNthWord(feature_values_array [0],2))));
+			focus_obj.eSet(ref, changelog.getEObject(Double.valueOf(getNthWord(feature_values_array [0],2))));
 		}
 	}
 	
 	private void handleUnsetEReferenceEvent(String line)
 	{
-		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,4)));
+		EObject focus_obj = changelog.getEObject(Double.valueOf(getNthWord(line,4)));
 		
 		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
 		
@@ -169,7 +169,7 @@ public class TextDeserializer
 			
 			for(String str : feature_values_array)
 			{
-				feature_value_list.remove(changelog.getEObject(Long.valueOf(getNthWord(str,2))));				
+				feature_value_list.remove(changelog.getEObject(Double.valueOf(getNthWord(str,2))));				
 			}
 		}
 		else
@@ -180,7 +180,7 @@ public class TextDeserializer
 	
 	private void handleSetEAttributeEvent(String line) 
 	{
-		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,4)));
+		EObject focus_obj = changelog.getEObject(Double.valueOf(getNthWord(line,4)));
 		EAttribute attr = (EAttribute)focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
 		
 		String[] feature_values_array = tokeniseString(getValueInSquareBrackets(line));
@@ -214,7 +214,7 @@ public class TextDeserializer
 		
 		for(String str : obj_str_array)
 		{
-			EObject obj = changelog.getEObject(Long.valueOf(getNthWord(str,2)));
+			EObject obj = changelog.getEObject(Double.valueOf(getNthWord(str,2)));
 			manager.addEObjectToContents(obj);
 		}
 	}
@@ -225,7 +225,7 @@ public class TextDeserializer
 		
 		for(String str : obj_str_array)
 		{
-			EObject obj = changelog.getEObject(Long.valueOf(getNthWord(str,2)));
+			EObject obj = changelog.getEObject(Double.valueOf(getNthWord(str,2)));
 			manager.removeEObjectFromContents(obj);
 		}
 	}
@@ -235,7 +235,7 @@ public class TextDeserializer
 		String[] obj_str_array = tokeniseString(getValueInSquareBrackets(line));
 		for(String str : obj_str_array)
 		{
-			Long id = Long.valueOf(getNthWord(str,2));
+			Double id = Double.valueOf(getNthWord(str,2));
 			EObject obj = createEObject(getNthWord(str,1));
 			changelog.addObjectToMap(obj, id);	
 		}
@@ -243,7 +243,7 @@ public class TextDeserializer
 	
 	private void handleUnsetEAttributeEvent(String line)
 	{
-		long obj_id = Long.valueOf(getNthWord(line,4));
+		double obj_id = Double.valueOf(getNthWord(line,4));
 		
 		EObject obj = changelog.getEObject(obj_id);
 		

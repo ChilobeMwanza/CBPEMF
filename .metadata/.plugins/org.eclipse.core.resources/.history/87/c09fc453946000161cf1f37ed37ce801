@@ -16,15 +16,19 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 import impl.DeltaResourceImpl;
+import util.KDebug;
 
 
 public class ChangeLog 
 {
 	private final List<Notification> notificationsList;
-	private final BiMap<EObject,Double> map; //change to normal map
+	private final BiMap<EObject,Long> map; 
 	private final String classname = this.getClass().getSimpleName();
 	
-	private double current_id;
+	/* needs to be static so we can track the latest (highest) available 
+	 * id globally across instantiations of this changelog. A new changelog is instantiated 
+	 * at save and at load. if this var is not static, current id reverts to 0*/
+	private static double current_id; 
 	
 	public ChangeLog()
 	{
@@ -40,33 +44,32 @@ public class ChangeLog
 	
 	public boolean addObjectToMap(EObject obj)
 	{
-		//System.out.println(obj.eClass().getName());
+	
 		if(map.get(obj)== null)
 		{
-			current_id = current_id +1;
 			map.put(obj, current_id);
+			current_id = current_id + 1; //update
 			return true;
 		}	
 		return false;
 	}
 	
-	// cid = 5, id =5
+	public boolean deleteEObjectFromMap(double id)
+	{
+		map.remove(id);
+		return true;
+	}
+	
 	public boolean addObjectToMap(EObject obj, double id)
 	{
-		 if(id >= current_id)
-		 {
-			 System.out.println(classname+" id: "+id);
-			 System.out.println(classname+" current_id: "+current_id);
-			 
-			 current_id = id + 1;
-			 
-			 System.out.println(classname+" current_id after: "+current_id);
-		 }
-			
-		
 		if(getEObject(id) == null)
 		{
 			map.put(obj, id);
+			
+			if(id >= current_id)
+			{
+				current_id = id + 1;
+			}
 			return true;
 		}	
 		return false;
@@ -74,11 +77,10 @@ public class ChangeLog
 	
 	public double getObjectId(EObject obj)
 	{
-		double id;
+		double id = -1;
+		
 		if(map.get(obj)!= null)
 			id = map.get(obj);
-		else
-			id = -1;
 		
 		return id;
 	}
@@ -97,5 +99,4 @@ public class ChangeLog
 	{
 		return notificationsList;
 	}
-	
 }

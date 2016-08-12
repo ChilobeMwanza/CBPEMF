@@ -1,6 +1,6 @@
 /*
  * todo:
- * use long for id, not double
+ * use long for id, not long
  * at load, id is not updating.
  * remove deleted items from changelog.
  * 
@@ -234,7 +234,7 @@ public class TextSerializer
 	private void handleUnsetEReferenceSingleEvent(Notification n)
 	{
 		EObject removed_obj = (EObject)n.getOldValue();
-		double removed_obj_id = changelog.getObjectId(removed_obj);
+		long removed_obj_id = changelog.getObjectId(removed_obj);
 		if(n.getNotifier() instanceof DeltaResourceImpl) //delete eobject from resource
 		{
 			outputList.add("DEL_R ["+removed_obj.eClass().getName()+" "+
@@ -304,7 +304,7 @@ public class TextSerializer
 		
 		for (EObject obj : removed_obj_list)
 		{
-			double removed_obj_id = changelog.getObjectId(obj);
+			long removed_obj_id = changelog.getObjectId(obj);
 			
 			obj_delete_list_str = obj_delete_list_str +  obj.eClass().getName()+" "+removed_obj_id +manager.DELIMITER; 
 			
