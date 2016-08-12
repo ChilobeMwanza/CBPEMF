@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
-<fullyQualifiedTypeName name="java.lang.instrument.Instrumentation"/>
-<fullyQualifiedTypeName name="com.google.common.collect.BiMap"/>
-<fullyQualifiedTypeName name="com.google.common.collect.HashBiMap"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
-<fullyQualifiedTypeName name="java.util.Iterator"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
-<fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
-<fullyQualifiedTypeName name="java.util.UUID"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl"/>
-<fullyQualifiedTypeName name="com.google.common.base.Stopwatch"/>
-<fullyQualifiedTypeName name="org.eclipse.epsilon.profiling.Stopwatch"/>
-<fullyQualifiedTypeName name="library.Author"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="change.NewObjectEntry"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
@@ -25,8 +12,6 @@
 <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
 <fullyQualifiedTypeName name="java.util.regex.Matcher"/>
 <fullyQualifiedTypeName name="change.AddToResourceEntry"/>
-<fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClass"/>
 <fullyQualifiedTypeName name="javax.swing.text.html.HTMLDocument.Iterator"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
@@ -37,7 +22,6 @@
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.util.BasicEList"/>
 <fullyQualifiedTypeName name="library.LibraryType"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
 <fullyQualifiedTypeName name="util.Printer"/>
 <fullyQualifiedTypeName name="change.AbstractEvent"/>
 <fullyQualifiedTypeName name="change.AddEvent"/>
@@ -52,12 +36,28 @@
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EContentsEList"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notifier"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
-<fullyQualifiedTypeName name="impl.DeltaResourceImpl"/>
 <fullyQualifiedTypeName name="library.Module"/>
 <fullyQualifiedTypeName name="library.Student"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="util.KDebug"/>
+<fullyQualifiedTypeName name="org.junit.Test"/>
+<fullyQualifiedTypeName name="impl.DeltaResourceImpl"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.Resource"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.util.URI"/>
+<fullyQualifiedTypeName name="university.UniversityPackage"/>
+<fullyQualifiedTypeName name="university.University"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.util.TreeIterator"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.impl.ResourceSetImpl"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.nio.file.Files"/>
+<fullyQualifiedTypeName name="university.Library"/>
+<fullyQualifiedTypeName name="university.Vehicle"/>
+<fullyQualifiedTypeName name="university.Student"/>
+<fullyQualifiedTypeName name="university.UniversityFactory"/>
 </qualifiedTypeNameHistroy>

@@ -1,0 +1,62 @@
+@namespace(uri="http://io.emf.change_based_persistence.text", prefix="cbp")
+package university;
+
+class University extends NamedElement
+{
+	val Department[*] departments;
+}
+
+
+class Student extends NamedElement
+{
+	ref Module [*]#enrolledStudents enrolledModules;
+	ref Vehicle registeredVehicle;
+	attr double studentId;
+}
+
+class Library extends NamedElement
+{
+	val Book[*] books;
+}
+
+class Book extends NamedElement
+{
+ attr String ISBN;	
+}
+class StaffMember extends NamedElement
+{
+	attr StaffMemberType staffMemberType;
+	ref Module [*]#moduleLecturers taughtModules;
+}
+
+class Vehicle 
+{
+	attr String registrationNumber;	
+}
+class Department extends NamedElement
+{
+	val StaffMember[*] staff;
+	val Student[*] students;	
+}
+
+class Module extends NamedElement
+{
+	ref StaffMember[*]#taughtModules moduleLecturers;
+	ref Student[*]#enrolledModules enrolledStudents;	
+}
+
+
+class NamedElement
+{
+	attr String name;	
+}
+
+enum StaffMemberType{
+	Academic;
+	Research;
+	Technical;
+	Admin;
+	Honary;
+	ResearchStudent;
+	Other;
+}

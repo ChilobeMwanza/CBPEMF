@@ -1,0 +1,12 @@
+@namespace(uri="http://io.emf.change_based_persistence.text", prefix="cbp")
+package university;
+
+class University extends NamedElement
+{
+	
+}
+
+class NamedElement
+{
+	attr String name;	
+}

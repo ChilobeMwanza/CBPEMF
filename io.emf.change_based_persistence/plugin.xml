@@ -14,4 +14,12 @@
             genModel="model/simple_library.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated university -->
+      <package
+            uri="http://io.emf.change_based_persistence.text"
+            class="university.UniversityPackage"
+            genModel="model/university.genmodel"/>
+   </extension>
+
 </plugin>

@@ -32,15 +32,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 import impl.DeltaResourceImpl;
-import library.Author;
-import library.Book;
-import library.Library;
-import library.LibraryFactory;
-import library.LibraryPackage;
-import library.LibraryType;
-import library.Module;
-import library.Student;
-import library.Vehicle;
+import university.UniversityPackage;
 
 
 public class App 
@@ -75,8 +67,8 @@ public class App
 			}
 		});
 		
-		rs.getPackageRegistry().put(LibraryPackage.eINSTANCE.getNsURI(), 
-				LibraryPackage.eINSTANCE);
+		rs.getPackageRegistry().put(UniversityPackage.eINSTANCE.getNsURI(), 
+				UniversityPackage.eINSTANCE);
 		
 		Resource resource = rs.createResource(URI.createFileURI(fileSaveLocation));
 		resource.load(null);
@@ -102,25 +94,7 @@ public class App
 		
 		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
 		
-		resource.getContents().addAll(loadResource());
 		
-	    Library lib1 = LibraryFactory.eINSTANCE.createLibrary();
-	    resource.getContents().add(lib1);
-	    resource.getContents().remove(lib1);
-	    
-	    List<String> names = new ArrayList<String>();
-	   // names.add("peter white");
-	    names.add("Mary, April Smith");
-	    
-	    //lib1.getEmployeeNames().addAll(names);
-	    
-	  
-	   
-	    //lib1.setName("York library");
-	    
-	   // Book b1  = LibraryFactory.eINSTANCE.createBook();
-	   // lib1.setSuperBook(b1);
-	    
 	    
 		/*SAVE STARTS HERE*/
 		resource.save(null); 

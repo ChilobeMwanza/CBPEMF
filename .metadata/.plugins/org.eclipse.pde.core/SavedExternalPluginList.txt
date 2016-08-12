@@ -1,4 +1,4 @@
-# List of external plug-in models previously loaded. Timestamp: 1471010063369
+# List of external plug-in models previously loaded. Timestamp: 1471023254228
 file:/C:/eclipse-epsilon/plugins/com.google.eclipse.protobuf_2.2.1.201601041517.jar
 file:/C:/eclipse-epsilon/plugins/com.google.eclipse.protobuf.ui_2.2.1.201601041517.jar
 file:/C:/eclipse-epsilon/plugins/com.google.gdata_1.47.1_1.47.1.jar
@@ -8,6 +8,11 @@ file:/C:/eclipse-epsilon/plugins/com.google.guava_18.0_18.0.0.jar
 file:/C:/eclipse-epsilon/plugins/com.google.inject_3.0.0.v201312141243.jar
 file:/C:/eclipse-epsilon/plugins/com.ibm.icu_54.1.1.v201501272100.jar
 file:/C:/eclipse-epsilon/plugins/com.jcraft.jsch_0.1.53.v201508180515.jar
+file:/C:/eclipse-epsilon/plugins/com.mountainminds.eclemma.asm_2.3.3.201602231923.jar
+file:/C:/eclipse-epsilon/plugins/com.mountainminds.eclemma.core_2.3.3.201602231923.jar
+file:/C:/eclipse-epsilon/plugins/com.mountainminds.eclemma.debug.ui.compatibility_2.3.3.201602231923.jar
+file:/C:/eclipse-epsilon/plugins/com.mountainminds.eclemma.doc_2.3.3.201602231923.jar
+file:/C:/eclipse-epsilon/plugins/com.mountainminds.eclemma.ui_2.3.3.201602231923.jar
 file:/C:/eclipse-epsilon/plugins/com.sun.el_2.2.0.v201303151357.jar
 file:/C:/eclipse-epsilon/plugins/es.modelum.morsa_1.0.0.jar
 file:/C:/eclipse-epsilon/plugins/es.modelum.morsa.mongodb_1.0.0/
@@ -959,6 +964,9 @@ file:/C:/eclipse-epsilon/plugins/org.eclipse.xtext.xtext.wizard_2.9.1.v201512180
 file:/C:/eclipse-epsilon/plugins/org.h2_1.3.168.v201212121212.jar
 file:/C:/eclipse-epsilon/plugins/org.h2_1.1.117_1.1.117.jar
 file:/C:/eclipse-epsilon/plugins/org.hamcrest.core_1.3.0.v201303031735.jar
+file:/C:/eclipse-epsilon/plugins/org.jacoco.agent_0.7.6.201602180812.jar
+file:/C:/eclipse-epsilon/plugins/org.jacoco.core_0.7.6.201602180812.jar
+file:/C:/eclipse-epsilon/plugins/org.jacoco.report_0.7.6.201602180812.jar
 file:/C:/eclipse-epsilon/plugins/org.jdom_1.0_1.0.0.jar
 file:/C:/eclipse-epsilon/plugins/org.jsoup_1.7.2.v201411291515.jar
 file:/C:/eclipse-epsilon/plugins/org.junit_4.12.0.v201504281640/

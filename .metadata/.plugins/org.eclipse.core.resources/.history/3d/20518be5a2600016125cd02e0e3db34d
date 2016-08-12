@@ -1,0 +1,10 @@
+package cbp_text_tests;
+
+public class Test {
+	  @Test
+	    public void test_method_1() {
+	        System.out.println("@Test - test_method_1");
+	    }
+
+
+}
