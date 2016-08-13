@@ -1,0 +1,38 @@
+package util;
+
+import java.util.Scanner;
+
+public class Temp {
+
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+
+		int x = 4;
+		Scanner input = new Scanner(System.in);
+		
+		while (x != 0) {
+	        //start while
+	        switch(x) {
+	            //start switch
+	            case 1:
+	                System.out.print("\nAV Name: ");
+	                String avNameInput = input.nextLine();
+	                //avName.add(avNameInput);
+	                System.out.println("\nEnter 2 to enter AV Value:");
+	                x = input.nextInt();
+	                break;
+	            case 2:
+	                System.out.print("\nAV Value: ");
+	                int avNumberInput = input.nextInt();
+	                avNumber.add(avNumberInput);
+	                System.out.println("\nContinue? 1 = Yes, 0 = No");
+	                x = input.nextInt();
+	                break;
+	            case 0:
+	                break;
+	        }//end switch
+	    }//end while
+	}
+
+}

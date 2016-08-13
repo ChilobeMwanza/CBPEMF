@@ -1,10 +1,9 @@
 /*
  * todo:
- * use long for id, not long
- * at load, id is not updating.
- * remove deleted items from changelog.
+ * what if exception occurs during switch, and thus notifications are not cleared?
  * 
  * resume after load (as in pick up where you left off)
+ * more robustness, i.e invalid save file (first line is not namespace, invalid entries e.t.c)
  * add some unit tests
  * catch exeptions (i.e file not found, at load)
  * optimisation algorithm
@@ -137,9 +136,12 @@ public class TextSerializer
 				default:
 				{
 					System.out.println(classname+"Unhandled notification!" +n.toString());
+					System.exit(0);
 				}
 			}
 		}
+		
+		changelog.clearNotifications();
 		
 		//finally append strings to file
 		appendStringsToFile(appendMode);
@@ -208,6 +210,7 @@ public class TextSerializer
 		}
 		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
 		outputList.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
+		
 	}
 	
 	private void handleSetEReferenceSingleEvent(Notification n)
@@ -229,6 +232,8 @@ public class TextSerializer
 					+changelog.getObjectId(focus_obj)+" ["+added_obj.eClass().getName()+" "
 					+changelog.getObjectId(added_obj)+"]");
 		}
+		
+	
 	}
 	
 	private void handleUnsetEReferenceSingleEvent(Notification n)
@@ -252,6 +257,7 @@ public class TextSerializer
 			
 			changelog.deleteEObjectFromMap(removed_obj_id);
 		}
+		
 	}
 	
 	private void handleSetEReferenceManyEvent(Notification n)
@@ -293,6 +299,7 @@ public class TextSerializer
 	    	outputList.add("SET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
 					+changelog.getObjectId(focus_obj)+" "+added_obj_list_str);
 	    }
+	    
 	}
 	
 	private void handleUnsetEReferenceManyEvent(Notification n)
@@ -316,7 +323,6 @@ public class TextSerializer
 		if(n.getNotifier() instanceof DeltaResourceImpl) //DELETE OBJs FROM RESOURCE
 		{
 			outputList.add("DEL_R "+obj_delete_list_str);
-			System.out.println(classname+" yes");
 		}
 		else if(n.getNotifier() instanceof EObject)
 		{
@@ -325,6 +331,7 @@ public class TextSerializer
 			outputList.add("UNSET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
 							+changelog.getObjectId(focus_obj)+" "+obj_delete_list_str);
 		}	
+	
 	}
 	
 	private void serialiseInitialEntry()

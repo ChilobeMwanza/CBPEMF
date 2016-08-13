@@ -32,12 +32,14 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 import impl.DeltaResourceImpl;
+import university.University;
+import university.UniversityFactory;
 import university.UniversityPackage;
 
 
 public class App 
 {
-	private static String fileSaveLocation ="library.txt";
+	private static String fileSaveLocation ="university.txt";
 	private  final String classname = this.getClass().getSimpleName();
 	
 	public static void main(String[] args) throws Exception
@@ -49,9 +51,9 @@ public class App
 		App app = new App();
 		
 		savedList = app.createResource();
-		loadedList = app.loadResource() ;
+		//loadedList = app.loadResource() ;
 	
-		app.verify(savedList, loadedList);
+		//app.verify(savedList, loadedList);
 	}
 	
 	public List<EObject> loadResource() throws IOException
@@ -92,11 +94,15 @@ public class App
 	public List<EObject> createResource() throws Exception
 	{
 		
-		Resource resource = new DeltaResourceImpl(URI.createURI("library.txt"));
+		Resource resource = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
 		
-		
+		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
+		resource.getContents().add(uni1);
+	
 	    
 		/*SAVE STARTS HERE*/
+		resource.save(null); 
+		resource.save(null); 
 		resource.save(null); 
 		List<EObject> objectsList = new ArrayList<EObject>();
 		
@@ -197,11 +203,8 @@ public class App
 			
 		}
 		
-		out("Unable to determine cause of verification failure! Have you implemented the logic ?");
-		
+		out("Unable to determine cause of verification failure! Have you implemented the logic ?");	
 	}
-	
-	
 	
 	private void out(String str)
 	{

@@ -95,6 +95,16 @@ public class ChangeLog
 		notificationsList.add(n);
 	}
 	
+	public void deleteNotification(Notification n)
+	{
+		notificationsList.remove(n);
+	}
+	
+	public void clearNotifications()
+	{
+		notificationsList.clear();
+	}
+	
 	public List<Notification> getEventsList()
 	{
 		return notificationsList;

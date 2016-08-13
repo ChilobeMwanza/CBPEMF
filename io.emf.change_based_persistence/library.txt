@@ -1,4 +1,0 @@
-NAMESPACE_URI http://io.emf.change_based_persistence.text
-CREATE [Library 0]
-ADD_R [Library 0]
-DEL_R [Library 0]

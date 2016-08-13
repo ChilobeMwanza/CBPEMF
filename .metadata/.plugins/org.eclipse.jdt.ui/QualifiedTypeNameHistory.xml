@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.io.IOException"/>
-<fullyQualifiedTypeName name="change.NewObjectEntry"/>
-<fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="change.SetAttributeEntry"/>
 <fullyQualifiedTypeName name="change.AddLinkEntry"/>
 <fullyQualifiedTypeName name="change.ChangeLog"/>
@@ -43,21 +40,24 @@
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="util.KDebug"/>
 <fullyQualifiedTypeName name="org.junit.Test"/>
-<fullyQualifiedTypeName name="impl.DeltaResourceImpl"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.Resource"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.common.util.URI"/>
-<fullyQualifiedTypeName name="university.UniversityPackage"/>
-<fullyQualifiedTypeName name="university.University"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.common.util.TreeIterator"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.impl.ResourceSetImpl"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="java.nio.file.Files"/>
+<fullyQualifiedTypeName name="impl.DeltaResourceImpl"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.util.URI"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.impl.ResourceSetImpl"/>
+<fullyQualifiedTypeName name="university.UniversityPackage"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.util.TreeIterator"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
 <fullyQualifiedTypeName name="university.Library"/>
+<fullyQualifiedTypeName name="university.Department"/>
 <fullyQualifiedTypeName name="university.Vehicle"/>
 <fullyQualifiedTypeName name="university.Student"/>
+<fullyQualifiedTypeName name="university.University"/>
 <fullyQualifiedTypeName name="university.UniversityFactory"/>
 </qualifiedTypeNameHistroy>
