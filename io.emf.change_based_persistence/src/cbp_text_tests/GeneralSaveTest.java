@@ -6,11 +6,16 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.Test;
 
+import impl.DeltaResourceImpl;
 import university.University;
 import university.UniversityFactory;
+import university.UniversityPackage;
 
 public class GeneralSaveTest extends BasicTest
 {
@@ -68,5 +73,98 @@ public class GeneralSaveTest extends BasicTest
 		//check that the file has been modified
 		assertFalse(timeStamp == file.lastModified());
 		
+	}
+	
+	/*
+	 * Test that saved object and loaded object are equal
+	 */
+	@Test
+	public void testBasicSaveAndLoad() throws IOException
+	{
+		University savedUni = UniversityFactory.eINSTANCE.createUniversity();
+		resource.getContents().add(savedUni);
+		
+		resource.save(null);
+		
+		//Load in the resource
+		ResourceSetImpl rs = new ResourceSetImpl();
+		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put
+		("txt", new Resource.Factory()
+		{
+			@Override
+			public Resource createResource(URI uri)
+			{
+				return new DeltaResourceImpl(uri);
+			}
+		});
+		
+		rs.getPackageRegistry().put(UniversityPackage.eINSTANCE.getNsURI(), 
+				UniversityPackage.eINSTANCE);
+		
+		Resource res = rs.createResource(URI.createFileURI(fileSaveLocation));
+		res.load(null);
+		
+		//check objects are equal
+		
+		University loadedUni = (University) res.getContents().get(0);
+		
+		assertTrue(EcoreUtil.equals(savedUni, loadedUni));
+	}
+	
+	
+	/*
+	 * Test empty save does not result in output file creation
+	 */
+	@Test
+	public void testEmptySave() throws IOException
+	{
+		resource.save(null);
+		
+		File f = new File(fileSaveLocation);
+		
+		assertFalse(f.exists());
+	}
+	
+	/*
+	 * Tests that redundant modifications do not result in changes to the output file
+	 */
+	@Test
+	public void testRedundantModification() throws IOException
+	{
+		University savedUni = UniversityFactory.eINSTANCE.createUniversity();
+		resource.getContents().add(savedUni);
+		savedUni.setName("York Uni");
+		
+		resource.save(null);
+		
+		File file = new File(fileSaveLocation);
+		Long timeStamp = file.lastModified();
+		
+		
+		//Load in the resource
+		ResourceSetImpl rs = new ResourceSetImpl();
+		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put
+		("txt", new Resource.Factory()
+		{
+			@Override
+			public Resource createResource(URI uri)
+			{
+				return new DeltaResourceImpl(uri);
+			}
+		});
+		
+		rs.getPackageRegistry().put(UniversityPackage.eINSTANCE.getNsURI(), 
+				UniversityPackage.eINSTANCE);
+		
+		Resource res = rs.createResource(URI.createFileURI(fileSaveLocation));
+		res.load(null);
+		
+		
+		
+		University loadedUni = (University) res.getContents().get(0);
+		loadedUni.setName("York Uni");
+		
+		//check that the file has not been modified
+		assertTrue(timeStamp == file.lastModified());
 	}
 }

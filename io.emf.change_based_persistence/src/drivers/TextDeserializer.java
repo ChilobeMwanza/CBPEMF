@@ -62,13 +62,7 @@ public class TextDeserializer
 	}
 	
 	public void load(Map<?,?> options) throws IOException
-	{
-		
-		/*Check that file exists before attempting to load it*/
-		File f = new File(manager.getURI().path());
-		if(!f.exists() || f.isDirectory())
-			return;
-		
+	{	
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(new FileInputStream(manager.getURI().path()), manager.TEXT_ENCODING));
 		
@@ -129,6 +123,7 @@ public class TextDeserializer
 			}	
 		}
 		br.close();
+		manager.setSuccessfulLoad(true);
 	}
 	
 	private void handleSetEReferenceEvent(String line)

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="change.SetAttributeEntry"/>
-<fullyQualifiedTypeName name="change.AddLinkEntry"/>
 <fullyQualifiedTypeName name="change.ChangeLog"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EAttribute"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.Diagnostician"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="university.Student"/>
 <fullyQualifiedTypeName name="university.University"/>
 <fullyQualifiedTypeName name="university.UniversityFactory"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.ResourceSet"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl"/>
 </qualifiedTypeNameHistroy>
