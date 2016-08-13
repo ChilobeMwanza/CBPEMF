@@ -47,7 +47,7 @@ public class App
 		// TODO Auto-generated method stub
 		App app = new App();
 		
-		//app.createResource();
+		app.createResource();
 	
 		//app.loadResource() ;
 	

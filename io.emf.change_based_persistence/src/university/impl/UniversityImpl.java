@@ -4,6 +4,7 @@ package university.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -11,11 +12,13 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import university.Department;
 import university.Library;
+import university.StaffMember;
 import university.University;
 import university.UniversityPackage;
 
@@ -29,6 +32,7 @@ import university.UniversityPackage;
  * <ul>
  *   <li>{@link university.impl.UniversityImpl#getDepartments <em>Departments</em>}</li>
  *   <li>{@link university.impl.UniversityImpl#getLibraries <em>Libraries</em>}</li>
+ *   <li>{@link university.impl.UniversityImpl#getChancelor <em>Chancelor</em>}</li>
  * </ul>
  *
  * @generated
@@ -53,6 +57,16 @@ public class UniversityImpl extends NamedElementImpl implements University {
 	 * @ordered
 	 */
 	protected EList<Library> libraries;
+
+	/**
+	 * The cached value of the '{@link #getChancelor() <em>Chancelor</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getChancelor()
+	 * @generated
+	 * @ordered
+	 */
+	protected StaffMember chancelor;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -102,6 +116,44 @@ public class UniversityImpl extends NamedElementImpl implements University {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public StaffMember getChancelor() {
+		if (chancelor != null && chancelor.eIsProxy()) {
+			InternalEObject oldChancelor = (InternalEObject)chancelor;
+			chancelor = (StaffMember)eResolveProxy(oldChancelor);
+			if (chancelor != oldChancelor) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UniversityPackage.UNIVERSITY__CHANCELOR, oldChancelor, chancelor));
+			}
+		}
+		return chancelor;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StaffMember basicGetChancelor() {
+		return chancelor;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setChancelor(StaffMember newChancelor) {
+		StaffMember oldChancelor = chancelor;
+		chancelor = newChancelor;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UniversityPackage.UNIVERSITY__CHANCELOR, oldChancelor, chancelor));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -125,6 +177,9 @@ public class UniversityImpl extends NamedElementImpl implements University {
 				return getDepartments();
 			case UniversityPackage.UNIVERSITY__LIBRARIES:
 				return getLibraries();
+			case UniversityPackage.UNIVERSITY__CHANCELOR:
+				if (resolve) return getChancelor();
+				return basicGetChancelor();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -146,6 +201,9 @@ public class UniversityImpl extends NamedElementImpl implements University {
 				getLibraries().clear();
 				getLibraries().addAll((Collection<? extends Library>)newValue);
 				return;
+			case UniversityPackage.UNIVERSITY__CHANCELOR:
+				setChancelor((StaffMember)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -164,6 +222,9 @@ public class UniversityImpl extends NamedElementImpl implements University {
 			case UniversityPackage.UNIVERSITY__LIBRARIES:
 				getLibraries().clear();
 				return;
+			case UniversityPackage.UNIVERSITY__CHANCELOR:
+				setChancelor((StaffMember)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -180,6 +241,8 @@ public class UniversityImpl extends NamedElementImpl implements University {
 				return departments != null && !departments.isEmpty();
 			case UniversityPackage.UNIVERSITY__LIBRARIES:
 				return libraries != null && !libraries.isEmpty();
+			case UniversityPackage.UNIVERSITY__CHANCELOR:
+				return chancelor != null;
 		}
 		return super.eIsSet(featureID);
 	}

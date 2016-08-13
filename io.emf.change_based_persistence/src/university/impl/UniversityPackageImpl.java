@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import university.Book;
+import university.Computer;
 import university.Department;
 import university.Library;
 import university.Module;
@@ -50,6 +51,13 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 	 * @generated
 	 */
 	private EClass libraryEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass computerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -193,6 +201,15 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getUniversity_Chancelor() {
+		return (EReference)universityEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getStudent() {
 		return studentEClass;
 	}
@@ -238,7 +255,7 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLibrary_Books() {
+	public EReference getLibrary_MainComputer() {
 		return (EReference)libraryEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -247,8 +264,26 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLibrary_LibraryVans() {
+	public EReference getLibrary_Books() {
 		return (EReference)libraryEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLibrary_LibraryVans() {
+		return (EReference)libraryEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getComputer() {
+		return computerEClass;
 	}
 
 	/**
@@ -444,6 +479,7 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 		universityEClass = createEClass(UNIVERSITY);
 		createEReference(universityEClass, UNIVERSITY__DEPARTMENTS);
 		createEReference(universityEClass, UNIVERSITY__LIBRARIES);
+		createEReference(universityEClass, UNIVERSITY__CHANCELOR);
 
 		studentEClass = createEClass(STUDENT);
 		createEReference(studentEClass, STUDENT__ENROLLED_MODULES);
@@ -451,8 +487,11 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 		createEAttribute(studentEClass, STUDENT__STUDENT_ID);
 
 		libraryEClass = createEClass(LIBRARY);
+		createEReference(libraryEClass, LIBRARY__MAIN_COMPUTER);
 		createEReference(libraryEClass, LIBRARY__BOOKS);
 		createEReference(libraryEClass, LIBRARY__LIBRARY_VANS);
+
+		computerEClass = createEClass(COMPUTER);
 
 		bookEClass = createEClass(BOOK);
 		createEAttribute(bookEClass, BOOK__ISBN);
@@ -512,6 +551,7 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 		universityEClass.getESuperTypes().add(this.getNamedElement());
 		studentEClass.getESuperTypes().add(this.getNamedElement());
 		libraryEClass.getESuperTypes().add(this.getNamedElement());
+		computerEClass.getESuperTypes().add(this.getNamedElement());
 		bookEClass.getESuperTypes().add(this.getNamedElement());
 		staffMemberEClass.getESuperTypes().add(this.getNamedElement());
 		departmentEClass.getESuperTypes().add(this.getNamedElement());
@@ -521,6 +561,7 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 		initEClass(universityEClass, University.class, "University", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUniversity_Departments(), this.getDepartment(), null, "departments", null, 1, -1, University.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUniversity_Libraries(), this.getLibrary(), null, "libraries", null, 1, -1, University.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUniversity_Chancelor(), this.getStaffMember(), null, "chancelor", null, 0, 1, University.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(studentEClass, Student.class, "Student", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStudent_EnrolledModules(), this.getModule(), this.getModule_EnrolledStudents(), "enrolledModules", null, 0, -1, Student.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -528,8 +569,11 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 		initEAttribute(getStudent_StudentId(), ecorePackage.getEDouble(), "studentId", null, 0, 1, Student.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(libraryEClass, Library.class, "Library", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getLibrary_MainComputer(), this.getComputer(), null, "mainComputer", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLibrary_Books(), this.getBook(), null, "books", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLibrary_LibraryVans(), this.getVehicle(), null, "libraryVans", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(computerEClass, Computer.class, "Computer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(bookEClass, Book.class, "Book", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBook_ISBN(), ecorePackage.getEString(), "ISBN", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

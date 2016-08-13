@@ -2,7 +2,6 @@
  * todo:
  * what if exception occurs during switch, and thus notifications are not cleared?
  * 
- * resume after load (as in pick up where you left off)
  * more robustness, i.e invalid save file (first line is not namespace, invalid entries e.t.c)
  * add some unit tests
  * catch exeptions (i.e file not found, at load)

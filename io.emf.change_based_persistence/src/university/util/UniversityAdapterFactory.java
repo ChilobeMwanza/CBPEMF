@@ -80,6 +80,10 @@ public class UniversityAdapterFactory extends AdapterFactoryImpl {
 				return createLibraryAdapter();
 			}
 			@Override
+			public Adapter caseComputer(Computer object) {
+				return createComputerAdapter();
+			}
+			@Override
 			public Adapter caseBook(Book object) {
 				return createBookAdapter();
 			}
@@ -162,6 +166,20 @@ public class UniversityAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLibraryAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link university.Computer <em>Computer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see university.Computer
+	 * @generated
+	 */
+	public Adapter createComputerAdapter() {
 		return null;
 	}
 

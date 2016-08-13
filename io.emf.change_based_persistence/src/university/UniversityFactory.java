@@ -49,6 +49,15 @@ public interface UniversityFactory extends EFactory {
 	Library createLibrary();
 
 	/**
+	 * Returns a new object of class '<em>Computer</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Computer</em>'.
+	 * @generated
+	 */
+	Computer createComputer();
+
+	/**
 	 * Returns a new object of class '<em>Book</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

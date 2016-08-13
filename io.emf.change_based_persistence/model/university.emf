@@ -5,6 +5,7 @@ class University extends NamedElement
 {
 	val Department[+] departments;
 	val Library [+] libraries;
+	ref StaffMember chancelor;
 }
 
 
@@ -17,10 +18,15 @@ class Student extends NamedElement
 
 class Library extends NamedElement
 {
+	val Computer mainComputer;
 	val Book[*] books;
 	ref Vehicle[*] libraryVans;
 }
 
+class Computer extends NamedElement
+{
+	
+}
 class Book extends NamedElement
 {
  attr String ISBN;	

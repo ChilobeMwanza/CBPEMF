@@ -65,7 +65,7 @@ public interface UniversityPackage extends EPackage {
 	 * @see university.impl.UniversityPackageImpl#getNamedElement()
 	 * @generated
 	 */
-	int NAMED_ELEMENT = 8;
+	int NAMED_ELEMENT = 9;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -132,13 +132,22 @@ public interface UniversityPackage extends EPackage {
 	int UNIVERSITY__LIBRARIES = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Chancelor</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIVERSITY__CHANCELOR = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>University</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UNIVERSITY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int UNIVERSITY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>University</em>' class.
@@ -233,13 +242,22 @@ public interface UniversityPackage extends EPackage {
 	int LIBRARY__NAME = NAMED_ELEMENT__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Main Computer</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__MAIN_COMPUTER = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Books</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__BOOKS = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int LIBRARY__BOOKS = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Library Vans</b></em>' reference list.
@@ -248,7 +266,7 @@ public interface UniversityPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__LIBRARY_VANS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int LIBRARY__LIBRARY_VANS = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Library</em>' class.
@@ -257,7 +275,7 @@ public interface UniversityPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int LIBRARY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Library</em>' class.
@@ -269,6 +287,43 @@ public interface UniversityPackage extends EPackage {
 	int LIBRARY_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link university.impl.ComputerImpl <em>Computer</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see university.impl.ComputerImpl
+	 * @see university.impl.UniversityPackageImpl#getComputer()
+	 * @generated
+	 */
+	int COMPUTER = 3;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPUTER__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The number of structural features of the '<em>Computer</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPUTER_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Computer</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPUTER_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link university.impl.BookImpl <em>Book</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -276,7 +331,7 @@ public interface UniversityPackage extends EPackage {
 	 * @see university.impl.UniversityPackageImpl#getBook()
 	 * @generated
 	 */
-	int BOOK = 3;
+	int BOOK = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -331,7 +386,7 @@ public interface UniversityPackage extends EPackage {
 	 * @see university.impl.UniversityPackageImpl#getStaffMember()
 	 * @generated
 	 */
-	int STAFF_MEMBER = 4;
+	int STAFF_MEMBER = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -395,7 +450,7 @@ public interface UniversityPackage extends EPackage {
 	 * @see university.impl.UniversityPackageImpl#getVehicle()
 	 * @generated
 	 */
-	int VEHICLE = 5;
+	int VEHICLE = 6;
 
 	/**
 	 * The feature id for the '<em><b>Registration Number</b></em>' attribute.
@@ -432,7 +487,7 @@ public interface UniversityPackage extends EPackage {
 	 * @see university.impl.UniversityPackageImpl#getDepartment()
 	 * @generated
 	 */
-	int DEPARTMENT = 6;
+	int DEPARTMENT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -487,7 +542,7 @@ public interface UniversityPackage extends EPackage {
 	 * @see university.impl.UniversityPackageImpl#getModule()
 	 * @generated
 	 */
-	int MODULE = 7;
+	int MODULE = 8;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -542,7 +597,7 @@ public interface UniversityPackage extends EPackage {
 	 * @see university.impl.UniversityPackageImpl#getStaffMemberType()
 	 * @generated
 	 */
-	int STAFF_MEMBER_TYPE = 9;
+	int STAFF_MEMBER_TYPE = 10;
 
 
 	/**
@@ -576,6 +631,17 @@ public interface UniversityPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getUniversity_Libraries();
+
+	/**
+	 * Returns the meta object for the reference '{@link university.University#getChancelor <em>Chancelor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Chancelor</em>'.
+	 * @see university.University#getChancelor()
+	 * @see #getUniversity()
+	 * @generated
+	 */
+	EReference getUniversity_Chancelor();
 
 	/**
 	 * Returns the meta object for class '{@link university.Student <em>Student</em>}'.
@@ -631,6 +697,17 @@ public interface UniversityPackage extends EPackage {
 	EClass getLibrary();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link university.Library#getMainComputer <em>Main Computer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Main Computer</em>'.
+	 * @see university.Library#getMainComputer()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EReference getLibrary_MainComputer();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link university.Library#getBooks <em>Books</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -651,6 +728,16 @@ public interface UniversityPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getLibrary_LibraryVans();
+
+	/**
+	 * Returns the meta object for class '{@link university.Computer <em>Computer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Computer</em>'.
+	 * @see university.Computer
+	 * @generated
+	 */
+	EClass getComputer();
 
 	/**
 	 * Returns the meta object for class '{@link university.Book <em>Book</em>}'.
@@ -893,6 +980,14 @@ public interface UniversityPackage extends EPackage {
 		EReference UNIVERSITY__LIBRARIES = eINSTANCE.getUniversity_Libraries();
 
 		/**
+		 * The meta object literal for the '<em><b>Chancelor</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNIVERSITY__CHANCELOR = eINSTANCE.getUniversity_Chancelor();
+
+		/**
 		 * The meta object literal for the '{@link university.impl.StudentImpl <em>Student</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -937,6 +1032,14 @@ public interface UniversityPackage extends EPackage {
 		EClass LIBRARY = eINSTANCE.getLibrary();
 
 		/**
+		 * The meta object literal for the '<em><b>Main Computer</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LIBRARY__MAIN_COMPUTER = eINSTANCE.getLibrary_MainComputer();
+
+		/**
 		 * The meta object literal for the '<em><b>Books</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -951,6 +1054,16 @@ public interface UniversityPackage extends EPackage {
 		 * @generated
 		 */
 		EReference LIBRARY__LIBRARY_VANS = eINSTANCE.getLibrary_LibraryVans();
+
+		/**
+		 * The meta object literal for the '{@link university.impl.ComputerImpl <em>Computer</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see university.impl.ComputerImpl
+		 * @see university.impl.UniversityPackageImpl#getComputer()
+		 * @generated
+		 */
+		EClass COMPUTER = eINSTANCE.getComputer();
 
 		/**
 		 * The meta object literal for the '{@link university.impl.BookImpl <em>Book</em>}' class.

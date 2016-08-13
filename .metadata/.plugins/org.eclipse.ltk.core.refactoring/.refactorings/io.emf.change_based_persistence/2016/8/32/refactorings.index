@@ -20,3 +20,10 @@
 1471095959769	Rename type 'AddEntryTest'
 1471096495488	Rename type 'DelREventTest'
 1471096534022	Rename type 'AddREntryTest'
+1471111542254	Rename package 'cbp_text_tests'
+1471111607265	Rename type 'AddToResourceTest'
+1471111618333	Rename type 'DeleteFromResourceTest'
+1471111629901	Rename type 'GeneralSaveTest'
+1471112009201	Rename type 'BasicTest'
+1471112630844	Delete elements
+1471120409912	Delete elements

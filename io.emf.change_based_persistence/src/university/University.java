@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link university.University#getDepartments <em>Departments</em>}</li>
  *   <li>{@link university.University#getLibraries <em>Libraries</em>}</li>
+ *   <li>{@link university.University#getChancelor <em>Chancelor</em>}</li>
  * </ul>
  *
  * @see university.UniversityPackage#getUniversity()
@@ -53,5 +54,31 @@ public interface University extends NamedElement {
 	 * @generated
 	 */
 	EList<Library> getLibraries();
+
+	/**
+	 * Returns the value of the '<em><b>Chancelor</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Chancelor</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Chancelor</em>' reference.
+	 * @see #setChancelor(StaffMember)
+	 * @see university.UniversityPackage#getUniversity_Chancelor()
+	 * @model
+	 * @generated
+	 */
+	StaffMember getChancelor();
+
+	/**
+	 * Sets the value of the '{@link university.University#getChancelor <em>Chancelor</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Chancelor</em>' reference.
+	 * @see #getChancelor()
+	 * @generated
+	 */
+	void setChancelor(StaffMember value);
 
 } // University

@@ -60,6 +60,7 @@ public class UniversityFactoryImpl extends EFactoryImpl implements UniversityFac
 			case UniversityPackage.UNIVERSITY: return createUniversity();
 			case UniversityPackage.STUDENT: return createStudent();
 			case UniversityPackage.LIBRARY: return createLibrary();
+			case UniversityPackage.COMPUTER: return createComputer();
 			case UniversityPackage.BOOK: return createBook();
 			case UniversityPackage.STAFF_MEMBER: return createStaffMember();
 			case UniversityPackage.VEHICLE: return createVehicle();
@@ -129,6 +130,16 @@ public class UniversityFactoryImpl extends EFactoryImpl implements UniversityFac
 	public Library createLibrary() {
 		LibraryImpl library = new LibraryImpl();
 		return library;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Computer createComputer() {
+		ComputerImpl computer = new ComputerImpl();
+		return computer;
 	}
 
 	/**

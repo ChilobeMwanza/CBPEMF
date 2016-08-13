@@ -18,6 +18,7 @@
     <genClasses ecoreClass="university.ecore#//University">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference university.ecore#//University/departments"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference university.ecore#//University/libraries"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference university.ecore#//University/chancelor"/>
     </genClasses>
     <genClasses ecoreClass="university.ecore#//Student">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference university.ecore#//Student/enrolledModules"/>
@@ -25,9 +26,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//Student/studentId"/>
     </genClasses>
     <genClasses ecoreClass="university.ecore#//Library">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference university.ecore#//Library/mainComputer"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference university.ecore#//Library/books"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference university.ecore#//Library/libraryVans"/>
     </genClasses>
+    <genClasses ecoreClass="university.ecore#//Computer"/>
     <genClasses ecoreClass="university.ecore#//Book">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//Book/ISBN"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//Book/authorNames"/>
