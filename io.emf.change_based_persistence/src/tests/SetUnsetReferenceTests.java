@@ -6,12 +6,15 @@ package tests;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.junit.After;
 import org.junit.Test;
 
 import university.Book;
@@ -24,23 +27,43 @@ import university.Student;
 import university.University;
 import university.UniversityFactory;
 import university.Vehicle;
+import impl.DeltaResourceImpl;
 
 public class SetUnsetReferenceTests extends TestBase 
 {
+	private List<EObject> savedContentsList = null;
+	private List<EObject> loadedContentsList = null;
+	
+	
+	@After
+	public void runAfterTestMethod()
+	{
+		savedContentsList = null;
+		loadedContentsList = null;
+	}
+	
 	/*
 	 * Tests setting 1 single valued containment reference
 	 */
 	@Test
-	public void testSetOneSingleValuedContainmentReference()
+	public void testSetOneSingleValuedContainmentReference() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib);
+		res.getContents().add(lib);
 		
 		Computer comp = UniversityFactory.eINSTANCE.createComputer();
 		
 		lib.setMainComputer(comp);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
@@ -49,17 +72,25 @@ public class SetUnsetReferenceTests extends TestBase
 	 * Tests unsetting one single valued containment reference
 	 */
 	@Test
-	public void testUnsetOneSingleValuedContainmentReference()
+	public void testUnsetOneSingleValuedContainmentReference() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib);
+		res.getContents().add(lib);
 		
 		Computer comp = UniversityFactory.eINSTANCE.createComputer();
 		
 		lib.setMainComputer(comp);
 		lib.setMainComputer(null);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
@@ -68,23 +99,31 @@ public class SetUnsetReferenceTests extends TestBase
 	 * Tests setting multiple distinct single valued containment refs
 	 */
 	@Test
-	public void testSetMultipleSingleValuedContainmentRefs()
+	public void testSetMultipleSingleValuedContainmentRefs() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib);
+		res.getContents().add(lib);
 		
 		Computer comp = UniversityFactory.eINSTANCE.createComputer();
 		
 		lib.setMainComputer(comp);
 		
 		Library lib2 = UniversityFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib2);
+		res.getContents().add(lib2);
 		
 		Computer comp2 = UniversityFactory.eINSTANCE.createComputer();
 		
 		lib2.setMainComputer(comp2);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
@@ -93,32 +132,40 @@ public class SetUnsetReferenceTests extends TestBase
 	 * Tests unsetting multiple distinct single valued containment refs
 	 */
 	@Test
-	public void testUnsetMultipleSingleValuedContainmentRefs()
+	public void testUnsetMultipleSingleValuedContainmentRefs() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib);
+		res.getContents().add(lib);
 		
 		Computer comp = UniversityFactory.eINSTANCE.createComputer();
 		
 		lib.setMainComputer(comp);
 		
 		Library lib2 = UniversityFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib2);
+		res.getContents().add(lib2);
 		
 		Computer comp2 = UniversityFactory.eINSTANCE.createComputer();
 		
 		lib2.setMainComputer(comp2);
 		
 		Library lib3 = UniversityFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib3);
+		res.getContents().add(lib3);
 		
 		Computer comp3 = UniversityFactory.eINSTANCE.createComputer();
-		resource.getContents().add(comp3);
+		res.getContents().add(comp3);
 		
 		lib.setMainComputer(null);
 		lib3.setMainComputer(null);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
@@ -127,10 +174,12 @@ public class SetUnsetReferenceTests extends TestBase
 	 * Tests adding objects directly to a multi valued containment ref (i.e via .add)
 	 */
 	@Test
-	public void testMultipleAddToManyValuedContainmentRef()
+	public void testMultipleAddToManyValuedContainmentRef() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(uni);
+		res.getContents().add(uni);
 		
 		Department dep1 = UniversityFactory.eINSTANCE.createDepartment();
 		Department dep2 = UniversityFactory.eINSTANCE.createDepartment();
@@ -140,7 +189,13 @@ public class SetUnsetReferenceTests extends TestBase
 		uni.getDepartments().add(dep2);
 		uni.getDepartments().add(dep3);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
@@ -149,10 +204,12 @@ public class SetUnsetReferenceTests extends TestBase
 	 * Tests removing objects directly from a multi valued containment remove (i.e via .remove)
 	 */
 	@Test
-	public void testRemoveOneFromManyValuedContainmentRef()
+	public void testRemoveOneFromManyValuedContainmentRef() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(uni);
+		res.getContents().add(uni);
 		
 		Department dep1 = UniversityFactory.eINSTANCE.createDepartment();
 		Department dep2 = UniversityFactory.eINSTANCE.createDepartment();
@@ -164,48 +221,61 @@ public class SetUnsetReferenceTests extends TestBase
 		
 		uni.getDepartments().remove(dep1);
 		
+		res.save(null);
 		
-		saveAndLoadResource();
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
-
-	
-	
 	/*
 	 * Tests adding objects to a multi valued containment ref via a list (i.e addAll)
 	 */
-	@SuppressWarnings("unchecked")
 	@Test
-	public void testAddAllIToManyValuedContainmentRef()
+	public void testAddAllIToManyValuedContainmentRef() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(uni);
+		res.getContents().add(uni);
 		
 		Department dep1 = UniversityFactory.eINSTANCE.createDepartment();
 		Department dep2 = UniversityFactory.eINSTANCE.createDepartment();
 		Department dep3 = UniversityFactory.eINSTANCE.createDepartment();
 		
-		List <EObject> list = new ArrayList<EObject>();
+		List <Department> list = new ArrayList<Department>();
 		list.add(dep1);
 		list.add(dep2);
 		list.add(dep3);
 		
-		uni.getDepartments().addAll((Collection<? extends Department>) list);
+		uni.getDepartments().addAll(list);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
+		
 		
 	}
 	/*
 	 * Tests removing objects from a multi valued containment ref via a list (i.e removeAll)
 	 */
 	@Test
-	public void testRemoveAllFromManyValuedContainmentRef()
+	public void testRemoveAllFromManyValuedContainmentRef() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(uni);
+		res.getContents().add(uni);
 		
 		Department dep1 = UniversityFactory.eINSTANCE.createDepartment();
 		Department dep2 = UniversityFactory.eINSTANCE.createDepartment();
@@ -222,7 +292,13 @@ public class SetUnsetReferenceTests extends TestBase
 		
 		uni.getDepartments().removeAll(list);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
@@ -231,15 +307,24 @@ public class SetUnsetReferenceTests extends TestBase
 	 * Tests setting 1 single valued non-containment ref
 	 */
 	@Test
-	public void testSetOneSingleValuedNonContainmentRef()
+	public void testSetOneSingleValuedNonContainmentRef() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Student s = UniversityFactory.eINSTANCE.createStudent();
-		resource.getContents().add(s);
+		res.getContents().add(s);
 		
 		Vehicle v = UniversityFactory.eINSTANCE.createVehicle();
 		s.setRegisteredVehicle(v);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
@@ -247,16 +332,25 @@ public class SetUnsetReferenceTests extends TestBase
 	 * Tests un-setting 1 single valued non-containment ref
 	 */
 	@Test
-	public void testUnsetOneSingleValuedNonContainmentRef()
+	public void testUnsetOneSingleValuedNonContainmentRef() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Student s = UniversityFactory.eINSTANCE.createStudent();
-		resource.getContents().add(s);
+		res.getContents().add(s);
 		
 		Vehicle v = UniversityFactory.eINSTANCE.createVehicle();
 		s.setRegisteredVehicle(v);
 		s.setRegisteredVehicle(null);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
@@ -264,33 +358,44 @@ public class SetUnsetReferenceTests extends TestBase
 	 * Tests setting multiple distinct single valued containment refs
 	 */
 	@Test
-	public void testSetMultipleSingleValuedNonContainmentRefs()
+	public void testSetMultipleSingleValuedNonContainmentRefs() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Student s = UniversityFactory.eINSTANCE.createStudent();
-		resource.getContents().add(s);
+		res.getContents().add(s);
 		
 		Vehicle v = UniversityFactory.eINSTANCE.createVehicle();
 		s.setRegisteredVehicle(v);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(uni);
+		res.getContents().add(uni);
 		
 		StaffMember sm = UniversityFactory.eINSTANCE.createStaffMember();
 		
 		uni.setChancelor(sm);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
 	@Test
-	public void testUnsetMultipleSingleValuedNonContainmentRefs()
+	public void testUnsetMultipleSingleValuedNonContainmentRefs() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Student s = UniversityFactory.eINSTANCE.createStudent();
-		resource.getContents().add(s);
+		res.getContents().add(s);
 		
 		Student s1 = UniversityFactory.eINSTANCE.createStudent();
-		resource.getContents().add(s1);
+		res.getContents().add(s1);
 		
 		Vehicle v = UniversityFactory.eINSTANCE.createVehicle();
 		s.setRegisteredVehicle(v);
@@ -299,7 +404,7 @@ public class SetUnsetReferenceTests extends TestBase
 		s1.setRegisteredVehicle(v2);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(uni);
+		res.getContents().add(uni);
 		
 		StaffMember sm = UniversityFactory.eINSTANCE.createStaffMember();
 		
@@ -308,15 +413,24 @@ public class SetUnsetReferenceTests extends TestBase
 		s1.setRegisteredVehicle(null);
 		uni.setChancelor(null);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
 	@Test
-	public void testAddMultipleToManyValuedNonContainmentRef()
+	public void testAddMultipleToManyValuedNonContainmentRef() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib);
+		res.getContents().add(lib);
 		
 		Book b1 = UniversityFactory.eINSTANCE.createBook();
 		Book b2 = UniversityFactory.eINSTANCE.createBook();
@@ -326,15 +440,24 @@ public class SetUnsetReferenceTests extends TestBase
 		lib.getBooks().add(b2);
 		lib.getBooks().add(b3);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
 	@Test
-	public void testRemoveOneFromManyValuedNonContainmentRef()
+	public void testRemoveOneFromManyValuedNonContainmentRef() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib);
+		res.getContents().add(lib);
 		
 		Book b1 = UniversityFactory.eINSTANCE.createBook();
 		Book b2 = UniversityFactory.eINSTANCE.createBook();
@@ -346,15 +469,24 @@ public class SetUnsetReferenceTests extends TestBase
 		
 		lib.getBooks().remove(b2);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
 	@Test
-	public void testAddAllIToManyValuedNonContainmentRef()
+	public void testAddAllIToManyValuedNonContainmentRef() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib);
+		res.getContents().add(lib);
 		
 		Book b1 = UniversityFactory.eINSTANCE.createBook();
 		Book b2 = UniversityFactory.eINSTANCE.createBook();
@@ -367,15 +499,24 @@ public class SetUnsetReferenceTests extends TestBase
 		
 		lib.getBooks().addAll(list);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
 	@Test
-	public void testRemoveAllFromManyValuedNonContainmentRef()
+	public void testRemoveAllFromManyValuedNonContainmentRef() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
-		resource.getContents().add(lib);
+		res.getContents().add(lib);
 		
 		Book b1 = UniversityFactory.eINSTANCE.createBook();
 		Book b2 = UniversityFactory.eINSTANCE.createBook();
@@ -403,7 +544,14 @@ public class SetUnsetReferenceTests extends TestBase
 		
 		lib.getBooks().removeAll(remlist);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
@@ -411,26 +559,35 @@ public class SetUnsetReferenceTests extends TestBase
 	 * Tests that setting an opposite reference works accordingly
 	 */
 	@Test
-	public void testSetOppositeReference()
+	public void testSetOppositeReference() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Student s1 = UniversityFactory.eINSTANCE.createStudent();
-		resource.getContents().add(s1);
+		res.getContents().add(s1);
 		
 		Module m1 = UniversityFactory.eINSTANCE.createModule();
 		
 		s1.getEnrolledModules().add(m1);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
-		//assertTrue(m1.getEnrolledStudents().contains(s1));
 	}
 	
 	@Test
-	public void testUnsetOppositeReference()
+	public void testUnsetOppositeReference() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		Student s1 = UniversityFactory.eINSTANCE.createStudent();
-		resource.getContents().add(s1);
+		res.getContents().add(s1);
 		
 		Module m1 = UniversityFactory.eINSTANCE.createModule();
 		
@@ -438,7 +595,13 @@ public class SetUnsetReferenceTests extends TestBase
 		
 		m1.getEnrolledStudents().remove(s1);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}

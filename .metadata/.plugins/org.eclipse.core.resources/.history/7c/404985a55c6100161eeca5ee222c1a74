@@ -1,9 +1,0 @@
-package cbp_text_tests;
-
-public class DelREventTest 
-{
-	private static String fileSaveLocation ="university.txt";
-	private Resource resource = null;
-	private List<EObject> savedContentsList = null;
-	List<EObject> loadedContentsList = null;
-}

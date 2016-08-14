@@ -2,13 +2,13 @@ package tests;
 
 import static org.junit.Assert.assertTrue;
 
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.*;
 
@@ -19,50 +19,84 @@ import university.University;
 import university.UniversityFactory;
 
 import university.Vehicle;
-
+import impl.DeltaResourceImpl;
 public class DeleteFromResourceTests extends TestBase
 {
+	 private List<EObject> savedContentsList = null;
+	 private List<EObject> loadedContentsList = null;
+	
+	 @After
+	 public void runAfterTestMethod()
+	 {
+		 savedContentsList = null;
+		 loadedContentsList = null;
+	 }
+	
+	 
 	/*
 	 * Tests (adding and) deleting a single item
 	 */
 	@Test
-	public void testDeleteSingleFromResource()
+	public void testDeleteSingleFromResource() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		/*Create some objects */
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(uni);
+		res.getContents().add(uni);
 		
-		resource.getContents().add(uni);
+		res.getContents().add(uni);
 		
-		resource.getContents().remove(uni);
+		res.getContents().remove(uni);
         
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
 	@Test
-	public void testDeleteRepeatedFromResource()
+	public void testDeleteRepeatedFromResource() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
 		Library lib1 = UniversityFactory.eINSTANCE.createLibrary();
 		Department dep1 = UniversityFactory.eINSTANCE.createDepartment();
 		
-		resource.getContents().add(uni1);
-		resource.getContents().add(uni2);
-		resource.getContents().add(lib1);
-		resource.getContents().add(dep1);
+		res.getContents().add(uni1);
+		res.getContents().add(uni2);
+		res.getContents().add(lib1);
+		res.getContents().add(dep1);
 		
+		res.getContents().remove(uni2);
+		res.getContents().remove(dep1);
 		
+        res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
+		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
 	/*
 	 * Tests (adding and) deleting a collection of objects 
 	 */
 	@Test
-	public void testDeleteCollectionFromResource()
+	public void testDeleteCollectionFromResource() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
 		Library lib1 = UniversityFactory.eINSTANCE.createLibrary();
@@ -74,16 +108,21 @@ public class DeleteFromResourceTests extends TestBase
 		list.add(lib1);
 		list.add(dep1);
 		
-		resource.getContents().addAll(list);
+		res.getContents().addAll(list);
 		
 		List<EObject> removelist = new ArrayList<EObject>();
 		removelist.add(dep1);
 		removelist.add(uni1);
 		
+		res.getContents().removeAll(removelist);
 		
-		resource.getContents().removeAll(removelist);
+		res.save(null);
 		
-        saveAndLoadResource();
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
@@ -92,15 +131,17 @@ public class DeleteFromResourceTests extends TestBase
 	 * Combines the various methods of adding and deleting items from the resource
 	 */
 	@Test
-	public void testAllDeleteFromResource()
+	public void testAllDeleteFromResource() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
 		Vehicle v1 = UniversityFactory.eINSTANCE.createVehicle();
 		
-		resource.getContents().add(uni1);
-		resource.getContents().add(uni2);
-		resource.getContents().add(v1);
+		res.getContents().add(uni1);
+		res.getContents().add(uni2);
+		res.getContents().add(v1);
 		
 		List<EObject> list = new ArrayList<EObject>();
 		Library lib1 = UniversityFactory.eINSTANCE.createLibrary();
@@ -113,19 +154,25 @@ public class DeleteFromResourceTests extends TestBase
 		list.add(d1);
 		list.add(s1);
 		
-		resource.getContents().addAll(list);
+		res.getContents().addAll(list);
 		
 		List<EObject> removelist = new ArrayList<EObject>();
 		removelist.add(lib1);
 		removelist.add(v1);
 		removelist.add(d1);
 		
-		resource.getContents().remove(0);
-		resource.getContents().remove(lib2);
-		resource.getContents().removeAll(removelist);
+		res.getContents().remove(0);
+		res.getContents().remove(lib2);
+		res.getContents().removeAll(removelist);
 		
-		saveAndLoadResource();
-			
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 }

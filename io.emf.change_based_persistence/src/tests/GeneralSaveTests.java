@@ -27,21 +27,22 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testRepeatedSaveNoModification() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(uni1);
+		res.getContents().add(uni1);
 		
 		//perform first save
-		resource.save(null);
+		res.save(null);
 		
 		//save last modified time
 		File file = new File(fileSaveLocation);
 		Long timeStamp = file.lastModified();
 		
 		//perform further saves without modifiying the resource
-		resource.save(null);
-		resource.save(null);
-		resource.save(null);
-		resource.save(null);
+		res.save(null);
+		res.save(null);
+		
 		
 		//check that the file has not been modified
 		assertTrue(timeStamp == file.lastModified());
@@ -52,15 +53,14 @@ public class GeneralSaveTests extends TestBase
 	 *  results in the save file being modified accordingly.
 	 */
 	@Test
-	public void testMultipleSaveWithModifications() throws IOException
+	public void testMultipleSaveWithModifications() throws IOException, InterruptedException
 	{
-		//resource.getContents().clear();
-		//initial modifications
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(uni1);
+		res.getContents().add(uni1);
 		
 		//perform first save
-		resource.save(null);
+		res.save(null);
 		
 		//save last modified time
 		File file = new File(fileSaveLocation);
@@ -70,16 +70,14 @@ public class GeneralSaveTests extends TestBase
 		//make further modifications
 		uni1.setName("York University");
 		
-		resource.save(null);
+		//wait a little before save to ensure modification time is sufficiently different
+		Thread.sleep(10);
+		
+		res.save(null);
 		
 		//check that the file has been modified
-		
-		if(timeStamp == file.lastModified())
-		{
-			System.out.println("error!");
-			System.exit(0);
-		}
 		assertFalse(timeStamp == file.lastModified());
+		
 	}
 	
 	/*
@@ -88,10 +86,13 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testBasicSaveAndLoad() throws IOException
 	{
-		University savedUni = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(savedUni);
+		Resource savedRes = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
 		
-		resource.save(null);
+		University savedUni = UniversityFactory.eINSTANCE.createUniversity();
+		
+		savedRes.getContents().add(savedUni);
+		
+		savedRes.save(null);
 		
 		//Load in the resource
 		ResourceSetImpl rs = new ResourceSetImpl();
@@ -108,12 +109,12 @@ public class GeneralSaveTests extends TestBase
 		rs.getPackageRegistry().put(UniversityPackage.eINSTANCE.getNsURI(), 
 				UniversityPackage.eINSTANCE);
 		
-		Resource res = rs.createResource(URI.createFileURI(fileSaveLocation));
-		res.load(null);
+		Resource loadedRes = rs.createResource(URI.createFileURI(fileSaveLocation));
+		loadedRes.load(null);
 		
 		//check objects are equal
 		
-		University loadedUni = (University) res.getContents().get(0);
+		University loadedUni = (University) loadedRes.getContents().get(0);
 		
 		assertTrue(EcoreUtil.equals(savedUni, loadedUni));
 	}
@@ -125,7 +126,8 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testEmptySave() throws IOException
 	{
-		resource.save(null);
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		res.save(null);
 		
 		File f = new File(fileSaveLocation);
 		
@@ -133,16 +135,20 @@ public class GeneralSaveTests extends TestBase
 	}
 	
 	/*
-	 * Tests that redundant modifications do not result in changes to the output file
+	 * Tests that redundant modifications, after load, do not result in changes to the output file
 	 */
 	@Test
 	public void testRedundantModification() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University savedUni = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(savedUni);
+		
+		res.getContents().add(savedUni);
+		
 		savedUni.setName("York Uni");
 		
-		resource.save(null);
+		res.save(null);
 		
 		File file = new File(fileSaveLocation);
 		Long timeStamp = file.lastModified();
@@ -163,8 +169,8 @@ public class GeneralSaveTests extends TestBase
 		rs.getPackageRegistry().put(UniversityPackage.eINSTANCE.getNsURI(), 
 				UniversityPackage.eINSTANCE);
 		
-		Resource res = rs.createResource(URI.createFileURI(fileSaveLocation));
-		res.load(null);
+		Resource loadedRes = rs.createResource(URI.createFileURI(fileSaveLocation));
+		loadedRes.load(null);
 		
 		University loadedUni = (University) res.getContents().get(0);
 		loadedUni.setName("York Uni");

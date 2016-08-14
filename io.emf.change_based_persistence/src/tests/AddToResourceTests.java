@@ -12,16 +12,17 @@
 package tests;
 import static org.junit.Assert.*;
 
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.*;
 
+import impl.DeltaResourceImpl;
 import university.Department;
 import university.Library;
 import university.Student;
@@ -31,6 +32,16 @@ import university.Vehicle;
 
 public class AddToResourceTests extends TestBase
 {
+	private List<EObject> savedContentsList = null;
+	private List<EObject> loadedContentsList = null;
+	
+	
+	 @After
+	 public void runAfterTestMethod()
+	 {
+		 savedContentsList = null;
+		 loadedContentsList = null;
+	 }
 	
 	/*
 	 * Test if a single object added to resource can be serialised 
@@ -38,11 +49,18 @@ public class AddToResourceTests extends TestBase
 	@Test
     public void testAddSingleToResource() throws Exception 
 	{
-		/*Create some objects */
-		University uni = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(uni);
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
 		
-		saveAndLoadResource();
+		University uni = UniversityFactory.eINSTANCE.createUniversity();
+		res.getContents().add(uni);
+		
+		res.save(null);
+	
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
     }
@@ -51,19 +69,30 @@ public class AddToResourceTests extends TestBase
 	 * Test if multiple single objects added to resource can be serialised
 	 */
 	@Test
-	public void testAddSingleRepeatedToResource()
+	public void testAddSingleRepeatedToResource() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
 		Library lib1 = UniversityFactory.eINSTANCE.createLibrary();
 		Department dep1 = UniversityFactory.eINSTANCE.createDepartment();
 		
-		resource.getContents().add(uni1);
-		resource.getContents().add(uni2);
-		resource.getContents().add(lib1);
-		resource.getContents().add(dep1);
 		
-		saveAndLoadResource();
+		res.getContents().add(uni1);
+		res.getContents().add(uni2);
+		
+		res.getContents().add(lib1);
+		res.getContents().add(dep1);
+		
+		
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
@@ -72,8 +101,10 @@ public class AddToResourceTests extends TestBase
 	 * Test if a list of eObjects can be added to the resource
 	 */
 	@Test
-	public void testAddListToResource()
+	public void testAddListToResource() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
 		Library lib1 = UniversityFactory.eINSTANCE.createLibrary();
@@ -85,9 +116,15 @@ public class AddToResourceTests extends TestBase
 		list.add(lib1);
 		list.add(dep1);
 		
-		resource.getContents().addAll(list);
+		res.getContents().addAll(list);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
@@ -96,15 +133,17 @@ public class AddToResourceTests extends TestBase
 	 * Tests all the different ways of adding items to the resource
 	 */
 	@Test
-	public void testAllAddToResource()
+	public void testAllAddToResource() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
 		Vehicle v1 = UniversityFactory.eINSTANCE.createVehicle();
 		
-		resource.getContents().add(uni1);
-		resource.getContents().add(uni2);
-		resource.getContents().add(v1);
+		res.getContents().add(uni1);
+		res.getContents().add(uni2);
+		res.getContents().add(v1);
 		
 		List<EObject> list = new ArrayList<EObject>();
 		Library lib1 = UniversityFactory.eINSTANCE.createLibrary();
@@ -117,26 +156,34 @@ public class AddToResourceTests extends TestBase
 		list.add(d1);
 		list.add(s1);
 		
-		resource.getContents().addAll(list);
+		res.getContents().addAll(list);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
 	@Test
-	public void testAddManyToResource()
+	public void testAddManyToResource() throws IOException
 	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		
 		for(int i = 0; i < 10000; i++)
 		{
 			EObject obj = UniversityFactory.eINSTANCE.createUniversity();
-			resource.getContents().add(obj);
+			res.getContents().add(obj);
 			
 			obj = UniversityFactory.eINSTANCE.createBook();
-			resource.getContents().add(obj);
+			res.getContents().add(obj);
 			
 			obj = UniversityFactory.eINSTANCE.createDepartment();
-			resource.getContents().add(obj);
+			res.getContents().add(obj);
 		}
 		
 		List<EObject> list = new ArrayList<EObject>();
@@ -153,9 +200,15 @@ public class AddToResourceTests extends TestBase
 			list.add(obj);
 		}
 		
-		resource.getContents().addAll(list);
+		res.getContents().addAll(list);
 		
-		saveAndLoadResource();
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
