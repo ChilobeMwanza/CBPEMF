@@ -41,9 +41,15 @@ public abstract class TestBase
 			e.printStackTrace();
 		}
 		
+		
 		resource = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
 	}
 	
+	@After
+	public void runOnceAfterTest()
+	{
+		resource = null;
+	}
 	
 	public void loadResource()
 	{
@@ -98,14 +104,14 @@ public abstract class TestBase
 		}
 		
 		/*Save a list of the current eobjects in contents*/
-		savedContentsList = getResourceContentsList();
+		savedContentsList = getResourceContentsList(); //do this directly
 		
 		/*Clear contents*/
 		resource.getContents().clear();
 				
 		/*load persited model*/
 		loadResource();
-		loadedContentsList = getResourceContentsList();
+		loadedContentsList = getResourceContentsList(); //do this directly
 	}
 	
 }

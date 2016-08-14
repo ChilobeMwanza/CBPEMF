@@ -22,7 +22,7 @@ public class PersistenceManager
 	public final String TEXT_ENCODING = "Ascii";
 	public final String DELIMITER = ","; //,
 	public final String ESCAPE_CHAR ="+"; //*
-    private boolean loadSuccessful = false;
+    private boolean resume = false;
 
 
 	public PersistenceManager(ChangeLog aChangeLog, DeltaResourceImpl resource)
@@ -31,14 +31,14 @@ public class PersistenceManager
 		this.resource = resource;
 	}
 	
-	public void setSuccessfulLoad(boolean b)
+	public void setResume(boolean b)
 	{
-		loadSuccessful = b;
+		resume = b;
 	}
 	
-	public boolean isLoadSuccessful()
+	public boolean isResume()
 	{
-		return loadSuccessful;
+		return resume;
 	}
 	
 	public boolean addEObjectsToContents(List<EObject> objects)

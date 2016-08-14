@@ -2,22 +2,23 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="appendMode" key="selection"/>
+		<item value="addInitialEntryToOutputList" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="serialiseInitialEntry"/>
+			<item value="getNthWord"/>
+			<item value="getN"/>
+			<item value="loadRe"/>
+			<item value="loadRes"/>
+			<item value="null"/>
 			<item value="appendMode"/>
 			<item value="yes"/>
-			<item value="double"/>
-			<item value="Double"/>
-			<item value="getNth"/>
-			<item value="n.getNotifier().getClass().getSimpleName().equals(RESOURCE_NAME)"/>
-			<item value="dest_obj"/>
-			<item value="handleAddToEAttributeEvent"/>
 		</list>
 		<list key="replacehistory">
+			<item value="addInitialEntryToOutputList"/>
 			<item value="long"/>
 			<item value="Long"/>
 			<item value="n.getNotifier() instanceof DeltaResourceImpl"/>

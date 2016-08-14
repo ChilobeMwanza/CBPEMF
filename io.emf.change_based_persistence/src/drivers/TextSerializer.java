@@ -1,5 +1,6 @@
 /*
  * todo:
+ * remove 'smartness' in tests
  * what if exception occurs during switch, and thus notifications are not cleared?
  * 
  * more robustness, i.e invalid save file (first line is not namespace, invalid entries e.t.c)
@@ -17,11 +18,13 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import change.ChangeLog;
@@ -41,7 +45,6 @@ public class TextSerializer
 {
 	private  final String classname = this.getClass().getSimpleName();
 	private final PersistenceManager manager;
-	private boolean appendMode = true;
 	private List<String> outputList;
     private List<Notification> notificationsList;
 	private final ChangeLog changelog; 
@@ -61,16 +64,29 @@ public class TextSerializer
 		if(notificationsList.isEmpty())
 			return;
 		
-		/*Check if we are saving to an existing file, if not, add namespace uri entry*/
-		File f = new File(manager.getURI().path());
+		//Check if output file contains initial 'namespace' entry
 		
-		if(!f.exists() || f.isDirectory())
-			serialiseInitialEntry();
 		
+		
+		/*if(!manager.isResume()) 
+		{
+			addInitialEntryToOutputList();
+			System.out.println(classname+"not in resume mode!, adding init entry to output list!");
+		}
+		else if(!isInitialEntrySerialised()) 
+		{
+			System.out.println(classname+" init entry not serialised, working on it!");
+			addInitialEntryToOutputList();
+		}*/
+		
+		
+		if(!manager.isResume()) 
+		{
+			addInitialEntryToOutputList();
+			System.out.println(classname+"not in resume mode!, adding init entry to output list!");
+		}
 	
-			
 		
-		//String fileSaveLocation = (String) options.get("FILE_SAVE_LOCATION");
 		
 		for(Notification n : notificationsList)
 		{
@@ -145,7 +161,10 @@ public class TextSerializer
 		/*finally append strings to file, if no previous successful load,don't 
 		 * serialise in append mode(i.e create new file, e.t.c)
 		 */
-		appendStringsToFile(manager.isLoadSuccessful()); 
+		System.out.println(classname+" appendmode: "+manager.isResume());
+		
+		/*Write contents of output list to file*/
+		writeOutputListToFile(manager.isResume()); 
 	}
 	
 	private void handleSetEAttributeSingleEvent(Notification n)
@@ -156,14 +175,45 @@ public class TextSerializer
 		
 		String newValue = EcoreUtil.convertToString(attr.getEAttributeType(),  n.getNewValue());
 		
-		newValue = newValue.replace(manager.DELIMITER, manager.ESCAPE_CHAR+manager.DELIMITER); //escape delimiter
+		if(newValue == null)
+			newValue = "null";
+		
+		newValue = newValue.replace(manager.DELIMITER, manager.ESCAPE_CHAR+manager.DELIMITER); //escape delimiter (if any)
 		
 		outputList.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" ["+newValue+"]");
+	}
+	
+	private boolean isInitialEntrySerialised() 
+	{
+		
+		// if output file doesn't exits, initial entry doesn't exist
+		File f = new File(manager.getURI().path());
+		if(!f.exists() || f.isDirectory())
+			return false;
+		
+		// output file exists, check it for 'namespace' entry
+		try (BufferedReader br = new BufferedReader(
+				new InputStreamReader(new FileInputStream(manager.getURI().path()), manager.TEXT_ENCODING));)
+		{
+			String line;
+			
+			if((line = br.readLine()) != null)
+			{
+				return line.contains("NAMESPACE_URI");
+			}
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 	
 	private void handleUnsetEAttributeSingleEvent(Notification n)
 	{
 		EObject focus_obj = (EObject) n.getNotifier();
+		
 		EAttribute attr = (EAttribute) n.getFeature();
 		
 		String oldValue = EcoreUtil.convertToString(attr.getEAttributeType(),  n.getOldValue());
@@ -185,6 +235,9 @@ public class TextSerializer
 		for(Object object: attr_values_list)
 		{
 			String newValue = (EcoreUtil.convertToString(attr.getEAttributeType(), object));
+			
+			if(newValue == null)
+				newValue = "null";
 			
 			newValue = newValue.replace(manager.DELIMITER, manager.ESCAPE_CHAR+manager.DELIMITER); //escape delimiter
 			
@@ -335,7 +388,7 @@ public class TextSerializer
 	
 	}
 	
-	private void serialiseInitialEntry()
+	private void addInitialEntryToOutputList()
 	{
 		EObject obj = null;
 		for(Notification n : notificationsList)
@@ -352,12 +405,16 @@ public class TextSerializer
 				obj = objectsList.get(0);
 				break;
 			}
+			else
+			{
+				System.out.println("out of luck!");
+			}
 		}
 		outputList.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
 	}
 	
 	
-	private void appendStringsToFile(boolean appendMode)
+	private void writeOutputListToFile(boolean appendMode)
 	{
 		try
 		{
@@ -376,5 +433,7 @@ public class TextSerializer
 		{
 			e.printStackTrace();
 		}
+		
+		manager.setResume(true);
 	}	
 }

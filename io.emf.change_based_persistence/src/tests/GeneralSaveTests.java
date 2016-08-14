@@ -49,11 +49,12 @@ public class GeneralSaveTests extends TestBase
 	
 	/*
 	 * Test that making initial modifications, calling save, making more modifications,
-	 *  results in the save file being modifed accordingly.
+	 *  results in the save file being modified accordingly.
 	 */
 	@Test
 	public void testMultipleSaveWithModifications() throws IOException
 	{
+		//resource.getContents().clear();
 		//initial modifications
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		resource.getContents().add(uni1);
@@ -63,6 +64,7 @@ public class GeneralSaveTests extends TestBase
 		
 		//save last modified time
 		File file = new File(fileSaveLocation);
+
 		Long timeStamp = file.lastModified();
 		
 		//make further modifications
@@ -71,6 +73,12 @@ public class GeneralSaveTests extends TestBase
 		resource.save(null);
 		
 		//check that the file has been modified
+		
+		if(timeStamp == file.lastModified())
+		{
+			System.out.println("error!");
+			System.exit(0);
+		}
 		assertFalse(timeStamp == file.lastModified());
 	}
 	

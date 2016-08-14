@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 import impl.DeltaResourceImpl;
+import university.Book;
 import university.University;
 import university.UniversityFactory;
 import university.UniversityPackage;
@@ -46,22 +47,36 @@ public class App
 	{
 		// TODO Auto-generated method stub
 		App app = new App();
-		
+		//app.loadResource() ;
 		app.createResource();
 	
-		//app.loadResource() ;
+		
 	
 	}
 	
-	public void loadXMIResource() throws IOException  
+	
+	public void loadResource() throws IOException
 	{
+		ResourceSetImpl rs = new ResourceSetImpl();
+		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put
+		("txt", new Resource.Factory()
+		{
+			@Override
+			public Resource createResource(URI uri)
+			{
+				return new DeltaResourceImpl(uri);
+			}
+		});
 		
-		ResourceSet rs = new ResourceSetImpl();
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("txt", new XMIResourceFactoryImpl());
-		rs.getPackageRegistry().put(UniversityPackage.eINSTANCE.getNsURI(), UniversityPackage.eINSTANCE);
-		Resource resource = rs.createResource(URI.createFileURI("library.txt"));
+		rs.getPackageRegistry().put(UniversityPackage.eINSTANCE.getNsURI(), 
+				UniversityPackage.eINSTANCE);
+		
+		Resource resource = rs.createResource(URI.createFileURI(fileSaveLocation));
 		resource.load(null);
-
+		
+		University uni1 = (University) resource.getContents().get(0);
+		uni1.setName("Leeds Uni");
+		resource.save(null);
 	}
 	
 	public void createResource() throws Exception
@@ -69,12 +84,16 @@ public class App
 		
 		Resource resource = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
 	
-		University uni = UniversityFactory.eINSTANCE.createUniversity();
-		resource.getContents().add(uni);
-		uni.setName("Uni 1");
-	    
+		//initial modifications
+		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
+		resource.getContents().add(uni1);
+				
+		//perform first save
+		resource.save(null);
+		
+		uni1.setName("York University");
+		
 		/*SAVE STARTS HERE*/
 		resource.save(null); 
-	
 	}
 }

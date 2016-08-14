@@ -123,7 +123,7 @@ public class TextDeserializer
 			}	
 		}
 		br.close();
-		manager.setSuccessfulLoad(true);
+		manager.setResume(true);
 	}
 	
 	private void handleSetEReferenceEvent(String line)
