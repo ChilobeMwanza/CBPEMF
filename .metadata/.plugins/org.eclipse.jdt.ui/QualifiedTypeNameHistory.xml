@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EDataType"/>
-<fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="java.io.PrintStream"/>
 <fullyQualifiedTypeName name="util.CustomPrintStream"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
@@ -39,20 +37,13 @@
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl"/>
 <fullyQualifiedTypeName name="org.junit.Test"/>
 <fullyQualifiedTypeName name="university.UniversityFactory"/>
-<fullyQualifiedTypeName name="university.Library"/>
 <fullyQualifiedTypeName name="university.University"/>
 <fullyQualifiedTypeName name="university.Computer"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
-<fullyQualifiedTypeName name="university.Department"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="university.Student"/>
 <fullyQualifiedTypeName name="university.Vehicle"/>
-<fullyQualifiedTypeName name="university.StaffMember"/>
 <fullyQualifiedTypeName name="java.awt.print.Book"/>
 <fullyQualifiedTypeName name="university.Module"/>
-<fullyQualifiedTypeName name="university.Book"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EcorePackage"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage.Registry"/>
 <fullyQualifiedTypeName name="com.google.common.hash.HashCode"/>
@@ -60,4 +51,13 @@
 <fullyQualifiedTypeName name="com.google.common.hash.Hashing"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.Resource"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.util.URI"/>
+<fullyQualifiedTypeName name="university.StaffMember"/>
+<fullyQualifiedTypeName name="university.StaffMemberType"/>
+<fullyQualifiedTypeName name="university.Department"/>
+<fullyQualifiedTypeName name="university.Student"/>
+<fullyQualifiedTypeName name="university.Library"/>
+<fullyQualifiedTypeName name="university.Book"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="drivers.PersistenceManager"/>
 </qualifiedTypeNameHistroy>

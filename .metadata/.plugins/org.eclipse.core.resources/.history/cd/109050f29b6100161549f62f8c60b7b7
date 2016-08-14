@@ -1,8 +1,0 @@
-package tests;
-
-public class SetUnsetAttributeTests extends TestBase
-{
-	/*
-	 * Tests setting value of 1 single valued attribute
-	 */
-}

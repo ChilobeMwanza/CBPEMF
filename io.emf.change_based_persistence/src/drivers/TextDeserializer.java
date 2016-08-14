@@ -5,31 +5,22 @@
 package drivers;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.util.Diagnostician;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import change.ChangeLog;
 
@@ -247,7 +238,7 @@ public class TextDeserializer
 		if(attr.isMany())
 		{
 			@SuppressWarnings("unchecked")
-			EList<Object> attrValueList = (EList<Object>) obj.eGet(attr);  //change nam of var!
+			EList<Object> attrValueList = (EList<Object>) obj.eGet(attr);  
 			String[] obj_attr_str_array = tokeniseString(getValueInSquareBrackets(line));
 			
 			for(String str : obj_attr_str_array)
@@ -297,13 +288,13 @@ public class TextDeserializer
 	 * */
 	private String[] tokeniseString(String input)
 	{
-		String regex = "(?<!" + Pattern.quote(manager.ESCAPE_CHAR) + ")" + Pattern.quote(manager.DELIMITER);
+		String regex = "(?<!" + Pattern.quote(PersistenceManager.ESCAPE_CHAR) + ")" + Pattern.quote(PersistenceManager.DELIMITER);
 
 		String[] output = input.split(regex);
 		
 		for(int i = 0; i < output.length; i++)
 		{
-			output[i] = output[i].replace(manager.ESCAPE_CHAR+manager.DELIMITER, manager.DELIMITER);
+			output[i] = output[i].replace(PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER, PersistenceManager.DELIMITER);
 		}
 		
 		return output;

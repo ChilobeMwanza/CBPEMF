@@ -72,7 +72,7 @@ public class EventAdapter extends EContentAdapter
 				}*/
 				break;
 			}
-			case Notification.UNSET: //tbr
+			/*case Notification.UNSET: //tbr
 			{
 				if(n.getFeature() instanceof EAttribute || n.getNewValue() instanceof EObject)
 				{
@@ -81,7 +81,7 @@ public class EventAdapter extends EContentAdapter
 				}
 				System.out.println(classname+"unset happens still");
 				break;
-			}
+			}*/
 				
 			default:
 				//System.out.println("EventAdapater.java default");
@@ -122,7 +122,7 @@ public class EventAdapter extends EContentAdapter
     @Override
     protected void setTarget(EObject target)
     {
-        if(target.eAdapters().contains(this)) //fixes stack overflow on oposite ref
+        if(target.eAdapters().contains(this)) //fixes stack overflow on opposite ref
         	return;
         
         super.setTarget(target);

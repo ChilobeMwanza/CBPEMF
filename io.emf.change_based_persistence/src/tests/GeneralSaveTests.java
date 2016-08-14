@@ -70,7 +70,7 @@ public class GeneralSaveTests extends TestBase
 		//make further modifications
 		uni1.setName("York University");
 		
-		//wait a little before save to ensure modification time is sufficiently different
+		//wait a little before save to ensure modification does not happen too quickly
 		Thread.sleep(10);
 		
 		res.save(null);

@@ -11,20 +11,16 @@
  * make txt format less verbose
  * binary
  * 
+ * when unsetting single valued feature, name is not needed
  */
 package drivers;
 
-import java.io.BufferedReader;
+
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +28,7 @@ import java.util.Map;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import change.ChangeLog;
@@ -178,12 +172,12 @@ public class TextSerializer
 		if(newValue == null)
 			newValue = "null";
 		
-		newValue = newValue.replace(manager.DELIMITER, manager.ESCAPE_CHAR+manager.DELIMITER); //escape delimiter (if any)
+		newValue = newValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
 		
 		outputList.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" ["+newValue+"]");
 	}
 	
-	private boolean isInitialEntrySerialised() 
+	/*private boolean isInitialEntrySerialised() 
 	{
 		
 		// if output file doesn't exits, initial entry doesn't exist
@@ -208,7 +202,7 @@ public class TextSerializer
 		}
 		
 		return false;
-	}
+	}*/
 	
 	private void handleUnsetEAttributeSingleEvent(Notification n)
 	{
@@ -217,6 +211,8 @@ public class TextSerializer
 		EAttribute attr = (EAttribute) n.getFeature();
 		
 		String oldValue = EcoreUtil.convertToString(attr.getEAttributeType(),  n.getOldValue());
+		
+		oldValue = oldValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
 		
 		outputList.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "
 					+changelog.getObjectId(focus_obj)+" ["+oldValue+"]");
@@ -239,9 +235,9 @@ public class TextSerializer
 			if(newValue == null)
 				newValue = "null";
 			
-			newValue = newValue.replace(manager.DELIMITER, manager.ESCAPE_CHAR+manager.DELIMITER); //escape delimiter
+			newValue = newValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter
 			
-			obj_list_str = obj_list_str +newValue+manager.DELIMITER;
+			obj_list_str = obj_list_str +newValue+PersistenceManager.DELIMITER;
 		}
 		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
 		outputList.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
@@ -260,7 +256,7 @@ public class TextSerializer
 		for(Object object: attr_values_list)
 		{
 			String newValue = (EcoreUtil.convertToString(attr.getEAttributeType(), object));
-			obj_list_str = obj_list_str + newValue+manager.DELIMITER;
+			obj_list_str = obj_list_str + newValue+PersistenceManager.DELIMITER;
 		}
 		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
 		outputList.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
@@ -328,10 +324,10 @@ public class TextSerializer
 			if(changelog.addObjectToMap(obj)) //if obj does not already exist
 			{
 				obj_create_list_str = obj_create_list_str + obj.eClass().getName()+" "
-						+ ""+changelog.getObjectId(obj)+manager.DELIMITER; 
+						+ ""+changelog.getObjectId(obj)+PersistenceManager.DELIMITER; 
 			}
 			
-			added_obj_list_str = added_obj_list_str + obj.eClass().getName()+" "+changelog.getObjectId(obj)+manager.DELIMITER; 
+			added_obj_list_str = added_obj_list_str + obj.eClass().getName()+" "+changelog.getObjectId(obj)+PersistenceManager.DELIMITER; 
 		}
 		
 		if(obj_create_list_str.length()>1) //if we have items to create...
@@ -367,7 +363,7 @@ public class TextSerializer
 		{
 			long removed_obj_id = changelog.getObjectId(obj);
 			
-			obj_delete_list_str = obj_delete_list_str +  obj.eClass().getName()+" "+removed_obj_id +manager.DELIMITER; 
+			obj_delete_list_str = obj_delete_list_str +  obj.eClass().getName()+" "+removed_obj_id +PersistenceManager.DELIMITER; 
 			
 			changelog.deleteEObjectFromMap(removed_obj_id);	
 		}

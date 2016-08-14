@@ -20,8 +20,8 @@ public class PersistenceManager
 
 	private final DeltaResourceImpl resource;
 	public final String TEXT_ENCODING = "Ascii";
-	public final String DELIMITER = ","; //,
-	public final String ESCAPE_CHAR ="+"; //*
+	public static final String DELIMITER = ","; //,
+	public static final String ESCAPE_CHAR ="+"; //*
     private boolean resume = false;
 
 
