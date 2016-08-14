@@ -19,7 +19,6 @@
 <fullyQualifiedTypeName name="university.UniversityPackage"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl"/>
 <fullyQualifiedTypeName name="university.Computer"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
 <fullyQualifiedTypeName name="university.Vehicle"/>
 <fullyQualifiedTypeName name="java.awt.print.Book"/>
 <fullyQualifiedTypeName name="university.Module"/>
@@ -34,11 +33,9 @@
 <fullyQualifiedTypeName name="university.Library"/>
 <fullyQualifiedTypeName name="university.Book"/>
 <fullyQualifiedTypeName name="drivers.PersistenceManager"/>
-<fullyQualifiedTypeName name="org.junit.Test"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.ExtendedMetaData"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.xmi.XMLResource"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.BasicExtendedMetaData"/>
-<fullyQualifiedTypeName name="org.junit.After"/>
 <fullyQualifiedTypeName name="university.UniversityFactory"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage.Registry"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
@@ -49,15 +46,18 @@
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.ResourceSet"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.util.TreeIterator"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="university.University"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.impl.ResourceSetImpl"/>
+<fullyQualifiedTypeName name="org.junit.After"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
+<fullyQualifiedTypeName name="org.junit.Test"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.Resource"/>
 <fullyQualifiedTypeName name="impl.DeltaResourceImpl"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.util.URI"/>
-<fullyQualifiedTypeName name="university.University"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
-<fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.impl.ResourceSetImpl"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

@@ -52,6 +52,7 @@ public class DeltaResourceImpl extends ResourceImpl
 	@Override
 	public void save(Map<?, ?> options)
 	{
+		
 		persistenceManager.save(options);
 		
 		/*If save file exists, print contents to console*/

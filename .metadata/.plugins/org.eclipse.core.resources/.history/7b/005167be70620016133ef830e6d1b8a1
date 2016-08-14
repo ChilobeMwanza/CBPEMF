@@ -1,0 +1,17 @@
+/*
+ * Explicitly tests the ADD_R entry (which adds items directly to the resource), 
+ * create entry is implicitly tested.
+ * 
+ * Resource contents are cleared before each test run. Each test run is independent.
+ * 
+ * The save file is deleted before each test run. 
+ * 
+ * This class does not test resume functionality (i.e make model 1, persist model 1, load model 1, make additional changes 
+ * to loaded model, persist it, e.t.c)
+ */
+package dynamic_emf_tests;
+
+public class AddToResourceTests extends TestBase
+{
+
+}

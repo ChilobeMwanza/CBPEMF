@@ -59,12 +59,8 @@ public class TextSerializer
 			return;
 		
 		//if we're not in resume mode, add namespace entry to output list
-		if(!manager.isResume()) 
-		{
+		if(!manager.isResume())
 			addInitialEntryToOutputList();
-			System.out.println(classname+"not in resume mode!, adding init entry to output list!");
-		}
-	
 		
 		for(Notification n : notificationsList)
 		{
