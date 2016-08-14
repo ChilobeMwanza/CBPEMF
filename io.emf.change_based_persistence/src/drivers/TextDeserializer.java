@@ -20,9 +20,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import change.ChangeLog;
+import exceptions.UnknownPackageException;
 
 public class TextDeserializer 
 {
@@ -52,7 +54,7 @@ public class TextDeserializer
 		this.changelog = aChangeLog;
 	}
 	
-	public void load(Map<?,?> options) throws IOException
+	public void load(Map<?,?> options) throws Exception
 	{	
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(new FileInputStream(manager.getURI().path()), manager.TEXT_ENCODING));
@@ -78,10 +80,10 @@ public class TextDeserializer
 			EventType eventType = EventType.NULL;
 			
 			if(st.hasMoreElements())
-			{ 
-				  eventType = EventType.valueOf
-						 (st.nextElement().toString());
-			} 
+				eventType = EventType.valueOf(st.nextElement().toString());
+				
+				  
+			
 			
 			/* Switches over various event types, calls appropriate handler method*/
 			switch(eventType)
@@ -252,22 +254,19 @@ public class TextDeserializer
 		}
 	}
 	
-	private EPackage loadMetamodel(String metamodelURI)
+	private EPackage loadMetamodel(String metamodelURI) throws UnknownPackageException
 	{
-		//EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage("http://io.emf.change_based_persistence.text");
 		EPackage ePackage = null;
+		
 		if(EPackage.Registry.INSTANCE.containsKey(metamodelURI))
 			ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelURI);
+		
 		else
-		{
-			System.out.println(classname+" could not load metamodel!");
-			System.exit(0);
-		}
+			throw new UnknownPackageException(metamodelURI);
+		
 		return ePackage;
 	}
 	
-	
-	//should check for errors here
 	private EObject createEObject(String eClassName) //does this need to be a method?
 	{
 		return ePackage.getEFactoryInstance().create((EClass)

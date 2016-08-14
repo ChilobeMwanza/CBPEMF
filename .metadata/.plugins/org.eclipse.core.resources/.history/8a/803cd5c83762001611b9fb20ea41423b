@@ -1,0 +1,19 @@
+/*
+ * Explicitly tests methods not implicitly tested by other test cases
+ */
+package tests;
+import static org.junit.Assert.assertNotNull;
+
+import org.eclipse.emf.common.util.URI;
+import org.junit.Test;
+
+import impl.DeltaResourceImpl;
+public class DeltaResouceImplTest extends TestBase 
+{
+	@Test
+	public void testGetChangelog()
+	{
+		DeltaResourceImpl res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		assertNotNull(res.getChangeLog());
+	}
+}

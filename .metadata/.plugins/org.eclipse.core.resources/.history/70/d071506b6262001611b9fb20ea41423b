@@ -1,0 +1,9 @@
+package exceptions;
+
+public class CorruptedSaveFileException extends Exception
+{
+	public CorruptedSaveFileException()
+	{
+		super("The save file could not be loaded due to invalid data.");
+	}
+}

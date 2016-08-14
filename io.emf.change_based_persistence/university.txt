@@ -1,4 +1,3 @@
 NAMESPACE_URI http://io.emf.change_based_persistence.text
 CREATE [University 0]
 ADD_R [University 0]
-SET_A name University 0 [York Uni]

@@ -5,7 +5,6 @@ package change;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -58,33 +57,12 @@ public class EventAdapter extends EContentAdapter
 			case Notification.SET:
 			{
 				if(n.getNotifier() instanceof EObject)
-				{
 					changelog.addNotification(n);
-				}
 				
-				/*if(n.getFeature() instanceof EAttribute || n.getNewValue() instanceof EObject)
-				{
-					changelog.addNotification(n);
-				}
-				else
-				{
-					System.out.println(classname+" "+n.toString());
-				}*/
 				break;
 			}
-			/*case Notification.UNSET: //tbr
-			{
-				if(n.getFeature() instanceof EAttribute || n.getNewValue() instanceof EObject)
-				{
-					//changeLog.addNotification(n);
-					System.out.println(classname+" UNSET!");
-				}
-				System.out.println(classname+"unset happens still");
-				break;
-			}*/
-				
+			
 			default:
-				//System.out.println("EventAdapater.java default");
 				break;
 		}
 	}

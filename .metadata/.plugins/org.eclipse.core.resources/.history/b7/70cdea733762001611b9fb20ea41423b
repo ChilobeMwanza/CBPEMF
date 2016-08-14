@@ -1,0 +1,10 @@
+package tests;
+import org.junit.Test;
+public class DeltaResouceImplTest 
+{
+	@Test
+	public void testGetChangelog()
+	{
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation))
+	}
+}

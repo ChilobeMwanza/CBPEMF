@@ -1,0 +1,14 @@
+package dynamic_emf_tests;
+
+import org.junit.Test;
+
+public class GeneralSaveTests extends TestBase 
+{
+	/*Calling save() serialises all monitored changes (notifications) and clears these
+	 * Notifications from the event list. Calling save repeatedly without having made
+	 * any changes to the model should not result in subsequent modifications of the save
+	 * file.
+	 */
+	@Test
+	public void testRepeatedSaveNoModification() throws IOException
+}

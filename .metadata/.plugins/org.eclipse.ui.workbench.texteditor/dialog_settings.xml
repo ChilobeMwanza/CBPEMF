@@ -2,29 +2,30 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="addInitialEntryToOutputList" key="selection"/>
+		<item value="global" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="global"/>
+			<item value="save"/>
+			<item value="doSa"/>
+			<item value="save("/>
+			<item value="loadResource()"/>
+			<item value="loadResource"/>
 			<item value="serialiseInitialEntry"/>
 			<item value="getNthWord"/>
-			<item value="getN"/>
-			<item value="loadRe"/>
-			<item value="loadRes"/>
-			<item value="null"/>
-			<item value="appendMode"/>
-			<item value="yes"/>
 		</list>
 		<list key="replacehistory">
+			<item value="reflectiveLoadResource()"/>
+			<item value="reflectiveloadResource()"/>
+			<item value="reflectiveLoadResource"/>
 			<item value="addInitialEntryToOutputList"/>
 			<item value="long"/>
 			<item value="Long"/>
 			<item value="n.getNotifier() instanceof DeltaResourceImpl"/>
 			<item value="focus_obj"/>
-			<item value="handleSetEAttributeEvent"/>
-			<item value="handleSetEReferenceEvent"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

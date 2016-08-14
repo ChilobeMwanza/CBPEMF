@@ -27,3 +27,11 @@
 1471112009201	Rename type 'BasicTest'
 1471112630844	Delete elements
 1471120409912	Delete elements
+1471189953687	Delete element
+1471190241365	Rename type 'DeltaResouceImplTest'
+1471208552820	Rename type 'CorruptedSaveFileException'
+1471209395149	Delete element
+1471209551394	Rename package 'DynamicEMFTests'
+1471209833841	Rename package 'tests'
+1471212292021	Delete element
+1471214362280	Copy compilation unit

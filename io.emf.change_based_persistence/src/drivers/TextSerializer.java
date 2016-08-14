@@ -58,29 +58,13 @@ public class TextSerializer
 		if(notificationsList.isEmpty())
 			return;
 		
-		//Check if output file contains initial 'namespace' entry
-		
-		
-		
-		/*if(!manager.isResume()) 
-		{
-			addInitialEntryToOutputList();
-			System.out.println(classname+"not in resume mode!, adding init entry to output list!");
-		}
-		else if(!isInitialEntrySerialised()) 
-		{
-			System.out.println(classname+" init entry not serialised, working on it!");
-			addInitialEntryToOutputList();
-		}*/
-		
-		
+		//if we're not in resume mode, add namespace entry to output list
 		if(!manager.isResume()) 
 		{
 			addInitialEntryToOutputList();
 			System.out.println(classname+"not in resume mode!, adding init entry to output list!");
 		}
 	
-		
 		
 		for(Notification n : notificationsList)
 		{
@@ -106,6 +90,7 @@ public class TextSerializer
 					
 					else if(n.getNewValue() == null)
 						handleUnsetEReferenceSingleEvent(n);
+					
 					break;
 				}
 				case Notification.ADD_MANY:
@@ -146,6 +131,7 @@ public class TextSerializer
 				{
 					System.out.println(classname+"Unhandled notification!" +n.toString());
 					System.exit(0);
+					break;
 				}
 			}
 		}
@@ -155,7 +141,7 @@ public class TextSerializer
 		/*finally append strings to file, if no previous successful load,don't 
 		 * serialise in append mode(i.e create new file, e.t.c)
 		 */
-		System.out.println(classname+" appendmode: "+manager.isResume());
+		//System.out.println(classname+" appendmode: "+manager.isResume());
 		
 		/*Write contents of output list to file*/
 		writeOutputListToFile(manager.isResume()); 

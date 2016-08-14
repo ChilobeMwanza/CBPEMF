@@ -10,6 +10,9 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import change.ChangeLog;
 import impl.DeltaResourceImpl;
@@ -61,6 +64,11 @@ public class PersistenceManager
 		return resource.getContents().remove(obj);
 	}
 	
+	public Resource getResource()
+	{
+		return this.resource;
+	}
+	
 	public URI getURI()
 	{
 		return resource.getURI();
@@ -75,7 +83,7 @@ public class PersistenceManager
 	}
 
 	
-	public void load(Map<?,?> options) throws IOException
+	public void load(Map<?,?> options) throws Exception
 	{	
 		
 		TextDeserializer textDeserializer = new TextDeserializer(this,changeLog);

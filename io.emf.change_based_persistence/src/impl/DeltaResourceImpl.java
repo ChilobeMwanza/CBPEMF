@@ -6,14 +6,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 
 import change.ChangeLog;
 import change.EventAdapter;
@@ -27,10 +26,8 @@ public class DeltaResourceImpl extends ResourceImpl
 	private final ChangeLog changeLog;
     private PersistenceManager persistenceManager;
     EventAdapter eventAdapter;
-    
-   
-    
-	public DeltaResourceImpl(URI uri)
+	
+    public DeltaResourceImpl(URI uri)
 	{
 		super(uri);
 		
@@ -40,11 +37,18 @@ public class DeltaResourceImpl extends ResourceImpl
 		this.eAdapters().add(eventAdapter); 
 		
 		persistenceManager = new PersistenceManager(changeLog,this); //is changelog variable pointing to same changelog as adapter?
-		
 	}
+    
+    public DeltaResourceImpl()
+    {
+    	changeLog = new ChangeLog();
+    	
+		eventAdapter = new EventAdapter(changeLog);
+		this.eAdapters().add(eventAdapter); 
+		
+		persistenceManager = new PersistenceManager(changeLog,this); //is changelog variable pointing to same changelog as adapter?
+    }
 
-	
-	
 	@Override
 	public void save(Map<?, ?> options)
 	{
@@ -76,7 +80,8 @@ public class DeltaResourceImpl extends ResourceImpl
 			}
 		}
 	}
-
+	
+	
 	@Override
 	public void load(Map<?, ?> options)throws IOException
 	{
@@ -84,7 +89,12 @@ public class DeltaResourceImpl extends ResourceImpl
 		
 		System.out.println(classname+": Load called!");
 		
-		persistenceManager.load(options);
+		try {
+			persistenceManager.load(options);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		eventAdapter.setEnabled(true);
 	}
