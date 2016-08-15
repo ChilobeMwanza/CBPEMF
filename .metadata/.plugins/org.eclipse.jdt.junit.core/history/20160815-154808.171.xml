@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TestSuite" project="io.emf.change_based_persistence" tests="44" started="44" failures="0" errors="0" ignored="0">
+  <testsuite name="generated_emf_tests.TestSuite" time="1.757">
+    <testsuite name="generated_emf_tests.AddToResourceTests" time="1.666">
+      <testcase name="testAllAddToResource" classname="generated_emf_tests.AddToResourceTests" time="0.23"/>
+      <testcase name="testAddManyToResource" classname="generated_emf_tests.AddToResourceTests" time="1.426"/>
+      <testcase name="testAddSingleToResource" classname="generated_emf_tests.AddToResourceTests" time="0.005"/>
+      <testcase name="testAddSingleRepeatedToResource" classname="generated_emf_tests.AddToResourceTests" time="0.003"/>
+      <testcase name="testAddListToResource" classname="generated_emf_tests.AddToResourceTests" time="0.002"/>
+    </testsuite>
+    <testsuite name="generated_emf_tests.DeleteFromResourceTests" time="0.011">
+      <testcase name="testDeleteCollectionFromResource" classname="generated_emf_tests.DeleteFromResourceTests" time="0.003"/>
+      <testcase name="testAllDeleteFromResource" classname="generated_emf_tests.DeleteFromResourceTests" time="0.004"/>
+      <testcase name="testDeleteRepeatedFromResource" classname="generated_emf_tests.DeleteFromResourceTests" time="0.001"/>
+      <testcase name="testDeleteSingleFromResource" classname="generated_emf_tests.DeleteFromResourceTests" time="0.003"/>
+    </testsuite>
+    <testsuite name="generated_emf_tests.GeneralSaveTests" time="0.017">
+      <testcase name="testMultipleSaveWithModifications" classname="generated_emf_tests.GeneralSaveTests" time="0.012"/>
+      <testcase name="testBasicSaveAndLoad" classname="generated_emf_tests.GeneralSaveTests" time="0.001"/>
+      <testcase name="testEmptySave" classname="generated_emf_tests.GeneralSaveTests" time="0.001"/>
+      <testcase name="testRedundantModification" classname="generated_emf_tests.GeneralSaveTests" time="0.001"/>
+      <testcase name="testRepeatedSaveNoModification" classname="generated_emf_tests.GeneralSaveTests" time="0.002"/>
+    </testsuite>
+    <testsuite name="generated_emf_tests.SetUnsetReferenceTests" time="0.04">
+      <testcase name="testMultipleAddToManyValuedContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.003"/>
+      <testcase name="testRemoveOneFromManyValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.002"/>
+      <testcase name="testAddAllIToManyValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.003"/>
+      <testcase name="testUnsetOneSingleValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.003"/>
+      <testcase name="testUnsetMultipleSingleValuedNonContainmentRefs" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.002"/>
+      <testcase name="testRemoveAllFromManyValuedContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.001"/>
+      <testcase name="testSetOneSingleValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.004"/>
+      <testcase name="testRemoveOneFromManyValuedContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.002"/>
+      <testcase name="testRemoveAllFromManyValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.002"/>
+      <testcase name="testSetMultipleSingleValuedContainmentRefs" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.002"/>
+      <testcase name="testSetMultipleSingleValuedNonContainmentRefs" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.001"/>
+      <testcase name="testSetOppositeReference" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.003"/>
+      <testcase name="testSetOneSingleValuedContainmentReference" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.001"/>
+      <testcase name="testAddMultipleToManyValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.002"/>
+      <testcase name="testAddAllIToManyValuedContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.003"/>
+      <testcase name="testUnsetMultipleSingleValuedContainmentRefs" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.002"/>
+      <testcase name="testUnsetOppositeReference" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.002"/>
+      <testcase name="testUnsetOneSingleValuedContainmentReference" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.002"/>
+    </testsuite>
+    <testsuite name="generated_emf_tests.SetUnsetAttributeTests" time="0.022">
+      <testcase name="testSetMultipleSingleValueAttributes" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.002"/>
+      <testcase name="testRemoveFromManyValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.003"/>
+      <testcase name="testAddToManyValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.001"/>
+      <testcase name="testUnsetOneSingleValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.003"/>
+      <testcase name="testUnsetMultipleSingleValueAttributes" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.003"/>
+      <testcase name="testEscapingDelimiterWhenUnsetEAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.002"/>
+      <testcase name="testEscapingDelimiterWhenSetEAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.002"/>
+      <testcase name="testSetEnum" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.001"/>
+      <testcase name="testRemoveAllFromManyValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.003"/>
+      <testcase name="testAddAllToManyValuedAtribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.001"/>
+      <testcase name="testSetOneSingleValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.001"/>
+    </testsuite>
+    <testsuite name="generated_emf_tests.DeltaResouceImplTests" time="0.0">
+      <testcase name="testGetChangelog" classname="generated_emf_tests.DeltaResouceImplTests" time="0.0"/>
+    </testsuite>
+  </testsuite>
+</testrun>

@@ -1,0 +1,18 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+
+public class UnsetEAttributeSingleEvent extends Event
+{
+	private EObject focus_obj;
+	private EAttribute attr;
+	private Object old_value;
+	
+	public UnsetEAttributeSingleEvent(EObject focus_obj, EAttribute attr, Object old_value)
+	public UnsetEAttributeSingleEvent(Notification n)
+	{
+		super(Event.UNSET_EATTRIBUTE_SINGLE);
+	}
+}

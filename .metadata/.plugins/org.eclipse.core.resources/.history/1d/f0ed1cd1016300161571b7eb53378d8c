@@ -1,0 +1,20 @@
+package change;
+
+
+public class UnsetEReferenceManyEvent extends Event 
+{
+	private enum NotifierType
+	{
+		EOBJECT,
+		RESOURCE;
+	}
+	
+	private NotifierType type;
+	
+	private Object old_value;
+	
+	public UnsetEReferenceManyEvent(Notification n)
+	{
+		
+	}
+}

@@ -1,0 +1,22 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
+
+public class UnsetEReferenceSingleEvent extends Event 
+{
+	private enum NotifierType
+	{
+		EOBJECT,
+		RESOURCE;
+	}
+	
+	private EObject added_obj;
+	private EObject removed_obj;
+	private NotifierType type;
+
+	private UnsetEReferenceSingleEvent(Notification n)
+	{
+		this.removed_obj = (EObject)n.getOldValue();
+	}
+}

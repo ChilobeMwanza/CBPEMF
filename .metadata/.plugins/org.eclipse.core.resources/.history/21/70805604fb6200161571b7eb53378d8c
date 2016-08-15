@@ -1,0 +1,17 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+
+public class SetEAttributeSingleEvent extends Event
+{
+	private EObject focus_obj;
+	private EAttribute attr;
+	private String newValue;
+	
+	public SetEAttributeSingleEvent(Notification n)
+	{
+		this.focus_obj = (EObject) n.getNotifier();
+	}
+}

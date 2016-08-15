@@ -1,0 +1,25 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
+
+import change.UnsetEReferenceSingleEvent.NotifierType;
+
+public class SetEReferenceManyEvent extends Event 
+{
+	private enum NotifierType
+	{
+		EOBJECT,
+		RESOURCE;
+	}
+	
+	private EObject focus_obj;
+	private EObject removed_obj;
+	private NotifierType type;
+	private Object newValue;
+	
+	public SetEReferenceManyEvent(Notification n)
+	{
+		
+	}
+}

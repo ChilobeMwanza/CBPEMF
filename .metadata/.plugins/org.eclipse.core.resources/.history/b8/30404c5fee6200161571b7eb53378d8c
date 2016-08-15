@@ -1,0 +1,5 @@
+
+public interface DeltaResource 
+{
+	String OPTION_OPTIMISE_OUTPUT ="OPTIMISE_OUTPUT";
+}

@@ -30,6 +30,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
@@ -89,7 +91,9 @@ public class App
 	public void createResource() throws Exception
 	{
 		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
-	
+	XMLResource re;
+	XMIResource df;
+	XMIResourceImpl dfg;
 		//initial modifications
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni1);

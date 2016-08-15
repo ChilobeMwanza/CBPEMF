@@ -1,3 +1,0 @@
-NAMESPACE_URI http://io.emf.change_based_persistence.text
-CREATE [University 0,University 1,Library 2,Library 3]
-ADD_R [University 0,University 1,Library 2,Library 3]

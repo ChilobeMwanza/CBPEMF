@@ -1,0 +1,30 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
+
+import impl.DeltaResourceImpl;
+
+public class UnsetEReferenceSingleEvent extends Event 
+{
+	private enum NotifierType
+	{
+		EOBJECT,
+		RESOURCE;
+	}
+	
+	private EObject removed_obj;
+	private NotifierType type;
+
+	private UnsetEReferenceSingleEvent(EObject added_obj,E)
+	private UnsetEReferenceSingleEvent(Notification n)
+	{
+		this.removed_obj = (EObject)n.getOldValue();
+		
+		if(n.getNotifier() instanceof DeltaResourceImpl)
+			this.type = NotifierType.RESOURCE;
+		
+		else if(n.getNotifier() instanceof EObject)
+			this.type = NotifierType.EOBJECT;
+	}
+}

@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.lang.reflect.Field;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -20,7 +18,7 @@ import change.EventAdapter;
 import drivers.PersistenceManager;
 
 
-public class DeltaResourceImpl extends ResourceImpl
+public class DeltaResourceImpl extends ResourceImpl implements DeltaResource
 {
 	private  final String classname = this.getClass().getSimpleName();
 	private final ChangeLog changeLog;

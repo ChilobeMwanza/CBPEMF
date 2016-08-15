@@ -1,0 +1,22 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+
+public class SetEAttributeManyEvent extends Event 
+{
+	private EObject focus_obj;
+	private EAttribute attr;
+	private Object new_value;
+	
+	public SetEAttributeManyEvent(EObject focus_obj, EAttribute attr)
+	{
+		this.focus_obj = focus_obj;
+		this.attr = attr;
+	}
+	public SetEAttributeManyEvent(Notification n)
+	{
+		this((EObject) n.getNotifier(),(EAttribute) n.getFeature());
+	}
+}

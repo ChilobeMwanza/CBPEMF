@@ -1,0 +1,12 @@
+package change;
+
+public interface Event 
+{
+	int SET_EATTRIBUTE_MANY = 1;
+	int SET_EATTRIBUTE_SINGLE = 2;
+	int SET_EREFERENCE_MANY =3;
+	int UNSET_EREFERENCE_MANY = 4;
+	int UNSET_EREFERENCE_SINGLE = 5;
+	
+	public int getType();
+}

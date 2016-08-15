@@ -1,0 +1,39 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
+
+import impl.DeltaResourceImpl;
+
+
+public class SetEReferenceManyEvent extends Event 
+{
+	private enum NotifierType
+	{
+		EOBJECT,
+		RESOURCE;
+	}
+	
+	private NotifierType type;
+	
+	private Object newValue;
+	private EObject focus_obj;
+	
+	public SetEReferenceManyEvent(Notification n)
+	{
+		this.newValue = n.getNewValue();
+		
+		 if(n.getNotifier() instanceof DeltaResourceImpl)
+		 {
+			 this.type = NotifierType.RESOURCE;
+		 }
+			
+		 
+		 else if(n.getNotifier() instanceof EObject)
+		 {
+			 this.type = NotifierType.EOBJECT;
+			 this.focus_obj = (EObject) n.getNotifier();
+		 }
+			 
+	}
+}

@@ -1,0 +1,55 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+
+import impl.DeltaResourceImpl;
+
+public class SetEReferenceSingleEvent extends Event
+{
+	private enum NotifierType
+	{
+		EOBJECT,
+		RESOURCE;
+	}
+	
+	private EObject added_obj;
+	private EObject focus_obj;
+	private EAttribute attr;
+	private NotifierType type;
+	
+	public SetEReferenceSingleEvent(EObject added_obj,NotifierType type)
+	{
+		this.added_obj = added_obj;
+		this.type = type;
+	}
+	
+	public SetEReferenceSingleEvent(EObject added_obj, EObject focus_obj,NotifierType type)
+	{
+		this.added_obj = added_obj;
+		this.focus_obj = focus_obj;
+		this.type = type;
+	}
+	
+	public SetEReferenceSingleEvent(Notification n)
+	{
+		this.added_obj = (EObject)n.getNewValue();
+		
+		if(n.getNotifier() instanceof DeltaResourceImpl)
+		{
+			this.type = NotifierType.RESOURCE;
+		}
+		else if(n.getNotifier() instanceof EObject)
+		{
+			this.type = NotifierType.RESOURCE;
+			this.focus_obj = (EObject) n.getNotifier();
+		}	
+	}
+	
+	private EObject getAddedObject()
+	{
+		return this.added_obj;
+	}
+	
+}
