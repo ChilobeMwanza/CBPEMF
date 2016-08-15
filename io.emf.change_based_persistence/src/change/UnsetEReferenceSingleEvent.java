@@ -2,31 +2,29 @@ package change;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 
 import impl.DeltaResourceImpl;
 
 public class UnsetEReferenceSingleEvent extends Event 
 {
-	private enum NotifierType
-	{
-		EOBJECT,
-		RESOURCE;
-	}
-	
 	private EObject focus_obj;
 	private EObject removed_obj;
+	private EReference eref;
 	private NotifierType type;
 
-	private UnsetEReferenceSingleEvent(EObject focus_obj,EObject removed_obj,NotifierType type)
+	public UnsetEReferenceSingleEvent(EObject focus_obj,EObject removed_obj,EReference eref, NotifierType type)
 	{
 		super(Event.UNSET_EREFERENCE_SINGLE);
 		
 		this.focus_obj = focus_obj;
 		this.removed_obj = removed_obj;
 		this.type = type;
+		this.eref = eref;
+		
 	}
 	
-	private UnsetEReferenceSingleEvent(EObject removed_obj,NotifierType type)
+	public UnsetEReferenceSingleEvent(EObject removed_obj,NotifierType type)
 	{
 		super(Event.UNSET_EREFERENCE_SINGLE);
 		
@@ -34,7 +32,7 @@ public class UnsetEReferenceSingleEvent extends Event
 		this.type = type;
 	}
 	
-	private UnsetEReferenceSingleEvent(Notification n)
+	public UnsetEReferenceSingleEvent(Notification n)
 	{
 		super(Event.UNSET_EREFERENCE_SINGLE);
 		
@@ -47,6 +45,7 @@ public class UnsetEReferenceSingleEvent extends Event
 		{
 			this.type = NotifierType.EOBJECT;
 			this.focus_obj = (EObject) n.getNotifier();
+			this.eref = (EReference) n.getFeature();
 		}
 			
 	}
@@ -64,5 +63,10 @@ public class UnsetEReferenceSingleEvent extends Event
 	public NotifierType getNotifierType()
 	{
 		return this.type;
+	}
+	
+	public EReference getEReference()
+	{
+		return this.eref;
 	}
 }

@@ -3,8 +3,11 @@
  */
 package change;
 
+import java.util.List;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -16,7 +19,7 @@ public class EventAdapter extends EContentAdapter
 	private final ChangeLog changelog;
 	private  final String classname = this.getClass().getSimpleName();
 	
-	private boolean adapterEnabled = true;
+	private boolean adapter_enabled = true;
 	
 	public EventAdapter(ChangeLog aChangelog)
 	{
@@ -29,47 +32,80 @@ public class EventAdapter extends EContentAdapter
 	{
 		super.notifyChanged(n);
 		
-		if(n.isTouch() || !adapterEnabled)
+		if(n.isTouch() || !adapter_enabled)
 			return;
 		
 		switch(n.getEventType())
 		{
-			case Notification.ADD :
+			case Notification.ADD:
 			{
-				changelog.addNotification(n);
-				break;		
-			}
-			case Notification.ADD_MANY : 
-			{
-				changelog.addNotification(n);
-				break;
-			}
-			case Notification.REMOVE:
-			{
-				changelog.addNotification(n);
-				break;
-			}
-			case Notification.REMOVE_MANY:
-			{
-				changelog.addNotification(n);
+				if(n.getNewValue() instanceof EObject)
+					changelog.addEvent(new SetEReferenceSingleEvent(n));
+				
+				else if(n.getFeature() instanceof EAttribute)
+					changelog.addEvent(new SetEAttributeSingleEvent(n));
+				
 				break;
 			}
 			case Notification.SET:
 			{
-				if(n.getNotifier() instanceof EObject)
-					changelog.addNotification(n);
+				if(n.getNewValue() instanceof EObject)
+					changelog.addEvent(new SetEReferenceSingleEvent(n));
+				
+				else if(n.getFeature() instanceof EAttribute)
+					changelog.addEvent(new SetEAttributeSingleEvent(n));
+				
+				else if(n.getNewValue() == null)
+					changelog.addEvent(new UnsetEReferenceSingleEvent(n));
 				
 				break;
 			}
-			
-			default:
+			case Notification.ADD_MANY:
+			{
+				@SuppressWarnings("unchecked")
+				List<Object> list =  (List<Object>) n.getNewValue();
+				if(list.get(0) instanceof EObject)
+					changelog.addEvent(new SetEReferenceManyEvent(n));
+				
+				else if(n.getFeature() instanceof EAttribute)
+					changelog.addEvent(new SetEAttributeManyEvent(n));
+				
 				break;
+			}
+			case Notification.REMOVE:
+			{
+				if(n.getOldValue() instanceof EObject)
+					changelog.addEvent(new UnsetEReferenceSingleEvent(n));
+				
+				else if(n.getFeature() instanceof EAttribute)
+					changelog.addEvent(new UnsetEAttributeSingleEvent(n));
+				
+				break;
+			}
+			case Notification.REMOVE_MANY:
+			{
+				@SuppressWarnings("unchecked")
+				List<Object> list =  (List<Object>) n.getOldValue();
+				if(list.get(0) instanceof EObject)
+					changelog.addEvent(new UnsetEReferenceManyEvent(n));
+				
+				else if(n.getFeature() instanceof EAttribute)
+					changelog.addEvent(new UnsetEAttributeManyEvent(n));
+				
+				break;
+			}
+			default:
+			{
+				System.out.println(classname+"Unhandled notification!" +n.toString());
+				System.exit(0);
+				break;
+			}
 		}
 	}
 	
 	public void setEnabled(boolean bool)
 	{
-		adapterEnabled = bool;
+		adapter_enabled = bool;
 	}
 	
 	

@@ -1,0 +1,353 @@
+/*
+ * todo:
+ * optimisation algorithm
+ * check everything works with non generated emf (Reflective)
+ * make txt format less verbose
+ * when unsetting single valued feature, name is not needed
+ * binary
+ * 
+ * 
+ */
+package drivers;
+
+
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import change.ChangeLog;
+import change.Event;
+import change.SetEAttributeManyEvent;
+import change.SetEAttributeSingleEvent;
+import change.SetEReferenceSingleEvent;
+import change.UnsetEAttributeSingleEvent;
+import change.UnsetEReferenceSingleEvent;
+import impl.DeltaResourceImpl;
+
+
+public class TextSerializer 
+{
+	private  final String classname = this.getClass().getSimpleName();
+	private final PersistenceManager manager;
+	private List<String> output_list;
+    private List<Event> event_list;
+	private final ChangeLog changelog; 
+	
+	public TextSerializer(PersistenceManager manager, ChangeLog aChangeLog)
+	{
+		this.manager =  manager;
+		this.changelog = aChangeLog;
+		this.output_list = new ArrayList<String>();
+		
+		this.event_list = manager.getChangeLog().getEventsList();
+	}
+	
+	public void save(Map<?,?> options)
+	{
+		if(event_list.isEmpty())
+			return;
+		
+		//if we're not in resume mode, add namespace entry to output list
+		if(!manager.isResume())
+			addInitialEntryToOutputList();
+		
+		for(Event e : event_list)
+		{
+			switch(e.getType())
+			{
+	
+			}
+		}
+		
+		changelog.clearEvents();
+		
+		/*finally append strings to file, if no previous successful load,don't 
+		 * serialise in append mode(i.e create new file, e.t.c)
+		 */
+		//System.out.println(classname+" appendmode: "+manager.isResume());
+		
+		/*Write contents of output list to file*/
+		writeOutputListToFile(manager.isResume()); 
+	}
+	
+	private void handleSetEAttributeSingleEvent(SetEAttributeSingleEvent e)
+	{
+		EObject focus_obj = e.getFocusObj();
+		
+		EAttribute attr = e.getEAttribte();
+		
+		String newValue = EcoreUtil.convertToString(attr.getEAttributeType(), e.getNewValue());
+		
+		if(newValue == null)
+			newValue = "null";
+		
+		newValue = newValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
+		
+		output_list.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" ["+newValue+"]");
+	}
+	
+	/*private boolean isInitialEntrySerialised() 
+	{
+		
+		// if output file doesn't exits, initial entry doesn't exist
+		File f = new File(manager.getURI().path());
+		if(!f.exists() || f.isDirectory())
+			return false;
+		
+		// output file exists, check it for 'namespace' entry
+		try (BufferedReader br = new BufferedReader(
+				new InputStreamReader(new FileInputStream(manager.getURI().path()), manager.TEXT_ENCODING));)
+		{
+			String line;
+			
+			if((line = br.readLine()) != null)
+			{
+				return line.contains("NAMESPACE_URI");
+			}
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return false;
+	}*/
+	
+	private void handleUnsetEAttributeSingleEvent(UnsetEAttributeSingleEvent e)
+	{
+		EObject focus_obj = e.getFocusObject();
+		
+		EAttribute attr = e.getEAttribute();
+		
+		String oldValue = EcoreUtil.convertToString(attr.getEAttributeType(), e.getOldValue());
+		
+		oldValue = oldValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
+		
+		output_list.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "
+					+changelog.getObjectId(focus_obj)+" ["+oldValue+"]");
+	}
+	
+	private void handleSetEAttributeManyEvent(SetEAttributeManyEvent e)
+	{
+		EObject focus_obj = e.getFocusObj();
+		EAttribute attr = e.getEAttribute();
+		
+		@SuppressWarnings("unchecked")
+		List<Object> attr_values_list = e.getAttributeValuesList();
+		
+		String obj_list_str = "[";
+		
+		for(Object object: attr_values_list)
+		{
+			String newValue = (EcoreUtil.convertToString(attr.getEAttributeType(), object));
+			
+			if(newValue == null)
+				newValue = "null";
+			
+			newValue = newValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter
+			
+			obj_list_str = obj_list_str +newValue+PersistenceManager.DELIMITER;
+		}
+		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
+		output_list.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
+	}
+	
+	private void handleUnsetEAttributeManyEvent(Notification n)
+	{
+		EObject focus_obj = (EObject) n.getNotifier();
+		EAttribute attr = (EAttribute) n.getFeature();
+		
+		@SuppressWarnings("unchecked")
+		List<Object> attr_values_list =(List<Object>) n.getOldValue();
+		
+		String obj_list_str = "[";
+		
+		for(Object object: attr_values_list)
+		{
+			String newValue = (EcoreUtil.convertToString(attr.getEAttributeType(), object));
+			obj_list_str = obj_list_str + newValue+PersistenceManager.DELIMITER;
+		}
+		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
+		output_list.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
+		
+	}
+	
+	private void handleSetEReferenceSingleEvent(SetEReferenceSingleEvent e)
+	{
+		EObject added_obj = e.getAddedObject();
+		
+		if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
+			output_list.add("CREATE ["+added_obj.eClass().getName()+ " "+changelog.getObjectId(added_obj)+"]");
+			
+		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource
+		{
+			output_list.add("ADD_R ["+added_obj.eClass().getName()+" "+changelog.getObjectId(added_obj)+"]"); 
+		}
+		else if(e.getNotifierType() == Event.NotifierType.EOBJECT) //add eobject to eobject
+		{
+			EObject focus_obj = e.getFocusObject();
+			
+			output_list.add("SET_R "+e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
+					+changelog.getObjectId(focus_obj)+" ["+added_obj.eClass().getName()+" "
+					+changelog.getObjectId(added_obj)+"]");
+		}
+	}
+	
+	private void handleUnsetEReferenceSingleEvent(UnsetEReferenceSingleEvent e)
+	{
+		EObject removed_obj = e.getRemovedObject();
+		long removed_obj_id = changelog.getObjectId(removed_obj);
+		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //delete eobject from resource
+		{
+			output_list.add("DEL_R ["+removed_obj.eClass().getName()+" "+
+					removed_obj_id+"]"); 
+			
+			changelog.deleteEObjectFromMap(removed_obj_id);
+		}
+		else if(e.getNotifierType() == Event.NotifierType.EOBJECT)
+		{
+			EObject focus_obj = (EObject) n.getNotifier();
+			
+			output_list.add("UNSET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
+					+changelog.getObjectId(focus_obj)+" ["+removed_obj.eClass().getName()+" "
+					+removed_obj_id+"]");
+			
+			changelog.deleteEObjectFromMap(removed_obj_id);
+		}
+		
+	}
+	
+	private void handleSetEReferenceManyEvent(Notification n)
+	{
+		@SuppressWarnings("unchecked")
+		List<EObject> obj_list = (List<EObject>) n.getNewValue();
+		
+		String added_obj_list_str = "["; //list of obj to add
+		String obj_create_list_str = "["; //list of obj to create
+
+		
+		for(EObject obj : obj_list)
+		{
+			if(changelog.addObjectToMap(obj)) //if obj does not already exist
+			{
+				obj_create_list_str = obj_create_list_str + obj.eClass().getName()+" "
+						+ ""+changelog.getObjectId(obj)+PersistenceManager.DELIMITER; 
+			}
+			
+			added_obj_list_str = added_obj_list_str + obj.eClass().getName()+" "+changelog.getObjectId(obj)+PersistenceManager.DELIMITER; 
+		}
+		
+		if(obj_create_list_str.length()>1) //if we have items to create...
+		{
+			 obj_create_list_str = obj_create_list_str.substring(0,added_obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
+			 output_list.add("CREATE "+ obj_create_list_str);
+		}
+		
+	    added_obj_list_str = added_obj_list_str.substring(0,added_obj_list_str.length()-1)+"]"; // remove final delimiter add "]"
+	    
+	    if(n.getNotifier() instanceof DeltaResourceImpl) //add eobject to resource
+	    {
+	    	output_list.add("ADD_R "+added_obj_list_str);
+	    }	
+	    else if(n.getNotifier() instanceof EObject) //add eobject to eobject
+	    {
+	    	EObject focus_obj = (EObject) n.getNotifier();
+	    	
+	    	output_list.add("SET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
+					+changelog.getObjectId(focus_obj)+" "+added_obj_list_str);
+	    }
+	    
+	}
+	
+	private void handleUnsetEReferenceManyEvent(Notification n)
+	{
+		@SuppressWarnings("unchecked")
+		List<EObject> removed_obj_list = (List<EObject>) n.getOldValue();
+		
+		String obj_delete_list_str = "["; //list of obj to delete
+		
+		for (EObject obj : removed_obj_list)
+		{
+			long removed_obj_id = changelog.getObjectId(obj);
+			
+			obj_delete_list_str = obj_delete_list_str +  obj.eClass().getName()+" "+removed_obj_id +PersistenceManager.DELIMITER; 
+			
+			changelog.deleteEObjectFromMap(removed_obj_id);	
+		}
+		
+		obj_delete_list_str = obj_delete_list_str.substring(0,obj_delete_list_str.length()-1)+"]";
+		
+		if(n.getNotifier() instanceof DeltaResourceImpl) //DELETE OBJs FROM RESOURCE
+		{
+			output_list.add("DEL_R "+obj_delete_list_str);
+		}
+		else if(n.getNotifier() instanceof EObject)
+		{
+			EObject focus_obj = (EObject) n.getNotifier();
+			
+			output_list.add("UNSET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
+							+changelog.getObjectId(focus_obj)+" "+obj_delete_list_str);
+		}	
+	
+	}
+	
+	private void addInitialEntryToOutputList()
+	{
+		EObject obj = null;
+		for(Notification n : notificationsList)
+		{
+			if(n.getEventType() == Notification.ADD)
+			{
+				obj = (EObject) n.getNewValue();
+				break;
+			}
+			else if(n.getEventType() == Notification.ADD_MANY)
+			{
+				@SuppressWarnings("unchecked")
+				List<EObject> objectsList = (List<EObject>) n.getNewValue();
+				obj = objectsList.get(0);
+				break;
+			}
+			else
+			{
+				System.out.println("out of luck!");
+			}
+		}
+		output_list.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
+	}
+	
+	
+	private void writeOutputListToFile(boolean appendMode)
+	{
+		try
+		{
+			BufferedWriter bw = new BufferedWriter
+				    (new OutputStreamWriter(new FileOutputStream(manager.getURI().path(),appendMode),
+				    		Charset.forName(manager.TEXT_ENCODING).newEncoder()));
+			PrintWriter out = new PrintWriter(bw);
+			for(String string: output_list)
+			{
+				//System.out.println("PersistenceManager.java "+string);
+				out.println(string);
+			}
+			out.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		manager.setResume(true);
+	}	
+}

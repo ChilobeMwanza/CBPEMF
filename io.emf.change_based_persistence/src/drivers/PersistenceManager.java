@@ -3,16 +3,12 @@
 //http://www.javapractices.com/topic/TopicAction.do?Id=31
 package drivers;
 
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
+
 
 import change.ChangeLog;
 import impl.DeltaResourceImpl;

@@ -2,36 +2,33 @@ package change;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 
 import impl.DeltaResourceImpl;
 
 public class SetEReferenceSingleEvent extends Event
 {
-	private enum NotifierType
-	{
-		EOBJECT,
-		RESOURCE;
-	}
-	
 	private EObject added_obj;
 	private EObject focus_obj;
-	private NotifierType type;
+	private EReference eref;
+	private NotifierType notifier_type;
 	
-	public SetEReferenceSingleEvent(EObject added_obj,NotifierType type)
+	public SetEReferenceSingleEvent(EObject added_obj,NotifierType notifier_type)
 	{
 		super(Event.SET_EREFERENCE_SINGLE);
 		
 		this.added_obj = added_obj;
-		this.type = type;
+		this.notifier_type = notifier_type;
 	}
 	
-	public SetEReferenceSingleEvent(EObject added_obj, EObject focus_obj,NotifierType type)
+	public SetEReferenceSingleEvent(EObject added_obj, EObject focus_obj,EReference eref, NotifierType notifier_type)
 	{
 		super(Event.SET_EREFERENCE_SINGLE);
 		
 		this.added_obj = added_obj;
 		this.focus_obj = focus_obj;
-		this.type = type;
+		this.notifier_type = notifier_type;
+		this.eref = eref;
 	}
 	
 	public SetEReferenceSingleEvent(Notification n)
@@ -42,12 +39,13 @@ public class SetEReferenceSingleEvent extends Event
 		
 		if(n.getNotifier() instanceof DeltaResourceImpl)
 		{
-			this.type = NotifierType.RESOURCE;
+			this.notifier_type = NotifierType.RESOURCE;
 		}
 		else if(n.getNotifier() instanceof EObject)
 		{
-			this.type = NotifierType.RESOURCE;
+			this.notifier_type = NotifierType.EOBJECT;
 			this.focus_obj = (EObject) n.getNotifier();
+			this.eref = (EReference) n.getFeature();
 		}	
 	}
 	
@@ -63,7 +61,12 @@ public class SetEReferenceSingleEvent extends Event
 	
 	public NotifierType getNotifierType()
 	{
-		return this.type;
+		return this.notifier_type;
+	}
+	
+	public EReference getEReference()
+	{
+		return this.eref;
 	}
 	
 }

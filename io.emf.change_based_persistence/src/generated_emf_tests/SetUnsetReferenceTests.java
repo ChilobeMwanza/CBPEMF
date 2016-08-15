@@ -197,6 +197,9 @@ public class SetUnsetReferenceTests extends TestBase
 		
 		loadedContentsList = getResourceContentsList(loadedRes);
 		
+		verify(savedContentsList,loadedContentsList);
+		
+		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	

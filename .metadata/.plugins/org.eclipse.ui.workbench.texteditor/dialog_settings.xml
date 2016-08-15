@@ -2,37 +2,37 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="global" key="selection"/>
+		<item value="adapter_enabled" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="global"/>
-			<item value="save"/>
-			<item value="doSa"/>
-			<item value="save("/>
-			<item value="loadResource()"/>
-			<item value="loadResource"/>
-			<item value="serialiseInitialEntry"/>
-			<item value="getNthWord"/>
+			<item value="adapterEnabled"/>
+			<item value="getType"/>
+			<item value="type"/>
+			<item value="eventList"/>
+			<item value="outputList"/>
+			<item value="handleUnsetEReferenceSingleEvent(n);"/>
+			<item value="handleSetEAttributeSingleEvent(n);"/>
+			<item value="handleSetEReferenceSingleEvent(n);"/>
 		</list>
 		<list key="replacehistory">
-			<item value="reflectiveLoadResource()"/>
-			<item value="reflectiveloadResource()"/>
-			<item value="reflectiveLoadResource"/>
-			<item value="addInitialEntryToOutputList"/>
-			<item value="long"/>
-			<item value="Long"/>
-			<item value="n.getNotifier() instanceof DeltaResourceImpl"/>
-			<item value="focus_obj"/>
+			<item value="adapter_enabled"/>
+			<item value="getEventType"/>
+			<item value="notifier_type"/>
+			<item value="event_list"/>
+			<item value="output_list"/>
+			<item value="changelog.addEvent(new SetEReferenceEvent(n))"/>
+			<item value="changelog.add(new SetEAttributeSingleEvent(n))"/>
+			<item value="changelog.add(new handleSetEReferenceSingleEvent(n))"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="305" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="444" key="DIALOG_HEIGHT"/>
-		<item value="1391" key="DIALOG_X_ORIGIN"/>
-		<item value="541" key="DIALOG_Y_ORIGIN"/>
+		<item value="1389" key="DIALOG_X_ORIGIN"/>
+		<item value="805" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

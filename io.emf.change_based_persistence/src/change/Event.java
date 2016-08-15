@@ -2,7 +2,13 @@ package change;
 
 public abstract class Event 
 {
-	private int eventType;
+	public static enum NotifierType
+	{
+		EOBJECT,
+		RESOURCE;
+	}
+	
+	private int event_type;
 	
 	public static final int SET_EATTRIBUTE_SINGLE = 1;
 	public static final int SET_EATTRIBUTE_MANY = 2;
@@ -13,13 +19,13 @@ public abstract class Event
 	public static final int UNSET_EREFERENCE_SINGLE = 7;
 	public static final int UNSET_EREFERENCE_MANY = 8;
 
-	public Event(int eventType)
+	public Event(int event_type)
 	{
-		this.eventType = eventType;
+		this.event_type = event_type;
 	}
 	
-	public int getType()
+	public int getEventType()
 	{
-		return eventType;
+		return event_type;
 	}
 }

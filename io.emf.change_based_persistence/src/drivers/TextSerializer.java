@@ -20,114 +20,80 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import change.ChangeLog;
-import impl.DeltaResourceImpl;
+import change.Event;
+import change.SetEAttributeManyEvent;
+import change.SetEAttributeSingleEvent;
+import change.SetEReferenceManyEvent;
+import change.SetEReferenceSingleEvent;
+import change.UnsetEAttributeManyEvent;
+import change.UnsetEAttributeSingleEvent;
+import change.UnsetEReferenceManyEvent;
+import change.UnsetEReferenceSingleEvent;
+
 
 
 public class TextSerializer 
 {
 	private  final String classname = this.getClass().getSimpleName();
 	private final PersistenceManager manager;
-	private List<String> outputList;
-    private List<Notification> notificationsList;
+	private List<String> output_list;
+    private List<Event> event_list;
 	private final ChangeLog changelog; 
 	
 	public TextSerializer(PersistenceManager manager, ChangeLog aChangeLog)
 	{
 		this.manager =  manager;
 		this.changelog = aChangeLog;
-		this.outputList = new ArrayList<String>();
-		this.notificationsList = new ArrayList<Notification>();
+		this.output_list = new ArrayList<String>();
 		
-		notificationsList = manager.getChangeLog().getEventsList();
+		this.event_list = manager.getChangeLog().getEventsList();
 	}
 	
 	public void save(Map<?,?> options)
 	{
-		if(notificationsList.isEmpty())
+		if(event_list.isEmpty())
 			return;
 		
 		//if we're not in resume mode, add namespace entry to output list
 		if(!manager.isResume())
 			addInitialEntryToOutputList();
 		
-		for(Notification n : notificationsList)
+		for(Event e : event_list)
 		{
-			switch(n.getEventType())
+			switch(e.getEventType())
 			{
-				case Notification.ADD:
-				{
-					if(n.getNewValue() instanceof EObject) 
-						handleSetEReferenceSingleEvent(n);
-					
-					else if(n.getFeature() instanceof EAttribute)
-						handleSetEAttributeSingleEvent(n);
-					
-					break;
-				}
-				case Notification.SET:
-				{
-					if(n.getNewValue() instanceof EObject)
-						handleSetEReferenceSingleEvent(n);
-					
-					else if(n.getFeature() instanceof EAttribute)
-						handleSetEAttributeSingleEvent(n);
-					
-					else if(n.getNewValue() == null)
-						handleUnsetEReferenceSingleEvent(n);
-					
-					break;
-				}
-				case Notification.ADD_MANY:
-				{
-					@SuppressWarnings("unchecked")
-					List<Object> list =  (List<Object>) n.getNewValue();
-					if(list.get(0) instanceof EObject)
-						handleSetEReferenceManyEvent(n);
-					
-					else if(n.getFeature() instanceof EAttribute)
-						handleSetEAttributeManyEvent(n);
-					
-					break;
-				}
-				case Notification.REMOVE:
-				{
-					if(n.getOldValue() instanceof EObject)
-						handleUnsetEReferenceSingleEvent(n);
-					
-					else if(n.getFeature() instanceof EAttribute)
-						 handleUnsetEAttributeSingleEvent(n);
-					
-					break;
-				}
-				case Notification.REMOVE_MANY:
-				{
-					@SuppressWarnings("unchecked")
-					List<Object> list =  (List<Object>) n.getOldValue();
-					if(list.get(0) instanceof EObject)
-						handleUnsetEReferenceManyEvent(n);
-					
-					else if(n.getFeature() instanceof EAttribute)
-						handleUnsetEAttributeManyEvent(n);
-					
-					break;
-				}
-				default:
-				{
-					System.out.println(classname+"Unhandled notification!" +n.toString());
-					System.exit(0);
-					break;
-				}
+			case Event.SET_EATTRIBUTE_SINGLE:
+				handleSetEAttributeSingleEvent((SetEAttributeSingleEvent)e);
+				break;
+			case Event.SET_EATTRIBUTE_MANY:
+				handleSetEAttributeManyEvent((SetEAttributeManyEvent)e);
+				break;
+			case Event.SET_EREFERENCE_SINGLE:
+				handleSetEReferenceSingleEvent((SetEReferenceSingleEvent)e);
+				break;
+			case Event.SET_EREFERENCE_MANY:
+				handleSetEReferenceManyEvent((SetEReferenceManyEvent)e);
+				break;
+			case Event.UNSET_EATTRIBUTE_SINGLE:
+				handleUnsetEAttributeSingleEvent((UnsetEAttributeSingleEvent)e);
+				break;
+			case Event.UNSET_EATTRIBUTE_MANY:
+				handleUnsetEAttributeManyEvent((UnsetEAttributeManyEvent)e);
+				break;
+			case Event.UNSET_EREFERENCE_SINGLE:
+				handleUnsetEReferenceSingleEvent((UnsetEReferenceSingleEvent)e);
+				break;
+			case Event.UNSET_EREFERENCE_MANY:
+				handleUnsetEReferenceManyEvent((UnsetEReferenceManyEvent)e);
+				break;
 			}
 		}
 		
-		changelog.clearNotifications();
+		changelog.clearEvents();
 		
 		/*finally append strings to file, if no previous successful load,don't 
 		 * serialise in append mode(i.e create new file, e.t.c)
@@ -138,20 +104,20 @@ public class TextSerializer
 		writeOutputListToFile(manager.isResume()); 
 	}
 	
-	private void handleSetEAttributeSingleEvent(Notification n)
+	private void handleSetEAttributeSingleEvent(SetEAttributeSingleEvent e)
 	{
-		EObject focus_obj = (EObject) n.getNotifier();
+		EObject focus_obj = e.getFocusObj();
 		
-		EAttribute attr = (EAttribute) n.getFeature();
+		EAttribute attr = e.getEAttribte();
 		
-		String newValue = EcoreUtil.convertToString(attr.getEAttributeType(),  n.getNewValue());
+		String newValue = EcoreUtil.convertToString(attr.getEAttributeType(), e.getNewValue());
 		
 		if(newValue == null)
 			newValue = "null";
 		
 		newValue = newValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
 		
-		outputList.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" ["+newValue+"]");
+		output_list.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" ["+newValue+"]");
 	}
 	
 	/*private boolean isInitialEntrySerialised() 
@@ -181,27 +147,26 @@ public class TextSerializer
 		return false;
 	}*/
 	
-	private void handleUnsetEAttributeSingleEvent(Notification n)
+	private void handleUnsetEAttributeSingleEvent(UnsetEAttributeSingleEvent e)
 	{
-		EObject focus_obj = (EObject) n.getNotifier();
+		EObject focus_obj = e.getFocusObject();
 		
-		EAttribute attr = (EAttribute) n.getFeature();
+		EAttribute attr = e.getEAttribute();
 		
-		String oldValue = EcoreUtil.convertToString(attr.getEAttributeType(),  n.getOldValue());
+		String oldValue = EcoreUtil.convertToString(attr.getEAttributeType(), e.getOldValue());
 		
 		oldValue = oldValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
 		
-		outputList.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "
+		output_list.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "
 					+changelog.getObjectId(focus_obj)+" ["+oldValue+"]");
 	}
 	
-	private void handleSetEAttributeManyEvent(Notification n)
+	private void handleSetEAttributeManyEvent(SetEAttributeManyEvent e)
 	{
-		EObject focus_obj = (EObject) n.getNotifier();
-		EAttribute attr = (EAttribute) n.getFeature();
+		EObject focus_obj = e.getFocusObj();
+		EAttribute attr = e.getEAttribute();
 		
-		@SuppressWarnings("unchecked")
-		List<Object> attr_values_list = (List<Object>) n.getNewValue();
+		List<Object> attr_values_list = e.getAttributeValuesList();
 		
 		String obj_list_str = "[";
 		
@@ -217,16 +182,16 @@ public class TextSerializer
 			obj_list_str = obj_list_str +newValue+PersistenceManager.DELIMITER;
 		}
 		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
-		outputList.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
+		output_list.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
 	}
 	
-	private void handleUnsetEAttributeManyEvent(Notification n)
+	private void handleUnsetEAttributeManyEvent(UnsetEAttributeManyEvent e)
 	{
-		EObject focus_obj = (EObject) n.getNotifier();
-		EAttribute attr = (EAttribute) n.getFeature();
+		EObject focus_obj = e.getFocusObj();
+		EAttribute attr = e.getEAttribute();
 		
-		@SuppressWarnings("unchecked")
-		List<Object> attr_values_list =(List<Object>) n.getOldValue();
+		
+		List<Object> attr_values_list = e .getAttributeValuesList();
 		
 		String obj_list_str = "[";
 		
@@ -236,47 +201,47 @@ public class TextSerializer
 			obj_list_str = obj_list_str + newValue+PersistenceManager.DELIMITER;
 		}
 		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
-		outputList.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
+		output_list.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
 		
 	}
 	
-	private void handleSetEReferenceSingleEvent(Notification n)
+	private void handleSetEReferenceSingleEvent(SetEReferenceSingleEvent e)
 	{
-		EObject added_obj = (EObject)n.getNewValue();
+		EObject added_obj = e.getAddedObject();
 		
 		if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
-			outputList.add("CREATE ["+added_obj.eClass().getName()+ " "+changelog.getObjectId(added_obj)+"]");
+			output_list.add("CREATE ["+added_obj.eClass().getName()+ " "+changelog.getObjectId(added_obj)+"]");
 			
-		if(n.getNotifier() instanceof DeltaResourceImpl) //add eobject to resource
+		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource
 		{
-			outputList.add("ADD_R ["+added_obj.eClass().getName()+" "+changelog.getObjectId(added_obj)+"]"); 
+			output_list.add("ADD_R ["+added_obj.eClass().getName()+" "+changelog.getObjectId(added_obj)+"]"); 
 		}
-		else if(n.getNotifier() instanceof EObject) //add eobject to eobject
+		else if(e.getNotifierType() == Event.NotifierType.EOBJECT) //add eobject to eobject
 		{
-			EObject focus_obj = (EObject) n.getNotifier();
+			EObject focus_obj = e.getFocusObject();
 			
-			outputList.add("SET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
+			output_list.add("SET_R "+e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
 					+changelog.getObjectId(focus_obj)+" ["+added_obj.eClass().getName()+" "
 					+changelog.getObjectId(added_obj)+"]");
 		}
 	}
 	
-	private void handleUnsetEReferenceSingleEvent(Notification n)
+	private void handleUnsetEReferenceSingleEvent(UnsetEReferenceSingleEvent e)
 	{
-		EObject removed_obj = (EObject)n.getOldValue();
+		EObject removed_obj = e.getRemovedObject();
 		long removed_obj_id = changelog.getObjectId(removed_obj);
-		if(n.getNotifier() instanceof DeltaResourceImpl) //delete eobject from resource
+		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //delete eobject from resource
 		{
-			outputList.add("DEL_R ["+removed_obj.eClass().getName()+" "+
+			output_list.add("DEL_R ["+removed_obj.eClass().getName()+" "+
 					removed_obj_id+"]"); 
 			
 			changelog.deleteEObjectFromMap(removed_obj_id);
 		}
-		else if(n.getNotifier() instanceof EObject)
+		else if(e.getNotifierType() == Event.NotifierType.EOBJECT)
 		{
-			EObject focus_obj = (EObject) n.getNotifier();
+			EObject focus_obj = e.getFocusObject();
 			
-			outputList.add("UNSET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
+			output_list.add("UNSET_R "+e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
 					+changelog.getObjectId(focus_obj)+" ["+removed_obj.eClass().getName()+" "
 					+removed_obj_id+"]");
 			
@@ -285,10 +250,9 @@ public class TextSerializer
 		
 	}
 	
-	private void handleSetEReferenceManyEvent(Notification n)
+	private void handleSetEReferenceManyEvent(SetEReferenceManyEvent e)
 	{
-		@SuppressWarnings("unchecked")
-		List<EObject> obj_list = (List<EObject>) n.getNewValue();
+		List<EObject> obj_list = e.getEObjectList();
 		
 		String added_obj_list_str = "["; //list of obj to add
 		String obj_create_list_str = "["; //list of obj to create
@@ -308,29 +272,28 @@ public class TextSerializer
 		if(obj_create_list_str.length()>1) //if we have items to create...
 		{
 			 obj_create_list_str = obj_create_list_str.substring(0,added_obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
-			 outputList.add("CREATE "+ obj_create_list_str);
+			 output_list.add("CREATE "+ obj_create_list_str);
 		}
 		
 	    added_obj_list_str = added_obj_list_str.substring(0,added_obj_list_str.length()-1)+"]"; // remove final delimiter add "]"
 	    
-	    if(n.getNotifier() instanceof DeltaResourceImpl) //add eobject to resource
+	    if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource
 	    {
-	    	outputList.add("ADD_R "+added_obj_list_str);
+	    	output_list.add("ADD_R "+added_obj_list_str);
 	    }	
-	    else if(n.getNotifier() instanceof EObject) //add eobject to eobject
+	    else if(e.getNotifierType() == Event.NotifierType.EOBJECT) //add eobject to eobject
 	    {
-	    	EObject focus_obj = (EObject) n.getNotifier();
+	    	EObject focus_obj = e.getFocusObj();
 	    	
-	    	outputList.add("SET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
+	    	output_list.add("SET_R "+e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
 					+changelog.getObjectId(focus_obj)+" "+added_obj_list_str);
 	    }
 	    
 	}
 	
-	private void handleUnsetEReferenceManyEvent(Notification n)
+	private void handleUnsetEReferenceManyEvent(UnsetEReferenceManyEvent e)
 	{
-		@SuppressWarnings("unchecked")
-		List<EObject> removed_obj_list = (List<EObject>) n.getOldValue();
+		List<EObject> removed_obj_list = e.getObjectList();
 		
 		String obj_delete_list_str = "["; //list of obj to delete
 		
@@ -345,43 +308,52 @@ public class TextSerializer
 		
 		obj_delete_list_str = obj_delete_list_str.substring(0,obj_delete_list_str.length()-1)+"]";
 		
-		if(n.getNotifier() instanceof DeltaResourceImpl) //DELETE OBJs FROM RESOURCE
+		if(e.getNotiferType() == Event.NotifierType.RESOURCE) //DELETE OBJs FROM RESOURCE
 		{
-			outputList.add("DEL_R "+obj_delete_list_str);
+			output_list.add("DEL_R "+obj_delete_list_str);
 		}
-		else if(n.getNotifier() instanceof EObject)
+		else if(e.getNotiferType() == Event.NotifierType.EOBJECT)
 		{
-			EObject focus_obj = (EObject) n.getNotifier();
+			EObject focus_obj = e.getFocusObj();
 			
-			outputList.add("UNSET_R "+((EReference)n.getFeature()).getName()+" "+focus_obj.eClass().getName()+" "
-							+changelog.getObjectId(focus_obj)+" "+obj_delete_list_str);
+			output_list.add("UNSET_R "+(e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
+							+changelog.getObjectId(focus_obj)+" "+obj_delete_list_str));
 		}	
 	
 	}
 	
-	private void addInitialEntryToOutputList()
+	private void addInitialEntryToOutputList() 
 	{
 		EObject obj = null;
-		for(Notification n : notificationsList)
+		Event e = event_list.get(0);
+		
+		switch(e.getEventType())
 		{
-			if(n.getEventType() == Notification.ADD)
+		case Event.SET_EREFERENCE_SINGLE:
+			obj = ((SetEReferenceSingleEvent)e).getAddedObject();
+			break;
+		case Event.SET_EREFERENCE_MANY:
+			obj = ((SetEReferenceManyEvent)e).getEObjectList().get(0);
+			break;
+		default:
+			try 
 			{
-				obj = (EObject) n.getNewValue();
-				break;
-			}
-			else if(n.getEventType() == Notification.ADD_MANY)
+				System.out.println(e.getEventType());
+				throw new Exception ("Error! first item in events list was not an Add event.");
+			} catch (Exception e1) 
 			{
-				@SuppressWarnings("unchecked")
-				List<EObject> objectsList = (List<EObject>) n.getNewValue();
-				obj = objectsList.get(0);
-				break;
-			}
-			else
-			{
-				System.out.println("out of luck!");
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.exit(0);
 			}
 		}
-		outputList.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
+		
+		if(obj == null)
+		{
+			System.out.println(e.getEventType());
+			System.exit(0);
+		}
+		output_list.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
 	}
 	
 	
@@ -393,7 +365,7 @@ public class TextSerializer
 				    (new OutputStreamWriter(new FileOutputStream(manager.getURI().path(),appendMode),
 				    		Charset.forName(manager.TEXT_ENCODING).newEncoder()));
 			PrintWriter out = new PrintWriter(bw);
-			for(String string: outputList)
+			for(String string: output_list)
 			{
 				//System.out.println("PersistenceManager.java "+string);
 				out.println(string);

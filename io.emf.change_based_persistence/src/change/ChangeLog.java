@@ -1,27 +1,14 @@
 package change;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import impl.DeltaResourceImpl;
-import util.KDebug;
-
-
 public class ChangeLog 
 {
-	private final List<Notification> notificationsList;
+	private final List<Event> event_list;
 	private final BiMap<EObject,Long> map; 
 	private final String classname = this.getClass().getSimpleName();
 	
@@ -32,7 +19,7 @@ public class ChangeLog
 	
 	public ChangeLog()
 	{
-		notificationsList = new ArrayList<Notification>();
+		event_list = new ArrayList<Event>();
 		map = HashBiMap.create();
 		current_id = 0;
 	}
@@ -90,23 +77,23 @@ public class ChangeLog
 		return  map.inverse().get(id);
 	}
 	
-	public void addNotification(Notification n)
+	public void addEvent(Event e)
 	{
-		notificationsList.add(n);
+		event_list.add(e);
 	}
 	
-	public void deleteNotification(Notification n)
+	public void removeEvent(Event e)
 	{
-		notificationsList.remove(n);
+		event_list.remove(e);
 	}
 	
-	public void clearNotifications()
+	public void clearEvents()
 	{
-		notificationsList.clear();
+		event_list.clear();
 	}
 	
-	public List<Notification> getEventsList()
+	public List<Event> getEventsList()
 	{
-		return notificationsList;
+		return event_list;
 	}
 }
