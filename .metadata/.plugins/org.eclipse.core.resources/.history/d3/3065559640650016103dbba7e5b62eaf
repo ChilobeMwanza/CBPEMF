@@ -92,17 +92,19 @@ public class TextDeserializer
 			case PersistenceManager.SET_EREFERENCE_VALUE:
 				handleSetEReferenceEvent(line);
 				break;
-			case PersistenceManager.UNSET_EATTRIBUTE_VALUE: 
+			case UNSET_A: 
 				handleUnsetEAttributeEvent(line);
 				break;
-			case PersistenceManager.UNSET_EREFERENCE_VALUE:
+			case UNSET_R:
 				handleUnsetEReferenceEvent(line);
 				break;
-			case PersistenceManager.ADD_TO_RESOURCE:
+			case ADD_R:
 				handleAddToResourceEvent(line);
 				break;
-			case PersistenceManager.DELETE_FROM_RESOURCE:
+			case DEL_R:
 				handleRemoveFromResourceEvent(line);
+				break;
+			case NULL:
 				break;
 			default:
 				break;

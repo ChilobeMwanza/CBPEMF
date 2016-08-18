@@ -9,7 +9,6 @@ import org.junit.runners.Suite;
     AddToResourceTests.class
 
 })
-
 public class TestSuite 
 {
 

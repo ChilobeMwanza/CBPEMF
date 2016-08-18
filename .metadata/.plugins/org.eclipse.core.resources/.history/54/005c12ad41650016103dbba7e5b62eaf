@@ -319,7 +319,7 @@ public class TextSerializer
 		{
 			EObject focus_obj = e.getFocusObj();
 			
-			output_list.add(PersistenceManager.UNSET_EREFERENCE_VALUE+" "+(e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
+			output_list.add("UNSET_R "+(e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
 							+changelog.getObjectId(focus_obj)+" "+obj_delete_list_str));
 		}	
 	

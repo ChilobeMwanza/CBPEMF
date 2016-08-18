@@ -104,6 +104,8 @@ public class TextDeserializer
 			case PersistenceManager.DELETE_FROM_RESOURCE:
 				handleRemoveFromResourceEvent(line);
 				break;
+			case NULL:
+				break;
 			default:
 				break;
 			}	

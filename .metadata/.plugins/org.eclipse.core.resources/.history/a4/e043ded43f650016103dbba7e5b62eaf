@@ -74,35 +74,39 @@ public class TextDeserializer
 			//System.out.println(line);
 			StringTokenizer st = new StringTokenizer(line);
 			
-			int eventType = -1;
+			EventType eventType = EventType.NULL;
 			
 			if(st.hasMoreElements())
-				eventType = Integer.valueOf(st.nextToken());
-		
+				eventType = EventType.valueOf(st.nextElement().toString());
 				
+				  
+			
+			
 			/* Switches over various event types, calls appropriate handler method*/
 			switch(eventType)
 			{
-			case PersistenceManager.CREATE:
+			case CREATE:
 				handleCreateEvent(line);
 				break;
-			case PersistenceManager.SET_EATTRIBUTE_VALUE:
+			case SET_A:
 				handleSetEAttributeEvent(line);
 				break;
-			case PersistenceManager.SET_EREFERENCE_VALUE:
+			case SET_R:
 				handleSetEReferenceEvent(line);
 				break;
-			case PersistenceManager.UNSET_EATTRIBUTE_VALUE: 
+			case UNSET_A: 
 				handleUnsetEAttributeEvent(line);
 				break;
-			case PersistenceManager.UNSET_EREFERENCE_VALUE:
+			case UNSET_R:
 				handleUnsetEReferenceEvent(line);
 				break;
-			case PersistenceManager.ADD_TO_RESOURCE:
+			case ADD_R:
 				handleAddToResourceEvent(line);
 				break;
-			case PersistenceManager.DELETE_FROM_RESOURCE:
+			case DEL_R:
 				handleRemoveFromResourceEvent(line);
+				break;
+			case NULL:
 				break;
 			default:
 				break;

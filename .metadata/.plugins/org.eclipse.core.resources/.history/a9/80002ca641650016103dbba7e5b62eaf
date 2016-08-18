@@ -313,13 +313,13 @@ public class TextSerializer
 		
 		if(e.getNotiferType() == Event.NotifierType.RESOURCE) //DELETE OBJs FROM RESOURCE
 		{
-			output_list.add(PersistenceManager.DELETE_FROM_RESOURCE+" "+obj_delete_list_str);
+			output_list.add("DEL_R "+obj_delete_list_str);
 		}
 		else if(e.getNotiferType() == Event.NotifierType.EOBJECT)
 		{
 			EObject focus_obj = e.getFocusObj();
 			
-			output_list.add(PersistenceManager.UNSET_EREFERENCE_VALUE+" "+(e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
+			output_list.add("UNSET_R "+(e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
 							+changelog.getObjectId(focus_obj)+" "+obj_delete_list_str));
 		}	
 	

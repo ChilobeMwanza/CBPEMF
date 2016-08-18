@@ -23,7 +23,7 @@ public class PersistenceManager
 	public static final String ESCAPE_CHAR ="+"; //*
     private boolean resume = false;
     
-    public static final int CREATE = 0;
+    private static final int CREATE = 0;
     public static final int ADD_TO_RESOURCE = 1;
     public static final int SET_EATTRIBUTE_VALUE = 2;
     public static final int SET_EREFERENCE_VALUE = 3;
