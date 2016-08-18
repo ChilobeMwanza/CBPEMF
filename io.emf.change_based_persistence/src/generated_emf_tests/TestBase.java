@@ -23,6 +23,7 @@ import university.UniversityPackage;
 public abstract class TestBase 
 {
 	protected static String fileSaveLocation ="university.txt";
+	protected final EPackage ePackage = UniversityPackage.eINSTANCE;
 	
 	@Before
 	public void runOnceBeforeTest()
@@ -47,12 +48,11 @@ public abstract class TestBase
 			@Override
 			public Resource createResource(URI uri)
 			{
-				return new DeltaResourceImpl(uri);
+				return new DeltaResourceImpl(uri,ePackage);
 			}
 		});
 		
-		rs.getPackageRegistry().put(UniversityPackage.eINSTANCE.getNsURI(), 
-				UniversityPackage.eINSTANCE);
+		rs.getPackageRegistry().put(ePackage.getNsURI(),ePackage);
 		
 		Resource res = rs.createResource(URI.createFileURI(fileSaveLocation));
 		try {

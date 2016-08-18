@@ -2,12 +2,13 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="changelog" key="selection"/>
+		<item value="new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage)" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="new DeltaResourceImpl(URI.createURI(fileSaveLocation))"/>
 			<item value="changeLog"/>
 			<item value="ChangeLog"/>
 			<item value="classID"/>
@@ -15,9 +16,9 @@
 			<item value="featureID"/>
 			<item value="featureOrdinality"/>
 			<item value="featureName"/>
-			<item value="eClassName"/>
 		</list>
 		<list key="replacehistory">
+			<item value="new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage)"/>
 			<item value="changelog"/>
 			<item value="Changelog"/>
 			<item value="class_id"/>
@@ -25,7 +26,6 @@
 			<item value="feature_id"/>
 			<item value="feature_ordinality"/>
 			<item value="feature_name"/>
-			<item value="eclass_name"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

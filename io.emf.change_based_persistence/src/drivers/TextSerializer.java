@@ -38,11 +38,17 @@ import change.UnsetEReferenceSingleEvent;
 public class TextSerializer 
 {
 	private  final String classname = this.getClass().getSimpleName();
+	
 	private final String FORMAT_ID = "CBP_TEXT"; 
+	
 	private final double VERSION = 1.0;
-	private final PersistenceManager manager;
-	private List<String> output_list;
+	
+	private List<String> output_list = new ArrayList<String>();
+	
     private List<Event> event_list;
+    
+	private final PersistenceManager manager;
+	
 	private final Changelog changelog; 
 	
 	
@@ -50,7 +56,7 @@ public class TextSerializer
 	{
 		this.manager =  manager;
 		this.changelog = aChangelog;
-		this.output_list = new ArrayList<String>();
+		
 		
 		this.event_list = manager.getChangelog().getEventsList();
 	}

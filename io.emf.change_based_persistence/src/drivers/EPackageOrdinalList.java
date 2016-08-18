@@ -17,7 +17,7 @@ public class EPackageOrdinalList
 	private Map <String, EClass> name_eclass_map  = new HashMap<String, EClass>(); 
 	private Map <Integer, String> id_eclass_name_map  = new HashMap<Integer,String>();
 	
-	public void addEClassName(String name, int id)
+	public void addEClass(String name, int id)
 	{
 		EClass eClass = new EClass(id);
 		name_eclass_map.put(name, eClass);
@@ -34,20 +34,23 @@ public class EPackageOrdinalList
 		return id_eclass_name_map.get(id);
 	}
 	
-	public void addEStructuralFeatureName(String eclass_name, String feature_name, int feature_ordinality)
+	public void addEStructuralFeature(String eclass_name, String feature_name, int feature_ordinality)
 	{
 		EClass eClass = name_eclass_map.get(eclass_name);
 		eClass.addFeature(feature_name, feature_ordinality);
 	}
 	
-	public String getEStructuralFeatureName(int eclass_id, int feature_id)
+	public String getEStructuralFeatureName(int feature_id)
 	{
-		String eclass_name = id_eclass_name_map.get(eclass_id);
+		int eClassID = feature_id / 10; //get value before the .
+		
+	
+		String eclass_name = id_eclass_name_map.get(eClassID);
 		EClass eClass = name_eclass_map.get(eclass_name);
 		return eClass.getFeatureName(feature_id);
 	}
 	
-	public int getEStructuralFeatureID(String eclass_name, String feature_name)
+	public double getEStructuralFeatureID(String eclass_name, String feature_name)
 	{
 		EClass eClass = name_eclass_map.get(eclass_name);
 		return eClass.getFeatureID(feature_name);
@@ -56,7 +59,7 @@ public class EPackageOrdinalList
 	class EClass
 	{
 		int class_id;
-		private BiMap <String, Integer> features_map  = HashBiMap.create(); 
+		private BiMap <String, Double> features_map  = HashBiMap.create(); 
 		
 		public EClass(int id)
 		{
@@ -65,16 +68,16 @@ public class EPackageOrdinalList
 		
 		private void addFeature(String feature_name, int feature_ordinality)
 		{
-			String feature_id_str = ""+class_id+feature_ordinality;
-			features_map.put(feature_name, Integer.valueOf(feature_id_str));
+			String feature_id_str = ""+class_id+"."+feature_ordinality;
+			features_map.put(feature_name, Double.valueOf(feature_id_str));
 		}
 		
-		private int getFeatureID(String name)
+		private double getFeatureID(String name)
 		{
 			return features_map.get(name);
 		}
 		
-		private String getFeatureName(int id)
+		private String getFeatureName(double id)
 		{
 			return features_map.inverse().get(id);
 		}

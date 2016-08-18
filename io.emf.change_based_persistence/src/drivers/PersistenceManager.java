@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import change.Changelog;
 import impl.DeltaResourceImpl;
@@ -30,12 +31,28 @@ public class PersistenceManager
 
 	private final DeltaResourceImpl resource;
 	
-    private boolean resume = false;
+    private EPackageOrdinalList ordinal_list;
+	
+	private boolean resume = false;
+    private boolean ordinal_list_populated = false;
+    
+  
     
 	public PersistenceManager(Changelog changelog, DeltaResourceImpl resource)
 	{
 		this.changelog = changelog;
 		this.resource = resource;
+	}
+	
+	public void populateOrdinalList()
+	{
+		ordinal_list = new EPackageOrdinalList();
+		
+		List<EObject> contents_list = resource.getContents();
+		if(contents_list.isEmpty())
+		//EObject obj =resource.getContents().get(0);
+		
+		System.exit(0);
 	}
 	
 	public void setResume(boolean b)
@@ -80,6 +97,15 @@ public class PersistenceManager
 
 	public void save(Map<?,?> options)
 	{
+		if(!ordinal_list_populated)
+		{
+			if(resource.getContents().isEmpty())
+				return;
+			//else
+			//	populateOrdinalList();
+		}
+			
+		
 		TextSerializer serializer = new TextSerializer(this, changelog);
 		serializer.save(options);
 	}

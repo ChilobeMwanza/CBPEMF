@@ -44,7 +44,7 @@ public class AddToResourceTests extends TestBase
 	@Test
     public void testAddSingleToResource() throws Exception 
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION));
+		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
 		
 		EObject uni = createEObject("University");
 		res.getContents().add(uni);
@@ -66,7 +66,7 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAddSingleRepeatedToResource() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION));
+		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
 		
 		EObject uni1 = createEObject("University");
 		EObject uni2 = createEObject("University");
@@ -96,7 +96,7 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAddListToResource() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION));
+		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
 		
 		EObject uni1 = createEObject("University");
 		EObject uni2 = createEObject("University");
@@ -128,7 +128,7 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAllAddToResource() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION));
+		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
 		
 		EObject uni1 = createEObject("University");
 		EObject uni2 = createEObject("University");
@@ -165,7 +165,7 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAddManyToResource() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION));
+		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
 		
 		for(int i = 0; i < 10000; i++)
 		{

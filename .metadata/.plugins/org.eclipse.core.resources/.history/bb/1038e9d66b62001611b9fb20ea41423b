@@ -1,6 +1,0 @@
-package dynamic_emf_tests;
-
-public class GeneralSaveTests extends TestBase 
-{
-
-}

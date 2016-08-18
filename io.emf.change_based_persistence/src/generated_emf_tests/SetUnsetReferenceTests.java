@@ -48,7 +48,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testSetOneSingleValuedContainmentReference() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
 		res.getContents().add(lib);
@@ -74,7 +74,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testUnsetOneSingleValuedContainmentReference() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
 		res.getContents().add(lib);
@@ -101,7 +101,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testSetMultipleSingleValuedContainmentRefs() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
 		res.getContents().add(lib);
@@ -134,7 +134,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testUnsetMultipleSingleValuedContainmentRefs() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
 		res.getContents().add(lib);
@@ -176,7 +176,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testMultipleAddToManyValuedContainmentRef() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni);
@@ -209,7 +209,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testRemoveOneFromManyValuedContainmentRef() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni);
@@ -241,7 +241,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testAddAllIToManyValuedContainmentRef() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni);
@@ -273,7 +273,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testRemoveAllFromManyValuedContainmentRef() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni);
@@ -310,7 +310,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testSetOneSingleValuedNonContainmentRef() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Student s = UniversityFactory.eINSTANCE.createStudent();
 		res.getContents().add(s);
@@ -335,7 +335,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testUnsetOneSingleValuedNonContainmentRef() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Student s = UniversityFactory.eINSTANCE.createStudent();
 		res.getContents().add(s);
@@ -361,7 +361,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testSetMultipleSingleValuedNonContainmentRefs() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Student s = UniversityFactory.eINSTANCE.createStudent();
 		res.getContents().add(s);
@@ -390,7 +390,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testUnsetMultipleSingleValuedNonContainmentRefs() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Student s = UniversityFactory.eINSTANCE.createStudent();
 		res.getContents().add(s);
@@ -428,7 +428,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testAddMultipleToManyValuedNonContainmentRef() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
 		res.getContents().add(lib);
@@ -455,7 +455,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testRemoveOneFromManyValuedNonContainmentRef() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
 		res.getContents().add(lib);
@@ -484,7 +484,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testAddAllIToManyValuedNonContainmentRef() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
 		res.getContents().add(lib);
@@ -514,7 +514,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testRemoveAllFromManyValuedNonContainmentRef() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Library lib = UniversityFactory.eINSTANCE.createLibrary();
 		res.getContents().add(lib);
@@ -562,7 +562,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testSetOppositeReference() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Student s1 = UniversityFactory.eINSTANCE.createStudent();
 		res.getContents().add(s1);
@@ -585,7 +585,7 @@ public class SetUnsetReferenceTests extends TestBase
 	@Test
 	public void testUnsetOppositeReference() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Student s1 = UniversityFactory.eINSTANCE.createStudent();
 		res.getContents().add(s1);

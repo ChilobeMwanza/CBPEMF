@@ -13,7 +13,7 @@ public class DeltaResouceImplTests extends TestBase
 	@Test
 	public void testGetChangelog()
 	{
-		DeltaResourceImpl res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		DeltaResourceImpl res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		assertNotNull(res.getChangelog());
 	}
 }

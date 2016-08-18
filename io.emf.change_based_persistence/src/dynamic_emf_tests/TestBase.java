@@ -22,7 +22,7 @@ public abstract class TestBase
 {
 	protected static final String FILE_SAVE_LOCATION = "university.txt";
 	protected static final String ECORE_FILE_LOCATION = new File("").getAbsolutePath()+"/model/university.ecore";
-	private static EPackage ePackage = null;
+	protected static EPackage ePackage = null;
 	private static String classname = "dynamic_emf_tests::TestBase";
 	
 	@BeforeClass
@@ -82,7 +82,7 @@ public abstract class TestBase
 			@Override
 			public Resource createResource(URI uri)
 			{
-				return new DeltaResourceImpl(uri);
+				return new DeltaResourceImpl(uri,ePackage);
 			}
 		});
 		

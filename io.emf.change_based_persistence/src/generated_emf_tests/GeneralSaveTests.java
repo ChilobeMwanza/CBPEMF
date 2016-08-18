@@ -27,7 +27,7 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testRepeatedSaveNoModification() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni1);
@@ -55,7 +55,7 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testMultipleSaveWithModifications() throws IOException, InterruptedException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni1);
 		
@@ -86,7 +86,7 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testBasicSaveAndLoad() throws IOException
 	{
-		Resource savedRes = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource savedRes = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University savedUni = UniversityFactory.eINSTANCE.createUniversity();
 		
@@ -102,7 +102,7 @@ public class GeneralSaveTests extends TestBase
 			@Override
 			public Resource createResource(URI uri)
 			{
-				return new DeltaResourceImpl(uri);
+				return new DeltaResourceImpl(uri,ePackage);
 			}
 		});
 		
@@ -126,7 +126,7 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testEmptySave() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		res.save(null);
 		
 		File f = new File(fileSaveLocation);
@@ -140,7 +140,7 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testRedundantModification() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
+		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University savedUni = UniversityFactory.eINSTANCE.createUniversity();
 		
@@ -162,7 +162,7 @@ public class GeneralSaveTests extends TestBase
 			@Override
 			public Resource createResource(URI uri)
 			{
-				return new DeltaResourceImpl(uri);
+				return new DeltaResourceImpl(uri,ePackage);
 			}
 		});
 		
