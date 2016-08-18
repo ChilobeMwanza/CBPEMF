@@ -66,7 +66,6 @@ public class UniversityFactoryImpl extends EFactoryImpl implements UniversityFac
 			case UniversityPackage.VEHICLE: return createVehicle();
 			case UniversityPackage.DEPARTMENT: return createDepartment();
 			case UniversityPackage.MODULE: return createModule();
-			case UniversityPackage.NAMED_ELEMENT: return createNamedElement();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -190,16 +189,6 @@ public class UniversityFactoryImpl extends EFactoryImpl implements UniversityFac
 	public Module createModule() {
 		ModuleImpl module = new ModuleImpl();
 		return module;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NamedElement createNamedElement() {
-		NamedElementImpl namedElement = new NamedElementImpl();
-		return namedElement;
 	}
 
 	/**

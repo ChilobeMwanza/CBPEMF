@@ -51,7 +51,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="enrolledStudents" upperBound="-1"
         eType="#//Student" eOpposite="#//Student/enrolledModules"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="StaffMemberType">

@@ -2,30 +2,30 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="adapter_enabled" key="selection"/>
+		<item value="class_id" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="adapterEnabled"/>
-			<item value="getType"/>
-			<item value="type"/>
-			<item value="eventList"/>
-			<item value="outputList"/>
-			<item value="handleUnsetEReferenceSingleEvent(n);"/>
-			<item value="handleSetEAttributeSingleEvent(n);"/>
-			<item value="handleSetEReferenceSingleEvent(n);"/>
+			<item value="classID"/>
+			<item value="eClassID"/>
+			<item value="featureID"/>
+			<item value="featureOrdinality"/>
+			<item value="featureName"/>
+			<item value="eClassName"/>
+			<item value="id_eclass_map"/>
+			<item value="class_id_map"/>
 		</list>
 		<list key="replacehistory">
-			<item value="adapter_enabled"/>
-			<item value="getEventType"/>
-			<item value="notifier_type"/>
-			<item value="event_list"/>
-			<item value="output_list"/>
-			<item value="changelog.addEvent(new SetEReferenceEvent(n))"/>
-			<item value="changelog.add(new SetEAttributeSingleEvent(n))"/>
-			<item value="changelog.add(new handleSetEReferenceSingleEvent(n))"/>
+			<item value="class_id"/>
+			<item value="eclass_id"/>
+			<item value="feature_id"/>
+			<item value="feature_ordinality"/>
+			<item value="feature_name"/>
+			<item value="eclass_name"/>
+			<item value="id_eclass_name_map"/>
+			<item value="id_eclass_map"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

@@ -23,6 +23,8 @@ class Library extends NamedElement
 	ref Vehicle[*] libraryVans;
 }
 
+
+
 class Computer extends NamedElement
 {
 	
@@ -56,7 +58,7 @@ class Module extends NamedElement
 }
 
 
-class NamedElement
+abstract class NamedElement
 {
 	attr String name;	
 }

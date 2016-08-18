@@ -1,0 +1,73 @@
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
+/*
+ * EPackageOrdinalList stores the order in which EPackage EClasses and their structural features appear.
+ * First EClass in package will have id = 0, first structrual feature of first eclass will have id 00. e.t.c
+ */
+public class EPackageOrdinalList 
+{
+	private Map <String, EClass> name_eclass_map  = new HashMap<String, EClass>(); 
+	private Map <Integer, String> id_eclass_name_map  = new HashMap<Integer,String>(); //could be unimap
+	
+	public void addEClassName(String name, int id)
+	{
+		EClass eClass = new EClass(name,id);
+		name_eclass_map.put(name, eClass);
+		id_eclass_name_map.put(id, name);
+	}
+	
+	public int getEClassID(String name)
+	{
+		return name_eclass_map.get(name).getID();
+	}
+	
+	public String getEClassName(int id)
+	{
+		return id_eclass_name_map.get(id);
+	}
+	
+	public void addEStructuralFeatureName(String eClassName, String featureName, int featureOrdinality)
+	{
+		EClass eClass = name_eclass_map.get(eClassName);
+		eClass.addFeature(featureName, featureOrdinality);
+	}
+	
+	class EClass
+	{
+		
+		String name;
+		int id;
+		
+		private BiMap <String, Integer> features_map  = HashBiMap.create(); 
+		public EClass(String name, int id)
+		{
+			this.name = name;
+			this.id = id;
+		}
+		
+		private void addFeature(String featureName, int featureOrdinality)
+		{
+			features_map.put(featureName, featureOrdinality);
+		}
+		
+		private int getFeatureID(String name)
+		{
+			return features_map.get(name);
+		}
+		
+		private String getFeatureName(int id)
+		{
+			return features_map.inverse().get(id);
+		}
+		
+		private int getID()
+		{
+			return this.id;
+		}
+		
+	}
+}

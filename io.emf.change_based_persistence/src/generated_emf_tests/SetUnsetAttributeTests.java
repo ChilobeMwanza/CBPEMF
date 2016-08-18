@@ -92,7 +92,7 @@ public class SetUnsetAttributeTests extends TestBase
 		StaffMember s = UniversityFactory.eINSTANCE.createStaffMember();
 		res.getContents().add(s);
 		
-		s.setStaffMemberType(StaffMemberType.ACADEMIC);
+		s.setStaffMemberType(StaffMemberType.RESEARCH);
 		
 		res.save(null);
 		

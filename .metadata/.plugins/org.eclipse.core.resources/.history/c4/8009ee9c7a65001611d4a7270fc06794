@@ -1,0 +1,105 @@
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
+/*
+ * EPackageOrdinalList stores the order in which EPackage EClasses and their structural features appear.
+ * First EClass in package will have id = 0, first structrual feature of first eclass will have id 00. e.t.c
+ */
+public class EPackageOrdinalList 
+{
+	//maps eclass names to ordinal numbers
+	private BiMap <String, Integer> eclasses_map  = HashBiMap.create(); 
+	private Map<String, EClass> name_to_eclass_map = new HashMap<String,EClass>();
+	
+	//maps eclass names to feature containers
+	private Map<String,FeatureContainer> 
+		feature_container_map = new HashMap <String, FeatureContainer>(); 
+	
+	
+	public void addEClass(String name, int ordinality)
+	{
+		if(eclasses_map.get(name) == null)
+		{
+			EClass e = new EClass(name,ordinality);
+			name_to_eclass_map.put(name, e);
+		}
+	
+	}
+	
+	public String getEClassName(int ordinality)
+	{
+		return eclasses_map.inverse().get(ordinality);
+	}
+	
+	public int getEClassOrdinality(String name)
+	{
+		return eclasses_map.get(name);
+	}
+	
+	public void addEStructuralFeature(String eclass_name, String feature_name,int ordinality)
+	{
+		
+		String feature_id_str = ""+getEClassOrdinality(eclass_name)+ ordinality;
+		if(feature_container_map.get(eclass_name) == null)
+		{
+			FeatureContainer container = new FeatureContainer();
+			
+			container.addFeature(feature_name, Integer.valueOf(feature_id_str));
+			feature_container_map.put(eclass_name, container);
+		}
+		else
+		{
+			(feature_container_map.get(eclass_name)).addFeature(feature_name, Integer.valueOf(feature_id_str));
+		}
+	}
+	
+	public String getFeatureName(int eclass_ordinality,int feature_id)
+	{
+		return (feature_container_map.get(getEClassName(eclass_ordinality))).getFeatureName(feature_id);
+	}
+	
+	public int getFeatureID(String eclass_name, String feature_name)
+	{
+		return feature_container_map.get(eclass_name).getFeatureID(feature_name);
+	}
+	
+	/*
+	 * A feature container contains the feature id's of the features of a particular EClass. 
+	 */
+	class FeatureContainer
+	{
+		private BiMap <String, Integer> features_map  = HashBiMap.create();
+		
+		public void addFeature(String name ,int feature_id)
+		{
+			features_map.put(name, feature_id);
+		}
+		
+		public String getFeatureName(int feature_id)
+		{
+			return features_map.inverse().get(feature_id);
+		}
+		
+		public int getFeatureID(String feature_name)
+		{
+			return features_map.get(feature_name);
+		}
+	}
+	
+	class EClass
+	{
+		String name;
+		int id;
+		private FeatureContainer f;
+		
+		public EClass(String name, int id)
+		{
+			this.name = name;
+			this.id = id;
+		}
+		
+	}
+}
