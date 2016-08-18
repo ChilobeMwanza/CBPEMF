@@ -58,7 +58,6 @@ public class TextDeserializer
 		
 		String line;
 		
-		br.readLine(); //skip file format info
 		
 		if((line = br.readLine()) != null)
 		{

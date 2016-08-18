@@ -38,8 +38,6 @@ import change.UnsetEReferenceSingleEvent;
 public class TextSerializer 
 {
 	private  final String classname = this.getClass().getSimpleName();
-	private final String FORMAT_ID = "CBP_TEXT"; 
-	private final double VERSION = 1.0;
 	private final PersistenceManager manager;
 	private List<String> output_list;
     private List<Event> event_list;
@@ -359,8 +357,6 @@ public class TextSerializer
 			System.out.println(e.getEventType());
 			System.exit(0);
 		}
-		
-		output_list.add(FORMAT_ID+" "+VERSION);
 		output_list.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
 	}
 	

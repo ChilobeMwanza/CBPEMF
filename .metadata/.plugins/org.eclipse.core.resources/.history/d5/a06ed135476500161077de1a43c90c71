@@ -58,7 +58,6 @@ public class TextDeserializer
 		
 		String line;
 		
-		br.readLine(); //skip file format info
 		
 		if((line = br.readLine()) != null)
 		{
@@ -127,12 +126,12 @@ public class TextDeserializer
 			
 			for(String str : feature_values_array)
 			{
-				feature_value_list.add(changelog.getEObject(Long.valueOf(str)));
+				feature_value_list.add(changelog.getEObject(Long.valueOf(getNthWord(str,2))));
 			}
 		}
 		else
 		{
-			focus_obj.eSet(ref, changelog.getEObject(Long.valueOf(feature_values_array [0])));
+			focus_obj.eSet(ref, changelog.getEObject(Long.valueOf(getNthWord(feature_values_array [0],2))));
 		}
 	}
 	
@@ -151,7 +150,7 @@ public class TextDeserializer
 			
 			for(String str : feature_values_array)
 			{
-				feature_value_list.remove(changelog.getEObject(Long.valueOf(str)));				
+				feature_value_list.remove(changelog.getEObject(Long.valueOf(getNthWord(str,2))));				
 			}
 		}
 		else
@@ -196,7 +195,8 @@ public class TextDeserializer
 		
 		for(String str : obj_str_array)
 		{
-			manager.addEObjectToContents(changelog.getEObject(Long.valueOf(str)));
+			EObject obj = changelog.getEObject(Long.valueOf(getNthWord(str,2)));
+			manager.addEObjectToContents(obj);
 		}
 	}
 	
@@ -206,7 +206,8 @@ public class TextDeserializer
 		
 		for(String str : obj_str_array)
 		{
-			manager.removeEObjectFromContents(changelog.getEObject(Long.valueOf(str)));
+			EObject obj = changelog.getEObject(Long.valueOf(getNthWord(str,2)));
+			manager.removeEObjectFromContents(obj);
 		}
 	}
 	
@@ -223,7 +224,7 @@ public class TextDeserializer
 	
 	private void handleUnsetEAttributeEvent(String line)
 	{
-		long obj_id = Long.valueOf(getNthWord(line,3));
+		long obj_id = Long.valueOf(getNthWord(line,4));
 		
 		EObject obj = changelog.getEObject(obj_id);
 		

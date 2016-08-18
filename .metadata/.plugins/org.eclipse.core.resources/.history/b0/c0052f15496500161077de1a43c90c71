@@ -58,7 +58,6 @@ public class TextDeserializer
 		
 		String line;
 		
-		br.readLine(); //skip file format info
 		
 		if((line = br.readLine()) != null)
 		{
@@ -132,7 +131,7 @@ public class TextDeserializer
 		}
 		else
 		{
-			focus_obj.eSet(ref, changelog.getEObject(Long.valueOf(feature_values_array [0])));
+			focus_obj.eSet(ref, changelog.getEObject(Long.valueOf(getNthWord(feature_values_array [0],2))));
 		}
 	}
 	

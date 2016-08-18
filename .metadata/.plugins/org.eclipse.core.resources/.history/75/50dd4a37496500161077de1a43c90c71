@@ -54,8 +54,8 @@ public class App
 	{
 		// TODO Auto-generated method stub
 		App app = new App();
-	//	app.loadResource() ;
-		app.createResource();
+		app.loadResource() ;
+		//app.createResource();
 	
 		
 	
@@ -91,11 +91,12 @@ public class App
 	public void createResource() throws Exception
 	{
 		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation));
-	
+	XMLResource re;
+	XMIResource df;
+	XMIResourceImpl dfg;
 		//initial modifications
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni1);
-		
 				
 		//perform first save
 		res.save(null);
@@ -106,6 +107,6 @@ public class App
 		
 		
 		/*SAVE STARTS HERE*/
-		res.save(null); 
+		//res.save(null); 
 	}
 }

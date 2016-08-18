@@ -359,7 +359,6 @@ public class TextSerializer
 			System.out.println(e.getEventType());
 			System.exit(0);
 		}
-		
 		output_list.add(FORMAT_ID+" "+VERSION);
 		output_list.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
 	}

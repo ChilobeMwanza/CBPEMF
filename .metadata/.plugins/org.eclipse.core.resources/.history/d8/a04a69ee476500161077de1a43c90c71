@@ -58,7 +58,6 @@ public class TextDeserializer
 		
 		String line;
 		
-		br.readLine(); //skip file format info
 		
 		if((line = br.readLine()) != null)
 		{
@@ -132,7 +131,7 @@ public class TextDeserializer
 		}
 		else
 		{
-			focus_obj.eSet(ref, changelog.getEObject(Long.valueOf(feature_values_array [0])));
+			focus_obj.eSet(ref, changelog.getEObject(Long.valueOf(getNthWord(feature_values_array [0],2))));
 		}
 	}
 	
@@ -223,7 +222,7 @@ public class TextDeserializer
 	
 	private void handleUnsetEAttributeEvent(String line)
 	{
-		long obj_id = Long.valueOf(getNthWord(line,3));
+		long obj_id = Long.valueOf(getNthWord(line,4));
 		
 		EObject obj = changelog.getEObject(obj_id);
 		
