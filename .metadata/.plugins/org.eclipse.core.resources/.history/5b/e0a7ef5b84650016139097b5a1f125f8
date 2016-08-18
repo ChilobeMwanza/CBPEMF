@@ -1,11 +1,10 @@
 /*
  * todo:
- * optimisation algorithm
- * check everything works with non generated emf (Reflective)
  * make txt format less verbose
  * when unsetting single valued feature, name is not needed
  * binary
- * 
+ * change log optimisation
+ * more tests
  * 
  */
 package drivers;
@@ -20,12 +19,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import change.ChangeLog;
 import change.Event;
 import change.SetEAttributeManyEvent;
@@ -36,16 +32,19 @@ import change.UnsetEAttributeManyEvent;
 import change.UnsetEAttributeSingleEvent;
 import change.UnsetEReferenceManyEvent;
 import change.UnsetEReferenceSingleEvent;
-import impl.DeltaResourceImpl;
+
 
 
 public class TextSerializer 
 {
 	private  final String classname = this.getClass().getSimpleName();
+	private final String FORMAT_ID = "CBP_TEXT"; 
+	private final double VERSION = 1.0;
 	private final PersistenceManager manager;
 	private List<String> output_list;
     private List<Event> event_list;
 	private final ChangeLog changelog; 
+	
 	
 	public TextSerializer(PersistenceManager manager, ChangeLog aChangeLog)
 	{
@@ -67,7 +66,7 @@ public class TextSerializer
 		
 		for(Event e : event_list)
 		{
-			switch(e.getType())
+			switch(e.getEventType())
 			{
 			case Event.SET_EATTRIBUTE_SINGLE:
 				handleSetEAttributeSingleEvent((SetEAttributeSingleEvent)e);
@@ -120,7 +119,8 @@ public class TextSerializer
 		
 		newValue = newValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
 		
-		output_list.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" ["+newValue+"]");
+		output_list.add(PersistenceManager.SET_EATTRIBUTE_VALUE+" "+attr.getName()+" "
+				+changelog.getObjectId(focus_obj)+" ["+newValue+"]");
 	}
 	
 	/*private boolean isInitialEntrySerialised() 
@@ -160,7 +160,7 @@ public class TextSerializer
 		
 		oldValue = oldValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
 		
-		output_list.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "
+		output_list.add(PersistenceManager.UNSET_EATTRIBUTE_VALUE+" "+attr.getName()+" "
 					+changelog.getObjectId(focus_obj)+" ["+oldValue+"]");
 	}
 	
@@ -185,7 +185,8 @@ public class TextSerializer
 			obj_list_str = obj_list_str +newValue+PersistenceManager.DELIMITER;
 		}
 		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
-		output_list.add("SET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
+		output_list.add(PersistenceManager.SET_EATTRIBUTE_VALUE+" "+attr.getName()+" "
+				+changelog.getObjectId(focus_obj)+" "+obj_list_str);
 	}
 	
 	private void handleUnsetEAttributeManyEvent(UnsetEAttributeManyEvent e)
@@ -204,7 +205,8 @@ public class TextSerializer
 			obj_list_str = obj_list_str + newValue+PersistenceManager.DELIMITER;
 		}
 		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
-		output_list.add("UNSET_A "+attr.getName()+" "+focus_obj.eClass().getName()+" "+changelog.getObjectId(focus_obj)+" "+obj_list_str);
+		output_list.add(PersistenceManager.UNSET_EATTRIBUTE_VALUE+" "+attr.getName()+" "
+				+changelog.getObjectId(focus_obj)+" "+obj_list_str);
 		
 	}
 	
@@ -213,19 +215,22 @@ public class TextSerializer
 		EObject added_obj = e.getAddedObject();
 		
 		if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
-			output_list.add("CREATE ["+added_obj.eClass().getName()+ " "+changelog.getObjectId(added_obj)+"]");
+		{
+			output_list.add(PersistenceManager.CREATE+" ["+added_obj.eClass().getName()+ " "
+					+changelog.getObjectId(added_obj)+"]");
+		}
+			
 			
 		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource
 		{
-			output_list.add("ADD_R ["+added_obj.eClass().getName()+" "+changelog.getObjectId(added_obj)+"]"); 
+			output_list.add(PersistenceManager.ADD_TO_RESOURCE+" ["+changelog.getObjectId(added_obj)+"]"); 
 		}
 		else if(e.getNotifierType() == Event.NotifierType.EOBJECT) //add eobject to eobject
 		{
 			EObject focus_obj = e.getFocusObject();
 			
-			output_list.add("SET_R "+e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
-					+changelog.getObjectId(focus_obj)+" ["+added_obj.eClass().getName()+" "
-					+changelog.getObjectId(added_obj)+"]");
+			output_list.add(PersistenceManager.SET_EREFERENCE_VALUE+" "+e.getEReference().getName()+" "
+					+changelog.getObjectId(focus_obj)+" ["+changelog.getObjectId(added_obj)+"]");
 		}
 	}
 	
@@ -235,8 +240,7 @@ public class TextSerializer
 		long removed_obj_id = changelog.getObjectId(removed_obj);
 		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //delete eobject from resource
 		{
-			output_list.add("DEL_R ["+removed_obj.eClass().getName()+" "+
-					removed_obj_id+"]"); 
+			output_list.add(PersistenceManager.DELETE_FROM_RESOURCE+" ["+removed_obj_id+"]"); 
 			
 			changelog.deleteEObjectFromMap(removed_obj_id);
 		}
@@ -244,9 +248,8 @@ public class TextSerializer
 		{
 			EObject focus_obj = e.getFocusObject();
 			
-			output_list.add("UNSET_R "+e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
-					+changelog.getObjectId(focus_obj)+" ["+removed_obj.eClass().getName()+" "
-					+removed_obj_id+"]");
+			output_list.add(PersistenceManager.UNSET_EREFERENCE_VALUE+" "+e.getEReference().getName()+" "+
+					changelog.getObjectId(focus_obj)+" ["+removed_obj_id+"]");
 			
 			changelog.deleteEObjectFromMap(removed_obj_id);
 		}
@@ -269,27 +272,27 @@ public class TextSerializer
 						+ ""+changelog.getObjectId(obj)+PersistenceManager.DELIMITER; 
 			}
 			
-			added_obj_list_str = added_obj_list_str + obj.eClass().getName()+" "+changelog.getObjectId(obj)+PersistenceManager.DELIMITER; 
+			added_obj_list_str = added_obj_list_str+changelog.getObjectId(obj)+PersistenceManager.DELIMITER; 
 		}
 		
 		if(obj_create_list_str.length()>1) //if we have items to create...
 		{
-			 obj_create_list_str = obj_create_list_str.substring(0,added_obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
-			 output_list.add("CREATE "+ obj_create_list_str);
+			 obj_create_list_str = obj_create_list_str.substring(0,obj_create_list_str.length()-1)+"]"; // remove final delimiter  add "]"
+			 output_list.add(PersistenceManager.CREATE+" "+ obj_create_list_str);
 		}
 		
 	    added_obj_list_str = added_obj_list_str.substring(0,added_obj_list_str.length()-1)+"]"; // remove final delimiter add "]"
 	    
 	    if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource
 	    {
-	    	output_list.add("ADD_R "+added_obj_list_str);
+	    	output_list.add(PersistenceManager.ADD_TO_RESOURCE+" "+added_obj_list_str);
 	    }	
 	    else if(e.getNotifierType() == Event.NotifierType.EOBJECT) //add eobject to eobject
 	    {
 	    	EObject focus_obj = e.getFocusObj();
 	    	
-	    	output_list.add("SET_R "+e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
-					+changelog.getObjectId(focus_obj)+" "+added_obj_list_str);
+	    	output_list.add(PersistenceManager.SET_EREFERENCE_VALUE+" "+e.getEReference().getName()+" "
+	    			+changelog.getObjectId(focus_obj)+" "+added_obj_list_str);
 	    }
 	    
 	}
@@ -304,7 +307,7 @@ public class TextSerializer
 		{
 			long removed_obj_id = changelog.getObjectId(obj);
 			
-			obj_delete_list_str = obj_delete_list_str +  obj.eClass().getName()+" "+removed_obj_id +PersistenceManager.DELIMITER; 
+			obj_delete_list_str = obj_delete_list_str+removed_obj_id +PersistenceManager.DELIMITER; 
 			
 			changelog.deleteEObjectFromMap(removed_obj_id);	
 		}
@@ -313,14 +316,14 @@ public class TextSerializer
 		
 		if(e.getNotiferType() == Event.NotifierType.RESOURCE) //DELETE OBJs FROM RESOURCE
 		{
-			output_list.add("DEL_R "+obj_delete_list_str);
+			output_list.add(PersistenceManager.DELETE_FROM_RESOURCE+" "+obj_delete_list_str);
 		}
 		else if(e.getNotiferType() == Event.NotifierType.EOBJECT)
 		{
 			EObject focus_obj = e.getFocusObj();
 			
-			output_list.add("UNSET_R "+(e.getEReference().getName()+" "+focus_obj.eClass().getName()+" "
-							+changelog.getObjectId(focus_obj)+" "+obj_delete_list_str));
+			output_list.add(PersistenceManager.UNSET_EREFERENCE_VALUE+" "+(e.getEReference().getName()+" "
+					+changelog.getObjectId(focus_obj)+" "+obj_delete_list_str));
 		}	
 	
 	}
@@ -330,17 +333,18 @@ public class TextSerializer
 		EObject obj = null;
 		Event e = event_list.get(0);
 		
-		switch(e.getType())
+		switch(e.getEventType())
 		{
 		case Event.SET_EREFERENCE_SINGLE:
 			obj = ((SetEReferenceSingleEvent)e).getAddedObject();
 			break;
 		case Event.SET_EREFERENCE_MANY:
-			obj = ((SetEReferenceManyEvent)e).getFocusObj();
+			obj = ((SetEReferenceManyEvent)e).getEObjectList().get(0);
+			break;
 		default:
 			try 
 			{
-				System.out.println(e.getType());
+				System.out.println(e.getEventType());
 				throw new Exception ("Error! first item in events list was not an Add event.");
 			} catch (Exception e1) 
 			{
@@ -349,6 +353,14 @@ public class TextSerializer
 				System.exit(0);
 			}
 		}
+		
+		if(obj == null)
+		{
+			System.out.println(e.getEventType());
+			System.exit(0);
+		}
+		
+		output_list.add(FORMAT_ID+" "+VERSION);
 		output_list.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
 	}
 	

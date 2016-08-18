@@ -12,7 +12,7 @@ import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 
-import change.Changelog;
+import change.ChangeLog;
 import change.EventAdapter;
 
 import drivers.PersistenceManager;
@@ -21,7 +21,7 @@ import drivers.PersistenceManager;
 public class DeltaResourceImpl extends ResourceImpl implements DeltaResource
 {
 	private  final String classname = this.getClass().getSimpleName();
-	private final Changelog changelog;
+	private final ChangeLog changeLog;
     private PersistenceManager persistenceManager;
     EventAdapter eventAdapter;
 	
@@ -29,22 +29,22 @@ public class DeltaResourceImpl extends ResourceImpl implements DeltaResource
 	{
 		super(uri);
 		
-		changelog = new Changelog();
+		changeLog = new ChangeLog();
 	
-		eventAdapter = new EventAdapter(changelog);
+		eventAdapter = new EventAdapter(changeLog);
 		this.eAdapters().add(eventAdapter); 
 		
-		persistenceManager = new PersistenceManager(changelog,this); //is changelog variable pointing to same changelog as adapter?
+		persistenceManager = new PersistenceManager(changeLog,this); //is changelog variable pointing to same changelog as adapter?
 	}
     
     public DeltaResourceImpl()
     {
-    	changelog = new Changelog();
+    	changeLog = new ChangeLog();
     	
-		eventAdapter = new EventAdapter(changelog);
+		eventAdapter = new EventAdapter(changeLog);
 		this.eAdapters().add(eventAdapter); 
 		
-		persistenceManager = new PersistenceManager(changelog,this); //is changelog variable pointing to same changelog as adapter?
+		persistenceManager = new PersistenceManager(changeLog,this); //is changelog variable pointing to same changelog as adapter?
     }
 
 	@Override
@@ -96,9 +96,9 @@ public class DeltaResourceImpl extends ResourceImpl implements DeltaResource
 		eventAdapter.setEnabled(true);
 	}
 		
-	public Changelog getChangelog()
+	public ChangeLog getChangeLog()
 	{
-		return this.changelog;
+		return this.changeLog;
 	}
 	
 }

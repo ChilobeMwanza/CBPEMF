@@ -8,6 +8,8 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+
+
 import change.Changelog;
 import impl.DeltaResourceImpl;
 
@@ -91,6 +93,11 @@ public class PersistenceManager
 		TextDeserializer textDeserializer = new TextDeserializer(this,changelog);
 		textDeserializer.load(options);
 	}
+	
+	/*public DeltaResourceImpl getResource()
+	{
+		return this.resource;
+	}*/
 	
 	public Changelog getChangelog()
 	{

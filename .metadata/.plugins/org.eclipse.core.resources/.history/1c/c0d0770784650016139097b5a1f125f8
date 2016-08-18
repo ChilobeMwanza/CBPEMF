@@ -8,11 +8,21 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import change.Changelog;
+
+
+import change.ChangeLog;
 import impl.DeltaResourceImpl;
 
 public class PersistenceManager 
 {
+	private final ChangeLog changeLog; 
+
+	private final DeltaResourceImpl resource;
+	public final String TEXT_ENCODING = "Ascii";
+	public static final String DELIMITER = ","; //,
+	public static final String ESCAPE_CHAR ="+"; //*
+    private boolean resume = false;
+    
     public static final int CREATE = 0;
     public static final int ADD_TO_RESOURCE = 1;
     public static final int SET_EATTRIBUTE_VALUE = 2;
@@ -20,21 +30,11 @@ public class PersistenceManager
     public static final int DELETE_FROM_RESOURCE = 4;
     public static final int UNSET_EATTRIBUTE_VALUE = 5;
     public static final int UNSET_EREFERENCE_VALUE = 6;
-    
-	public static final String DELIMITER = ","; 
-	public static final String ESCAPE_CHAR ="+"; 
-	public static final String TEXT_ENCODING = "Ascii";
-	
-	
-	private final Changelog changelog; 
+   
 
-	private final DeltaResourceImpl resource;
-	
-    private boolean resume = false;
-    
-	public PersistenceManager(Changelog changelog, DeltaResourceImpl resource)
+	public PersistenceManager(ChangeLog aChangeLog, DeltaResourceImpl resource)
 	{
-		this.changelog = changelog;
+		this.changeLog = aChangeLog;
 		this.resource = resource;
 	}
 	
@@ -78,9 +78,11 @@ public class PersistenceManager
 		return resource.getURI();
 	}
 
+	
+	//when the logic gets more complex, this is moving to its own serializer class.
 	public void save(Map<?,?> options)
 	{
-		TextSerializer serializer = new TextSerializer(this, changelog);
+		TextSerializer serializer = new TextSerializer(this, changeLog);
 		serializer.save(options);
 	}
 
@@ -88,12 +90,17 @@ public class PersistenceManager
 	public void load(Map<?,?> options) throws Exception
 	{	
 		
-		TextDeserializer textDeserializer = new TextDeserializer(this,changelog);
+		TextDeserializer textDeserializer = new TextDeserializer(this,changeLog);
 		textDeserializer.load(options);
 	}
 	
-	public Changelog getChangelog()
+	/*public DeltaResourceImpl getResource()
 	{
-		return this.changelog;
+		return this.resource;
+	}*/
+	
+	public ChangeLog getChangeLog()
+	{
+		return this.changeLog;
 	}
 }

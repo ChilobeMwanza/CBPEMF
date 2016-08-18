@@ -8,6 +8,8 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+
+
 import change.Changelog;
 import impl.DeltaResourceImpl;
 
@@ -23,18 +25,19 @@ public class PersistenceManager
     
 	public static final String DELIMITER = ","; 
 	public static final String ESCAPE_CHAR ="+"; 
-	public static final String TEXT_ENCODING = "Ascii";
-	
 	
 	private final Changelog changelog; 
 
 	private final DeltaResourceImpl resource;
-	
+	public final String TEXT_ENCODING = "Ascii";
+
     private boolean resume = false;
     
-	public PersistenceManager(Changelog changelog, DeltaResourceImpl resource)
+
+
+	public PersistenceManager(Changelog aChangelog, DeltaResourceImpl resource)
 	{
-		this.changelog = changelog;
+		this.changelog = aChangelog;
 		this.resource = resource;
 	}
 	
@@ -78,6 +81,8 @@ public class PersistenceManager
 		return resource.getURI();
 	}
 
+	
+	//when the logic gets more complex, this is moving to its own serializer class.
 	public void save(Map<?,?> options)
 	{
 		TextSerializer serializer = new TextSerializer(this, changelog);
@@ -91,6 +96,11 @@ public class PersistenceManager
 		TextDeserializer textDeserializer = new TextDeserializer(this,changelog);
 		textDeserializer.load(options);
 	}
+	
+	/*public DeltaResourceImpl getResource()
+	{
+		return this.resource;
+	}*/
 	
 	public Changelog getChangelog()
 	{

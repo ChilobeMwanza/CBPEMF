@@ -6,7 +6,6 @@ package drivers;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import java.util.Map;
@@ -20,9 +19,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import change.ChangeLog;
+import exceptions.UnknownPackageException;
 
 public class TextDeserializer 
 {
@@ -31,7 +30,7 @@ public class TextDeserializer
 	private final ChangeLog changelog;
 	
 	
-	private enum EventType
+	/*private enum EventType
 	{
 		SET_A,
 		UNSET_A,
@@ -41,7 +40,7 @@ public class TextDeserializer
 		DEL_R,
 		UNSET_R,
 		NULL;
-	}
+	}*/
 	
 	private PersistenceManager manager;
 	//private String fileLocation;
@@ -52,13 +51,14 @@ public class TextDeserializer
 		this.changelog = aChangeLog;
 	}
 	
-	public void load(Map<?,?> options) throws IOException
+	public void load(Map<?,?> options) throws Exception
 	{	
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(new FileInputStream(manager.getURI().path()), manager.TEXT_ENCODING));
 		
 		String line;
 		
+		br.readLine(); //skip file format info
 		
 		if((line = br.readLine()) != null)
 		{
@@ -75,39 +75,35 @@ public class TextDeserializer
 			//System.out.println(line);
 			StringTokenizer st = new StringTokenizer(line);
 			
-			EventType eventType = EventType.NULL;
+			int eventType = -1;
 			
 			if(st.hasMoreElements())
-			{ 
-				  eventType = EventType.valueOf
-						 (st.nextElement().toString());
-			} 
-			
+				eventType = Integer.valueOf(st.nextToken());
+		
+				
 			/* Switches over various event types, calls appropriate handler method*/
 			switch(eventType)
 			{
-			case CREATE:
+			case PersistenceManager.CREATE:
 				handleCreateEvent(line);
 				break;
-			case SET_A:
+			case PersistenceManager.SET_EATTRIBUTE_VALUE:
 				handleSetEAttributeEvent(line);
 				break;
-			case SET_R:
+			case PersistenceManager.SET_EREFERENCE_VALUE:
 				handleSetEReferenceEvent(line);
 				break;
-			case UNSET_A: 
+			case PersistenceManager.UNSET_EATTRIBUTE_VALUE: 
 				handleUnsetEAttributeEvent(line);
 				break;
-			case UNSET_R:
+			case PersistenceManager.UNSET_EREFERENCE_VALUE:
 				handleUnsetEReferenceEvent(line);
 				break;
-			case ADD_R:
+			case PersistenceManager.ADD_TO_RESOURCE:
 				handleAddToResourceEvent(line);
 				break;
-			case DEL_R:
+			case PersistenceManager.DELETE_FROM_RESOURCE:
 				handleRemoveFromResourceEvent(line);
-				break;
-			case NULL:
 				break;
 			default:
 				break;
@@ -119,7 +115,7 @@ public class TextDeserializer
 	
 	private void handleSetEReferenceEvent(String line)
 	{
-		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,4)));
+		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,3)));
 		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
 		
 		String[] feature_values_array = tokeniseString(getValueInSquareBrackets(line));
@@ -131,18 +127,18 @@ public class TextDeserializer
 			
 			for(String str : feature_values_array)
 			{
-				feature_value_list.add(changelog.getEObject(Long.valueOf(getNthWord(str,2))));
+				feature_value_list.add(changelog.getEObject(Long.valueOf(str)));
 			}
 		}
 		else
 		{
-			focus_obj.eSet(ref, changelog.getEObject(Long.valueOf(getNthWord(feature_values_array [0],2))));
+			focus_obj.eSet(ref, changelog.getEObject(Long.valueOf(feature_values_array [0])));
 		}
 	}
 	
 	private void handleUnsetEReferenceEvent(String line)
 	{
-		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,4)));
+		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,3)));
 		
 		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
 		
@@ -155,7 +151,7 @@ public class TextDeserializer
 			
 			for(String str : feature_values_array)
 			{
-				feature_value_list.remove(changelog.getEObject(Long.valueOf(getNthWord(str,2))));				
+				feature_value_list.remove(changelog.getEObject(Long.valueOf(str)));				
 			}
 		}
 		else
@@ -166,7 +162,7 @@ public class TextDeserializer
 	
 	private void handleSetEAttributeEvent(String line) 
 	{
-		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,4)));
+		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,3)));
 		EAttribute attr = (EAttribute)focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
 		
 		String[] feature_values_array = tokeniseString(getValueInSquareBrackets(line));
@@ -200,8 +196,7 @@ public class TextDeserializer
 		
 		for(String str : obj_str_array)
 		{
-			EObject obj = changelog.getEObject(Long.valueOf(getNthWord(str,2)));
-			manager.addEObjectToContents(obj);
+			manager.addEObjectToContents(changelog.getEObject(Long.valueOf(str)));
 		}
 	}
 	
@@ -211,8 +206,7 @@ public class TextDeserializer
 		
 		for(String str : obj_str_array)
 		{
-			EObject obj = changelog.getEObject(Long.valueOf(getNthWord(str,2)));
-			manager.removeEObjectFromContents(obj);
+			manager.removeEObjectFromContents(changelog.getEObject(Long.valueOf(str)));
 		}
 	}
 	
@@ -229,7 +223,7 @@ public class TextDeserializer
 	
 	private void handleUnsetEAttributeEvent(String line)
 	{
-		long obj_id = Long.valueOf(getNthWord(line,4));
+		long obj_id = Long.valueOf(getNthWord(line,3));
 		
 		EObject obj = changelog.getEObject(obj_id);
 		
@@ -252,22 +246,19 @@ public class TextDeserializer
 		}
 	}
 	
-	private EPackage loadMetamodel(String metamodelURI)
+	private EPackage loadMetamodel(String metamodelURI) throws UnknownPackageException
 	{
-		//EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage("http://io.emf.change_based_persistence.text");
 		EPackage ePackage = null;
+		
 		if(EPackage.Registry.INSTANCE.containsKey(metamodelURI))
 			ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelURI);
+		
 		else
-		{
-			System.out.println(classname+" could not load metamodel!");
-			System.exit(0);
-		}
+			throw new UnknownPackageException(metamodelURI);
+		
 		return ePackage;
 	}
 	
-	
-	//should check for errors here
 	private EObject createEObject(String eClassName) //does this need to be a method?
 	{
 		return ePackage.getEFactoryInstance().create((EClass)

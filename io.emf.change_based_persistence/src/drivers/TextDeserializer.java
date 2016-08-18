@@ -20,14 +20,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import change.ChangeLog;
+import change.Changelog;
 import exceptions.UnknownPackageException;
 
 public class TextDeserializer 
 {
 	private final String classname = this.getClass().getSimpleName();
 	private EPackage ePackage = null;
-	private final ChangeLog changelog;
+	private final Changelog changelog;
 	
 	
 	/*private enum EventType
@@ -45,10 +45,10 @@ public class TextDeserializer
 	private PersistenceManager manager;
 	//private String fileLocation;
 	
-	public TextDeserializer(PersistenceManager manager, ChangeLog aChangeLog)
+	public TextDeserializer(PersistenceManager manager, Changelog aChangelog)
 	{
 		this.manager = manager;
-		this.changelog = aChangeLog;
+		this.changelog = aChangelog;
 	}
 	
 	public void load(Map<?,?> options) throws Exception

@@ -22,7 +22,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import change.ChangeLog;
+import change.Changelog;
 import change.Event;
 import change.SetEAttributeManyEvent;
 import change.SetEAttributeSingleEvent;
@@ -43,16 +43,16 @@ public class TextSerializer
 	private final PersistenceManager manager;
 	private List<String> output_list;
     private List<Event> event_list;
-	private final ChangeLog changelog; 
+	private final Changelog changelog; 
 	
 	
-	public TextSerializer(PersistenceManager manager, ChangeLog aChangeLog)
+	public TextSerializer(PersistenceManager manager, Changelog aChangelog)
 	{
 		this.manager =  manager;
-		this.changelog = aChangeLog;
+		this.changelog = aChangelog;
 		this.output_list = new ArrayList<String>();
 		
-		this.event_list = manager.getChangeLog().getEventsList();
+		this.event_list = manager.getChangelog().getEventsList();
 	}
 	
 	public void save(Map<?,?> options)
