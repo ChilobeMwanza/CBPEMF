@@ -224,24 +224,52 @@ public class TextSerializer
 	private void handleSetEReferenceSingleEvent(SetEReferenceSingleEvent e)
 	{
 		EObject added_obj = e.getAddedObject();
-		
-		if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
-		{
-			outputList.add(PersistenceManager.CREATE+" ["+ePackageElementsNamesMap.getID(added_obj.eClass().getName())+ " "
-					+changelog.getObjectId(added_obj)+"]");
-		}
-			
-			
+	
 		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource
 		{
-			outputList.add(PersistenceManager.ADD_TO_RESOURCE+" ["+changelog.getObjectId(added_obj)+"]"); 
+			if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
+			{
+				StringBuilder sb = new StringBuilder
+						().append((PersistenceManager.CREATE_AND_ADD_TO_RESOURCE)).append(" [")
+						.append(ePackageElementsNamesMap.getID(added_obj.eClass().getName())).
+					append(" ").append(changelog.getObjectId(added_obj)).append("]");
+				
+				outputList.add(sb.toString());
+				System.out.println(classname+sb.toString()+"1");
+			}
+			else
+			{
+				StringBuilder sb = new StringBuilder
+						().append(PersistenceManager.ADD_TO_RESOURCE).append(" [").append(changelog.getObjectId(added_obj)).append("]");
+				
+				outputList.add(sb.toString());
+				System.out.println(classname+sb.toString()+"2");
+			}
+			
 		}
 		else if(e.getNotifierType() == Event.NotifierType.EOBJECT) //add eobject to eobject
 		{
 			EObject focus_obj = e.getFocusObject();
 			
-			outputList.add(PersistenceManager.SET_EREFERENCE_VALUE+" "+ePackageElementsNamesMap.getID(e.getEReference().getName())+" "
-					+changelog.getObjectId(focus_obj)+" ["+changelog.getObjectId(added_obj)+"]");
+			if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
+			{
+				StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE).append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).append(" ")
+					.append(changelog.getObjectId(focus_obj)).append(" ")
+					.append("[").append(ePackageElementsNamesMap.getID(added_obj.eClass().getName()))
+					.append(" ").append(changelog.getObjectId(added_obj)).append("]");
+				
+				outputList.add(sb.toString());
+				System.out.println(classname+sb.toString()+"3");
+			}
+			else
+			{
+				StringBuilder sb = new StringBuilder().append(PersistenceManager.SET_EREFERENCE_VALUE).append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).append(" ")
+				.append(changelog.getObjectId(focus_obj)).append(" ")
+				.append("[").append(changelog.getObjectId(added_obj)).append("]");
+				
+				outputList.add(sb.toString());
+				System.out.println(classname+sb.toString()+"4");
+			}
 		}
 	}
 	
@@ -274,45 +302,70 @@ public class TextSerializer
 		
 		StringBuilder added_obj_list_blr = new StringBuilder("[");
 		StringBuilder obj_create_list_blr = new StringBuilder("[");
-		
+	
 		for(EObject obj : e.getEObjectList())
 		{
 			if(changelog.addObjectToMap(obj)) //if obj does not already exist
 			{
-				obj_create_list_blr.append(ePackageElementsNamesMap.getID(obj.eClass().getName())+" "
-						+ ""+changelog.getObjectId(obj)+PersistenceManager.DELIMITER);	
+				obj_create_list_blr.append(ePackageElementsNamesMap.getID(obj.eClass().getName())).append(" ")
+					.append(changelog.getObjectId(obj)).append(PersistenceManager.DELIMITER);
 			}
-			
-			added_obj_list_blr.append(changelog.getObjectId(obj)+PersistenceManager.DELIMITER);
+			else //obj exists, i.e we're updating some reference
+			{
+				added_obj_list_blr.append(changelog.getObjectId(obj)+PersistenceManager.DELIMITER); 
+			}
 		}
 		
-		if(obj_create_list_blr.length()>1) //if we have items to create...
-		{
-			 obj_create_list_blr.substring(0,obj_create_list_blr.length()-1);// remove final delimiter  add "]"
-			 outputList.add(PersistenceManager.CREATE+" "+ obj_create_list_blr.append("]").toString());
-		}
-		
-		
-		added_obj_list_blr.substring(0,added_obj_list_blr.length()-1); // remove final delimiter add "]"
-		
-		String added_obj_list_str = added_obj_list_blr.append("]").toString();
-		
-	    if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource
+		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //updating a resource ref
 	    {
-	    	outputList.add(PersistenceManager.ADD_TO_RESOURCE+" "+added_obj_list_str);
-	    }	
-	    else if(e.getNotifierType() == Event.NotifierType.EOBJECT) //add eobject to eobject
-	    {
-	    	EObject focus_obj = e.getFocusObj();
-	    	
-	    	outputList.add(PersistenceManager.SET_EREFERENCE_VALUE+" "+ePackageElementsNamesMap.getID(e.getEReference().getName())+" "
-	    			+changelog.getObjectId(focus_obj)+" "+added_obj_list_str);
+			if(obj_create_list_blr.length()>1) //if we have items to create,
+			{
+				 obj_create_list_blr.substring(0,obj_create_list_blr.length()-1);
+				 obj_create_list_blr.append("]");
+				 
+				 StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_ADD_TO_RESOURCE).append(" ").append(obj_create_list_blr);
+				// S
+				 outputList.add(sb.toString());
+			}
+			if(added_obj_list_blr.length() > 1) //if we have items to update
+			{
+				added_obj_list_blr.substring(0,added_obj_list_blr.length()-1);
+				added_obj_list_blr.append("]");
+				
+				StringBuilder sb = new StringBuilder().append(PersistenceManager.ADD_TO_RESOURCE).append(" ").append(added_obj_list_blr);
+				
+				outputList.add(sb.toString());
+			}
 	    }
-	    
+		else if(e.getNotifierType() == Event.NotifierType.EOBJECT) 
+		{
+			EObject focus_obj = e.getFocusObj();
+			
+			if(obj_create_list_blr.length()>1) //if we have items to create
+			{
+				 obj_create_list_blr.substring(0,obj_create_list_blr.length()-1);
+				 obj_create_list_blr.append("]");
+				 
+				 StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE).append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).
+						append(" ").append(changelog.getObjectId(focus_obj)).append(" ").append(obj_create_list_blr);
+				 outputList.add(sb.toString());
+			}
+			if(added_obj_list_blr.length() > 1)
+			{
+				added_obj_list_blr.substring(0,added_obj_list_blr.length()-1);
+				added_obj_list_blr.append("]");
+				
+				StringBuilder sb = new StringBuilder().append(PersistenceManager.SET_EREFERENCE_VALUE).append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).
+					append(" ").append(changelog.getObjectId(focus_obj)).append(" ").append(added_obj_list_blr);
+				
+				outputList.add(sb.toString());
+			}   	
+		}
+		
 	    s.pause();
 	    
 	    System.out.println("Time taken : "+ s.getElapsed());
-	    System.exit(0);
+	   // System.exit(0);
 	    
 	}
 	

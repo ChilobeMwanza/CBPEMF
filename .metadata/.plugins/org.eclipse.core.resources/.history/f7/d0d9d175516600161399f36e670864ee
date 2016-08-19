@@ -1,0 +1,432 @@
+/*
+ * todo:
+ * make txt format less verbose
+ * when unsetting single valued feature, name is not needed
+ * binary
+ * change log optimisation
+ * more tests
+ * 
+ */
+package drivers;
+
+
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.epsilon.profiling.Stopwatch;
+
+import change.Changelog;
+import change.Event;
+import change.SetEAttributeManyEvent;
+import change.SetEAttributeSingleEvent;
+import change.SetEReferenceManyEvent;
+import change.SetEReferenceSingleEvent;
+import change.UnsetEAttributeManyEvent;
+import change.UnsetEAttributeSingleEvent;
+import change.UnsetEReferenceManyEvent;
+import change.UnsetEReferenceSingleEvent;
+
+
+
+public class TextSerializer 
+{
+	private  final String classname = this.getClass().getSimpleName();
+	
+	private final String FORMAT_ID = "CBP_TEXT"; 
+	
+	private final double VERSION = 1.0;
+	
+	private List<String> outputList = new ArrayList<String>();
+	
+    private List<Event> eventList;
+    
+	private final PersistenceManager manager;
+	
+	private final Changelog changelog; 
+	
+	private final EPackageElementsNamesMap ePackageElementsNamesMap;
+	
+	
+	public TextSerializer(PersistenceManager manager, Changelog aChangelog, EPackageElementsNamesMap 
+			ePackageElementsNamesMap)
+	{
+		this.manager =  manager;
+		this.changelog = aChangelog;
+		this.ePackageElementsNamesMap = ePackageElementsNamesMap;
+		
+		this.eventList = manager.getChangelog().getEventsList();
+	}
+	
+	public void save(Map<?,?> options)
+	{
+		if(eventList.isEmpty())
+			return;
+		
+		//if we're not in resume mode, add namespace entry to output list
+		if(!manager.isResume())
+			addInitialEntryToOutputList();
+		
+		for(Event e : eventList)
+		{
+			switch(e.getEventType())
+			{
+			case Event.SET_EATTRIBUTE_SINGLE:
+				handleSetEAttributeSingleEvent((SetEAttributeSingleEvent)e);
+				break;
+			case Event.SET_EATTRIBUTE_MANY:
+				handleSetEAttributeManyEvent((SetEAttributeManyEvent)e);
+				break;
+			case Event.SET_EREFERENCE_SINGLE:
+				handleSetEReferenceSingleEvent((SetEReferenceSingleEvent)e);
+				break;
+			case Event.SET_EREFERENCE_MANY:
+				handleSetEReferenceManyEvent((SetEReferenceManyEvent)e);
+				break;
+			case Event.UNSET_EATTRIBUTE_SINGLE:
+				handleUnsetEAttributeSingleEvent((UnsetEAttributeSingleEvent)e);
+				break;
+			case Event.UNSET_EATTRIBUTE_MANY:
+				handleUnsetEAttributeManyEvent((UnsetEAttributeManyEvent)e);
+				break;
+			case Event.UNSET_EREFERENCE_SINGLE:
+				handleUnsetEReferenceSingleEvent((UnsetEReferenceSingleEvent)e);
+				break;
+			case Event.UNSET_EREFERENCE_MANY:
+				handleUnsetEReferenceManyEvent((UnsetEReferenceManyEvent)e);
+				break;
+			}
+		}
+		
+		changelog.clearEvents();
+		
+		/*finally append strings to file, if no previous successful load,don't 
+		 * serialise in append mode(i.e create new file, e.t.c)
+		 */
+		//System.out.println(classname+" appendmode: "+manager.isResume());
+		
+		/*Write contents of output list to file*/
+		writeOutputListToFile(manager.isResume()); 
+	}
+	
+	private void handleSetEAttributeSingleEvent(SetEAttributeSingleEvent e)
+	{
+		EObject focus_obj = e.getFocusObj();
+		
+		EAttribute attr = e.getEAttribte();
+		
+		String newValue = EcoreUtil.convertToString(attr.getEAttributeType(), e.getNewValue());
+		
+		if(newValue == null)
+			newValue = "null";
+		
+		newValue = newValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
+		
+		outputList.add(PersistenceManager.SET_EATTRIBUTE_VALUE+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
+				+changelog.getObjectId(focus_obj)+" ["+newValue+"]");
+	}
+	
+	/*private boolean isInitialEntrySerialised() 
+	{
+		
+		// if output file doesn't exits, initial entry doesn't exist
+		File f = new File(manager.getURI().path());
+		if(!f.exists() || f.isDirectory())
+			return false;
+		
+		// output file exists, check it for 'namespace' entry
+		try (BufferedReader br = new BufferedReader(
+				new InputStreamReader(new FileInputStream(manager.getURI().path()), manager.TEXT_ENCODING));)
+		{
+			String line;
+			
+			if((line = br.readLine()) != null)
+			{
+				return line.contains("NAMESPACE_URI");
+			}
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return false;
+	}*/
+	
+	private void handleUnsetEAttributeSingleEvent(UnsetEAttributeSingleEvent e)
+	{
+		EObject focus_obj = e.getFocusObject();
+		
+		EAttribute attr = e.getEAttribute();
+		
+		String oldValue = EcoreUtil.convertToString(attr.getEAttributeType(), e.getOldValue());
+		
+		oldValue = oldValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
+		
+		outputList.add(PersistenceManager.UNSET_EATTRIBUTE_VALUE+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
+					+changelog.getObjectId(focus_obj)+" ["+oldValue+"]");
+	}
+	
+	private void handleSetEAttributeManyEvent(SetEAttributeManyEvent e)
+	{
+		EObject focus_obj = e.getFocusObj();
+		EAttribute attr = e.getEAttribute();
+		
+		List<Object> attr_values_list = e.getAttributeValuesList();
+		
+		String obj_list_str = "[";
+		
+		for(Object object: attr_values_list)
+		{
+			String newValue = (EcoreUtil.convertToString(attr.getEAttributeType(), object));
+			
+			if(newValue == null)
+				newValue = "null";
+			
+			newValue = newValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter
+			
+			obj_list_str = obj_list_str +newValue+PersistenceManager.DELIMITER;
+		}
+		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
+		outputList.add(PersistenceManager.SET_EATTRIBUTE_VALUE+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
+				+changelog.getObjectId(focus_obj)+" "+obj_list_str);
+	}
+	
+	private void handleUnsetEAttributeManyEvent(UnsetEAttributeManyEvent e)
+	{
+		EObject focus_obj = e.getFocusObj();
+		EAttribute attr = e.getEAttribute();
+		
+		
+		List<Object> attr_values_list = e .getAttributeValuesList();
+		
+		String obj_list_str = "[";
+		
+		for(Object object: attr_values_list)
+		{
+			String newValue = (EcoreUtil.convertToString(attr.getEAttributeType(), object));
+			obj_list_str = obj_list_str + newValue+PersistenceManager.DELIMITER;
+		}
+		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
+		outputList.add(PersistenceManager.UNSET_EATTRIBUTE_VALUE+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
+				+changelog.getObjectId(focus_obj)+" "+obj_list_str);
+		
+	}
+	
+	private void handleSetEReferenceSingleEvent(SetEReferenceSingleEvent e)
+	{
+		EObject added_obj = e.getAddedObject();
+		
+		if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
+		{
+			outputList.add(PersistenceManager.ADD_TO_RESOURCE+" ["+ePackageElementsNamesMap.getID(added_obj.eClass().getName())+ " "
+					+changelog.getObjectId(added_obj)+"]");
+		}
+			
+			
+		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource
+		{
+			if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
+			{
+				outputList.add(PersistenceManager.CREATE_AND_ADD_TO_RESOURCE+" ["+ePackageElementsNamesMap.getID(added_obj.eClass().getName())+ " "
+						+changelog.getObjectId(added_obj)+"]");
+			}
+			else
+			{
+				outputList.add(PersistenceManager.ADD_TO_RESOURCE+" ["+changelog.getObjectId(added_obj)+"]"); 
+			}
+			
+		}
+		else if(e.getNotifierType() == Event.NotifierType.EOBJECT) //add eobject to eobject
+		{
+			EObject focus_obj = e.getFocusObject();
+			
+			outputList.add(PersistenceManager.SET_EREFERENCE_VALUE+" "+ePackageElementsNamesMap.getID(e.getEReference().getName())+" "
+					+changelog.getObjectId(focus_obj)+" ["+changelog.getObjectId(added_obj)+"]");
+		}
+	}
+	
+	private void handleUnsetEReferenceSingleEvent(UnsetEReferenceSingleEvent e)
+	{
+		EObject removed_obj = e.getRemovedObject();
+		long removed_obj_id = changelog.getObjectId(removed_obj);
+		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //delete eobject from resource
+		{
+			outputList.add(PersistenceManager.DELETE_FROM_RESOURCE+" ["+removed_obj_id+"]"); 
+			
+			changelog.deleteEObjectFromMap(removed_obj);
+		}
+		else if(e.getNotifierType() == Event.NotifierType.EOBJECT)
+		{
+			EObject focus_obj = e.getFocusObject();
+			
+			outputList.add(PersistenceManager.UNSET_EREFERENCE_VALUE+" "+ePackageElementsNamesMap.getID(e.getEReference().getName())+" "+
+					changelog.getObjectId(focus_obj)+" ["+removed_obj_id+"]");
+			
+			changelog.deleteEObjectFromMap(removed_obj);
+		}
+		
+	}
+	
+	private void handleSetEReferenceManyEvent(SetEReferenceManyEvent e)
+	{
+		Stopwatch s = new Stopwatch();
+		s.resume();
+		
+		StringBuilder added_obj_list_blr = new StringBuilder("[");
+		StringBuilder obj_create_list_blr = new StringBuilder("[");
+		
+
+		
+		for(EObject obj : e.getEObjectList())
+		{
+			if(changelog.addObjectToMap(obj)) //if obj does not already exist
+			{
+				obj_create_list_blr.append(ePackageElementsNamesMap.getID(obj.eClass().getName())+" "
+						+ ""+changelog.getObjectId(obj)+PersistenceManager.DELIMITER);	 
+			}
+			else //obj exists, i.e we're updating some reference
+			{
+				added_obj_list_blr.append(changelog.getObjectId(obj)+PersistenceManager.DELIMITER); 
+			}
+		}
+		
+		
+		
+		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //updating a resource ref
+	    {
+			if(obj_create_list_blr.length()>1) //if we have items to create,
+			{
+				 obj_create_list_blr.substring(0,obj_create_list_blr.length()-1);
+				 outputList.add(PersistenceManager.CREATE_AND_ADD_TO_RESOURCE+" "
+						 + obj_create_list_blr.append("]").toString());
+			}
+			if(added_obj_list_blr.length() > 1) //if we have items to update
+			{
+				//added_obj_list_blr.substring(0,added_obj_list_blr.length()-1); // remove final delimiter add "]"
+				 //outputList.add(PersistenceManager.ADD_TO_RESOURCE+" "+added_obj_list_blr.append("]").toString());
+			}
+	    }
+		else if(e.getNotifierType() == Event.NotifierType.EOBJECT) //add eobject to eobject
+		{
+			if(obj_create_list_blr.length()>1) //if we have items to create
+			{
+				 obj_create_list_blr.substring(0,obj_create_list_blr.length()-1);
+				 outputList.add(PersistenceManager.CREATE_AND_ADD_TO_EOBJECT+" "
+						 + obj_create_list_blr.append("]").toString());
+			}
+			if(added_obj_list_blr.length() > 1)
+			{
+				EObject focus_obj = e.getFocusObj();
+				outputList.add(PersistenceManager.SET_EREFERENCE_VALUE+" "+
+						ePackageElementsNamesMap.getID(e.getEReference().getName())+" "
+		    			+changelog.getObjectId(focus_obj)+" "+added_obj_list_blr.append("]").toString());
+			}   	
+		}
+		
+	    s.pause();
+	    
+	    System.out.println("Time taken : "+ s.getElapsed());
+	    System.exit(0);
+	    
+	}
+	
+	private void handleUnsetEReferenceManyEvent(UnsetEReferenceManyEvent e)
+	{
+		List<EObject> removed_obj_list = e.getObjectList();
+		
+		String obj_delete_list_str = "["; //list of obj to delete
+		
+		for (EObject obj : removed_obj_list)
+		{
+			long removed_obj_id = changelog.getObjectId(obj);
+			
+			obj_delete_list_str = obj_delete_list_str+removed_obj_id +PersistenceManager.DELIMITER; 
+			
+			changelog.deleteEObjectFromMap(obj);	
+		}
+		
+		obj_delete_list_str = obj_delete_list_str.substring(0,obj_delete_list_str.length()-1)+"]";
+		
+		if(e.getNotiferType() == Event.NotifierType.RESOURCE) //DELETE OBJs FROM RESOURCE
+		{
+			outputList.add(PersistenceManager.DELETE_FROM_RESOURCE+" "+obj_delete_list_str);
+		}
+		else if(e.getNotiferType() == Event.NotifierType.EOBJECT)
+		{
+			EObject focus_obj = e.getFocusObj();
+			
+			outputList.add(PersistenceManager.UNSET_EREFERENCE_VALUE+" "+(ePackageElementsNamesMap.getID(e.getEReference().getName())+" "
+					+changelog.getObjectId(focus_obj)+" "+obj_delete_list_str));
+		}	
+	
+	}
+	
+	private void addInitialEntryToOutputList() 
+	{
+		EObject obj = null;
+		Event e = eventList.get(0);
+		
+		switch(e.getEventType())
+		{
+		case Event.SET_EREFERENCE_SINGLE:
+			obj = ((SetEReferenceSingleEvent)e).getAddedObject();
+			break;
+		case Event.SET_EREFERENCE_MANY:
+			obj = ((SetEReferenceManyEvent)e).getEObjectList().get(0);
+			break;
+		default:
+			try 
+			{
+				System.out.println(e.getEventType());
+				throw new Exception ("Error! first item in events list was not an Add event.");
+			} catch (Exception e1) 
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.exit(0);
+			}
+		}
+		
+		if(obj == null)
+		{
+			System.out.println(e.getEventType());
+			System.exit(0);
+		}
+		
+		outputList.add(FORMAT_ID+" "+VERSION);
+		outputList.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
+	}
+	
+	
+	private void writeOutputListToFile(boolean appendMode)
+	{
+		try
+		{
+			BufferedWriter bw = new BufferedWriter
+				    (new OutputStreamWriter(new FileOutputStream(manager.getURI().path(),appendMode),
+				    		Charset.forName(PersistenceManager.TEXT_ENCODING).newEncoder()));
+			PrintWriter out = new PrintWriter(bw);
+			for(String string: outputList)
+			{
+				//System.out.println("PersistenceManager.java "+string);
+				out.println(string);
+			}
+			out.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		manager.setResume(true);
+	}	
+}

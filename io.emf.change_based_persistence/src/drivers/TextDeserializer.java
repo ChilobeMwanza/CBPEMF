@@ -7,7 +7,9 @@ package drivers;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -34,18 +36,7 @@ public class TextDeserializer
 	private final Changelog changelog;
 	
 	private final TIntObjectMap<EObject> IDToEObjectMap = new TIntObjectHashMap<EObject>();
-	
-	/*private enum EventType
-	{
-		SET_A,
-		UNSET_A,
-		ADD_R,
-	    CREATE,
-		SET_R,
-		DEL_R,
-		UNSET_R,
-		NULL;
-	}*/
+
 	
 	private PersistenceManager manager;
 	private final EPackageElementsNamesMap ePackageElementsNamesMap;
@@ -92,8 +83,11 @@ public class TextDeserializer
 			/* Switches over various event types, calls appropriate handler method*/
 			switch(eventType)
 			{
-			case PersistenceManager.CREATE:
-				handleCreateEvent(line);
+			case PersistenceManager.CREATE_AND_ADD_TO_RESOURCE:
+				handleCreateAndAddToResourceEvent(line);
+				break;
+			case PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE:
+				handeCreateAndSetEReferenceValueEvent(line);
 				break;
 			case PersistenceManager.SET_EATTRIBUTE_VALUE:
 				handleSetEAttributeEvent(line);
@@ -121,6 +115,71 @@ public class TextDeserializer
 		manager.setResume(true);
 	}
 	
+	private void handeCreateAndSetEReferenceValueEvent(String line)
+	{
+		String[] stringArray = line.split(" ");
+		
+		 EObject focus_obj = IDToEObjectMap.get(Integer.valueOf(stringArray[2]));
+		 
+		 EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
+	                (ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
+		 
+		 String[] obj_str_array = tokeniseString(getValueInSquareBrackets(line));
+		 
+		 List <EObject> objects_to_add = new ArrayList<EObject>();
+		 
+		 for(String str : obj_str_array)
+	     {
+	        String [] temp = str.split(" ");
+	        
+	        EObject obj = createEObject(ePackageElementsNamesMap.getName
+	                (Integer.valueOf(temp[0])));
+	        
+	        int id = Integer.valueOf(temp[1]); 
+	        
+	        changelog.addObjectToMap(obj, id);  
+	        IDToEObjectMap.put(id, obj);
+	        objects_to_add.add(obj);
+	     }
+		 
+		 if(ref.isMany())
+			{
+				@SuppressWarnings("unchecked")
+				EList<EObject> feature_value_list = (EList<EObject>) focus_obj.eGet(ref);
+				
+				for(EObject obj : objects_to_add)
+				{
+					feature_value_list.add(obj);
+				}
+			}
+			else
+			{
+				focus_obj.eSet(ref, objects_to_add.get(0));
+			}
+		 
+		
+		
+	}
+	private void handleCreateAndAddToResourceEvent(String line)
+	{
+		 String[] obj_str_array = tokeniseString(getValueInSquareBrackets(line));
+		 
+		 for(String str : obj_str_array)
+	     {
+	        String [] stringArray = str.split(" ");
+	        
+	        EObject obj = createEObject(ePackageElementsNamesMap.getName
+	                (Integer.valueOf(stringArray[0])));
+	        
+	        int id = Integer.valueOf(stringArray[1]); 
+	        
+	        changelog.addObjectToMap(obj, id);  
+	        IDToEObjectMap.put(id, obj);
+	        
+	        manager.addEObjectToContents(obj); //add to resource contents
+	     }
+		
+	}
 	private void handleSetEReferenceEvent(String line)
 	{
 		

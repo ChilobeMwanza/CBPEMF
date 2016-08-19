@@ -14,13 +14,14 @@ import impl.DeltaResourceImpl;
 
 public class PersistenceManager 
 {
-    public static final int CREATE = 0;
-    public static final int ADD_TO_RESOURCE = 1;
-    public static final int SET_EATTRIBUTE_VALUE = 2;
-    public static final int SET_EREFERENCE_VALUE = 3;
-    public static final int DELETE_FROM_RESOURCE = 4;
-    public static final int UNSET_EATTRIBUTE_VALUE = 5;
-    public static final int UNSET_EREFERENCE_VALUE = 6;
+	public static final int CREATE_AND_ADD_TO_RESOURCE = 0;
+	public static final int CREATE_AND_SET_EREFERENCE_VALUE = 1;
+    public static final int ADD_TO_RESOURCE = 2;
+    public static final int SET_EATTRIBUTE_VALUE = 3;
+    public static final int SET_EREFERENCE_VALUE = 4;
+    public static final int DELETE_FROM_RESOURCE = 5;
+    public static final int UNSET_EATTRIBUTE_VALUE = 6;
+    public static final int UNSET_EREFERENCE_VALUE = 7;
     
 	public static final String DELIMITER = ","; 
 	public static final String ESCAPE_CHAR ="+"; 
