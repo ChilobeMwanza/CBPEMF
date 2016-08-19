@@ -2,30 +2,30 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage)" key="selection"/>
+		<item value="outputList" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="output_list"/>
+			<item value="event_list"/>
+			<item value="namesMap_populated"/>
+			<item value="ordinal_list"/>
+			<item value="EPackageOrdinalList"/>
 			<item value="new DeltaResourceImpl(URI.createURI(fileSaveLocation))"/>
 			<item value="changeLog"/>
 			<item value="ChangeLog"/>
-			<item value="classID"/>
-			<item value="eClassID"/>
-			<item value="featureID"/>
-			<item value="featureOrdinality"/>
-			<item value="featureName"/>
 		</list>
 		<list key="replacehistory">
+			<item value="outputList"/>
+			<item value="eventList"/>
+			<item value="namesMapPopulated"/>
+			<item value="namesMap"/>
+			<item value="EPackageElementsNamesMap"/>
 			<item value="new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage)"/>
 			<item value="changelog"/>
 			<item value="Changelog"/>
-			<item value="class_id"/>
-			<item value="eclass_id"/>
-			<item value="feature_id"/>
-			<item value="feature_ordinality"/>
-			<item value="feature_name"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

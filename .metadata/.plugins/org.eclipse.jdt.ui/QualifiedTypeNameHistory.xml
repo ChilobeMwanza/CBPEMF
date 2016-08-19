@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="university.Module"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EcorePackage"/>
 <fullyQualifiedTypeName name="com.google.common.hash.HashCode"/>
 <fullyQualifiedTypeName name="com.google.common.io.Files"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="drivers.EPackageOrdinalList"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
+<fullyQualifiedTypeName name="drivers.EPackageElementsNamesMap"/>
 </qualifiedTypeNameHistroy>

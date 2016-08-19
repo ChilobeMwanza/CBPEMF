@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -18,9 +17,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 
 import change.Changelog;
 import change.EventAdapter;
-import drivers.EPackageOrdinalList;
+import drivers.EPackageElementsNamesMap;
 import drivers.PersistenceManager;
-import university.UniversityPackage;
 
 public class DeltaResourceImpl extends ResourceImpl implements DeltaResource
 {
@@ -34,7 +32,8 @@ public class DeltaResourceImpl extends ResourceImpl implements DeltaResource
     
     private final EPackage ePackage;
     
-    private final EPackageOrdinalList ordinalList = new EPackageOrdinalList();
+    private  final EPackageElementsNamesMap ePackageElementsNamesMap = 
+    		new EPackageElementsNamesMap();
     
     public DeltaResourceImpl(URI uri, EPackage ePackage)
 	{
@@ -46,9 +45,10 @@ public class DeltaResourceImpl extends ResourceImpl implements DeltaResource
 		
 		this.eAdapters().add(eventAdapter); 
 		
-		populateOrdinalList();
+		populateEPackageElementNamesMap();
 		
-		persistenceManager = new PersistenceManager(changelog,this); //is changelog variable pointing to same changelog as adapter?
+		persistenceManager = new PersistenceManager(changelog,this, 
+				ePackageElementsNamesMap);
 	}
     
     public DeltaResourceImpl(EPackage ePackage)
@@ -59,31 +59,25 @@ public class DeltaResourceImpl extends ResourceImpl implements DeltaResource
 		
 		this.eAdapters().add(eventAdapter); 
 		
-		populateOrdinalList();
+		populateEPackageElementNamesMap();
 		
-		persistenceManager = new PersistenceManager(changelog,this); //is changelog variable pointing to same changelog as adapter?
+		persistenceManager = new PersistenceManager(changelog,this,
+				ePackageElementsNamesMap); 
     }
     
-    private void populateOrdinalList()
+    private void populateEPackageElementNamesMap()
 	{
-		List<EClassifier> classifiers_list = ePackage.getEClassifiers();
-		
-		for(int i = 0; i < classifiers_list.size(); i++)
+		for(EClassifier eClassifier : ePackage.getEClassifiers())
 		{
-			EClassifier classifier = classifiers_list.get(i);
-			
-			if(classifier instanceof EClass)
+			if(eClassifier instanceof EClass)
 			{
-				EClass eClass = (EClass) classifier;
+				EClass eClass = (EClass) eClassifier;
 				
-				ordinalList.addEClass(eClass.getName(), i);
+				ePackageElementsNamesMap.addName(eClass.getName());
 				
-				List<EStructuralFeature> featuresList = eClass.getEAllStructuralFeatures();
-				
-				for(int j = 0; j < featuresList.size(); j++)
+				for(EStructuralFeature feature : eClass.getEAllStructuralFeatures())
 				{
-					EStructuralFeature feature = featuresList.get(j);
-					ordinalList.addEStructuralFeature(eClass.getName(),feature.getName(),j);
+					ePackageElementsNamesMap.addName(feature.getName());
 				}
 			}
 		}

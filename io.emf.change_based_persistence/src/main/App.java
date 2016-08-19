@@ -44,7 +44,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import com.google.common.hash.HashCode;
 import com.google.common.io.Files;
 
-import drivers.EPackageOrdinalList;
+
 import impl.DeltaResourceImpl;
 import university.Book;
 import university.StaffMember;
@@ -52,7 +52,7 @@ import university.StaffMemberType;
 import university.University;
 import university.UniversityFactory;
 import university.UniversityPackage;
-
+import org.eclipse.epsilon.profiling.Stopwatch;
 
 public class App 
 {
@@ -60,7 +60,7 @@ public class App
 	
 	private  final String classname = this.getClass().getSimpleName();
 	
-	private final EPackageOrdinalList ordinal_list = new EPackageOrdinalList();
+	
 	
 	
 	
@@ -68,10 +68,12 @@ public class App
 	{
 		// TODO Auto-generated method stub
 		App app = new App();
-		app.loadResource() ;
+		//app.loadResource() ;
     //app.createResource();
+		
 		//app.print();
 	}
+	
 	
 	
 	public void loadResource() throws IOException
@@ -113,11 +115,12 @@ public class App
 		
 		s1.setStaffMemberType(StaffMemberType.RESEARCH);
 		
+
 				
 		//perform first save
 		res.save(null);
 		
-	
+		System.in.read();
 		
 		
 		

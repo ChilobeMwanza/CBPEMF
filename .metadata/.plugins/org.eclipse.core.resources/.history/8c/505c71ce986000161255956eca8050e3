@@ -1,7 +1,0 @@
-@namespace(uri="http://io.emf.change_based_persistence.text", prefix="cbp")
-package university;
-
-class NamedElement
-{
-	attr String name;	
-}

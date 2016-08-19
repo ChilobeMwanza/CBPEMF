@@ -1,5 +1,0 @@
-@namespace(
-	uri="http://a.b.c/x/y/Z",
-	prefix="p")
-package top;
-

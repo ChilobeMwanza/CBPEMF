@@ -43,12 +43,14 @@ public class TextDeserializer
 	}*/
 	
 	private PersistenceManager manager;
-	//private String fileLocation;
+	private final EPackageElementsNamesMap ePackageElementsNamesMap;
 	
-	public TextDeserializer(PersistenceManager manager, Changelog aChangelog)
+	public TextDeserializer(PersistenceManager manager, Changelog aChangelog,
+			EPackageElementsNamesMap ePackageElementsNamesMap)
 	{
 		this.manager = manager;
 		this.changelog = aChangelog;
+		this.ePackageElementsNamesMap = ePackageElementsNamesMap;
 	}
 	
 	public void load(Map<?,?> options) throws Exception

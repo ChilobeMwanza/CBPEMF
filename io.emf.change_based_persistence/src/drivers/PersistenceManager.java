@@ -26,33 +26,20 @@ public class PersistenceManager
 	public static final String ESCAPE_CHAR ="+"; 
 	public static final String TEXT_ENCODING = "Ascii";
 	
-	
 	private final Changelog changelog; 
 
 	private final DeltaResourceImpl resource;
 	
-    private EPackageOrdinalList ordinal_list;
+    private final EPackageElementsNamesMap ePackageElementsNamesMap;
 	
 	private boolean resume = false;
-    private boolean ordinal_list_populated = false;
     
-  
-    
-	public PersistenceManager(Changelog changelog, DeltaResourceImpl resource)
+	public PersistenceManager(Changelog changelog, DeltaResourceImpl resource, 
+			EPackageElementsNamesMap ePackageElementsNamesMap)
 	{
 		this.changelog = changelog;
 		this.resource = resource;
-	}
-	
-	public void populateOrdinalList()
-	{
-		ordinal_list = new EPackageOrdinalList();
-		
-		List<EObject> contents_list = resource.getContents();
-		if(contents_list.isEmpty())
-		//EObject obj =resource.getContents().get(0);
-		
-		System.exit(0);
+		this.ePackageElementsNamesMap = ePackageElementsNamesMap;
 	}
 	
 	public void setResume(boolean b)
@@ -97,16 +84,7 @@ public class PersistenceManager
 
 	public void save(Map<?,?> options)
 	{
-		if(!ordinal_list_populated)
-		{
-			if(resource.getContents().isEmpty())
-				return;
-			//else
-			//	populateOrdinalList();
-		}
-			
-		
-		TextSerializer serializer = new TextSerializer(this, changelog);
+		TextSerializer serializer = new TextSerializer(this, changelog,ePackageElementsNamesMap);
 		serializer.save(options);
 	}
 
@@ -114,7 +92,7 @@ public class PersistenceManager
 	public void load(Map<?,?> options) throws Exception
 	{	
 		
-		TextDeserializer textDeserializer = new TextDeserializer(this,changelog);
+		TextDeserializer textDeserializer = new TextDeserializer(this,changelog,ePackageElementsNamesMap);
 		textDeserializer.load(options);
 	}
 	
