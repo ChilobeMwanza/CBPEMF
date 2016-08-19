@@ -1,0 +1,4 @@
+CBP_TEXT 1.0
+NAMESPACE_URI http://io.emf.change_based_persistence.text
+0 [0 33016,0 33017,9 33018,9 33019]
+1 [33016,33017,33018,33019]

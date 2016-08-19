@@ -1,81 +1,103 @@
 package change;
 
 import java.util.ArrayList;
+
 import java.util.List;
+
+
 import org.eclipse.emf.ecore.EObject;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
+
+import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
+
 
 public class Changelog 
 {
 	private final List<Event> event_list;
-	private final BiMap<EObject,Long> map; 
+	
+	private final TObjectIntMap<EObject> eObjectToIDMap = new TObjectIntHashMap<EObject>();
+
 	private final String classname = this.getClass().getSimpleName();
 	
 	/* needs to be static so we can track the latest (highest) available 
 	 * id globally across instantiations of this changelog. A new changelog is instantiated 
 	 * at save and at load. if this var is not static, current id reverts to 0*/
-	private static long current_id; 
+	private static int current_id = 0; 
 	
 	public Changelog()
 	{
 		event_list = new ArrayList<Event>();
-		map = HashBiMap.create();
-		current_id = 0;
 	}
 	
-	public BiMap<EObject,Long> getObjectToIdMap()
+	
+	
+	/*public BiMap<EObject,Long> getObjectToIdMap()
 	{
 		return map;
-	}
+	}*/
 	
 	public boolean addObjectToMap(EObject obj)
 	{
 	
-		if(map.get(obj)== null)
+		if(!eObjectToIDMap.containsKey(obj))
 		{
-			map.put(obj, current_id);
-			current_id = current_id + 1; //update
+			eObjectToIDMap.put(obj, current_id);
+			
+			current_id = current_id +1;
 			return true;
-		}	
+		}
 		return false;
 	}
 	
-	public boolean deleteEObjectFromMap(long id)
+	public boolean addObjectToMap(EObject obj, int id)
 	{
-		map.remove(id);
-		return true;
-	}
-	
-	public boolean addObjectToMap(EObject obj, long id)
-	{
-		if(getEObject(id) == null)
+		if(!eObjectToIDMap.containsKey(obj))
 		{
-			map.put(obj, id);
+			eObjectToIDMap.put(obj, id);
 			
 			if(id >= current_id)
 			{
 				current_id = id + 1;
 			}
 			return true;
-		}	
+		}
 		return false;
 	}
 	
-	public long getObjectId(EObject obj)
+	public void deleteEObjectFromMap(EObject obj)
 	{
-		long id = -1;
 		
-		if(map.get(obj)!= null)
-			id = map.get(obj);
+		eObjectToIDMap.remove(obj);
 		
-		return id;
+		if(eObjectToIDMap.containsKey(obj)) //tbr
+		{
+			System.out.println(classname+ " nope!!");
+			System.exit(0);
+		}
+		
+		
+		
+
 	}
 	
-	public EObject getEObject(long id)
+	
+	
+	public long getObjectId(EObject obj)
+	{
+	
+		if(!eObjectToIDMap.containsKey(obj)) //tbr
+		{
+			System.out.println(classname+" search retrun false");
+			System.exit(0);
+		}
+		return eObjectToIDMap.get(obj);
+	
+	}
+	
+	/*public EObject getEObject(long id)
 	{
 		return  map.inverse().get(id);
-	}
+	}*/
 	
 	public void addEvent(Event e)
 	{

@@ -7,7 +7,7 @@ package drivers;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-
+import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -22,6 +22,10 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import change.Changelog;
 import exceptions.UnknownPackageException;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class TextDeserializer 
 {
@@ -29,6 +33,7 @@ public class TextDeserializer
 	private EPackage ePackage = null;
 	private final Changelog changelog;
 	
+	private final TIntObjectMap<EObject> IDToEObjectMap = new TIntObjectHashMap<EObject>();
 	
 	/*private enum EventType
 	{
@@ -56,7 +61,7 @@ public class TextDeserializer
 	public void load(Map<?,?> options) throws Exception
 	{	
 		BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(manager.getURI().path()), manager.TEXT_ENCODING));
+				new InputStreamReader(new FileInputStream(manager.getURI().path()), PersistenceManager.TEXT_ENCODING));
 		
 		String line;
 		
@@ -120,7 +125,7 @@ public class TextDeserializer
 	{
 		
 		String[] stringArray = line.split(" ");
-		EObject focus_obj = changelog.getEObject(Long.valueOf(stringArray[2]));
+		EObject focus_obj = IDToEObjectMap.get(Integer.valueOf(stringArray[2]));
 		
 		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
 				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
@@ -134,12 +139,12 @@ public class TextDeserializer
 			
 			for(String str : feature_values_array)
 			{
-				feature_value_list.add(changelog.getEObject(Long.valueOf(str)));
+				feature_value_list.add(IDToEObjectMap.get(Integer.valueOf(str)));
 			}
 		}
 		else
 		{
-			focus_obj.eSet(ref, changelog.getEObject(Long.valueOf(feature_values_array [0])));
+			focus_obj.eSet(ref, IDToEObjectMap.get(Integer.valueOf(feature_values_array [0])));
 		}
 	}
 	
@@ -147,7 +152,7 @@ public class TextDeserializer
 	{
 		String[] stringArray = line.split(" ");
 		
-		EObject focus_obj = changelog.getEObject(Long.valueOf(stringArray[2]));
+		EObject focus_obj = IDToEObjectMap.get(Integer.valueOf(stringArray[2]));
 		
 		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
 				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
@@ -161,7 +166,7 @@ public class TextDeserializer
 			
 			for(String str : feature_values_array)
 			{
-				feature_value_list.remove(changelog.getEObject(Long.valueOf(str)));				
+				feature_value_list.remove(IDToEObjectMap.get(Integer.valueOf(str)));				
 			}
 		}
 		else
@@ -175,7 +180,12 @@ public class TextDeserializer
 		
 		String[] stringArray = line.split(" ");
 		
-		EObject focus_obj = changelog.getEObject(Long.valueOf(stringArray[2]));
+		EObject focus_obj = IDToEObjectMap .get(Integer.valueOf(stringArray[2]));
+		
+		if(focus_obj == null)
+		{
+			System.out.println("NULL!");
+		}
 		
 		EAttribute attr = (EAttribute)focus_obj.eClass().getEStructuralFeature
 				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
@@ -211,7 +221,7 @@ public class TextDeserializer
 		
 		for(String str : obj_str_array)
 		{
-			manager.addEObjectToContents(changelog.getEObject(Long.valueOf(str)));
+			manager.addEObjectToContents(IDToEObjectMap.get(Integer.valueOf(str)));
 		}
 	}
 	
@@ -221,7 +231,7 @@ public class TextDeserializer
 		
 		for(String str : obj_str_array)
 		{
-			manager.removeEObjectFromContents(changelog.getEObject(Long.valueOf(str)));
+			manager.removeEObjectFromContents(IDToEObjectMap.get(Integer.valueOf(str)));
 		}
 	}
 	
@@ -236,9 +246,10 @@ public class TextDeserializer
 			EObject obj = createEObject(ePackageElementsNamesMap.getName
 					(Integer.valueOf(stringArray[0])));
 			
-			Long id = Long.valueOf(stringArray[1]); 
+			int id = Integer.valueOf(stringArray[1]); 
 			
 			changelog.addObjectToMap(obj, id);	
+			IDToEObjectMap.put(id, obj);
 		}
 	}
 	
@@ -246,9 +257,9 @@ public class TextDeserializer
 	{
 		String[] stringArray = line.split(" ");
 		
-		long obj_id = Long.valueOf(stringArray[2]);
+		int obj_id = Integer.valueOf(stringArray[2]);
 		
-		EObject obj = changelog.getEObject(obj_id);
+		EObject obj = IDToEObjectMap.get(obj_id);
 		
 		EAttribute attr = (EAttribute) obj.eClass().getEStructuralFeature
 				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));

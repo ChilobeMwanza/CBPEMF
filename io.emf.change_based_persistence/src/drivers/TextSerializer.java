@@ -22,6 +22,8 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.epsilon.profiling.Stopwatch;
+
 import change.Changelog;
 import change.Event;
 import change.SetEAttributeManyEvent;
@@ -251,7 +253,7 @@ public class TextSerializer
 		{
 			outputList.add(PersistenceManager.DELETE_FROM_RESOURCE+" ["+removed_obj_id+"]"); 
 			
-			changelog.deleteEObjectFromMap(removed_obj_id);
+			changelog.deleteEObjectFromMap(removed_obj);
 		}
 		else if(e.getNotifierType() == Event.NotifierType.EOBJECT)
 		{
@@ -260,13 +262,15 @@ public class TextSerializer
 			outputList.add(PersistenceManager.UNSET_EREFERENCE_VALUE+" "+ePackageElementsNamesMap.getID(e.getEReference().getName())+" "+
 					changelog.getObjectId(focus_obj)+" ["+removed_obj_id+"]");
 			
-			changelog.deleteEObjectFromMap(removed_obj_id);
+			changelog.deleteEObjectFromMap(removed_obj);
 		}
 		
 	}
 	
 	private void handleSetEReferenceManyEvent(SetEReferenceManyEvent e)
 	{
+		Stopwatch s = new Stopwatch();
+		s.resume();
 		List<EObject> obj_list = e.getEObjectList();
 		
 		String added_obj_list_str = "["; //list of obj to add
@@ -304,6 +308,11 @@ public class TextSerializer
 	    			+changelog.getObjectId(focus_obj)+" "+added_obj_list_str);
 	    }
 	    
+	    s.pause();
+	    
+	   // System.out.println("Time taken : "+ s.getElapsed());
+	   // System.exit(0);
+	    
 	}
 	
 	private void handleUnsetEReferenceManyEvent(UnsetEReferenceManyEvent e)
@@ -318,7 +327,7 @@ public class TextSerializer
 			
 			obj_delete_list_str = obj_delete_list_str+removed_obj_id +PersistenceManager.DELIMITER; 
 			
-			changelog.deleteEObjectFromMap(removed_obj_id);	
+			changelog.deleteEObjectFromMap(obj);	
 		}
 		
 		obj_delete_list_str = obj_delete_list_str.substring(0,obj_delete_list_str.length()-1)+"]";

@@ -1,0 +1,117 @@
+package change;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.emf.ecore.EObject;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
+public class Changelog 
+{
+	private final List<Event> event_list;
+	//private final BiMap<EObject,Long> map; 
+	
+	private final Map<EObject, Long> eObjectToIDMap = new HashMap<EObject, Long>();
+	//private final Map<Long, EObject> IDToEObjectMap = new HashMap<Long, EObject>();
+	
+	
+	
+	private final String classname = this.getClass().getSimpleName();
+	
+	/* needs to be static so we can track the latest (highest) available 
+	 * id globally across instantiations of this changelog. A new changelog is instantiated 
+	 * at save and at load. if this var is not static, current id reverts to 0*/
+	private static long current_id; 
+	
+	public Changelog()
+	{
+		event_list = new ArrayList<Event>();
+	//	map = HashBiMap.create();
+		current_id = 0;
+	}
+	
+	
+	
+	/*public BiMap<EObject,Long> getObjectToIdMap()
+	{
+		return map;
+	}*/
+	
+	public boolean addObjectToMap(EObject obj)
+	{
+	
+		if(!eObjectToIDMap.containsKey(obj))
+		{
+			eObjectToIDMap.put(obj, current_id);
+			
+			current_id = current_id +1;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addObjectToMap(EObject obj, long id)
+	{
+		if(!eObjectToIDMap.containsKey(obj))
+		{
+			eObjectToIDMap.put(obj, id);
+			
+			if(id >= current_id)
+			{
+				current_id = id + 1;
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean deleteEObjectFromMap(EObject obj)
+	{
+		if(eObjectToIDMap.remove(obj))
+		{
+			System.out.println("nope");
+		}
+		
+		return true;
+	}
+	
+	
+	
+	public long getObjectId(EObject obj)
+	{
+		long id = -1;
+		
+		if(eObjectToIDMap.get(obj)!= null)
+			id = eObjectToIDMap.get(obj);
+		
+		return id;
+	}
+	
+	/*public EObject getEObject(long id)
+	{
+		return  map.inverse().get(id);
+	}*/
+	
+	public void addEvent(Event e)
+	{
+		event_list.add(e);
+	}
+	
+	public void removeEvent(Event e)
+	{
+		event_list.remove(e);
+	}
+	
+	public void clearEvents()
+	{
+		event_list.clear();
+	}
+	
+	public List<Event> getEventsList()
+	{
+		return event_list;
+	}
+}
