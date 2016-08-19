@@ -271,11 +271,12 @@ public class TextSerializer
 	{
 		Stopwatch s = new Stopwatch();
 		s.resume();
+		List<EObject> obj_list = e.getEObjectList();
 		
 		StringBuilder added_obj_list_blr = new StringBuilder("[");
 		StringBuilder obj_create_list_blr = new StringBuilder("[");
 		
-		for(EObject obj : e.getEObjectList())
+		for(EObject obj : obj_list)
 		{
 			if(changelog.addObjectToMap(obj)) //if obj does not already exist
 			{

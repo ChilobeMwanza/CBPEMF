@@ -271,11 +271,12 @@ public class TextSerializer
 	{
 		Stopwatch s = new Stopwatch();
 		s.resume();
+		List<EObject> obj_list = e.getEObjectList();
 		
 		StringBuilder added_obj_list_blr = new StringBuilder("[");
 		StringBuilder obj_create_list_blr = new StringBuilder("[");
 		
-		for(EObject obj : e.getEObjectList())
+		for(EObject obj : obj_list)
 		{
 			if(changelog.addObjectToMap(obj)) //if obj does not already exist
 			{
@@ -294,7 +295,6 @@ public class TextSerializer
 		
 		
 		added_obj_list_blr.substring(0,added_obj_list_blr.length()-1); // remove final delimiter add "]"
-		
 		String added_obj_list_str = added_obj_list_blr.append("]").toString();
 		
 	    if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource

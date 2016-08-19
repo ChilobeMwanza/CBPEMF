@@ -272,6 +272,7 @@ public class TextSerializer
 		Stopwatch s = new Stopwatch();
 		s.resume();
 		
+		
 		StringBuilder added_obj_list_blr = new StringBuilder("[");
 		StringBuilder obj_create_list_blr = new StringBuilder("[");
 		

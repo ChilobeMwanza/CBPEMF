@@ -271,32 +271,38 @@ public class TextSerializer
 	{
 		Stopwatch s = new Stopwatch();
 		s.resume();
+		List<EObject> obj_list = e.getEObjectList();
 		
 		StringBuilder added_obj_list_blr = new StringBuilder("[");
 		StringBuilder obj_create_list_blr = new StringBuilder("[");
 		
-		for(EObject obj : e.getEObjectList())
+		String added_obj_list_str = "["; //list of obj to add
+		String obj_create_list_str = "["; //list of obj to create
+
+		
+		for(EObject obj : obj_list)
 		{
 			if(changelog.addObjectToMap(obj)) //if obj does not already exist
 			{
+				//obj_create_list_str = obj_create_list_str +ePackageElementsNamesMap.getID(obj.eClass().getName())+" "
+						//+ ""+changelog.getObjectId(obj)+PersistenceManager.DELIMITER; 
+				
 				obj_create_list_blr.append(ePackageElementsNamesMap.getID(obj.eClass().getName())+" "
-						+ ""+changelog.getObjectId(obj)+PersistenceManager.DELIMITER);	
+						+ ""+changelog.getObjectId(obj)+PersistenceManager.DELIMITER);
+				
 			}
 			
-			added_obj_list_blr.append(changelog.getObjectId(obj)+PersistenceManager.DELIMITER);
+			added_obj_list_str = added_obj_list_str+changelog.getObjectId(obj)+PersistenceManager.DELIMITER; 
 		}
 		
-		if(obj_create_list_blr.length()>1) //if we have items to create...
+		if(obj_create_list_str.length()>1) //if we have items to create...
 		{
-			 obj_create_list_blr.substring(0,obj_create_list_blr.length()-1);// remove final delimiter  add "]"
-			 outputList.add(PersistenceManager.CREATE+" "+ obj_create_list_blr.append("]").toString());
+			 obj_create_list_str = obj_create_list_str.substring(0,obj_create_list_str.length()-1)+"]"; // remove final delimiter  add "]"
+			 outputList.add(PersistenceManager.CREATE+" "+ obj_create_list_str);
 		}
 		
-		
-		added_obj_list_blr.substring(0,added_obj_list_blr.length()-1); // remove final delimiter add "]"
-		
-		String added_obj_list_str = added_obj_list_blr.append("]").toString();
-		
+	    added_obj_list_str = added_obj_list_str.substring(0,added_obj_list_str.length()-1)+"]"; // remove final delimiter add "]"
+	    
 	    if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource
 	    {
 	    	outputList.add(PersistenceManager.ADD_TO_RESOURCE+" "+added_obj_list_str);
