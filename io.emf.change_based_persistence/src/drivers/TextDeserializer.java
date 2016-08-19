@@ -64,7 +64,8 @@ public class TextDeserializer
 		
 		if((line = br.readLine()) != null)
 		{
-			ePackage = loadMetamodel(getNthWord(line,2));
+			String[] stringArray = line.split(" ");
+			ePackage = loadMetamodel(stringArray[1]);
 		}
 		else
 		{
@@ -117,8 +118,12 @@ public class TextDeserializer
 	
 	private void handleSetEReferenceEvent(String line)
 	{
-		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,3)));
-		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
+		
+		String[] stringArray = line.split(" ");
+		EObject focus_obj = changelog.getEObject(Long.valueOf(stringArray[2]));
+		
+		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
+				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
 		
 		String[] feature_values_array = tokeniseString(getValueInSquareBrackets(line));
 		
@@ -140,9 +145,12 @@ public class TextDeserializer
 	
 	private void handleUnsetEReferenceEvent(String line)
 	{
-		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,3)));
+		String[] stringArray = line.split(" ");
 		
-		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
+		EObject focus_obj = changelog.getEObject(Long.valueOf(stringArray[2]));
+		
+		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
+				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
 		
 		if(ref.isMany())
 		{
@@ -164,8 +172,13 @@ public class TextDeserializer
 	
 	private void handleSetEAttributeEvent(String line) 
 	{
-		EObject focus_obj = changelog.getEObject(Long.valueOf(getNthWord(line,3)));
-		EAttribute attr = (EAttribute)focus_obj.eClass().getEStructuralFeature(getNthWord(line,2));
+		
+		String[] stringArray = line.split(" ");
+		
+		EObject focus_obj = changelog.getEObject(Long.valueOf(stringArray[2]));
+		
+		EAttribute attr = (EAttribute)focus_obj.eClass().getEStructuralFeature
+				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
 		
 		String[] feature_values_array = tokeniseString(getValueInSquareBrackets(line));
 		
@@ -184,7 +197,7 @@ public class TextDeserializer
 		}
 		else
 		{
-			System.out.println(classname+" "+feature_values_array [0]);
+			//System.out.println(classname+" "+feature_values_array [0]);
 			if(feature_values_array [0].equals("null"))
 				focus_obj.eSet(attr, null);
 			else
@@ -215,21 +228,30 @@ public class TextDeserializer
 	private void handleCreateEvent(String line)
 	{
 		String[] obj_str_array = tokeniseString(getValueInSquareBrackets(line));
+		
 		for(String str : obj_str_array)
 		{
-			Long id = Long.valueOf(getNthWord(str,2));
-			EObject obj = createEObject(getNthWord(str,1));
+			String [] stringArray = str.split(" ");
+			
+			EObject obj = createEObject(ePackageElementsNamesMap.getName
+					(Integer.valueOf(stringArray[0])));
+			
+			Long id = Long.valueOf(stringArray[1]); 
+			
 			changelog.addObjectToMap(obj, id);	
 		}
 	}
 	
 	private void handleUnsetEAttributeEvent(String line)
 	{
-		long obj_id = Long.valueOf(getNthWord(line,3));
+		String[] stringArray = line.split(" ");
+		
+		long obj_id = Long.valueOf(stringArray[2]);
 		
 		EObject obj = changelog.getEObject(obj_id);
 		
-		EAttribute attr = (EAttribute) obj.eClass().getEStructuralFeature(getNthWord(line,2));
+		EAttribute attr = (EAttribute) obj.eClass().getEStructuralFeature
+				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
 		
 		if(attr.isMany())
 		{
@@ -267,13 +289,19 @@ public class TextDeserializer
 				ePackage.getEClassifier(eClassName));
 	}
 	
-	private String getNthWord(String input, int n)
+	/*private String getNthWord(String input, int n)
 	{
 		String [] stringArray = input.split(" ");
 		if(n-1 < stringArray.length)
 			return stringArray[n-1];
 		return null;
-	}
+	}*/
+	
+	
+	
+
+	
+
 	
 	/*Tokenises a string seperated by a specified delimiter
 	 *http://stackoverflow.com/questions/18677762/handling-delimiter-with-escape-

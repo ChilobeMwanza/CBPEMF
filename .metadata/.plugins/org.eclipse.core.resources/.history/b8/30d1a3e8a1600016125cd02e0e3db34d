@@ -1,7 +1,0 @@
-package cbp_text_tests;
-
-import org.junit.*;
-
-public class Test {
-
-}

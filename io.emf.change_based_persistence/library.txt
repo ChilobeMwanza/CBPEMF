@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
-<cbp:University xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbp="http://io.emf.change_based_persistence.text" name="Man U Uni"/>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbp="http://io.emf.change_based_persistence.text">
+  <cbp:University/>
+  <cbp:University/>
+  <cbp:University/>
+  <cbp:University/>
+  <cbp:University/>
+  <cbp:University/>
+  <cbp:University/>
+  <cbp:University/>
+  <cbp:University/>
+  <cbp:University/>
+</xmi:XMI>

@@ -69,7 +69,7 @@ public class App
 		// TODO Auto-generated method stub
 		App app = new App();
 		//app.loadResource() ;
-    //app.createResource();
+    app.createResource();
 		
 		//app.print();
 	}
@@ -107,78 +107,40 @@ public class App
 	{
 		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
-		//initial modifications
+		//Resource res = new XMIResourceImpl(URI.createURI("library.txt"));
 		
-		StaffMember s1 = UniversityFactory.eINSTANCE.createStaffMember();
-	
-		res.getContents().add(s1);
-		
-		s1.setStaffMemberType(StaffMemberType.RESEARCH);
-		
-
-				
-		//perform first save
-		res.save(null);
-		
-		System.in.read();
-		
-		
-		
-		
-		/*SAVE STARTS HERE*/
-		res.save(null); 
-		
-		
-
-	}
-	
-	Map <String,Integer> classifier_ordinality_map = new HashMap<String, Integer>();
-	
-	public void populateOrdinalList()
-	{
-		EPackage ePackage = UniversityPackage.eINSTANCE;
-		
-		/*List<String> classNames = new ArrayList<String>();
-		
-		for(Iterator it = ePackage.getEClassifiers().iterator();it.hasNext();)
+		for(int i = 0; i < 10; i++)
 		{
-			EClassifier classifier = (EClassifier)it.next();
+			EObject obj = UniversityFactory.eINSTANCE.createUniversity();
+			res.getContents().add(obj);
 			
-			System.out.println(classifier.getName());
-			classNames.add(classifier.getName());
-			System.out.print(" ");
-					
-		}*/
-		
-		List<EClassifier> classifiers_list = ePackage.getEClassifiers();
-		
-		for(int i = 0; i < classifiers_list.size(); i++ )
-		{
-			EClassifier classifier = classifiers_list.get(i);
+			//obj = UniversityFactory.eINSTANCE.createBook();
+			//res.getContents().add(obj);
 			
-			System.out.println(classifiers_list.get(i).getName());
-			//System.out.print(" ");
-			classifier_ordinality_map.put(classifiers_list.get(i).getName(), i);
-			
-						//classifier.
-			if(classifier instanceof EClass)
-			{
-				EClass eClass = (EClass) classifier;
-			
-				for(EStructuralFeature sf: eClass.getEAllStructuralFeatures())
-				{
-					System.out.println(" "+sf.getName()+" ");
-				}
-			}
-			
+			//obj = UniversityFactory.eINSTANCE.createDepartment();
+			//res.getContents().add(obj);
 		}
 		
-		//getOridinalNumber("University");
+		/*List<EObject> list = new ArrayList<EObject>();
 		
+		for(int i = 0; i <1000000; i++)
+		{
+			EObject obj = UniversityFactory.eINSTANCE.createLibrary();
+			list.add(obj);
+			
+			obj = UniversityFactory.eINSTANCE.createModule();
+			list.add(obj);
+			
+			obj = UniversityFactory.eINSTANCE.createStaffMember();
+			list.add(obj);
+		}
+		
+		res.getContents().addAll(list);*/
+		
+		res.save(null);
 	}
 	
-	public void getOridinalNumber(String className)
-	{
-		System.out.println(classifier_ordinality_map.get(className));
-	}
+
+	
+	
 }

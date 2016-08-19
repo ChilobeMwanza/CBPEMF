@@ -91,7 +91,6 @@ public class PersistenceManager
 	
 	public void load(Map<?,?> options) throws Exception
 	{	
-		
 		TextDeserializer textDeserializer = new TextDeserializer(this,changelog,ePackageElementsNamesMap);
 		textDeserializer.load(options);
 	}

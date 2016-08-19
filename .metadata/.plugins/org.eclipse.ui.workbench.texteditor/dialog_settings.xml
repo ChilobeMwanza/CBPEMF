@@ -2,37 +2,37 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="outputList" key="selection"/>
+		<item value="CREATE" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="CREATE"/>
+			<item value="create"/>
+			<item value=" obj.eClass().getName()"/>
+			<item value="added_obj.eClass().getName()"/>
+			<item value="e.getEReference().getName()"/>
+			<item value="attr.getName()"/>
 			<item value="output_list"/>
 			<item value="event_list"/>
-			<item value="namesMap_populated"/>
-			<item value="ordinal_list"/>
-			<item value="EPackageOrdinalList"/>
-			<item value="new DeltaResourceImpl(URI.createURI(fileSaveLocation))"/>
-			<item value="changeLog"/>
-			<item value="ChangeLog"/>
 		</list>
 		<list key="replacehistory">
+			<item value="ePackageElementsNamesMap.getID(added_obj.eClass().getName())"/>
+			<item value="ePackageElementsNamesMap.getID(e.getEReference().getName())"/>
+			<item value="ePackageElementsNamesMap.getID(attr.getName())"/>
 			<item value="outputList"/>
 			<item value="eventList"/>
 			<item value="namesMapPopulated"/>
 			<item value="namesMap"/>
 			<item value="EPackageElementsNamesMap"/>
-			<item value="new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage)"/>
-			<item value="changelog"/>
-			<item value="Changelog"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="305" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="444" key="DIALOG_HEIGHT"/>
-		<item value="1389" key="DIALOG_X_ORIGIN"/>
-		<item value="805" key="DIALOG_Y_ORIGIN"/>
+		<item value="1390" key="DIALOG_X_ORIGIN"/>
+		<item value="814" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>
