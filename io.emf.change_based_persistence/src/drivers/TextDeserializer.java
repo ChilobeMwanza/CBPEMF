@@ -294,7 +294,7 @@ public class TextDeserializer
 		}
 	}
 	
-	private void handleCreateEvent(String line)
+	/*private void handleCreateEvent(String line)
 	{
 		String[] obj_str_array = tokeniseString(getValueInSquareBrackets(line));
 		
@@ -310,7 +310,7 @@ public class TextDeserializer
 			changelog.addObjectToMap(obj, id);	
 			IDToEObjectMap.put(id, obj);
 		}
-	}
+	}*/
 	
 	private void handleUnsetEAttributeEvent(String line)
 	{

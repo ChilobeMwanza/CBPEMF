@@ -91,7 +91,7 @@ public class DeltaResourceImpl extends ResourceImpl implements DeltaResource
 		/*If save file exists, print contents to console*/
 		File f = new File(this.uri.path());
 		
-		if(f.exists() && !f.isDirectory())
+		/*if(f.exists() && !f.isDirectory())
 		{
 			System.out.println("DeltaResourceImpl: Print save file contents : ");
 			
@@ -111,7 +111,7 @@ public class DeltaResourceImpl extends ResourceImpl implements DeltaResource
 			{
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	
 	

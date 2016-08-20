@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
@@ -36,7 +35,6 @@ import change.UnsetEReferenceManyEvent;
 import change.UnsetEReferenceSingleEvent;
 
 
-
 public class TextSerializer 
 {
 	private  final String classname = this.getClass().getSimpleName();
@@ -45,9 +43,7 @@ public class TextSerializer
 	
 	private final double VERSION = 1.0;
 	
-	private List<String> outputList = new ArrayList<String>();
-	
-    private List<Event> eventList;
+    private final List<Event> eventList;
     
 	private final PersistenceManager manager;
 	
@@ -55,6 +51,7 @@ public class TextSerializer
 	
 	private final EPackageElementsNamesMap ePackageElementsNamesMap;
 	
+	private PrintWriter printWriter;
 	
 	public TextSerializer(PersistenceManager manager, Changelog aChangelog, EPackageElementsNamesMap 
 			ePackageElementsNamesMap)
@@ -71,9 +68,24 @@ public class TextSerializer
 		if(eventList.isEmpty())
 			return;
 		
-		//if we're not in resume mode, add namespace entry to output list
+		//setup printwriter
+	    try
+        {
+	    	BufferedWriter bw = new BufferedWriter
+                    (new OutputStreamWriter(new FileOutputStream(manager.getURI().path(),manager.isResume()),
+                            Charset.forName(PersistenceManager.TEXT_ENCODING).newEncoder()));
+            printWriter = new PrintWriter(bw);
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            System.exit(0);
+        }
+		
+		
+		//if we're not in resume mode, serialise initial entry
 		if(!manager.isResume())
-			addInitialEntryToOutputList();
+			serialiseInitialEntry();
 		
 		for(Event e : eventList)
 		{
@@ -108,13 +120,8 @@ public class TextSerializer
 		
 		changelog.clearEvents();
 		
-		/*finally append strings to file, if no previous successful load,don't 
-		 * serialise in append mode(i.e create new file, e.t.c)
-		 */
-		//System.out.println(classname+" appendmode: "+manager.isResume());
-		
-		/*Write contents of output list to file*/
-		writeOutputListToFile(manager.isResume()); 
+		printWriter.close();
+		manager.setResume(true);
 	}
 	
 	private void handleSetEAttributeSingleEvent(SetEAttributeSingleEvent e)
@@ -128,9 +135,11 @@ public class TextSerializer
 		if(newValue == null)
 			newValue = "null";
 		
-		newValue = newValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
+		newValue = newValue.replace(PersistenceManager.DELIMITER, 
+				PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
 		
-		outputList.add(PersistenceManager.SET_EATTRIBUTE_VALUE+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
+		printWriter.println(PersistenceManager.SET_EATTRIBUTE_VALUE+" "
+				+ePackageElementsNamesMap.getID(attr.getName())+" "
 				+changelog.getObjectId(focus_obj)+" ["+newValue+"]");
 	}
 	
@@ -169,9 +178,11 @@ public class TextSerializer
 		
 		String oldValue = EcoreUtil.convertToString(attr.getEAttributeType(), e.getOldValue());
 		
-		oldValue = oldValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
+		oldValue = oldValue.replace(PersistenceManager.DELIMITER, 
+				PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
 		
-		outputList.add(PersistenceManager.UNSET_EATTRIBUTE_VALUE+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
+		printWriter.println(PersistenceManager.UNSET_EATTRIBUTE_VALUE
+				+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
 					+changelog.getObjectId(focus_obj)+" ["+oldValue+"]");
 	}
 	
@@ -182,7 +193,8 @@ public class TextSerializer
 		
 		List<Object> attr_values_list = e.getAttributeValuesList();
 		
-		String obj_list_str = "[";
+		StringBuilder obj_list_blr = new StringBuilder("[");
+		
 		
 		for(Object object: attr_values_list)
 		{
@@ -191,13 +203,19 @@ public class TextSerializer
 			if(newValue == null)
 				newValue = "null";
 			
-			newValue = newValue.replace(PersistenceManager.DELIMITER, PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter
+			newValue = newValue.replace(PersistenceManager.DELIMITER, 
+					PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter
 			
-			obj_list_str = obj_list_str +newValue+PersistenceManager.DELIMITER;
+			obj_list_blr.append(newValue).append(PersistenceManager.DELIMITER);
 		}
-		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
-		outputList.add(PersistenceManager.SET_EATTRIBUTE_VALUE+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
-				+changelog.getObjectId(focus_obj)+" "+obj_list_str);
+		
+		obj_list_blr.substring(0,obj_list_blr.length()-1);
+		obj_list_blr.append("]");
+		
+	
+		printWriter.println(PersistenceManager.SET_EATTRIBUTE_VALUE
+				+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
+				+changelog.getObjectId(focus_obj)+" "+obj_list_blr.toString());
 	}
 	
 	private void handleUnsetEAttributeManyEvent(UnsetEAttributeManyEvent e)
@@ -205,20 +223,23 @@ public class TextSerializer
 		EObject focus_obj = e.getFocusObj();
 		EAttribute attr = e.getEAttribute();
 		
-		
 		List<Object> attr_values_list = e .getAttributeValuesList();
 		
-		String obj_list_str = "[";
+		StringBuilder sb = new StringBuilder("[");
+		
 		
 		for(Object object: attr_values_list)
 		{
 			String newValue = (EcoreUtil.convertToString(attr.getEAttributeType(), object));
-			obj_list_str = obj_list_str + newValue+PersistenceManager.DELIMITER;
+			sb.append(newValue).append(PersistenceManager.DELIMITER);
 		}
-		obj_list_str = obj_list_str.substring(0,obj_list_str.length()-1)+"]"; // remove final delimiter  add "]"
-		outputList.add(PersistenceManager.UNSET_EATTRIBUTE_VALUE+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
-				+changelog.getObjectId(focus_obj)+" "+obj_list_str);
 		
+		sb.substring(0,sb.length());
+		sb.append("]");
+		
+		printWriter.println(PersistenceManager.UNSET_EATTRIBUTE_VALUE
+				+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
+				+changelog.getObjectId(focus_obj)+" "+sb.toString());
 	}
 	
 	private void handleSetEReferenceSingleEvent(SetEReferenceSingleEvent e)
@@ -234,16 +255,16 @@ public class TextSerializer
 						.append(ePackageElementsNamesMap.getID(added_obj.eClass().getName())).
 					append(" ").append(changelog.getObjectId(added_obj)).append("]");
 				
-				outputList.add(sb.toString());
-				System.out.println(classname+sb.toString()+"1");
+				printWriter.println(sb.toString());
+			
 			}
 			else
 			{
-				StringBuilder sb = new StringBuilder
-						().append(PersistenceManager.ADD_TO_RESOURCE).append(" [").append(changelog.getObjectId(added_obj)).append("]");
+				StringBuilder sb = new StringBuilder().append(PersistenceManager.ADD_TO_RESOURCE)
+						.append(" [").append(changelog.getObjectId(added_obj)).append("]");
 				
-				outputList.add(sb.toString());
-				System.out.println(classname+sb.toString()+"2");
+				printWriter.println(sb.toString());
+				
 			}
 			
 		}
@@ -253,22 +274,24 @@ public class TextSerializer
 			
 			if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
 			{
-				StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE).append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).append(" ")
-					.append(changelog.getObjectId(focus_obj)).append(" ")
-					.append("[").append(ePackageElementsNamesMap.getID(added_obj.eClass().getName()))
-					.append(" ").append(changelog.getObjectId(added_obj)).append("]");
+				StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE)
+						.append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).append(" ")
+						.append(changelog.getObjectId(focus_obj)).append(" ")
+						.append("[").append(ePackageElementsNamesMap.getID(added_obj.eClass().getName()))
+						.append(" ").append(changelog.getObjectId(added_obj)).append("]");
 				
-				outputList.add(sb.toString());
-				System.out.println(classname+sb.toString()+"3");
+				printWriter.println(sb.toString());
+			
 			}
 			else
 			{
-				StringBuilder sb = new StringBuilder().append(PersistenceManager.SET_EREFERENCE_VALUE).append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).append(" ")
-				.append(changelog.getObjectId(focus_obj)).append(" ")
-				.append("[").append(changelog.getObjectId(added_obj)).append("]");
+				StringBuilder sb = new StringBuilder().append(PersistenceManager.SET_EREFERENCE_VALUE)
+						.append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).append(" ")
+						.append(changelog.getObjectId(focus_obj)).append(" ")
+						.append("[").append(changelog.getObjectId(added_obj)).append("]");
 				
-				outputList.add(sb.toString());
-				System.out.println(classname+sb.toString()+"4");
+				printWriter.println(sb.toString());
+			
 			}
 		}
 	}
@@ -277,9 +300,10 @@ public class TextSerializer
 	{
 		EObject removed_obj = e.getRemovedObject();
 		long removed_obj_id = changelog.getObjectId(removed_obj);
+		
 		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //delete eobject from resource
 		{
-			outputList.add(PersistenceManager.DELETE_FROM_RESOURCE+" ["+removed_obj_id+"]"); 
+			printWriter.println(PersistenceManager.DELETE_FROM_RESOURCE+" ["+removed_obj_id+"]"); 
 			
 			changelog.deleteEObjectFromMap(removed_obj);
 		}
@@ -287,7 +311,8 @@ public class TextSerializer
 		{
 			EObject focus_obj = e.getFocusObject();
 			
-			outputList.add(PersistenceManager.UNSET_EREFERENCE_VALUE+" "+ePackageElementsNamesMap.getID(e.getEReference().getName())+" "+
+			printWriter.println(PersistenceManager.UNSET_EREFERENCE_VALUE+" "
+					+ePackageElementsNamesMap.getID(e.getEReference().getName())+" "+
 					changelog.getObjectId(focus_obj)+" ["+removed_obj_id+"]");
 			
 			changelog.deleteEObjectFromMap(removed_obj);
@@ -297,8 +322,8 @@ public class TextSerializer
 	
 	private void handleSetEReferenceManyEvent(SetEReferenceManyEvent e)
 	{
-		Stopwatch s = new Stopwatch();
-		s.resume();
+		//Stopwatch s = new Stopwatch();
+		//s.resume();
 		
 		StringBuilder added_obj_list_blr = new StringBuilder("[");
 		StringBuilder obj_create_list_blr = new StringBuilder("[");
@@ -323,18 +348,20 @@ public class TextSerializer
 				 obj_create_list_blr.substring(0,obj_create_list_blr.length()-1);
 				 obj_create_list_blr.append("]");
 				 
-				 StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_ADD_TO_RESOURCE).append(" ").append(obj_create_list_blr);
-				// S
-				 outputList.add(sb.toString());
+				 StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_ADD_TO_RESOURCE)
+						 .append(" ").append(obj_create_list_blr);
+				
+				 printWriter.println(sb.toString());
 			}
 			if(added_obj_list_blr.length() > 1) //if we have items to update
 			{
 				added_obj_list_blr.substring(0,added_obj_list_blr.length()-1);
 				added_obj_list_blr.append("]");
 				
-				StringBuilder sb = new StringBuilder().append(PersistenceManager.ADD_TO_RESOURCE).append(" ").append(added_obj_list_blr);
+				StringBuilder sb = new StringBuilder().append(PersistenceManager.ADD_TO_RESOURCE)
+						.append(" ").append(added_obj_list_blr);
 				
-				outputList.add(sb.toString());
+				printWriter.println(sb.toString());
 			}
 	    }
 		else if(e.getNotifierType() == Event.NotifierType.EOBJECT) 
@@ -346,25 +373,29 @@ public class TextSerializer
 				 obj_create_list_blr.substring(0,obj_create_list_blr.length()-1);
 				 obj_create_list_blr.append("]");
 				 
-				 StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE).append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).
-						append(" ").append(changelog.getObjectId(focus_obj)).append(" ").append(obj_create_list_blr);
-				 outputList.add(sb.toString());
+				 StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE)
+						 .append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName()))
+						 .append(" ").append(changelog.getObjectId(focus_obj)).append(" ").append(obj_create_list_blr);
+				 
+				 printWriter.println(sb.toString());
 			}
 			if(added_obj_list_blr.length() > 1)
 			{
 				added_obj_list_blr.substring(0,added_obj_list_blr.length()-1);
 				added_obj_list_blr.append("]");
 				
-				StringBuilder sb = new StringBuilder().append(PersistenceManager.SET_EREFERENCE_VALUE).append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).
-					append(" ").append(changelog.getObjectId(focus_obj)).append(" ").append(added_obj_list_blr);
+				StringBuilder sb = new StringBuilder().append(PersistenceManager.SET_EREFERENCE_VALUE)
+						.append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName()))
+						.append(" ").append(changelog.getObjectId(focus_obj)).append(" ")
+						.append(added_obj_list_blr);
 				
-				outputList.add(sb.toString());
+				printWriter.println(sb.toString());
 			}   	
 		}
 		
-	    s.pause();
+	 //  s.pause();
 	    
-	    System.out.println("Time taken : "+ s.getElapsed());
+	   // System.out.println("Time taken : "+ s.getElapsed());
 	   // System.exit(0);
 	    
 	}
@@ -373,13 +404,15 @@ public class TextSerializer
 	{
 		List<EObject> removed_obj_list = e.getObjectList();
 		
-		String obj_delete_list_str = "["; //list of obj to delete
+		String obj_delete_list_str = "["; 
+		StringBuilder sb = new StringBuilder("]");//list of obj to delete
 		
 		for (EObject obj : removed_obj_list)
 		{
 			long removed_obj_id = changelog.getObjectId(obj);
 			
 			obj_delete_list_str = obj_delete_list_str+removed_obj_id +PersistenceManager.DELIMITER; 
+			sb.append(removed_obj_id).append(PersistenceManager.DELIMITER);
 			
 			changelog.deleteEObjectFromMap(obj);	
 		}
@@ -388,19 +421,20 @@ public class TextSerializer
 		
 		if(e.getNotiferType() == Event.NotifierType.RESOURCE) //DELETE OBJs FROM RESOURCE
 		{
-			outputList.add(PersistenceManager.DELETE_FROM_RESOURCE+" "+obj_delete_list_str);
+			printWriter.println(PersistenceManager.DELETE_FROM_RESOURCE+" "+obj_delete_list_str);
 		}
 		else if(e.getNotiferType() == Event.NotifierType.EOBJECT)
 		{
 			EObject focus_obj = e.getFocusObj();
 			
-			outputList.add(PersistenceManager.UNSET_EREFERENCE_VALUE+" "+(ePackageElementsNamesMap.getID(e.getEReference().getName())+" "
+			printWriter.println(PersistenceManager.UNSET_EREFERENCE_VALUE+" "
+					+(ePackageElementsNamesMap.getID(e.getEReference().getName())+" "
 					+changelog.getObjectId(focus_obj)+" "+obj_delete_list_str));
 		}	
 	
 	}
 	
-	private void addInitialEntryToOutputList() 
+	private void serialiseInitialEntry() 
 	{
 		EObject obj = null;
 		Event e = eventList.get(0);
@@ -432,31 +466,8 @@ public class TextSerializer
 			System.exit(0);
 		}
 		
-		outputList.add(FORMAT_ID+" "+VERSION);
-		outputList.add("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
+	
+		printWriter.println(FORMAT_ID+" "+VERSION);
+		printWriter.println("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
 	}
-	
-	
-	private void writeOutputListToFile(boolean appendMode)
-	{
-		try
-		{
-			BufferedWriter bw = new BufferedWriter
-				    (new OutputStreamWriter(new FileOutputStream(manager.getURI().path(),appendMode),
-				    		Charset.forName(PersistenceManager.TEXT_ENCODING).newEncoder()));
-			PrintWriter out = new PrintWriter(bw);
-			for(String string: outputList)
-			{
-				//System.out.println("PersistenceManager.java "+string);
-				out.println(string);
-			}
-			out.close();
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-		
-		manager.setResume(true);
-	}	
 }

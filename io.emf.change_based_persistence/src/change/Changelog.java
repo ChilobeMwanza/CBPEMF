@@ -67,6 +67,7 @@ public class Changelog
 	public void deleteEObjectFromMap(EObject obj)
 	{
 		
+		
 		eObjectToIDMap.remove(obj);
 		
 		if(eObjectToIDMap.containsKey(obj)) //tbr
@@ -75,9 +76,6 @@ public class Changelog
 			System.exit(0);
 		}
 		
-		
-		
-
 	}
 	
 	

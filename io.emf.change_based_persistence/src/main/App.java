@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 //import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -47,6 +48,7 @@ import com.google.common.io.Files;
 
 import impl.DeltaResourceImpl;
 import university.Book;
+import university.Department;
 import university.StaffMember;
 import university.StaffMemberType;
 import university.University;
@@ -105,25 +107,30 @@ public class App
 	
 	public void createResource() throws Exception
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
+		//Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
-		//Resource res = new XMIResourceImpl(URI.createURI("library.txt"));
-		
-		/*for(int i = 0; i < 10; i++)
+		Resource res = new XMIResourceImpl(URI.createURI("library.txt"));
+		BinaryResourceImpl dfd;
+		 Random rand = new Random();
+		for(int i = 0; i < 1005000; i++)
 		{
-			EObject obj = UniversityFactory.eINSTANCE.createUniversity();
-			res.getContents().add(obj);
+			University uni = UniversityFactory.eINSTANCE.createUniversity();
+			res.getContents().add(uni);
 			
-			//obj = UniversityFactory.eINSTANCE.createBook();
-			//res.getContents().add(obj);
+			uni.setName(String.valueOf(rand.nextLong()));
 			
-			//obj = UniversityFactory.eINSTANCE.createDepartment();
-			//res.getContents().add(obj);
-		}*/
+			Book book = UniversityFactory.eINSTANCE.createBook();
+			res.getContents().add(book);
+			
+			Department dep = UniversityFactory.eINSTANCE.createDepartment();
+			uni.getDepartments().add(dep);
+			dep.setName(String.valueOf(rand.nextInt()));
+			
+		}
 		
-		List<EObject> list = new ArrayList<EObject>();
+		/*List<EObject> list = new ArrayList<EObject>();
 		
-		for(int i = 0; i <1000; i++)
+		for(int i = 0; i <1000000; i++)
 		{
 			EObject obj = UniversityFactory.eINSTANCE.createLibrary();
 			list.add(obj);
@@ -135,7 +142,7 @@ public class App
 			list.add(obj);
 		}
 		
-		res.getContents().addAll(list);
+		res.getContents().addAll(list);*/
 		
 		res.save(null);
 	}
