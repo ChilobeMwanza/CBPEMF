@@ -6,7 +6,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
-import impl.DeltaResourceImpl;
+import impl.CBPTextResourceImpl;
 
 public class SetEReferenceManyEvent extends Event 
 {
@@ -42,7 +42,7 @@ public class SetEReferenceManyEvent extends Event
 		
 		this.obj_list = (List<EObject>) n.getNewValue();
 		
-		 if(n.getNotifier() instanceof DeltaResourceImpl)
+		 if(n.getNotifier() instanceof CBPTextResourceImpl)
 		 {
 			 this.type = NotifierType.RESOURCE;
 		 }

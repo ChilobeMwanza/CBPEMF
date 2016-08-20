@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import change.Changelog;
-import impl.DeltaResourceImpl;
+import impl.CBPTextResourceImpl;
 
 public class PersistenceManager 
 {
@@ -29,13 +29,13 @@ public class PersistenceManager
 	
 	private final Changelog changelog; 
 
-	private final DeltaResourceImpl resource;
+	private final CBPTextResourceImpl resource;
 	
     private final EPackageElementsNamesMap ePackageElementsNamesMap;
 	
 	private boolean resume = false;
     
-	public PersistenceManager(Changelog changelog, DeltaResourceImpl resource, 
+	public PersistenceManager(Changelog changelog, CBPTextResourceImpl resource, 
 			EPackageElementsNamesMap ePackageElementsNamesMap)
 	{
 		this.changelog = changelog;

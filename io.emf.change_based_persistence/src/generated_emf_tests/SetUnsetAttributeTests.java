@@ -15,7 +15,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import drivers.PersistenceManager;
-import impl.DeltaResourceImpl;
+import impl.CBPTextResourceImpl;
 import university.Book;
 import university.Department;
 import university.Library;
@@ -44,7 +44,7 @@ public class SetUnsetAttributeTests extends TestBase
 	@Test
 	public void testSetOneSingleValuedAttribute() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni);
@@ -65,7 +65,7 @@ public class SetUnsetAttributeTests extends TestBase
 	@Test
 	public void testUnsetOneSingleValuedAttribute() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni);
@@ -87,7 +87,7 @@ public class SetUnsetAttributeTests extends TestBase
 	@Test
 	public void testSetEnum() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		StaffMember s = UniversityFactory.eINSTANCE.createStaffMember();
 		res.getContents().add(s);
@@ -108,7 +108,7 @@ public class SetUnsetAttributeTests extends TestBase
 	@Test
 	public void testSetMultipleSingleValueAttributes() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		Department d = UniversityFactory.eINSTANCE.createDepartment();
@@ -136,7 +136,7 @@ public class SetUnsetAttributeTests extends TestBase
 	@Test
 	public void testUnsetMultipleSingleValueAttributes() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		Department d = UniversityFactory.eINSTANCE.createDepartment();
@@ -173,7 +173,7 @@ public class SetUnsetAttributeTests extends TestBase
 	@Test
 	public void testAddToManyValuedAttribute() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Book b = UniversityFactory.eINSTANCE.createBook();
 		
@@ -195,7 +195,7 @@ public class SetUnsetAttributeTests extends TestBase
 	@Test
 	public void testRemoveFromManyValuedAttribute() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Book b = UniversityFactory.eINSTANCE.createBook();
 		
@@ -221,7 +221,7 @@ public class SetUnsetAttributeTests extends TestBase
 	@Test
 	public void testAddAllToManyValuedAtribute() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Book b = UniversityFactory.eINSTANCE.createBook();
 		
@@ -249,7 +249,7 @@ public class SetUnsetAttributeTests extends TestBase
 	@Test
 	public void testRemoveAllFromManyValuedAttribute() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		Book b = UniversityFactory.eINSTANCE.createBook();
 		
@@ -288,7 +288,7 @@ public class SetUnsetAttributeTests extends TestBase
 	@Test
 	public void testEscapingDelimiterWhenSetEAttribute() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		
 		Book b = UniversityFactory.eINSTANCE.createBook();
@@ -322,7 +322,7 @@ public class SetUnsetAttributeTests extends TestBase
 	@Test
 	public void testEscapingDelimiterWhenUnsetEAttribute() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		
 		Book b = UniversityFactory.eINSTANCE.createBook();

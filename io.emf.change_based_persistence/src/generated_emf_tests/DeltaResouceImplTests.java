@@ -7,13 +7,13 @@ import static org.junit.Assert.assertNotNull;
 import org.eclipse.emf.common.util.URI;
 import org.junit.Test;
 
-import impl.DeltaResourceImpl;
+import impl.CBPTextResourceImpl;
 public class DeltaResouceImplTests extends TestBase 
 {
 	@Test
 	public void testGetChangelog()
 	{
-		DeltaResourceImpl res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		CBPTextResourceImpl res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		assertNotNull(res.getChangelog());
 	}
 }

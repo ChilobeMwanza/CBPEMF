@@ -4,7 +4,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
-import impl.DeltaResourceImpl;
+import impl.CBPTextResourceImpl;
 
 public class SetEReferenceSingleEvent extends Event
 {
@@ -37,7 +37,7 @@ public class SetEReferenceSingleEvent extends Event
 		
 		this.added_obj = (EObject)n.getNewValue();
 		
-		if(n.getNotifier() instanceof DeltaResourceImpl)
+		if(n.getNotifier() instanceof CBPTextResourceImpl)
 		{
 			this.notifier_type = NotifierType.RESOURCE;
 		}

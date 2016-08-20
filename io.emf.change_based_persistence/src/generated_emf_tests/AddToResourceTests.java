@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.*;
 
-import impl.DeltaResourceImpl;
+import impl.CBPTextResourceImpl;
 import university.Department;
 import university.Library;
 import university.Student;
@@ -49,7 +49,7 @@ public class AddToResourceTests extends TestBase
 	@Test
     public void testAddSingleToResource() throws Exception 
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni);
@@ -71,7 +71,7 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAddSingleRepeatedToResource() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
@@ -103,7 +103,7 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAddListToResource() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
@@ -135,7 +135,7 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAllAddToResource() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
@@ -172,7 +172,7 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAddManyToResource() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		for(int i = 0; i < 10000; i++)
 		{

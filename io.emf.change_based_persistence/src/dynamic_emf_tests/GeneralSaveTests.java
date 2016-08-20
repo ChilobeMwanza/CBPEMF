@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.After;
 import org.junit.Test;
 
-import impl.DeltaResourceImpl;
+import impl.CBPTextResourceImpl;
 
 
 public class GeneralSaveTests extends TestBase 
@@ -38,7 +38,7 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testRepeatedSaveNoModification() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
 		
 		EObject uni = createEObject("University");
 		
@@ -66,7 +66,7 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testMultipleSaveWithModifications() throws IOException, InterruptedException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
 		
 		EObject uni = createEObject("University");
 		res.getContents().add(uni);
@@ -98,7 +98,7 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testBasicSaveAndLoad() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
 		
 		EObject savedUni = createEObject("University");
 		
@@ -124,7 +124,7 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testRedundantModification() throws IOException
 	{
-		Resource res = new DeltaResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
+		Resource res = new CBPTextResourceImpl(URI.createURI(FILE_SAVE_LOCATION),ePackage);
 		
 		EObject savedUni = createEObject("University");
 		

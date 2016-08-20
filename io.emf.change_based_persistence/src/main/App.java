@@ -46,7 +46,7 @@ import com.google.common.hash.HashCode;
 import com.google.common.io.Files;
 
 
-import impl.DeltaResourceImpl;
+import impl.CBPTextResourceImpl;
 import university.Book;
 import university.Department;
 import university.StaffMember;
@@ -87,7 +87,7 @@ public class App
 			@Override
 			public Resource createResource(URI uri)
 			{
-				return new DeltaResourceImpl(uri,UniversityPackage.eINSTANCE);
+				return new CBPTextResourceImpl(uri,UniversityPackage.eINSTANCE);
 			}
 		});
 		
@@ -107,28 +107,28 @@ public class App
 	
 	public void createResource() throws Exception
 	{
-		//Resource res = new DeltaResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
+		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
-		Resource res = new XMIResourceImpl(URI.createURI("library.txt"));
+		//Resource res = new XMIResourceImpl(URI.createURI("library.txt"));
 		BinaryResourceImpl dfd;
 		 Random rand = new Random();
-		for(int i = 0; i < 1005000; i++)
+		for(int i = 0; i < 1900000; i++)
 		{
 			University uni = UniversityFactory.eINSTANCE.createUniversity();
 			res.getContents().add(uni);
 			
-			uni.setName(String.valueOf(rand.nextLong()));
+			//uni.setName(String.valueOf(rand.nextLong()));
 			
 			Book book = UniversityFactory.eINSTANCE.createBook();
 			res.getContents().add(book);
 			
 			Department dep = UniversityFactory.eINSTANCE.createDepartment();
 			uni.getDepartments().add(dep);
-			dep.setName(String.valueOf(rand.nextInt()));
+			//dep.setName(String.valueOf(rand.nextInt()));
 			
 		}
 		
-		/*List<EObject> list = new ArrayList<EObject>();
+		List<EObject> list = new ArrayList<EObject>();
 		
 		for(int i = 0; i <1000000; i++)
 		{
@@ -142,7 +142,7 @@ public class App
 			list.add(obj);
 		}
 		
-		res.getContents().addAll(list);*/
+		res.getContents().addAll(list);
 		
 		res.save(null);
 	}

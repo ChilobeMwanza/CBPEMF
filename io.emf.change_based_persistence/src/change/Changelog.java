@@ -1,13 +1,14 @@
 package change;
 
 import java.util.ArrayList;
-
 import java.util.List;
-
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 
+import gnu.trove.map.TMap;
 import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.THashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 
 

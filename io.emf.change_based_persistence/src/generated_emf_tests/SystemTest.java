@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.junit.After;
 import org.junit.Test;
 
-import impl.DeltaResourceImpl;
+import impl.CBPTextResourceImpl;
 import university.University;
 import university.UniversityFactory;
 import university.UniversityPackage;

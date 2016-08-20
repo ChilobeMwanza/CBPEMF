@@ -53,6 +53,7 @@ public class TextSerializer
 	
 	private PrintWriter printWriter;
 	
+	
 	public TextSerializer(PersistenceManager manager, Changelog aChangelog, EPackageElementsNamesMap 
 			ePackageElementsNamesMap)
 	{
@@ -245,12 +246,15 @@ public class TextSerializer
 	private void handleSetEReferenceSingleEvent(SetEReferenceSingleEvent e)
 	{
 		EObject added_obj = e.getAddedObject();
+		StringBuilder sb;
 	
 		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource
 		{
+			
+			
 			if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
 			{
-				StringBuilder sb = new StringBuilder
+				 sb = new StringBuilder
 						().append((PersistenceManager.CREATE_AND_ADD_TO_RESOURCE)).append(" [")
 						.append(ePackageElementsNamesMap.getID(added_obj.eClass().getName())).
 					append(" ").append(changelog.getObjectId(added_obj)).append("]");
@@ -260,7 +264,7 @@ public class TextSerializer
 			}
 			else
 			{
-				StringBuilder sb = new StringBuilder().append(PersistenceManager.ADD_TO_RESOURCE)
+				 sb = new StringBuilder().append(PersistenceManager.ADD_TO_RESOURCE)
 						.append(" [").append(changelog.getObjectId(added_obj)).append("]");
 				
 				printWriter.println(sb.toString());
@@ -274,7 +278,7 @@ public class TextSerializer
 			
 			if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
 			{
-				StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE)
+				  sb = new StringBuilder().append(PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE)
 						.append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).append(" ")
 						.append(changelog.getObjectId(focus_obj)).append(" ")
 						.append("[").append(ePackageElementsNamesMap.getID(added_obj.eClass().getName()))
@@ -285,7 +289,7 @@ public class TextSerializer
 			}
 			else
 			{
-				StringBuilder sb = new StringBuilder().append(PersistenceManager.SET_EREFERENCE_VALUE)
+				 sb = new StringBuilder().append(PersistenceManager.SET_EREFERENCE_VALUE)
 						.append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).append(" ")
 						.append(changelog.getObjectId(focus_obj)).append(" ")
 						.append("[").append(changelog.getObjectId(added_obj)).append("]");
@@ -333,7 +337,7 @@ public class TextSerializer
 			if(changelog.addObjectToMap(obj)) //if obj does not already exist
 			{
 				obj_create_list_blr.append(ePackageElementsNamesMap.getID(obj.eClass().getName())).append(" ")
-					.append(changelog.getObjectId(obj)).append(PersistenceManager.DELIMITER);
+					.append(changelog.getObjectId(obj)).append(PersistenceManager.DELIMITER); //may swithc to read scan and write
 			}
 			else //obj exists, i.e we're updating some reference
 			{

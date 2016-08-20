@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.junit.*;
 
-import impl.DeltaResourceImpl;
+import impl.CBPTextResourceImpl;
 
 public abstract class TestBase 
 {
@@ -82,7 +82,7 @@ public abstract class TestBase
 			@Override
 			public Resource createResource(URI uri)
 			{
-				return new DeltaResourceImpl(uri,ePackage);
+				return new CBPTextResourceImpl(uri,ePackage);
 			}
 		});
 		
