@@ -45,7 +45,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import com.google.common.hash.HashCode;
 import com.google.common.io.Files;
 
-
+import impl.CBPBinaryResourceImpl;
 import impl.CBPTextResourceImpl;
 import university.Book;
 import university.Department;
@@ -58,7 +58,7 @@ import org.eclipse.epsilon.profiling.Stopwatch;
 
 public class App 
 {
-	private static String fileSaveLocation ="university.txt";
+	private static String fileSaveLocation ="university.bin";
 	
 	private  final String classname = this.getClass().getSimpleName();
 	
@@ -71,23 +71,25 @@ public class App
 		// TODO Auto-generated method stub
 		App app = new App();
 		//app.loadResource() ;
-    app.createResource();
+		app.createResource();
 		
-		//app.print();
 	}
 	
-	
+	private void foo()
+	{
+		System.out.println(Integer.SIZE);
+	}
 	
 	public void loadResource() throws IOException
 	{
 		ResourceSetImpl rs = new ResourceSetImpl();
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put
-		("txt", new Resource.Factory()
+		("bin", new Resource.Factory()
 		{
 			@Override
 			public Resource createResource(URI uri)
 			{
-				return new CBPTextResourceImpl(uri,UniversityPackage.eINSTANCE);
+				return new CBPBinaryResourceImpl(uri,UniversityPackage.eINSTANCE);
 			}
 		});
 		
@@ -107,42 +109,15 @@ public class App
 	
 	public void createResource() throws Exception
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
+		//Resource res = new 
+				//CBPBinaryResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
+		Resource res = new 
+				CBPTextResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
+		
+		University uni = UniversityFactory.eINSTANCE.createUniversity();
+		res.getContents().add(uni);
 		//Resource res = new XMIResourceImpl(URI.createURI("library.txt"));
-		BinaryResourceImpl dfd;
-		 Random rand = new Random();
-		for(int i = 0; i < 1900000; i++)
-		{
-			University uni = UniversityFactory.eINSTANCE.createUniversity();
-			res.getContents().add(uni);
-			
-			//uni.setName(String.valueOf(rand.nextLong()));
-			
-			Book book = UniversityFactory.eINSTANCE.createBook();
-			res.getContents().add(book);
-			
-			Department dep = UniversityFactory.eINSTANCE.createDepartment();
-			uni.getDepartments().add(dep);
-			//dep.setName(String.valueOf(rand.nextInt()));
-			
-		}
-		
-		List<EObject> list = new ArrayList<EObject>();
-		
-		for(int i = 0; i <1000000; i++)
-		{
-			EObject obj = UniversityFactory.eINSTANCE.createLibrary();
-			list.add(obj);
-			
-			obj = UniversityFactory.eINSTANCE.createModule();
-			list.add(obj);
-			
-			obj = UniversityFactory.eINSTANCE.createStaffMember();
-			list.add(obj);
-		}
-		
-		res.getContents().addAll(list);
 		
 		res.save(null);
 	}

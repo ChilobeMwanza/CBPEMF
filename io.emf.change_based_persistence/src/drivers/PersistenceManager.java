@@ -3,6 +3,7 @@
 //http://www.javapractices.com/topic/TopicAction.do?Id=31
 package drivers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.emf.common.util.URI;
@@ -10,6 +11,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import change.Changelog;
+import impl.CBPBinaryResourceImpl;
+import impl.CBPResource;
 import impl.CBPTextResourceImpl;
 
 public class PersistenceManager 
@@ -29,13 +32,13 @@ public class PersistenceManager
 	
 	private final Changelog changelog; 
 
-	private final CBPTextResourceImpl resource;
+	private final CBPResource resource;
 	
     private final EPackageElementsNamesMap ePackageElementsNamesMap;
 	
 	private boolean resume = false;
     
-	public PersistenceManager(Changelog changelog, CBPTextResourceImpl resource, 
+	public PersistenceManager(Changelog changelog, CBPResource resource, 
 			EPackageElementsNamesMap ePackageElementsNamesMap)
 	{
 		this.changelog = changelog;
@@ -85,15 +88,31 @@ public class PersistenceManager
 
 	public void save(Map<?,?> options)
 	{
-		TextSerializer serializer = new TextSerializer(this, changelog,ePackageElementsNamesMap);
-		serializer.save(options);
+		if(resource instanceof CBPBinaryResourceImpl)
+		{
+			CBPBinarySerializer serializer = new CBPBinarySerializer(this,changelog, ePackageElementsNamesMap);
+			try {
+				serializer.save(options);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(resource instanceof CBPTextResourceImpl)
+		{
+			CBPTextSerializer serializer = new CBPTextSerializer(this, changelog,ePackageElementsNamesMap);
+			serializer.save(options);
+		}
+		//
+		
 	}
 
 	
 	public void load(Map<?,?> options) throws Exception
 	{	
-		TextDeserializer textDeserializer = new TextDeserializer(this,changelog,ePackageElementsNamesMap);
-		textDeserializer.load(options);
+		//CBPTextDeserializer textDeserializer = new CBPTextDeserializer(this,changelog,ePackageElementsNamesMap);
+		CBPBinaryDeserializer deserializer = new CBPBinaryDeserializer(this,changelog,ePackageElementsNamesMap);
+		deserializer.load(options);
 	}
 	
 	public Changelog getChangelog()

@@ -1,9 +1,0 @@
-package change;
-
-import org.eclipse.emf.ecore.EObject;
-
-public class SetEReferenceSingleEvent extends Event
-{
-	private EObject focusObj;
-	private EAttribute attr;
-}

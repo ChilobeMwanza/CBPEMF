@@ -1,8 +1,0 @@
-package dynamic_emf_tests;
-import org.junit.*;
-
-public abstract class TestBase 
-{
-	protected static final String FILE_SAVE_LOCATION = "university.txt";
-	protected static final String ECORE_FILE_LOCATION = new File("").getAbsolutePath()+"/model/university.ecore";
-}

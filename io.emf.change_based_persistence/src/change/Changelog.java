@@ -20,9 +20,6 @@ public class Changelog
 
 	private final String classname = this.getClass().getSimpleName();
 	
-	/* needs to be static so we can track the latest (highest) available 
-	 * id globally across instantiations of this changelog. A new changelog is instantiated 
-	 * at save and at load. if this var is not static, current id reverts to 0*/
 	private static int current_id = 0; 
 	
 	public Changelog()
@@ -81,7 +78,7 @@ public class Changelog
 	
 	
 	
-	public long getObjectId(EObject obj)
+	public int getObjectId(EObject obj)
 	{
 	
 		if(!eObjectToIDMap.containsKey(obj)) //tbr

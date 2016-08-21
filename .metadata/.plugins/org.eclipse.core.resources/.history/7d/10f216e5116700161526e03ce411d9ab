@@ -1,0 +1,14 @@
+package impl;
+
+import org.eclipse.emf.common.util.URI;
+
+public class CBPBinaryResourceImpl extends CBPResource 
+{
+	
+	public CBPBinaryResourceImpl(URI uri)
+	{
+		super(uri);
+	}
+	
+	
+}

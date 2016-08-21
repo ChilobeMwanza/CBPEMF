@@ -4,6 +4,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
+import impl.CBPResource;
 import impl.CBPTextResourceImpl;
 
 public class UnsetEReferenceSingleEvent extends Event 
@@ -38,7 +39,7 @@ public class UnsetEReferenceSingleEvent extends Event
 		
 		this.removed_obj = (EObject)n.getOldValue();
 		
-		if(n.getNotifier() instanceof CBPTextResourceImpl)
+		if(n.getNotifier() instanceof CBPResource)
 			this.type = NotifierType.RESOURCE;
 		
 		else if(n.getNotifier() instanceof EObject)

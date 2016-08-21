@@ -17,17 +17,33 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.junit.*;
 
+import impl.CBPBinaryResourceImpl;
 import impl.CBPTextResourceImpl;
 import university.UniversityPackage;
 
 public abstract class TestBase 
 {
-	protected static String fileSaveLocation ="university.txt";
+	protected static String fileSaveLocation ="university.bin";
 	protected final EPackage ePackage = UniversityPackage.eINSTANCE;
+	private static boolean testingBinary = true;
+	protected Resource res = null;
+	private static String ext = null;
 	
 	@Before
 	public void runOnceBeforeTest()
 	{
+		if(testingBinary)
+		{
+			res = new CBPBinaryResourceImpl(URI.createURI
+					(fileSaveLocation),UniversityPackage.eINSTANCE);
+		}
+		else
+		{
+			 res = new CBPTextResourceImpl(URI.createURI
+					 	(fileSaveLocation),UniversityPackage.eINSTANCE);
+		}
+		
+		
 		/*Delete save file if it exists*/
 		File file = new File(fileSaveLocation);
 		try {
@@ -38,17 +54,35 @@ public abstract class TestBase
 		}
 	}
 	
+	@BeforeClass()
+	public static void runBeforeClass()
+	{
+		if(testingBinary)
+			ext = "bin";
+		else
+			ext = "txt";
+	}
+	
+	@After
+	public void runOnceAfterTest()
+	{
+		res = null;
+	}
+	
 	protected Resource loadResource()
 	{
 		//Load persisted model into resource contents
 		ResourceSetImpl rs = new ResourceSetImpl();
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put
-		("txt", new Resource.Factory()
+		(ext, new Resource.Factory()
 		{
 			@Override
 			public Resource createResource(URI uri)
 			{
-				return new CBPTextResourceImpl(uri,ePackage);
+				if(testingBinary)
+					return new CBPBinaryResourceImpl(uri,ePackage);
+				else
+					return new CBPTextResourceImpl(uri,ePackage);
 			}
 		});
 		

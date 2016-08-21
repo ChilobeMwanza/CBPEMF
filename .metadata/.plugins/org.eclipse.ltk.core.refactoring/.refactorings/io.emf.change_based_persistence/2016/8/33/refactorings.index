@@ -3,3 +3,5 @@
 1471531030541	Delete elements
 1471552509719	Move compilation unit
 1471693682441	Rename type 'DeltaResourceImpl'
+1471715466641	Rename type 'TextDeserializer'
+1471715479039	Rename type 'TextSerializer'

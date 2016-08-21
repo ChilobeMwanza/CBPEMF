@@ -1,0 +1,9 @@
+package impl;
+
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+
+public abstract class CBPResource extends ResourceImpl
+{
+	String OPTION_OPTIMISE_OUTPUT ="OPTIMISE_OUTPUT";
+	String OPTION_CBP_VERSION = "CBP_VERSION";
+}

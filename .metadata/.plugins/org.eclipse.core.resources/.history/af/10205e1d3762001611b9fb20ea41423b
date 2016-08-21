@@ -1,7 +1,0 @@
-package tests;
-
-public class UnitTests 
-{
-	@Test
-	public void test
-}

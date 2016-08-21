@@ -1,7 +1,0 @@
-package tests;
-
-public class DeltaResouceImplTest 
-{
-	@Test
-	import org.junit.Test;
-}

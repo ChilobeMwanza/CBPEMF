@@ -1,0 +1,38 @@
+package impl;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
+
+import change.Changelog;
+import change.EventAdapter;
+import drivers.EPackageElementsNamesMap;
+import drivers.PersistenceManager;
+
+public class CBPBinaryResourceImpl extends CBPResource 
+{
+	private  final String classname = this.getClass().getSimpleName();
+	
+	private final Changelog changelog = new Changelog();
+ 
+	private final PersistenceManager persistenceManager;
+	
+    private final EventAdapter eventAdapter;
+ 
+    private  final EPackageElementsNamesMap ePackageElementsNamesMap;
+	
+	public CBPBinaryResourceImpl(URI uri, EPackage ePackage)
+	{
+		super(uri);
+		
+		eventAdapter = new EventAdapter(changelog);
+		
+		this.eAdapters().add(eventAdapter); 
+		
+		ePackageElementsNamesMap = populateEPackageElementNamesMap(ePackage);
+		
+		persistenceManager = new PersistenceManager(changelog,this, 
+				ePackageElementsNamesMap);
+	}
+	
+	
+}

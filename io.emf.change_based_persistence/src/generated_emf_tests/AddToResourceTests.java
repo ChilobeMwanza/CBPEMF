@@ -22,12 +22,14 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.*;
 
+import impl.CBPBinaryResourceImpl;
 import impl.CBPTextResourceImpl;
 import university.Department;
 import university.Library;
 import university.Student;
 import university.University;
 import university.UniversityFactory;
+import university.UniversityPackage;
 import university.Vehicle;
 
 public class AddToResourceTests extends TestBase
@@ -49,7 +51,10 @@ public class AddToResourceTests extends TestBase
 	@Test
     public void testAddSingleToResource() throws Exception 
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		//Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		
+		//Resource res = new 
+				//CBPBinaryResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni);
@@ -71,7 +76,10 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAddSingleRepeatedToResource() throws IOException
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		//Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		
+		//Resource res = new 
+				//CBPBinaryResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
@@ -103,7 +111,10 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAddListToResource() throws IOException
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		//Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		
+		//Resource res = new 
+			//	CBPBinaryResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
@@ -135,7 +146,9 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAllAddToResource() throws IOException
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		//Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		//Resource res = new 
+				//CBPBinaryResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
@@ -172,7 +185,10 @@ public class AddToResourceTests extends TestBase
 	@Test
 	public void testAddManyToResource() throws IOException
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		//Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		
+		//Resource res = new 
+			//	CBPBinaryResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
 		for(int i = 0; i < 10000; i++)
 		{

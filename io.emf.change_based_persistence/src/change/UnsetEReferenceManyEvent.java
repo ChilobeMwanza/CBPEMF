@@ -6,6 +6,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
+import impl.CBPResource;
 import impl.CBPTextResourceImpl;
 
 public class UnsetEReferenceManyEvent extends Event 
@@ -41,7 +42,7 @@ public class UnsetEReferenceManyEvent extends Event
 		
 		this.obj_list = (List<EObject>) n.getOldValue();
 		
-		if(n.getNotifier() instanceof CBPTextResourceImpl)
+		if(n.getNotifier() instanceof CBPResource)
 		{
 			this.type = NotifierType.RESOURCE;
 		}

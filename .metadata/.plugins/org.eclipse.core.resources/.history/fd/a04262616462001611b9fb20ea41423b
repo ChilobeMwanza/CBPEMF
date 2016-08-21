@@ -1,9 +1,0 @@
-package exceptions;
-
-public class InvalidSaveFileException extends Exception
-{
-	public InvalidSaveFileException()
-	{
-		super("The save file could not be loaded due to invalid data.");
-	}
-}

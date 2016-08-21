@@ -20,7 +20,7 @@ import change.EventAdapter;
 import drivers.EPackageElementsNamesMap;
 import drivers.PersistenceManager;
 
-public class CBPTextResourceImpl extends ResourceImpl implements DeltaResource
+public class CBPTextResourceImpl extends CBPResource
 {
 	private  final String classname = this.getClass().getSimpleName();
 	
@@ -29,23 +29,19 @@ public class CBPTextResourceImpl extends ResourceImpl implements DeltaResource
 	private final PersistenceManager persistenceManager;
 	
     private final EventAdapter eventAdapter;
-    
-    private final EPackage ePackage;
-    
-    private  final EPackageElementsNamesMap ePackageElementsNamesMap = 
-    		new EPackageElementsNamesMap();
+ 
+    private  final EPackageElementsNamesMap ePackageElementsNamesMap;
+    		
     
     public CBPTextResourceImpl(URI uri, EPackage ePackage)
 	{
 		super(uri);
 		
-		this.ePackage = ePackage;
-		
 		eventAdapter = new EventAdapter(changelog);
 		
 		this.eAdapters().add(eventAdapter); 
 		
-		populateEPackageElementNamesMap();
+		ePackageElementsNamesMap = populateEPackageElementNamesMap(ePackage);
 		
 		persistenceManager = new PersistenceManager(changelog,this, 
 				ePackageElementsNamesMap);
@@ -53,36 +49,17 @@ public class CBPTextResourceImpl extends ResourceImpl implements DeltaResource
     
     public CBPTextResourceImpl(EPackage ePackage)
     {
-    	this.ePackage = ePackage;
-    	
 		eventAdapter = new EventAdapter(changelog);
 		
 		this.eAdapters().add(eventAdapter); 
 		
-		populateEPackageElementNamesMap();
+		ePackageElementsNamesMap = populateEPackageElementNamesMap(ePackage);
 		
 		persistenceManager = new PersistenceManager(changelog,this,
 				ePackageElementsNamesMap); 
     }
     
-    private void populateEPackageElementNamesMap()
-	{
-		for(EClassifier eClassifier : ePackage.getEClassifiers())
-		{
-			if(eClassifier instanceof EClass)
-			{
-				EClass eClass = (EClass) eClassifier;
-				
-				ePackageElementsNamesMap.addName(eClass.getName());
-				
-				for(EStructuralFeature feature : eClass.getEAllStructuralFeatures())
-				{
-					ePackageElementsNamesMap.addName(feature.getName());
-				}
-			}
-		}
-	}
-
+    
 	@Override
 	public void save(Map<?, ?> options)
 	{
