@@ -409,22 +409,23 @@ public class CBPTextSerializer
 	
 	private void handleUnsetEReferenceManyEvent(UnsetEReferenceManyEvent e)
 	{
+		//STRING BUILDER IS NOT USED! FIX
 		List<EObject> removed_obj_list = e.getObjectList();
 		
 		String obj_delete_list_str = "["; 
-		StringBuilder sb = new StringBuilder("]");//list of obj to delete
+		//StringBuilder sb = new StringBuilder("]");//list of obj to delete
 		
 		for (EObject obj : removed_obj_list)
 		{
 			long removed_obj_id = changelog.getObjectId(obj);
 			
 			obj_delete_list_str = obj_delete_list_str+removed_obj_id +PersistenceManager.DELIMITER; 
-			sb.append(removed_obj_id).append(PersistenceManager.DELIMITER);
+			//sb.append(removed_obj_id).append(PersistenceManager.DELIMITER);
 			
 			changelog.deleteEObjectFromMap(obj);	
 		}
 		
-		obj_delete_list_str = obj_delete_list_str.substring(0,obj_delete_list_str.length()-1)+"]";
+		 obj_delete_list_str = obj_delete_list_str.substring(0,obj_delete_list_str.length()-1)+"]";
 		
 		if(e.getNotiferType() == Event.NotifierType.RESOURCE) //DELETE OBJs FROM RESOURCE
 		{

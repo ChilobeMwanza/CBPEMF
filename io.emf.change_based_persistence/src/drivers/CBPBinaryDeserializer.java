@@ -54,7 +54,7 @@ public class CBPBinaryDeserializer
 		
 		/*Load metamodel*/
 		int nsUriLength = readInt(inputStream);
-		ePackage = loadMetamodel(readString(inputStream,nsUriLength));
+		loadMetamodel(readString(inputStream,nsUriLength));
 		
 		/*Read binary records*/
 		while(inputStream.available()> 0)
@@ -70,13 +70,73 @@ public class CBPBinaryDeserializer
 			case PersistenceManager.ADD_TO_RESOURCE:
 				handleAddToResource(inputStream);
 				break;
+			case PersistenceManager.DELETE_FROM_RESOURCE:
+				handleRemoveFromResource(inputStream);
+				break;
 			case PersistenceManager.SET_EREFERENCE_VALUE:
 				handleSetEReference(inputStream);
+				break;
+			case PersistenceManager.UNSET_EREFERENCE_VALUE:
+				handleUnsetEReferenceValue(inputStream);
 				break;
 			}
 		}
 		
 		inputStream.close();	
+    }
+    
+    private void handleUnsetEReferenceValue(InputStream in) throws IOException
+    {
+    	EObject focus_obj = IDToEObjectMap.get(readInt(in));
+    	
+    	EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
+				(ePackageElementsNamesMap.getName(readInt(in)));
+    	
+    	int numInts = readInt(in);
+    	
+    	byte[] buffer = new byte[numInts * 4];
+    	
+    	int[] intArray = new int[numInts]; //stores 'n' numbers
+    	
+    	int index = 0;
+    	
+    	for(int i = 0; i < numInts; i++)
+    	{
+    		intArray[i] = byteArrayToInt(Arrays.copyOfRange(buffer, index,index+4));
+    		
+    		index = index + 4;
+    	}
+    	
+    	if(ref.isMany())
+    	{
+    		@SuppressWarnings("unchecked")
+			EList<EObject> feature_value_list = (EList<EObject>) focus_obj.eGet(ref);
+    		
+    		for(int i : intArray)
+    		{
+    			feature_value_list.remove(IDToEObjectMap.remove(i));
+    		}
+    	}
+    	
+    }
+    private void handleRemoveFromResource(InputStream in) throws IOException
+    {
+    	int numInts = readInt(in);
+    	
+    	byte[] buffer = new byte[numInts * 4];
+    	
+    	in.read(buffer);
+    	
+    	int index = 0;
+    	
+    	for(int i = 0; i < numInts; i++)
+    	{
+    		int id = byteArrayToInt(Arrays.copyOfRange(buffer, index,index+4));
+    		
+    		manager.removeEObjectFromContents(IDToEObjectMap.remove(id));
+    		
+    		index = index + 4;
+    	}
     }
     
     private void handleSetEReference(InputStream in) throws IOException
@@ -127,6 +187,7 @@ public class CBPBinaryDeserializer
     	byte[] buffer = new byte[numInts * 4]; //stores bytes for all 'n' numbers
     	
     	in.read(buffer);
+    	
     	int[] intArray = new int[numInts]; //stores 'n' numbers
     	
     	int index = 0;
@@ -223,11 +284,11 @@ public class CBPBinaryDeserializer
     	
     	for(int i = 0; i < numInts; i++)
     	{
-    		int x = byteArrayToInt(Arrays.copyOfRange(buffer, startIndex,startIndex+4));
+    		int id = byteArrayToInt(Arrays.copyOfRange(buffer, startIndex,startIndex+4));
     		
     		startIndex = startIndex + 4;
     		
-    		manager.addEObjectToContents(IDToEObjectMap.get(x));
+    		manager.addEObjectToContents(IDToEObjectMap.get(id));
     	}
     }
     
@@ -254,17 +315,15 @@ public class CBPBinaryDeserializer
     	return new String(bytes, STRING_ENCODING);
     }
     
-    private EPackage loadMetamodel(String metamodelURI) throws UnknownPackageException
+    private void loadMetamodel(String metamodelURI) throws UnknownPackageException
     {
-        EPackage ePackage = null;
-        
+    	
         if(EPackage.Registry.INSTANCE.containsKey(metamodelURI))
             ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelURI);
         
         else
             throw new UnknownPackageException(metamodelURI);
         
-        return ePackage;
     }
     
     private int byteArrayToInt(byte[] bytes)

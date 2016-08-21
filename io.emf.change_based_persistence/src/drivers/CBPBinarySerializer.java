@@ -18,6 +18,9 @@ import change.Event;
 import change.SetEAttributeSingleEvent;
 import change.SetEReferenceManyEvent;
 import change.SetEReferenceSingleEvent;
+import change.UnsetEAttributeManyEvent;
+import change.UnsetEReferenceManyEvent;
+import change.UnsetEReferenceSingleEvent;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.list.array.TIntArrayList;
 
@@ -74,6 +77,12 @@ public class CBPBinarySerializer
         	case Event.SET_EREFERENCE_MANY:
         		handleSetEReferenceManyEvent((SetEReferenceManyEvent)e,outputStream);
         		break;
+        	case Event.UNSET_EREFERENCE_MANY:
+        		handleUnsetEReferenceManyEvent((UnsetEReferenceManyEvent)e, outputStream);
+        		break;
+        	case Event.UNSET_EREFERENCE_SINGLE:
+        		 handleUnsetEReferenceSingleEvent((UnsetEReferenceSingleEvent)e, outputStream);
+                 break;
         	}
         }
         
@@ -84,10 +93,9 @@ public class CBPBinarySerializer
 	
     }
     
-    private static int count = 0;
+    
     private void handleSetEReferenceSingleEvent(SetEReferenceSingleEvent e,OutputStream out) throws IOException
     {
-    	
     	EObject added_obj = e.getAddedObject();
     	
     	if(e.getNotifierType() == Event.NotifierType.RESOURCE)
@@ -98,13 +106,10 @@ public class CBPBinarySerializer
     			writeInt(out,PersistenceManager.CREATE_AND_ADD_TO_RESOURCE);
     			writeInt(out,2);
     			writeInt(out,ePackageElementsNamesMap.getID(added_obj.eClass().getName()));
-    			//writeInt(out,changelog.getObjectId(added_obj));
-    			writeInt(out,count);
-    			count = count + 1;
+    			writeInt(out,changelog.getObjectId(added_obj));
     		}
     		else
     		{
-    			
     			writeInt(out,PersistenceManager.ADD_TO_RESOURCE);
     			writeInt(out,1);
     			writeInt(out,changelog.getObjectId(added_obj));
@@ -112,7 +117,6 @@ public class CBPBinarySerializer
     	}
     	else if(e.getNotifierType() == Event.NotifierType.EOBJECT)
     	{
-    		
     		EObject focus_obj = e.getFocusObject();
     		
     		if(changelog.addObjectToMap(added_obj))
@@ -134,6 +138,27 @@ public class CBPBinarySerializer
     		}
     	}
     }
+    
+    private void handleUnsetEReferenceSingleEvent(UnsetEReferenceSingleEvent e, OutputStream out) throws IOException
+    {
+    	if(e.getNotifierType() == Event.NotifierType.RESOURCE)
+    	{
+    		writeInt(out, PersistenceManager.DELETE_FROM_RESOURCE);
+    		writeInt(out,1);
+    		writeInt(out,changelog.getObjectId(e.getRemovedObject()));
+    	}
+    	else if(e.getNotifierType() == Event.NotifierType.EOBJECT)
+    	{
+    		EObject focus_obj = e.getFocusObject();
+    		
+    		writeInt(out,PersistenceManager.UNSET_EREFERENCE_VALUE);
+    		writeInt(out,changelog.getObjectId(focus_obj));
+    		writeInt(out,ePackageElementsNamesMap.getID(e.getEReference().getName()));
+    		writeInt(out,1);
+    		writeInt(out,changelog.getObjectId(e.getRemovedObject()));
+    	}
+    }
+    
     
     private void handleSetEReferenceManyEvent(SetEReferenceManyEvent e, OutputStream out) throws IOException
     {
@@ -205,6 +230,36 @@ public class CBPBinarySerializer
     			{
     				writeInt(out,it.next());
     			}
+    		}
+    	}
+    }
+    
+    private void handleUnsetEReferenceManyEvent(UnsetEReferenceManyEvent e, OutputStream out) throws IOException
+    {
+    	List<EObject> removed_obj_list = e.getObjectList();
+    
+    	if(e.getNotiferType() == Event.NotifierType.RESOURCE)
+    	{
+    		writeInt(out, PersistenceManager.DELETE_FROM_RESOURCE);
+    		writeInt(out,removed_obj_list.size());
+    		
+    		for(EObject obj : removed_obj_list)
+    		{
+    			writeInt(out,changelog.getObjectId(obj));
+    		}
+    	}
+    	else if(e.getNotiferType() == Event.NotifierType.EOBJECT)
+    	{
+    		EObject focus_obj = e.getFocusObj();
+    		
+    		writeInt(out,PersistenceManager.UNSET_EREFERENCE_VALUE);
+    		writeInt(out,changelog.getObjectId(focus_obj));
+    		writeInt(out,ePackageElementsNamesMap.getID(e.getEReference().getName()));
+    		writeInt(out,removed_obj_list.size());
+    		
+    		for(EObject obj: removed_obj_list)
+    		{
+    			writeInt(out,changelog.getObjectId(obj));
     		}
     	}
     }

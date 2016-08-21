@@ -39,7 +39,7 @@ public class DeleteFromResourceTests extends TestBase
 	@Test
 	public void testDeleteSingleFromResource() throws IOException
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		//Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		/*Create some objects */
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
@@ -63,7 +63,7 @@ public class DeleteFromResourceTests extends TestBase
 	@Test
 	public void testDeleteRepeatedFromResource() throws IOException
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		//Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
@@ -95,7 +95,7 @@ public class DeleteFromResourceTests extends TestBase
 	@Test
 	public void testDeleteCollectionFromResource() throws IOException
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		//Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
@@ -133,7 +133,7 @@ public class DeleteFromResourceTests extends TestBase
 	@Test
 	public void testAllDeleteFromResource() throws IOException
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		//Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		University uni2 = UniversityFactory.eINSTANCE.createUniversity();
