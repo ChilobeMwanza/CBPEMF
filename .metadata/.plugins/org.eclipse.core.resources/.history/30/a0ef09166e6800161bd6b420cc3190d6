@@ -1,0 +1,109 @@
+package change;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.emf.ecore.EObject;
+
+import gnu.trove.map.TMap;
+import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.THashMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
+
+
+public class Changelog 
+{
+	private final List<Event> event_list;
+	
+	private final TObjectIntMap<EObject> eObjectToIDMap = new TObjectIntHashMap<EObject>();
+
+	private final String classname = this.getClass().getSimpleName();
+	
+	private static int current_id = 0; 
+	
+	public Changelog()
+	{
+		event_list = new ArrayList<Event>();
+	}
+	
+	
+	
+	/*public BiMap<EObject,Long> getObjectToIdMap()
+	{
+		return map;
+	}*/
+	
+	public boolean addObjectToMap(EObject obj)
+	{
+		if(eObjectToIDMap.putIfAbsent(obj, current_id)!= eObjectToIDMap.getNoEntryValue())
+		{
+			current_id = current_id + 1;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addObjectToMap(EObject obj, int id)
+	{
+		if(eObjectToIDMap.putIfAbsent(obj, id) != eObjectToIDMap.getNoEntryValue())
+		{	
+			if(id >= current_id)
+			{
+				current_id = id + 1;
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	public void deleteEObjectFromMap(EObject obj)
+	{
+		//tbr
+		if(eObjectToIDMap.remove(obj) == eObjectToIDMap.getNoEntryValue())
+		{
+			System.out.println(classname+ " Remove failed!!!");
+			System.exit(0);
+		}	
+	}
+	
+	
+	
+	public int getObjectId(EObject obj)
+	{
+		int result = eObjectToIDMap.get(obj);
+		
+		if(result == eObjectToIDMap.getNoEntryValue()) //tbr
+		{
+			System.out.println(classname+" search retrun false");
+			System.exit(0);
+		}
+		return result;
+	
+	}
+	
+	/*public EObject getEObject(long id)
+	{
+		return  map.inverse().get(id);
+	}*/
+	
+	public void addEvent(Event e)
+	{
+		event_list.add(e);
+	}
+	
+	public void removeEvent(Event e)
+	{
+		event_list.remove(e);
+	}
+	
+	public void clearEvents()
+	{
+		event_list.clear();
+	}
+	
+	public List<Event> getEventsList()
+	{
+		return event_list;
+	}
+}

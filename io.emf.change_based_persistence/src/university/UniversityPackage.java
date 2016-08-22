@@ -590,6 +590,187 @@ public interface UniversityPackage extends EPackage {
 	int MODULE_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link university.impl.PrimitiveTypeImpl <em>Primitive Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see university.impl.PrimitiveTypeImpl
+	 * @see university.impl.UniversityPackageImpl#getPrimitiveType()
+	 * @generated
+	 */
+	int PRIMITIVE_TYPE = 10;
+
+	/**
+	 * The feature id for the '<em><b>A</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__A = 0;
+
+	/**
+	 * The feature id for the '<em><b>B</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__B = 1;
+
+	/**
+	 * The feature id for the '<em><b>C</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__C = 2;
+
+	/**
+	 * The feature id for the '<em><b>Big Int List</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__BIG_INT_LIST = 3;
+
+	/**
+	 * The feature id for the '<em><b>D</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__D = 4;
+
+	/**
+	 * The feature id for the '<em><b>E</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__E = 5;
+
+	/**
+	 * The feature id for the '<em><b>F</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__F = 6;
+
+	/**
+	 * The feature id for the '<em><b>G</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__G = 7;
+
+	/**
+	 * The feature id for the '<em><b>H</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__H = 8;
+
+	/**
+	 * The feature id for the '<em><b>I</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__I = 9;
+
+	/**
+	 * The feature id for the '<em><b>J</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__J = 10;
+
+	/**
+	 * The feature id for the '<em><b>K</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__K = 11;
+
+	/**
+	 * The feature id for the '<em><b>L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__L = 12;
+
+	/**
+	 * The feature id for the '<em><b>M</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__M = 13;
+
+	/**
+	 * The feature id for the '<em><b>N</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__N = 14;
+
+	/**
+	 * The feature id for the '<em><b>O</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__O = 15;
+
+	/**
+	 * The feature id for the '<em><b>P</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__P = 16;
+
+	/**
+	 * The number of structural features of the '<em>Primitive Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE_FEATURE_COUNT = 17;
+
+	/**
+	 * The number of operations of the '<em>Primitive Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link university.StaffMemberType <em>Staff Member Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -597,7 +778,7 @@ public interface UniversityPackage extends EPackage {
 	 * @see university.impl.UniversityPackageImpl#getStaffMemberType()
 	 * @generated
 	 */
-	int STAFF_MEMBER_TYPE = 10;
+	int STAFF_MEMBER_TYPE = 11;
 
 
 	/**
@@ -921,6 +1102,203 @@ public interface UniversityPackage extends EPackage {
 	EAttribute getNamedElement_Name();
 
 	/**
+	 * Returns the meta object for class '{@link university.PrimitiveType <em>Primitive Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Primitive Type</em>'.
+	 * @see university.PrimitiveType
+	 * @generated
+	 */
+	EClass getPrimitiveType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getA <em>A</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>A</em>'.
+	 * @see university.PrimitiveType#getA()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_A();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getB <em>B</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>B</em>'.
+	 * @see university.PrimitiveType#getB()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_B();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getC <em>C</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>C</em>'.
+	 * @see university.PrimitiveType#getC()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_C();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link university.PrimitiveType#getBigIntList <em>Big Int List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Big Int List</em>'.
+	 * @see university.PrimitiveType#getBigIntList()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_BigIntList();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#isD <em>D</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>D</em>'.
+	 * @see university.PrimitiveType#isD()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_D();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getE <em>E</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>E</em>'.
+	 * @see university.PrimitiveType#getE()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_E();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getF <em>F</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>F</em>'.
+	 * @see university.PrimitiveType#getF()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_F();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getG <em>G</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>G</em>'.
+	 * @see university.PrimitiveType#getG()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_G();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getH <em>H</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>H</em>'.
+	 * @see university.PrimitiveType#getH()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_H();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getI <em>I</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>I</em>'.
+	 * @see university.PrimitiveType#getI()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_I();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getJ <em>J</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>J</em>'.
+	 * @see university.PrimitiveType#getJ()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_J();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getK <em>K</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>K</em>'.
+	 * @see university.PrimitiveType#getK()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_K();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getL <em>L</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>L</em>'.
+	 * @see university.PrimitiveType#getL()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_L();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getM <em>M</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>M</em>'.
+	 * @see university.PrimitiveType#getM()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_M();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getN <em>N</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>N</em>'.
+	 * @see university.PrimitiveType#getN()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_N();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getO <em>O</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>O</em>'.
+	 * @see university.PrimitiveType#getO()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_O();
+
+	/**
+	 * Returns the meta object for the attribute '{@link university.PrimitiveType#getP <em>P</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>P</em>'.
+	 * @see university.PrimitiveType#getP()
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	EAttribute getPrimitiveType_P();
+
+	/**
 	 * Returns the meta object for enum '{@link university.StaffMemberType <em>Staff Member Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1212,6 +1590,152 @@ public interface UniversityPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute NAMED_ELEMENT__NAME = eINSTANCE.getNamedElement_Name();
+
+		/**
+		 * The meta object literal for the '{@link university.impl.PrimitiveTypeImpl <em>Primitive Type</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see university.impl.PrimitiveTypeImpl
+		 * @see university.impl.UniversityPackageImpl#getPrimitiveType()
+		 * @generated
+		 */
+		EClass PRIMITIVE_TYPE = eINSTANCE.getPrimitiveType();
+
+		/**
+		 * The meta object literal for the '<em><b>A</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__A = eINSTANCE.getPrimitiveType_A();
+
+		/**
+		 * The meta object literal for the '<em><b>B</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__B = eINSTANCE.getPrimitiveType_B();
+
+		/**
+		 * The meta object literal for the '<em><b>C</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__C = eINSTANCE.getPrimitiveType_C();
+
+		/**
+		 * The meta object literal for the '<em><b>Big Int List</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__BIG_INT_LIST = eINSTANCE.getPrimitiveType_BigIntList();
+
+		/**
+		 * The meta object literal for the '<em><b>D</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__D = eINSTANCE.getPrimitiveType_D();
+
+		/**
+		 * The meta object literal for the '<em><b>E</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__E = eINSTANCE.getPrimitiveType_E();
+
+		/**
+		 * The meta object literal for the '<em><b>F</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__F = eINSTANCE.getPrimitiveType_F();
+
+		/**
+		 * The meta object literal for the '<em><b>G</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__G = eINSTANCE.getPrimitiveType_G();
+
+		/**
+		 * The meta object literal for the '<em><b>H</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__H = eINSTANCE.getPrimitiveType_H();
+
+		/**
+		 * The meta object literal for the '<em><b>I</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__I = eINSTANCE.getPrimitiveType_I();
+
+		/**
+		 * The meta object literal for the '<em><b>J</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__J = eINSTANCE.getPrimitiveType_J();
+
+		/**
+		 * The meta object literal for the '<em><b>K</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__K = eINSTANCE.getPrimitiveType_K();
+
+		/**
+		 * The meta object literal for the '<em><b>L</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__L = eINSTANCE.getPrimitiveType_L();
+
+		/**
+		 * The meta object literal for the '<em><b>M</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__M = eINSTANCE.getPrimitiveType_M();
+
+		/**
+		 * The meta object literal for the '<em><b>N</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__N = eINSTANCE.getPrimitiveType_N();
+
+		/**
+		 * The meta object literal for the '<em><b>O</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__O = eINSTANCE.getPrimitiveType_O();
+
+		/**
+		 * The meta object literal for the '<em><b>P</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRIMITIVE_TYPE__P = eINSTANCE.getPrimitiveType_P();
 
 		/**
 		 * The meta object literal for the '{@link university.StaffMemberType <em>Staff Member Type</em>}' enum.

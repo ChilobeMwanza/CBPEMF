@@ -1,6 +1,3 @@
-/**
- * notification.getNotifier().getClass(); should use eclass instead, but how?
- */
 package change;
 
 import java.util.List;
@@ -40,23 +37,23 @@ public class EventAdapter extends EContentAdapter
 			case Notification.ADD:
 			{
 				if(n.getNewValue() instanceof EObject)
-					changelog.addEvent(new SetEReferenceSingleEvent(n));
+					changelog.addEvent(new SetEReferenceEvent(n));
 				
 				else if(n.getFeature() instanceof EAttribute)
-					changelog.addEvent(new SetEAttributeSingleEvent(n));
+					changelog.addEvent(new SetEAttributeEvent(n));
 				
 				break;
 			}
 			case Notification.SET:
 			{
 				if(n.getNewValue() instanceof EObject)
-					changelog.addEvent(new SetEReferenceSingleEvent(n));
+					changelog.addEvent(new SetEReferenceEvent(n));
 				
 				else if(n.getFeature() instanceof EAttribute)
-					changelog.addEvent(new SetEAttributeSingleEvent(n));
+					changelog.addEvent(new SetEAttributeEvent(n));
 				
 				else if(n.getNewValue() == null)
-					changelog.addEvent(new UnsetEReferenceSingleEvent(n));
+					changelog.addEvent(new UnsetEReferenceEvent(n));
 				
 				break;
 			}
@@ -65,20 +62,20 @@ public class EventAdapter extends EContentAdapter
 				@SuppressWarnings("unchecked")
 				List<Object> list =  (List<Object>) n.getNewValue();
 				if(list.get(0) instanceof EObject)
-					changelog.addEvent(new SetEReferenceManyEvent(n));
+					changelog.addEvent(new SetEReferenceEvent(n));
 				
 				else if(n.getFeature() instanceof EAttribute)
-					changelog.addEvent(new SetEAttributeManyEvent(n));
+					changelog.addEvent(new SetEAttributeEvent(n));
 				
 				break;
 			}
 			case Notification.REMOVE:
 			{
 				if(n.getOldValue() instanceof EObject)
-					changelog.addEvent(new UnsetEReferenceSingleEvent(n));
+					changelog.addEvent(new UnsetEReferenceEvent(n));
 				
 				else if(n.getFeature() instanceof EAttribute)
-					changelog.addEvent(new UnsetEAttributeSingleEvent(n));
+					changelog.addEvent(new UnsetEAttributeEvent(n));
 				
 				break;
 			}
@@ -87,10 +84,10 @@ public class EventAdapter extends EContentAdapter
 				@SuppressWarnings("unchecked")
 				List<Object> list =  (List<Object>) n.getOldValue();
 				if(list.get(0) instanceof EObject)
-					changelog.addEvent(new UnsetEReferenceManyEvent(n));
+					changelog.addEvent(new UnsetEReferenceEvent(n));
 				
 				else if(n.getFeature() instanceof EAttribute)
-					changelog.addEvent(new UnsetEAttributeManyEvent(n));
+					changelog.addEvent(new UnsetEAttributeEvent(n));
 				
 				break;
 			}

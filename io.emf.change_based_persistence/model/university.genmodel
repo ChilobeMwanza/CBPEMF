@@ -54,5 +54,24 @@
     <genClasses image="false" ecoreClass="university.ecore#//NamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//NamedElement/name"/>
     </genClasses>
+    <genClasses ecoreClass="university.ecore#//PrimitiveType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/a"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/b"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/c"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/bigIntList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/d"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/e"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/f"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/g"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/h"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/i"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/j"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/k"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/l"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/m"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/n"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/o"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute university.ecore#//PrimitiveType/p"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

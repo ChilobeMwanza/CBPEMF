@@ -52,7 +52,7 @@ public class CBPTextDeserializer
 	public void load(Map<?,?> options) throws Exception
 	{	
 		BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(manager.getURI().path()), PersistenceManager.TEXT_ENCODING));
+				new InputStreamReader(new FileInputStream(manager.getURI().path()), manager.STRING_ENCODING));
 		
 		String line;
 		
@@ -89,13 +89,13 @@ public class CBPTextDeserializer
 			case PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE:
 				handeCreateAndSetEReferenceValueEvent(line);
 				break;
-			case PersistenceManager.SET_EATTRIBUTE_VALUE:
+			case PersistenceManager.SET_COMPLEX_EATTRIBUTE_VALUE:
 				handleSetEAttributeEvent(line);
 				break;
 			case PersistenceManager.SET_EREFERENCE_VALUE:
 				handleSetEReferenceEvent(line);
 				break;
-			case PersistenceManager.UNSET_EATTRIBUTE_VALUE: 
+			case PersistenceManager.UNSET_COMPLEX_EATTRIBUTE_VALUE: 
 				handleUnsetEAttributeEvent(line);
 				break;
 			case PersistenceManager.UNSET_EREFERENCE_VALUE:

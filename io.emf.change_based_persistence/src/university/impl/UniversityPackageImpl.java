@@ -16,6 +16,7 @@ import university.Department;
 import university.Library;
 import university.Module;
 import university.NamedElement;
+import university.PrimitiveType;
 import university.StaffMember;
 import university.StaffMemberType;
 import university.Student;
@@ -100,6 +101,13 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 	 * @generated
 	 */
 	private EClass namedElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass primitiveTypeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -444,6 +452,168 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getPrimitiveType() {
+		return primitiveTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_A() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_B() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_C() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_BigIntList() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_D() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_E() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_F() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_G() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_H() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_I() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_J() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_K() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_L() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(12);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_M() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(13);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_N() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(14);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_O() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(15);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPrimitiveType_P() {
+		return (EAttribute)primitiveTypeEClass.getEStructuralFeatures().get(16);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getStaffMemberType() {
 		return staffMemberTypeEEnum;
 	}
@@ -515,6 +685,25 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
+
+		primitiveTypeEClass = createEClass(PRIMITIVE_TYPE);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__A);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__B);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__C);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__BIG_INT_LIST);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__D);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__E);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__F);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__G);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__H);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__I);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__J);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__K);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__L);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__M);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__N);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__O);
+		createEAttribute(primitiveTypeEClass, PRIMITIVE_TYPE__P);
 
 		// Create enums
 		staffMemberTypeEEnum = createEEnum(STAFF_MEMBER_TYPE);
@@ -597,6 +786,25 @@ public class UniversityPackageImpl extends EPackageImpl implements UniversityPac
 
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNamedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(primitiveTypeEClass, PrimitiveType.class, "PrimitiveType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPrimitiveType_A(), ecorePackage.getEString(), "a", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_B(), ecorePackage.getEInt(), "b", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_C(), ecorePackage.getEIntegerObject(), "c", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_BigIntList(), ecorePackage.getEIntegerObject(), "bigIntList", null, 0, -1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_D(), ecorePackage.getEBoolean(), "d", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_E(), ecorePackage.getEBooleanObject(), "e", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_F(), ecorePackage.getEFloat(), "f", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_G(), ecorePackage.getEFloatObject(), "g", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_H(), ecorePackage.getEDoubleObject(), "h", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_I(), ecorePackage.getEDouble(), "i", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_J(), ecorePackage.getEByte(), "j", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_K(), ecorePackage.getEByteObject(), "k", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_L(), ecorePackage.getEShort(), "l", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_M(), ecorePackage.getEShortObject(), "m", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_N(), ecorePackage.getELong(), "n", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_O(), ecorePackage.getELongObject(), "o", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPrimitiveType_P(), ecorePackage.getEChar(), "p", null, 0, 1, PrimitiveType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(staffMemberTypeEEnum, StaffMemberType.class, "StaffMemberType");

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.xmi.XMIResource"/>
 <fullyQualifiedTypeName name="impl.DeltaResourceImpl"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notification"/>
 <fullyQualifiedTypeName name="change.UnsetEAttributeSingleEvent"/>
 <fullyQualifiedTypeName name="change.SetEAttributeManyEvent"/>
 <fullyQualifiedTypeName name="change.SetEReferenceSingleEvent.NotifierType"/>
-<fullyQualifiedTypeName name="change.UnsetEReferenceSingleEvent"/>
 <fullyQualifiedTypeName name="change.UnsetEAttributeManyEvent"/>
-<fullyQualifiedTypeName name="change.UnsetEReferenceManyEvent"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EAttribute"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
 <fullyQualifiedTypeName name="university.StaffMemberType"/>
@@ -40,7 +37,6 @@
 <fullyQualifiedTypeName name="exceptions.UnknownPackageException"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
 <fullyQualifiedTypeName name="change.Changelog"/>
-<fullyQualifiedTypeName name="drivers.PersistenceManager"/>
 <fullyQualifiedTypeName name="change.EventAdapter"/>
 <fullyQualifiedTypeName name="drivers.EPackageElementsNamesMap"/>
 <fullyQualifiedTypeName name="impl.CBPBinaryResourceImpl"/>
@@ -53,11 +49,15 @@
 <fullyQualifiedTypeName name="gnu.trove.map.hash.TObjectIntHashMap"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
 <fullyQualifiedTypeName name="java.util.Iterator"/>
-<fullyQualifiedTypeName name="change.Event.NotifierType"/>
 <fullyQualifiedTypeName name="change.SetEAttributeSingleEvent"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClass"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EReference"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.util.EList"/>
 <fullyQualifiedTypeName name="impl.CBPResource"/>
+<fullyQualifiedTypeName name="change.UnsetEReferenceManyEvent"/>
+<fullyQualifiedTypeName name="change.Event.NotifierType"/>
+<fullyQualifiedTypeName name="drivers.PersistenceManager"/>
+<fullyQualifiedTypeName name="change.UnsetEReferenceSingleEvent"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
 </qualifiedTypeNameHistroy>

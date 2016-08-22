@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="AddToResourceTests" project="io.emf.change_based_persistence" tests="5" started="5" failures="0" errors="0" ignored="0">
+  <testsuite name="generated_emf_tests.AddToResourceTests" time="0.283">
+    <testcase name="testAllAddToResource" classname="generated_emf_tests.AddToResourceTests" time="0.027"/>
+    <testcase name="testAddManyToResource" classname="generated_emf_tests.AddToResourceTests" time="0.252"/>
+    <testcase name="testAddSingleToResource" classname="generated_emf_tests.AddToResourceTests" time="0.002"/>
+    <testcase name="testAddSingleRepeatedToResource" classname="generated_emf_tests.AddToResourceTests" time="0.001"/>
+    <testcase name="testAddListToResource" classname="generated_emf_tests.AddToResourceTests" time="0.001"/>
+  </testsuite>
+</testrun>

@@ -26,15 +26,10 @@ import org.eclipse.epsilon.profiling.Stopwatch;
 
 import change.Changelog;
 import change.Event;
-import change.SetEAttributeManyEvent;
-import change.SetEAttributeSingleEvent;
-import change.SetEReferenceManyEvent;
-import change.SetEReferenceSingleEvent;
-import change.UnsetEAttributeManyEvent;
-import change.UnsetEAttributeSingleEvent;
-import change.UnsetEReferenceManyEvent;
-import change.UnsetEReferenceSingleEvent;
-
+import change.SetEAttributeEvent;
+import change.SetEReferenceEvent;
+import change.UnsetEAttributeEvent;
+import change.UnsetEReferenceEvent;
 
 public class CBPTextSerializer 
 {
@@ -53,7 +48,6 @@ public class CBPTextSerializer
 	private final EPackageElementsNamesMap ePackageElementsNamesMap;
 	
 	private PrintWriter printWriter;
-	
 	
 	public CBPTextSerializer(PersistenceManager manager, Changelog aChangelog, EPackageElementsNamesMap 
 			ePackageElementsNamesMap)
@@ -75,7 +69,7 @@ public class CBPTextSerializer
         {
 	    	BufferedWriter bw = new BufferedWriter
                     (new OutputStreamWriter(new FileOutputStream(manager.getURI().path(),manager.isResume()),
-                            Charset.forName(PersistenceManager.TEXT_ENCODING).newEncoder()));
+                            manager.STRING_ENCODING));
             printWriter = new PrintWriter(bw);
         }
         catch(IOException e)
@@ -83,7 +77,6 @@ public class CBPTextSerializer
             e.printStackTrace();
             System.exit(0);
         }
-		
 		
 		//if we're not in resume mode, serialise initial entry
 		if(!manager.isResume())
@@ -93,29 +86,17 @@ public class CBPTextSerializer
 		{
 			switch(e.getEventType())
 			{
-			case Event.SET_EATTRIBUTE_SINGLE:
-				handleSetEAttributeSingleEvent((SetEAttributeSingleEvent)e);
+			case Event.SET_EATTRIBUTE_EVENT:
+				handleSetEAttributeEvent((SetEAttributeEvent)e);
 				break;
-			case Event.SET_EATTRIBUTE_MANY:
-				handleSetEAttributeManyEvent((SetEAttributeManyEvent)e);
+			case Event.SET_EREFERENCE_EVENT:
+				handleSetEReferenceEvent((SetEReferenceEvent)e);
 				break;
-			case Event.SET_EREFERENCE_SINGLE:
-				handleSetEReferenceSingleEvent((SetEReferenceSingleEvent)e);
+			case Event.UNSET_EATTRIBUTE_EVENT:
+				handleUnsetEAttributeEvent((UnsetEAttributeEvent)e);
 				break;
-			case Event.SET_EREFERENCE_MANY:
-				handleSetEReferenceManyEvent((SetEReferenceManyEvent)e);
-				break;
-			case Event.UNSET_EATTRIBUTE_SINGLE:
-				handleUnsetEAttributeSingleEvent((UnsetEAttributeSingleEvent)e);
-				break;
-			case Event.UNSET_EATTRIBUTE_MANY:
-				handleUnsetEAttributeManyEvent((UnsetEAttributeManyEvent)e);
-				break;
-			case Event.UNSET_EREFERENCE_SINGLE:
-				handleUnsetEReferenceSingleEvent((UnsetEReferenceSingleEvent)e);
-				break;
-			case Event.UNSET_EREFERENCE_MANY:
-				handleUnsetEReferenceManyEvent((UnsetEReferenceManyEvent)e);
+			case Event.UNSET_EREFERENCE_EVENT:
+				handleUnsetEReferenceEvent((UnsetEReferenceEvent)e);
 				break;
 			}
 		}
@@ -126,69 +107,7 @@ public class CBPTextSerializer
 		manager.setResume(true);
 	}
 	
-	private void handleSetEAttributeSingleEvent(SetEAttributeSingleEvent e)
-	{
-		EObject focus_obj = e.getFocusObj();
-		
-		EAttribute attr = e.getEAttribte();
-		
-		String newValue = EcoreUtil.convertToString(attr.getEAttributeType(), e.getNewValue());
-		
-		if(newValue == null)
-			newValue = "null";
-		
-		newValue = newValue.replace(PersistenceManager.DELIMITER, 
-				PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
-		
-		printWriter.println(PersistenceManager.SET_EATTRIBUTE_VALUE+" "
-				+ePackageElementsNamesMap.getID(attr.getName())+" "
-				+changelog.getObjectId(focus_obj)+" ["+newValue+"]");
-	}
-	
-	/*private boolean isInitialEntrySerialised() 
-	{
-		
-		// if output file doesn't exits, initial entry doesn't exist
-		File f = new File(manager.getURI().path());
-		if(!f.exists() || f.isDirectory())
-			return false;
-		
-		// output file exists, check it for 'namespace' entry
-		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(manager.getURI().path()), manager.TEXT_ENCODING));)
-		{
-			String line;
-			
-			if((line = br.readLine()) != null)
-			{
-				return line.contains("NAMESPACE_URI");
-			}
-		} 
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
-		
-		return false;
-	}*/
-	
-	private void handleUnsetEAttributeSingleEvent(UnsetEAttributeSingleEvent e)
-	{
-		EObject focus_obj = e.getFocusObject();
-		
-		EAttribute attr = e.getEAttribute();
-		
-		String oldValue = EcoreUtil.convertToString(attr.getEAttributeType(), e.getOldValue());
-		
-		oldValue = oldValue.replace(PersistenceManager.DELIMITER, 
-				PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter (if any)
-		
-		printWriter.println(PersistenceManager.UNSET_EATTRIBUTE_VALUE
-				+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
-					+changelog.getObjectId(focus_obj)+" ["+oldValue+"]");
-	}
-	
-	private void handleSetEAttributeManyEvent(SetEAttributeManyEvent e)
+	private void handleSetEAttributeEvent(SetEAttributeEvent e)
 	{
 		EObject focus_obj = e.getFocusObj();
 		EAttribute attr = e.getEAttribute();
@@ -215,12 +134,12 @@ public class CBPTextSerializer
 		obj_list_blr.append("]");
 		
 	
-		printWriter.println(PersistenceManager.SET_EATTRIBUTE_VALUE
+		printWriter.println(PersistenceManager.SET_COMPLEX_EATTRIBUTE_VALUE
 				+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
 				+changelog.getObjectId(focus_obj)+" "+obj_list_blr.toString());
 	}
 	
-	private void handleUnsetEAttributeManyEvent(UnsetEAttributeManyEvent e)
+	private void handleUnsetEAttributeEvent(UnsetEAttributeEvent e)
 	{
 		EObject focus_obj = e.getFocusObj();
 		EAttribute attr = e.getEAttribute();
@@ -239,95 +158,12 @@ public class CBPTextSerializer
 		sb.substring(0,sb.length());
 		sb.append("]");
 		
-		printWriter.println(PersistenceManager.UNSET_EATTRIBUTE_VALUE
+		printWriter.println(PersistenceManager.UNSET_COMPLEX_EATTRIBUTE_VALUE
 				+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
 				+changelog.getObjectId(focus_obj)+" "+sb.toString());
 	}
 	
-	private void handleSetEReferenceSingleEvent(SetEReferenceSingleEvent e)
-	{
-		EObject added_obj = e.getAddedObject();
-		StringBuilder sb;
-	
-		System.out.println(e.getNotifierType());
-		
-		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //add eobject to resource
-		{
-			
-			
-			if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
-			{
-				 sb = new StringBuilder
-						().append((PersistenceManager.CREATE_AND_ADD_TO_RESOURCE)).append(" [")
-						.append(ePackageElementsNamesMap.getID(added_obj.eClass().getName())).
-					append(" ").append(changelog.getObjectId(added_obj)).append("]");
-				
-				printWriter.println(sb.toString());
-			
-			}
-			else
-			{
-				 sb = new StringBuilder().append(PersistenceManager.ADD_TO_RESOURCE)
-						.append(" [").append(changelog.getObjectId(added_obj)).append("]");
-				
-				printWriter.println(sb.toString());
-				
-			}
-			
-		}
-		else if(e.getNotifierType() == Event.NotifierType.EOBJECT) //add eobject to eobject
-		{
-			EObject focus_obj = e.getFocusObject();
-			
-			if(changelog.addObjectToMap(added_obj))//make 'create' entries for obj which don't already exist
-			{
-				  sb = new StringBuilder().append(PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE)
-						.append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).append(" ")
-						.append(changelog.getObjectId(focus_obj)).append(" ")
-						.append("[").append(ePackageElementsNamesMap.getID(added_obj.eClass().getName()))
-						.append(" ").append(changelog.getObjectId(added_obj)).append("]");
-				
-				printWriter.println(sb.toString());
-			
-			}
-			else
-			{
-				 sb = new StringBuilder().append(PersistenceManager.SET_EREFERENCE_VALUE)
-						.append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName())).append(" ")
-						.append(changelog.getObjectId(focus_obj)).append(" ")
-						.append("[").append(changelog.getObjectId(added_obj)).append("]");
-				
-				printWriter.println(sb.toString());
-			
-			}
-		}
-	}
-	
-	private void handleUnsetEReferenceSingleEvent(UnsetEReferenceSingleEvent e)
-	{
-		EObject removed_obj = e.getRemovedObject();
-		long removed_obj_id = changelog.getObjectId(removed_obj);
-		
-		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //delete eobject from resource
-		{
-			printWriter.println(PersistenceManager.DELETE_FROM_RESOURCE+" ["+removed_obj_id+"]"); 
-			
-			changelog.deleteEObjectFromMap(removed_obj);
-		}
-		else if(e.getNotifierType() == Event.NotifierType.EOBJECT)
-		{
-			EObject focus_obj = e.getFocusObject();
-			
-			printWriter.println(PersistenceManager.UNSET_EREFERENCE_VALUE+" "
-					+ePackageElementsNamesMap.getID(e.getEReference().getName())+" "+
-					changelog.getObjectId(focus_obj)+" ["+removed_obj_id+"]");
-			
-			changelog.deleteEObjectFromMap(removed_obj);
-		}
-		
-	}
-	
-	private void handleSetEReferenceManyEvent(SetEReferenceManyEvent e)
+	private void handleSetEReferenceEvent(SetEReferenceEvent e)
 	{
 		//Stopwatch s = new Stopwatch();
 		//s.resume();
@@ -407,7 +243,7 @@ public class CBPTextSerializer
 	    
 	}
 	
-	private void handleUnsetEReferenceManyEvent(UnsetEReferenceManyEvent e)
+	private void handleUnsetEReferenceEvent(UnsetEReferenceEvent e)
 	{
 		//STRING BUILDER IS NOT USED! FIX
 		List<EObject> removed_obj_list = e.getObjectList();
@@ -447,30 +283,24 @@ public class CBPTextSerializer
 		EObject obj = null;
 		Event e = eventList.get(0);
 		
-		switch(e.getEventType())
+		if(e.getEventType()!= Event.SET_EREFERENCE_EVENT) //tbr
 		{
-		case Event.SET_EREFERENCE_SINGLE:
-			obj = ((SetEReferenceSingleEvent)e).getAddedObject();
-			break;
-		case Event.SET_EREFERENCE_MANY:
-			obj = ((SetEReferenceManyEvent)e).getEObjectList().get(0);
-			break;
-		default:
 			try 
 			{
-				System.out.println(e.getEventType());
-				throw new Exception ("Error! first item in events list was not an Add event.");
-			} catch (Exception e1) 
+				System.out.println(classname+" "+e.getEventType());
+				throw new Exception("Error! first item in events list was not an Add event.");
+			} 
+			catch (Exception e1) 
 			{
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				System.exit(0);
 			}
 		}
+		obj = ((SetEReferenceEvent)e).getEObjectList().get(0);
 		
-		if(obj == null)
+		if(obj == null) //TBR
 		{
-			System.out.println(e.getEventType());
+			System.out.println(classname+" "+e.getEventType());
 			System.exit(0);
 		}
 		

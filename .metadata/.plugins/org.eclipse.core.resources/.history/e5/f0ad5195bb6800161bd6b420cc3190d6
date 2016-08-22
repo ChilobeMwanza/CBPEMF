@@ -1,0 +1,47 @@
+package change;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+
+public class UnsetEAttributeEvent extends Event 
+{
+	private EObject focus_obj;
+	
+	private EAttribute attr;
+	
+	private List<Object> attr_values_list = new ArrayList<Object>();
+	
+	public UnsetEAttributeEvent(EObject focus_obj, EAttribute attr, Object oldValue)
+	{
+		super(Event.UNSET_EATTRIBUTE_EVENT);
+		
+		if(OldVale)
+		this.focus_obj = focus_obj;
+		this.attr = attr;
+		this.attr_values_list = attr_values_list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public UnsetEAttributeManyEvent(Notification n)
+	{
+		this((EObject) n.getNotifier(),(EAttribute) n.getFeature(),(List<Object>) n.getOldValue());
+	}
+	
+	public EObject getFocusObj()
+	{
+		return this.focus_obj;
+	}
+	
+	public EAttribute getEAttribute()
+	{
+		return this.attr;
+	}
+	
+	public List<Object> getAttributeValuesList()
+	{
+		return this.attr_values_list;
+	}
+}

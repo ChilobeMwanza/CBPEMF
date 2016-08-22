@@ -36,7 +36,6 @@ public class Changelog
 	
 	public boolean addObjectToMap(EObject obj)
 	{
-	
 		if(!eObjectToIDMap.containsKey(obj))
 		{
 			eObjectToIDMap.put(obj, current_id);

@@ -78,6 +78,7 @@ class PrimitiveType
 	attr String a;
 	attr int b;
 	attr Integer c;
+	attr Integer[*]  bigIntList;
 	attr boolean d;
 	attr Boolean e;
 	attr float f;
@@ -91,4 +92,5 @@ class PrimitiveType
 	attr long n;
 	attr Long o;
 	attr char p;
+	
 }

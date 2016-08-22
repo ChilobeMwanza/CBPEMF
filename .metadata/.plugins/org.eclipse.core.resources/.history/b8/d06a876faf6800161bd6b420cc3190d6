@@ -1,0 +1,8 @@
+package change;
+
+public class SetEAttributeEvent 
+{
+	 private EObject focus_obj;
+	    private EAttribute attr;
+	    private List<Object> attr_values_list;
+}

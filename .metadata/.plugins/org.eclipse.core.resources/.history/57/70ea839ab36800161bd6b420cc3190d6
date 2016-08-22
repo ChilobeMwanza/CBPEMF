@@ -1,0 +1,10 @@
+package change;
+
+public class SetEReferenceEvent extends Event 
+{
+	 private NotifierType type;
+	    
+	    private List<EObject> obj_list;
+	    private EObject focus_obj;
+	    private EReference eref;
+}

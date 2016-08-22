@@ -68,6 +68,7 @@ public class AddToResourceTests extends TestBase
 		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
+		
     }
 	
 	/*
