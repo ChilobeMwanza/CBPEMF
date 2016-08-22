@@ -475,28 +475,28 @@ public class CBPBinarySerializer
 		{
 		case PersistenceManager.SIMPLE_TYPE_INT:
 			writePrimitive(out,(int)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_BOOLEAN:
 			writePrimitive(out,(boolean)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_BYTE:
 			writePrimitive(out,(byte)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_CHAR:
 			writePrimitive(out,(char)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_DOUBLE:
 			writePrimitive(out,(double)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_FLOAT:
 			writePrimitive(out,(short)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_LONG:
 			writePrimitive(out,(long)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_SHORT:
 			writePrimitive(out,(short)obj);
-			return;
+			break;
 		}
 		
 	}

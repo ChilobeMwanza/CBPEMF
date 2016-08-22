@@ -267,7 +267,7 @@ public class CBPTextDeserializer
 		else
 		{
 			//System.out.println(classname+" "+feature_values_array [0]);
-			if(feature_values_array [0].equals(manager.NULL_STRING))
+			if(feature_values_array [0].equals("null"))
 				focus_obj.eSet(attr, null);
 			else
 				focus_obj.eSet(attr, EcoreUtil.createFromString(attr.getEAttributeType(),feature_values_array [0]));

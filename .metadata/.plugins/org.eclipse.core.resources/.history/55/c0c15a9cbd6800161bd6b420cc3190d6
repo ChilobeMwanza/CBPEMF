@@ -54,7 +54,7 @@ public class PersistenceManager
 	public static final String DELIMITER = ","; 
 	public static final String ESCAPE_CHAR ="+"; 
 	public final Charset STRING_ENCODING = StandardCharsets.UTF_8;
-	public final String NULL_STRING = "pFgrW";
+	public static final String NULL_STRING = "";
 	
 	private final Changelog changelog; 
 

@@ -184,7 +184,7 @@ public class App
 		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni);
-	
+		uni.setChancelor(null);
 		
 		
 		res.save(null);

@@ -122,7 +122,7 @@ public class CBPTextSerializer
 			String newValue = (EcoreUtil.convertToString(type, object));
 			
 			if(newValue == null)
-				newValue = manager.NULL_STRING;
+				newValue = "null";
 			
 			newValue = newValue.replace(PersistenceManager.DELIMITER, 
 					PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter

@@ -212,28 +212,28 @@ public class CBPBinarySerializer
     	{
     	case PersistenceManager.SIMPLE_TYPE_INT:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_INT);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_SHORT:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_SHORT);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_LONG:
     		handleSetPrimitiveEAttributes(e,out,PersistenceManager.SIMPLE_TYPE_LONG);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_FLOAT:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_FLOAT);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_DOUBLE:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_DOUBLE);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_BOOLEAN:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_BOOLEAN);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_CHAR:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_CHAR);
-    		return;
+    		break;
     	case PersistenceManager.COMPLEX_TYPE:
-    		handleSetComplexEAttributes(e,out);
-    		return;
+    		handleComplexEAttributes(e,out);
+    		break;
     	}
     }
     
@@ -475,28 +475,28 @@ public class CBPBinarySerializer
 		{
 		case PersistenceManager.SIMPLE_TYPE_INT:
 			writePrimitive(out,(int)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_BOOLEAN:
 			writePrimitive(out,(boolean)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_BYTE:
 			writePrimitive(out,(byte)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_CHAR:
 			writePrimitive(out,(char)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_DOUBLE:
 			writePrimitive(out,(double)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_FLOAT:
 			writePrimitive(out,(short)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_LONG:
 			writePrimitive(out,(long)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_SHORT:
 			writePrimitive(out,(short)obj);
-			return;
+			break;
 		}
 		
 	}

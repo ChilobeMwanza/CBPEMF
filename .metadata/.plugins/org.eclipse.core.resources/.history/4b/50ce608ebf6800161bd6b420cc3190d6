@@ -101,46 +101,7 @@ public class CBPBinarySerializer
 	
     }
     
-    private void handleUnsetEAttributeEvent(UnsetEAttributeEvent e, OutputStream out) throws IOException
-    {
-    	EDataType type = e.getEAttribute().getEAttributeType();
-        
-        if(type instanceof EEnum)
-        {
-            handleUnsetComplexEAttributes(e,out);
-            return;
-        }
-        
-        switch(getTypeID(type))
-        {
-        case PersistenceManager.SIMPLE_TYPE_INT:
-            handleUnsetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_INT);
-            return;
-        case PersistenceManager.SIMPLE_TYPE_SHORT:
-            handleUnsetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_SHORT);
-            return;
-        case PersistenceManager.SIMPLE_TYPE_LONG:
-            handleUnsetPrimitiveEAttributes(e,out,PersistenceManager.SIMPLE_TYPE_LONG);
-            return;
-        case PersistenceManager.SIMPLE_TYPE_FLOAT:
-            handleUnsetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_FLOAT);
-            return;
-        case PersistenceManager.SIMPLE_TYPE_DOUBLE:
-            handleUnsetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_DOUBLE);
-            return;
-        case PersistenceManager.SIMPLE_TYPE_BOOLEAN:
-            handleUnsetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_BOOLEAN);
-            return;
-        case PersistenceManager.SIMPLE_TYPE_CHAR:
-            handleUnsetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_CHAR);
-            return;
-        case PersistenceManager.COMPLEX_TYPE:
-            handleUnsetComplexEAttributes(e,out);
-            return;
-        }
-    }
-    
-    private void handleUnsetPrimitiveEAttributes(UnsetEAttributeEvent e,OutputStream out, int primitiveType ) throws IOException
+    private void handleUnsetEAttributeEvent(UnsetEAttributeEvent e, OutputStream out, int primitiveType) throws IOException
     {
     	EObject focus_obj = e.getFocusObj();
     	EAttribute attr = e.getEAttribute();
@@ -151,52 +112,35 @@ public class CBPBinarySerializer
          writePrimitive(out,ePackageElementsNamesMap.getID(attr.getName()));
          writePrimitive(out,attr_values_list.size());
          
+         int nullCounter = 0;
+         
          for(Object obj : attr_values_list)
          {
+             if(obj == null)
+             {
+                 nullCounter++;
+                 continue;
+             }
+             
              writePrimitive(out,primitiveType,obj);
-         }  
+         }
+         
+         if(nullCounter > 0) // for obj with null values, serialise as complex types
+         {
+             String[] nullsArray = new String[nullCounter];
+             
+             Arrays.fill(nullsArray,manager.NULL_STRING);
+             
+             List<Object> nullList = new ArrayList<Object>(Arrays.asList(nullsArray));
+             
+             handleSetComplexEAttributes(out,focus_obj,attr,nullList);
+         }
     }
     
-    private void handleUnsetComplexEAttributes(UnsetEAttributeEvent e,OutputStream out) throws IOException
+    private void handleUnsetPrimitiveEAttributes(UnsetEAttributeEvent e,OutputStream out, int primitiveType )
     {
-    	EObject focus_obj = e.getFocusObj();
     	
-    	EAttribute attr = e.getEAttribute();
-    	
-    	EDataType dataType = attr.getEAttributeType();
-    	
-    	List<Object> attr_values = e.getAttributeValuesList();
-    	
-    	writePrimitive(out,PersistenceManager.UNSET_COMPLEX_EATTRIBUTE_VALUE);
-    	writePrimitive(out,changelog.getObjectId(focus_obj));
-    	writePrimitive(out,ePackageElementsNamesMap.getID(attr.getName()));
-    	writePrimitive(out,attr_values.size());
-    	
-    	if(dataType.getName().equals("EString"))
-    	{
-    		for(Object obj : attr_values)
-    		{
-    			if(obj == null)
-    				obj = manager.NULL_STRING;
-    			
-    			writeString(out,(String)obj);
-    		}
-    	}
-    	else
-    	{
-    		for(Object obj : attr_values)
-    		{
-    			String valueString = EcoreUtil.convertToString(dataType, obj);
-    			
-    			if(valueString == null)
-    				valueString = manager.NULL_STRING;
-    			
-    			writeString(out,valueString);
-    		}
-    	}
     }
-    
-    
     
     private void handleSetEAttributeEvent(SetEAttributeEvent e, OutputStream out) throws IOException
     {
@@ -204,7 +148,7 @@ public class CBPBinarySerializer
     	
     	if(type instanceof EEnum)
     	{
-    		handleSetComplexEAttributes(e,out);
+    		handleComplexEAttributes(e,out);
     		return;
     	}
     	
@@ -212,28 +156,28 @@ public class CBPBinarySerializer
     	{
     	case PersistenceManager.SIMPLE_TYPE_INT:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_INT);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_SHORT:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_SHORT);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_LONG:
     		handleSetPrimitiveEAttributes(e,out,PersistenceManager.SIMPLE_TYPE_LONG);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_FLOAT:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_FLOAT);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_DOUBLE:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_DOUBLE);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_BOOLEAN:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_BOOLEAN);
-    		return;
+    		break;
     	case PersistenceManager.SIMPLE_TYPE_CHAR:
     		handleSetPrimitiveEAttributes(e,out, PersistenceManager.SIMPLE_TYPE_CHAR);
-    		return;
+    		break;
     	case PersistenceManager.COMPLEX_TYPE:
-    		handleSetComplexEAttributes(e,out);
-    		return;
+    		handleComplexEAttributes(e,out);
+    		break;
     	}
     }
     
@@ -306,7 +250,7 @@ public class CBPBinarySerializer
     	}
     }
     
-    private void handleSetComplexEAttributes(SetEAttributeEvent e,OutputStream out) throws IOException
+    private void handleComplexEAttributes(SetEAttributeEvent e,OutputStream out) throws IOException
     {
     	handleSetComplexEAttributes(out,e.getFocusObj(),e.getEAttribute(),e.getAttributeValuesList());
     }
@@ -475,28 +419,28 @@ public class CBPBinarySerializer
 		{
 		case PersistenceManager.SIMPLE_TYPE_INT:
 			writePrimitive(out,(int)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_BOOLEAN:
 			writePrimitive(out,(boolean)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_BYTE:
 			writePrimitive(out,(byte)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_CHAR:
 			writePrimitive(out,(char)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_DOUBLE:
 			writePrimitive(out,(double)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_FLOAT:
 			writePrimitive(out,(short)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_LONG:
 			writePrimitive(out,(long)obj);
-			return;
+			break;
 		case PersistenceManager.SIMPLE_TYPE_SHORT:
 			writePrimitive(out,(short)obj);
-			return;
+			break;
 		}
 		
 	}

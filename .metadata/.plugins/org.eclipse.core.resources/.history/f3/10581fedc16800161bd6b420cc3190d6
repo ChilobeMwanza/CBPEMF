@@ -75,8 +75,8 @@ public class App
 		// TODO Auto-generated method stub
 		App app = new App();
 		//app.loadResource() ;
-		app.createResource();
-		//app.foo();
+		//app.createResource();
+		app.foo();
 		
 		
 	}
@@ -172,19 +172,16 @@ public class App
 			//	CBPTextResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
 		PrimitiveType pt = UniversityFactory.eINSTANCE.createPrimitiveType();
-		//res.getContents().add(pt);
+		res.getContents().add(pt);
 		
-		//List<Integer> someNumbers = new ArrayList<Integer>();
-		//someNumbers.add(1);
-		//someNumbers.add(2);
-		//someNumbers.add(null);
+		List<Integer> someNumbers = new ArrayList<Integer>();
+		someNumbers.add(1);
+		someNumbers.add(2);
+		someNumbers.add(null);
 		
-		//pt.getBigIntList().addAll(someNumbers);
+		pt.getBigIntList().addAll(someNumbers);
 		
 		
-		University uni = UniversityFactory.eINSTANCE.createUniversity();
-		res.getContents().add(uni);
-	
 		
 		
 		res.save(null);
