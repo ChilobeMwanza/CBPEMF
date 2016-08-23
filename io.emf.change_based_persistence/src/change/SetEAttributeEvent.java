@@ -34,7 +34,9 @@ public class SetEAttributeEvent extends Event
     @SuppressWarnings("unchecked")
     public SetEAttributeEvent(Notification n)
     {
-        this((EObject) n.getNotifier(),(EAttribute) n.getFeature(),(List<Object>) n.getNewValue());
+    	
+    	
+        this((EObject) n.getNotifier(),(EAttribute) n.getFeature(),n.getNewValue());
     }
     
     public EObject getFocusObj()

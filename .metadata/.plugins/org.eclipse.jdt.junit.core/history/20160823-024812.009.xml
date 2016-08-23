@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="SetUnsetAttributeTests" project="io.emf.change_based_persistence" tests="11" started="11" failures="0" errors="0" ignored="0">
+  <testsuite name="generated_emf_tests.SetUnsetAttributeTests" time="0.047">
+    <testcase name="testSetMultipleSingleValueAttributes" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.026"/>
+    <testcase name="testRemoveFromManyValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.003"/>
+    <testcase name="testAddToManyValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.002"/>
+    <testcase name="testUnsetOneSingleValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.001"/>
+    <testcase name="testUnsetMultipleSingleValueAttributes" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.004"/>
+    <testcase name="testEscapingDelimiterWhenUnsetEAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.001"/>
+    <testcase name="testEscapingDelimiterWhenSetEAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.003"/>
+    <testcase name="testSetEnum" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.002"/>
+    <testcase name="testRemoveAllFromManyValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.001"/>
+    <testcase name="testAddAllToManyValuedAtribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.002"/>
+    <testcase name="testSetOneSingleValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" time="0.002"/>
+  </testsuite>
+</testrun>

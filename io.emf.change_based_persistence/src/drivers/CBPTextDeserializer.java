@@ -274,6 +274,8 @@ public class CBPTextDeserializer
 		}
 	}
 	
+	
+	
 	private void handleAddToResourceEvent(String line)
 	{
 		String[] obj_str_array = tokeniseString(getValueInSquareBrackets(line));

@@ -398,6 +398,8 @@ public class CBPBinarySerializer
     private void handleUnsetEReferenceEvent(UnsetEReferenceEvent e, OutputStream out) throws IOException
     {
     	List<EObject> removed_obj_list = e.getObjectList();
+    	
+    	
     
     	if(e.getNotiferType() == Event.NotifierType.RESOURCE)
     	{

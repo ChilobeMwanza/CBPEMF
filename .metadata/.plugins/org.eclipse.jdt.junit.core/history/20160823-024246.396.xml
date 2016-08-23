@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="GeneralSaveTests" project="io.emf.change_based_persistence" tests="5" started="5" failures="0" errors="0" ignored="0">
+  <testsuite name="generated_emf_tests.GeneralSaveTests" time="0.052">
+    <testcase name="testMultipleSaveWithModifications" classname="generated_emf_tests.GeneralSaveTests" time="0.033"/>
+    <testcase name="testBasicSaveAndLoad" classname="generated_emf_tests.GeneralSaveTests" time="0.014"/>
+    <testcase name="testEmptySave" classname="generated_emf_tests.GeneralSaveTests" time="0.001"/>
+    <testcase name="testRedundantModification" classname="generated_emf_tests.GeneralSaveTests" time="0.003"/>
+    <testcase name="testRepeatedSaveNoModification" classname="generated_emf_tests.GeneralSaveTests" time="0.001"/>
+  </testsuite>
+</testrun>

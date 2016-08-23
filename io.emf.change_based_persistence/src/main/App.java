@@ -1,5 +1,9 @@
 /**
- * BUGS/ISSUES
+ * TO DO,
+ * 1)changelog optimisation algorithm.
+ * 2)more tests for primitives, e.t.c
+ * 3)more performance tuning,
+ * 4)code cleanup
  */
 
 package main;
@@ -84,50 +88,6 @@ public class App
 	
 	private void foo()
 	{
-		University uni  = UniversityFactory.eINSTANCE.createUniversity();
-		
-		//StaffMember s1 = UniversityFactory.eINSTANCE.createStaffMember();
-		
-		
-		EAttribute attr = (EAttribute) uni.eClass().getEStructuralFeature
-				("name"); //staffMemberType
-		
-		
-		
-		
-		EDataType type = attr.getEAttributeType();
-		
-		
-		String[] array = new String[10000000];
-		String[] result = new String[array.length];
-		
-		Arrays.fill(array, "sfdf");
-		
-		Stopwatch sw = new Stopwatch();
-		sw.resume();
-		
-		for(int i = 0; i < array.length; i++)
-		{
-			result[i] = array[i];
-		}
-		
-		sw.pause();
-		
-		System.out.println("speed using default string: "+sw.getElapsed());
-		
-		Arrays.fill(result, null);
-		
-		
-		
-		sw.resume();
-		for(int i = 0; i < array.length; i++)
-		{
-			result[i] = EcoreUtil.convertToString(type, array[i]);
-		}
-		
-		sw.pause();
-		
-		System.out.println("speed using convert : "+sw.getElapsed());
 		
 	}
 	
@@ -168,25 +128,8 @@ public class App
 		Resource res = new 
 				CBPBinaryResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
-		//Resource res = new 
-			//	CBPTextResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
-		
-		PrimitiveType pt = UniversityFactory.eINSTANCE.createPrimitiveType();
-		//res.getContents().add(pt);
-		
-		//List<Integer> someNumbers = new ArrayList<Integer>();
-		//someNumbers.add(1);
-		//someNumbers.add(2);
-		//someNumbers.add(null);
-		
-		//pt.getBigIntList().addAll(someNumbers);
-		
-		
-		University uni = UniversityFactory.eINSTANCE.createUniversity();
-		res.getContents().add(uni);
+
 	
-		
-		
 		res.save(null);
 		
 		

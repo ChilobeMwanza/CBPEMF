@@ -27,8 +27,6 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testRepeatedSaveNoModification() throws IOException
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
-		
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni1);
 		
@@ -55,7 +53,6 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testMultipleSaveWithModifications() throws IOException, InterruptedException
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
 		University uni1 = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni1);
 		
@@ -86,30 +83,17 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testBasicSaveAndLoad() throws IOException
 	{
-		Resource savedRes = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		
 		
 		University savedUni = UniversityFactory.eINSTANCE.createUniversity();
 		
-		savedRes.getContents().add(savedUni);
+		res.getContents().add(savedUni);
 		
-		savedRes.save(null);
+		res.save(null);
 		
-		//Load in the resource
-		ResourceSetImpl rs = new ResourceSetImpl();
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put
-		("txt", new Resource.Factory()
-		{
-			@Override
-			public Resource createResource(URI uri)
-			{
-				return new CBPTextResourceImpl(uri,ePackage);
-			}
-		});
+
 		
-		rs.getPackageRegistry().put(UniversityPackage.eINSTANCE.getNsURI(), 
-				UniversityPackage.eINSTANCE);
-		
-		Resource loadedRes = rs.createResource(URI.createFileURI(fileSaveLocation));
+		Resource loadedRes = loadResource();
 		loadedRes.load(null);
 		
 		//check objects are equal
@@ -140,7 +124,7 @@ public class GeneralSaveTests extends TestBase
 	@Test
 	public void testRedundantModification() throws IOException
 	{
-		Resource res = new CBPTextResourceImpl(URI.createURI(fileSaveLocation),ePackage);
+		
 		
 		University savedUni = UniversityFactory.eINSTANCE.createUniversity();
 		
@@ -154,22 +138,9 @@ public class GeneralSaveTests extends TestBase
 		Long timeStamp = file.lastModified();
 		
 		
-		//Load in the resource
-		ResourceSetImpl rs = new ResourceSetImpl();
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put
-		("txt", new Resource.Factory()
-		{
-			@Override
-			public Resource createResource(URI uri)
-			{
-				return new CBPTextResourceImpl(uri,ePackage);
-			}
-		});
 		
-		rs.getPackageRegistry().put(UniversityPackage.eINSTANCE.getNsURI(), 
-				UniversityPackage.eINSTANCE);
 		
-		Resource loadedRes = rs.createResource(URI.createFileURI(fileSaveLocation));
+		Resource loadedRes = loadResource();
 		loadedRes.load(null);
 		
 		University loadedUni = (University) res.getContents().get(0);

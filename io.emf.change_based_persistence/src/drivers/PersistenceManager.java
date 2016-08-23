@@ -161,7 +161,7 @@ public class PersistenceManager
 	public void load(Map<?,?> options) throws Exception
 	{	
 		//CBPTextDeserializer textDeserializer = new CBPTextDeserializer(this,changelog,ePackageElementsNamesMap);
-		CBPBinaryDeserializer deserializer = new CBPBinaryDeserializer(this,changelog,ePackageElementsNamesMap);
+		CBPBinaryDeserializer deserializer = new CBPBinaryDeserializer(this,changelog,ePackageElementsNamesMap,simpleTypesMap);
 		deserializer.load(options);
 	}
 	
