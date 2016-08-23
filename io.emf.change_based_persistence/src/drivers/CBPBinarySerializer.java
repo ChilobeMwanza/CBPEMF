@@ -455,7 +455,6 @@ public class CBPBinarySerializer
 			System.exit(0);
 		}
 		
-		
 		out.write(FORMAT_ID.getBytes(manager.STRING_ENCODING)); //FORMAT ID
 		writePrimitive(out, FORMAT_VERSION); //FORMAT VERSION
 		writeString(out,obj.eClass().getEPackage().getNsURI()); //NS URI

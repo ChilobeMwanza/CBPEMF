@@ -160,9 +160,16 @@ public class PersistenceManager
 	
 	public void load(Map<?,?> options) throws Exception
 	{	
-		//CBPTextDeserializer textDeserializer = new CBPTextDeserializer(this,changelog,ePackageElementsNamesMap);
-		CBPBinaryDeserializer deserializer = new CBPBinaryDeserializer(this,changelog,ePackageElementsNamesMap,simpleTypesMap);
-		deserializer.load(options);
+		if(resource instanceof CBPBinaryResourceImpl)
+		{
+			CBPBinaryDeserializer deserializer = new CBPBinaryDeserializer(this,changelog,ePackageElementsNamesMap,simpleTypesMap);
+			deserializer.load(options);
+		}
+		else if(resource instanceof CBPTextResourceImpl)
+		{
+			CBPTextDeserializer textDeserializer = new CBPTextDeserializer(this,changelog,ePackageElementsNamesMap);
+			textDeserializer.load(options);
+		}
 	}
 	
 	public Changelog getChangelog()

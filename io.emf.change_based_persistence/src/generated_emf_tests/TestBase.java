@@ -23,7 +23,7 @@ import university.UniversityPackage;
 
 public abstract class TestBase 
 {
-	protected static String fileSaveLocation ="university.bin";
+	protected static String fileSaveLocation = null;
 	protected final EPackage ePackage = UniversityPackage.eINSTANCE;
 	private static boolean testingBinary = true;
 	protected Resource res = null;
@@ -34,13 +34,19 @@ public abstract class TestBase
 	{
 		if(testingBinary)
 		{
+			fileSaveLocation ="university.bin";
+			
 			res = new CBPBinaryResourceImpl(URI.createURI
 					(fileSaveLocation),UniversityPackage.eINSTANCE);
+			
 		}
 		else
 		{
+			 fileSaveLocation ="university.txt";
+			 
 			 res = new CBPTextResourceImpl(URI.createURI
 					 	(fileSaveLocation),UniversityPackage.eINSTANCE);
+			
 		}
 		
 		
