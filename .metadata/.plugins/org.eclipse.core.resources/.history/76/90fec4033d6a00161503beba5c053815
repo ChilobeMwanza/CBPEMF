@@ -1,0 +1,20 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+
+import drivers.PersistenceManager;
+
+public class SetEAttributeEvent extends EAttributeEvent
+{
+	public SetEAttributeEvent(EObject focusObject, EAttribute eAttribute, Object newValue)
+    {
+       super(Event.UNSET_EATTRIBUTE_EVENT, focusObject, eAttribute, newValue);  
+    }
+    
+    public SetEAttributeEvent(Notification n)
+    {
+        this((EObject) n.getNotifier(),(EAttribute) n.getFeature(),n.getNewValue());
+    }
+}

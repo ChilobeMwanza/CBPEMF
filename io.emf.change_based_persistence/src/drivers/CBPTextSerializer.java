@@ -9,27 +9,28 @@
  */
 package drivers;
 
-
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.epsilon.profiling.Stopwatch;
 
 import change.Changelog;
+import change.EAttributeEvent;
+import change.EReferenceEvent;
 import change.Event;
-import change.SetEAttributeEvent;
 import change.SetEReferenceEvent;
-import change.UnsetEAttributeEvent;
 import change.UnsetEReferenceEvent;
+import gnu.trove.iterator.TIntIterator;
+
+import gnu.trove.list.array.TIntArrayList;
+import gnu.trove.map.TObjectIntMap;
 
 public class CBPTextSerializer 
 {
@@ -47,7 +48,9 @@ public class CBPTextSerializer
 	
 	private final EPackageElementsNamesMap ePackageElementsNamesMap;
 	
-	private PrintWriter printWriter;
+	private final TObjectIntMap<String> commonsimpleTypeNameMap;
+	
+	private final TObjectIntMap<String> textSimpleTypeNameMap;
 	
 	public CBPTextSerializer(PersistenceManager manager, Changelog aChangelog, EPackageElementsNamesMap 
 			ePackageElementsNamesMap)
@@ -57,6 +60,9 @@ public class CBPTextSerializer
 		this.ePackageElementsNamesMap = ePackageElementsNamesMap;
 		
 		this.eventList = manager.getChangelog().getEventsList();
+		
+		this.commonsimpleTypeNameMap = manager.getCommonSimpleTypesMap();
+		this.textSimpleTypeNameMap = manager.getTextSimpleTypesMap();
 	}
 	
 	public void save(Map<?,?> options)
@@ -64,6 +70,7 @@ public class CBPTextSerializer
 		if(eventList.isEmpty())
 			return;
 		
+		PrintWriter printWriter = null;
 		//setup printwriter
 	    try
         {
@@ -80,23 +87,21 @@ public class CBPTextSerializer
 		
 		//if we're not in resume mode, serialise initial entry
 		if(!manager.isResume())
-			serialiseInitialEntry();
+			serialiseInitialEntry(printWriter);
 		
 		for(Event e : eventList)
 		{
 			switch(e.getEventType())
 			{
-			case Event.SET_EATTRIBUTE_EVENT:
-				handleSetEAttributeEvent((SetEAttributeEvent)e);
-				break;
 			case Event.SET_EREFERENCE_EVENT:
-				handleSetEReferenceEvent((SetEReferenceEvent)e);
-				break;
-			case Event.UNSET_EATTRIBUTE_EVENT:
-				handleUnsetEAttributeEvent((UnsetEAttributeEvent)e);
+				writeSetEReferenceEvent((SetEReferenceEvent)e, printWriter);
 				break;
 			case Event.UNSET_EREFERENCE_EVENT:
-				handleUnsetEReferenceEvent((UnsetEReferenceEvent)e);
+				writeUnsetEReferenceEvent((UnsetEReferenceEvent)e, printWriter);
+				break;
+			case Event.SET_EATTRIBUTE_EVENT:
+			case Event.UNSET_EATTRIBUTE_EVENT:
+				writeEAttributeEvent((EAttributeEvent)e, printWriter);
 				break;
 			}
 		}
@@ -107,183 +112,198 @@ public class CBPTextSerializer
 		manager.setResume(true);
 	}
 	
-	private void handleSetEAttributeEvent(SetEAttributeEvent e)
+	private void writeEAttributeEvent(EAttributeEvent e, PrintWriter out) //FIDFD DFIDJLFJ DIF DJ!!! DFF !
 	{
 		EObject focus_obj = e.getFocusObj();
+		
 		EAttribute attr = e.getEAttribute();
 		
-		List<Object> attr_values_list = e.getAttributeValuesList();
+		EDataType dataType = attr.getEAttributeType();
 		
-		StringBuilder obj_list_blr = new StringBuilder("[");
+		int eventType = PersistenceManager.SET_EOBJECT_EATTRIBUTE_VALUES;
 		
-		EDataType type = attr.getEAttributeType();
-		for(Object object: attr_values_list)
+		if(e.getEventType() == Event.UNSET_EATTRIBUTE_EVENT)
+			eventType = PersistenceManager.UNSET_EOBJECT_EATTRIBUTE_VALUES;
+		
+		out.print((eventType+" "+changelog.getObjectId(focus_obj)+" "+
+				ePackageElementsNamesMap.getID(attr.getName())+" ["));
+
+		String newValue ;
+		String delimiter ="";
+		
+		if(getTypeID(dataType) != PersistenceManager.COMPLEX_TYPE )
 		{
-			String newValue = (EcoreUtil.convertToString(type, object));
+			for(Object obj: e.getEAttributeValuesList())
+			{
+				if(obj!= null)
+				{
+					newValue = String.valueOf(obj);
+					newValue = newValue.replace(PersistenceManager.DELIMITER, 
+							PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter
+				}
+				else
+				{
+					newValue = manager.NULL_STRING;
+				}
+				
+				out.print(delimiter+newValue);	
+				delimiter = PersistenceManager.DELIMITER;
+			}
+			out.print("]");
+		}
+		else //all other datatypes
+		{
 			
-			if(newValue == null)
-				newValue = manager.NULL_STRING;
-			
-			newValue = newValue.replace(PersistenceManager.DELIMITER, 
-					PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter
-			
-			obj_list_blr.append(newValue).append(PersistenceManager.DELIMITER);
+			for(Object obj: e.getEAttributeValuesList())
+			{
+				
+				newValue = (EcoreUtil.convertToString(dataType, obj));
+				
+				if(newValue!= null)
+				{
+					newValue = newValue.replace(PersistenceManager.DELIMITER, 
+							PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER); //escape delimiter
+				}
+				else
+				{
+					newValue = manager.NULL_STRING;
+				}
+				
+				out.print(delimiter+newValue);	
+				delimiter = PersistenceManager.DELIMITER;
+			}
+			out.print("]");
 		}
 		
-		obj_list_blr.substring(0,obj_list_blr.length()-1);
-		obj_list_blr.append("]");
-		
-	
-		printWriter.println(PersistenceManager.SET_COMPLEX_EATTRIBUTE_VALUE
-				+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
-				+changelog.getObjectId(focus_obj)+" "+obj_list_blr.toString());
+		out.println();
 	}
 	
-	private void handleUnsetEAttributeEvent(UnsetEAttributeEvent e)
+	private int getTypeID(EDataType type)
 	{
-		EObject focus_obj = e.getFocusObj();
-		EAttribute attr = e.getEAttribute();
-		
-		List<Object> attr_values_list = e .getAttributeValuesList();
-		
-		StringBuilder sb = new StringBuilder("[");
-		
-		
-		for(Object object: attr_values_list)
+		if(commonsimpleTypeNameMap.containsKey(type.getName()))
+    	{
+			return commonsimpleTypeNameMap.get(type.getName());
+    	}
+		else if(textSimpleTypeNameMap.containsKey(type.getName()))
 		{
-			String newValue = (EcoreUtil.convertToString(attr.getEAttributeType(), object));
-			sb.append(newValue).append(PersistenceManager.DELIMITER);
+			return textSimpleTypeNameMap.get(type.getName());
+		}
+    	
+    	return PersistenceManager.COMPLEX_TYPE;
+    }
+	
+	private void writeSetEReferenceEvent(SetEReferenceEvent e, PrintWriter out)
+	{
+		TIntArrayList added_obj_list = new TIntArrayList();
+    	TIntArrayList obj_create_list = new TIntArrayList();
+    	
+    	for(EObject obj : e.getEObjectList())
+    	{
+    		if(changelog.addObjectToMap(obj))
+    		{
+    			obj_create_list.add(ePackageElementsNamesMap.getID(obj.eClass().getName())); 
+    			
+    			System.out.println(classname+"added obj type name"+obj.eClass().getName()+" added obj id: "+
+    			ePackageElementsNamesMap.getID(obj.eClass().getName()));
+    			
+    			
+    			obj_create_list.add(changelog.getObjectId(obj));
+    		}
+    		else
+    		{
+    			added_obj_list.add(changelog.getObjectId(obj));
+    		}
+    	}
+    	
+    	String delimiter= "";
+		if(!obj_create_list.isEmpty())
+		{
+			if(e.getNotifierType() == change.EReferenceEvent.NotifierType.RESOURCE)
+			{
+				out.print(PersistenceManager.CREATE_AND_ADD_EOBJECTS_TO_RESOURCE+" [");
+			}
+			else //e.getNotifierType() == NotifierType.EOBJECT
+			{
+	    		
+				out.print(PersistenceManager.CREATE_EOBJECTS_AND_SET_EREFERENCE_VALUES+" "+
+						changelog.getObjectId(e.getFocusObject())+" "+
+						ePackageElementsNamesMap.getID(e.getEReference().getName())+" [");
+			}
+			
+	        int index = 0;
+    		for(int i = 0; i < (obj_create_list.size() / 2); i++)
+    		{
+    			out.print(delimiter+obj_create_list.get(index)+" "+obj_create_list.get(index+1));
+    			
+    			delimiter = PersistenceManager.DELIMITER;
+    			
+    			index = index + 2;
+    		}
+    		
+    		out.print("]");
 		}
 		
-		sb.substring(0,sb.length());
-		sb.append("]");
-		
-		printWriter.println(PersistenceManager.UNSET_COMPLEX_EATTRIBUTE_VALUE
-				+" "+ePackageElementsNamesMap.getID(attr.getName())+" "
-				+changelog.getObjectId(focus_obj)+" "+sb.toString());
+		if(!added_obj_list.isEmpty())
+		{
+			if(e.getNotifierType() == EReferenceEvent.NotifierType.RESOURCE)
+			{
+				out.print(PersistenceManager.ADD_EOBJECTS_TO_RESOURCE+" [");
+			}
+			else //e.getNotifierType() == NotifierType.EOBJECT
+			{
+	    		
+				out.print(PersistenceManager.SET_EOBJECT_EREFERENCE_VALUES+" "+
+						changelog.getObjectId(e.getFocusObject())+" "+
+						ePackageElementsNamesMap.getID(e.getEReference().getName())+
+						" [");
+			}
+			
+			delimiter="";
+			for(TIntIterator it = added_obj_list.iterator(); it.hasNext();)
+			{
+				out.print(delimiter+it.next());
+				delimiter = PersistenceManager.DELIMITER;
+			}
+			
+			out.print("]");	
+		}
+		out.println();
 	}
 	
-	private void handleSetEReferenceEvent(SetEReferenceEvent e)
-	{
-		//Stopwatch s = new Stopwatch();
-		//s.resume();
-		
-		StringBuilder added_obj_list_blr = new StringBuilder("[");
-		StringBuilder obj_create_list_blr = new StringBuilder("[");
 	
+	private void writeUnsetEReferenceEvent(UnsetEReferenceEvent e, PrintWriter out)
+	{
+		if(e.getNotifierType() == EReferenceEvent.NotifierType.RESOURCE)
+		{
+			out.print(PersistenceManager.REMOVE_EOBJECTS_FROM_RESOURCE+" [");
+		}
+		else //NotifierType == NotifierType.EOBJECT
+		{
+			EObject focus_obj = e.getFocusObject();
+			
+			out.print(PersistenceManager.UNSET_EOBJECT_EREFERENCE_VALUES+" "+
+					changelog.getObjectId(focus_obj)+" "+
+                    (ePackageElementsNamesMap.getID(e.getEReference().getName())+" ["));
+                           
+		}
+		
+		String delimiter = "";
+		
 		for(EObject obj : e.getEObjectList())
 		{
-			if(changelog.addObjectToMap(obj)) //if obj does not already exist
-			{
-				obj_create_list_blr.append(ePackageElementsNamesMap.getID(obj.eClass().getName())).append(" ")
-					.append(changelog.getObjectId(obj)).append(PersistenceManager.DELIMITER); //may swithc to read scan and write
-			}
-			else //obj exists, i.e we're updating some reference
-			{
-				added_obj_list_blr.append(changelog.getObjectId(obj)+PersistenceManager.DELIMITER); 
-			}
+			out.print(delimiter + changelog.getObjectId(obj));
+			delimiter = PersistenceManager.DELIMITER;
 		}
-		
-		if(e.getNotifierType() == Event.NotifierType.RESOURCE) //updating a resource ref
-	    {
-			if(obj_create_list_blr.length()>1) //if we have items to create,
-			{
-				 obj_create_list_blr.substring(0,obj_create_list_blr.length()-1);
-				 obj_create_list_blr.append("]");
-				 
-				 StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_ADD_TO_RESOURCE)
-						 .append(" ").append(obj_create_list_blr);
-				
-				 printWriter.println(sb.toString());
-			}
-			if(added_obj_list_blr.length() > 1) //if we have items to update
-			{
-				added_obj_list_blr.substring(0,added_obj_list_blr.length()-1);
-				added_obj_list_blr.append("]");
-				
-				StringBuilder sb = new StringBuilder().append(PersistenceManager.ADD_TO_RESOURCE)
-						.append(" ").append(added_obj_list_blr);
-				
-				printWriter.println(sb.toString());
-			}
-	    }
-		else if(e.getNotifierType() == Event.NotifierType.EOBJECT) 
-		{
-			EObject focus_obj = e.getFocusObj();
-			
-			if(obj_create_list_blr.length()>1) //if we have items to create
-			{
-				 obj_create_list_blr.substring(0,obj_create_list_blr.length()-1);
-				 obj_create_list_blr.append("]");
-				 
-				 StringBuilder sb = new StringBuilder().append(PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE)
-						 .append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName()))
-						 .append(" ").append(changelog.getObjectId(focus_obj)).append(" ").append(obj_create_list_blr);
-				 
-				 printWriter.println(sb.toString());
-			}
-			if(added_obj_list_blr.length() > 1)
-			{
-				added_obj_list_blr.substring(0,added_obj_list_blr.length()-1);
-				added_obj_list_blr.append("]");
-				
-				StringBuilder sb = new StringBuilder().append(PersistenceManager.SET_EREFERENCE_VALUE)
-						.append(" ").append(ePackageElementsNamesMap.getID(e.getEReference().getName()))
-						.append(" ").append(changelog.getObjectId(focus_obj)).append(" ")
-						.append(added_obj_list_blr);
-				
-				printWriter.println(sb.toString());
-			}   	
-		}
-		
-	 //  s.pause();
-	    
-	   // System.out.println("Time taken : "+ s.getElapsed());
-	   // System.exit(0);
-	    
+		out.print("]");
+		out.println();
 	}
 	
-	private void handleUnsetEReferenceEvent(UnsetEReferenceEvent e)
-	{
-		//STRING BUILDER IS NOT USED! FIX
-		List<EObject> removed_obj_list = e.getObjectList();
-		
-		String obj_delete_list_str = "["; 
-		//StringBuilder sb = new StringBuilder("]");//list of obj to delete
-		
-		for (EObject obj : removed_obj_list)
-		{
-			long removed_obj_id = changelog.getObjectId(obj);
-			
-			obj_delete_list_str = obj_delete_list_str+removed_obj_id +PersistenceManager.DELIMITER; 
-			//sb.append(removed_obj_id).append(PersistenceManager.DELIMITER);
-			
-			changelog.deleteEObjectFromMap(obj);	
-		}
-		
-		 obj_delete_list_str = obj_delete_list_str.substring(0,obj_delete_list_str.length()-1)+"]";
-		
-		if(e.getNotiferType() == Event.NotifierType.RESOURCE) //DELETE OBJs FROM RESOURCE
-		{
-			printWriter.println(PersistenceManager.DELETE_FROM_RESOURCE+" "+obj_delete_list_str);
-		}
-		else if(e.getNotiferType() == Event.NotifierType.EOBJECT)
-		{
-			EObject focus_obj = e.getFocusObj();
-			
-			printWriter.println(PersistenceManager.UNSET_EREFERENCE_VALUE+" "
-					+(ePackageElementsNamesMap.getID(e.getEReference().getName())+" "
-					+changelog.getObjectId(focus_obj)+" "+obj_delete_list_str));
-		}	
-	
-	}
-	
-	private void serialiseInitialEntry() 
+	private void serialiseInitialEntry(PrintWriter out) 
 	{
 		EObject obj = null;
 		Event e = eventList.get(0);
 		
-		if(e.getEventType()!= Event.SET_EREFERENCE_EVENT) //tbr
+		if(! (e instanceof EReferenceEvent)) //tbr
 		{
 			try 
 			{
@@ -296,7 +316,7 @@ public class CBPTextSerializer
 				System.exit(0);
 			}
 		}
-		obj = ((SetEReferenceEvent)e).getEObjectList().get(0);
+		obj = ((EReferenceEvent)e).getEObjectList().get(0);
 		
 		if(obj == null) //TBR
 		{
@@ -304,8 +324,7 @@ public class CBPTextSerializer
 			System.exit(0);
 		}
 		
-	
-		printWriter.println(FORMAT_ID+" "+VERSION);
-		printWriter.println("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
+		out.println(FORMAT_ID+" "+VERSION);
+		out.println("NAMESPACE_URI "+obj.eClass().getEPackage().getNsURI());
 	}
 }

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="DeleteFromResourceTests" project="io.emf.change_based_persistence" tests="4" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="generated_emf_tests.DeleteFromResourceTests" incomplete="true">
-    <testcase name="testDeleteCollectionFromResource" classname="generated_emf_tests.DeleteFromResourceTests" incomplete="true"/>
-    <testcase name="testAllDeleteFromResource" classname="generated_emf_tests.DeleteFromResourceTests" incomplete="true"/>
-    <testcase name="testDeleteRepeatedFromResource" classname="generated_emf_tests.DeleteFromResourceTests" incomplete="true"/>
-    <testcase name="testDeleteSingleFromResource" classname="generated_emf_tests.DeleteFromResourceTests" incomplete="true"/>
-  </testsuite>
-</testrun>

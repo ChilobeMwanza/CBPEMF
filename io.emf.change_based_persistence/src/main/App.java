@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -66,12 +69,9 @@ import org.eclipse.epsilon.profiling.Stopwatch;
 
 public class App 
 {
-	private static String fileSaveLocation ="university.bin";
+	private static String fileSaveLocation ="university.txt";
 	
 	private  final String classname = this.getClass().getSimpleName();
-	
-	
-	
 	
 	
 	public static void main(String[] args) throws Exception
@@ -79,22 +79,36 @@ public class App
 		// TODO Auto-generated method stub
 		App app = new App();
 		//app.loadResource() ;
-		app.createResource();
-		//app.foo();
+		//app.createResource();
+		
+		
+		//Integer x = new Integer(4);
+	//	app.printNumber(x);
+		//printNumber(x);
+		
+		
+		/*PrimitiveType pt = UniversityFactory.eINSTANCE.createPrimitiveType();
+		EAttribute attr = (EAttribute) pt.eClass().getEStructuralFeature("k");
+		
+		EDataType dt = attr.getEAttributeType();
+		
+		boolean b = false;
+		
+		Object obj = new Boolean(false);
+		
+		System.out.println(String.valueOf(obj));*/
+		
+		char c = 'd';
+		
+		String s = String.valueOf(c);
+		
+	
 		
 		
 	}
 	
 	
-	private void foo()
-	{
-		
-	}
 	
-	private boolean isPrimitive(EAttribute attr)
-	{
-		return true;
-	}
 	
 	public void loadResource() throws IOException
 	{
@@ -116,8 +130,9 @@ public class App
 		resource.load(null);
 		resource.load(null);
 		
-		//University uni1 = (University) resource.getContents().get(0);
-		//uni1.setName("Leeds Uni");
+		University uni1 = (University) resource.getContents().get(0);
+		uni1.setName("Leeds Uni");
+		
 		//resource.save(null);
 	}
 	
@@ -126,8 +141,27 @@ public class App
 	public void createResource() throws Exception
 	{
 		Resource res = new 
-				CBPBinaryResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
+				CBPTextResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
+		Book book = UniversityFactory.eINSTANCE.createBook();
+		
+		res.getContents().add(book);
+		
+		book.getAuthorNames().add("a");
+		book.getAuthorNames().add(null);
+		book.getAuthorNames().add("C");
+		
+		book.getAuthorNames().remove(null);
+		
+		
+		
+		//res.getContents().add(uni);
+		
+		//uni.setName("York Uni");
+		//uni.setName(null);
+		
+		
+
 
 	
 		res.save(null);

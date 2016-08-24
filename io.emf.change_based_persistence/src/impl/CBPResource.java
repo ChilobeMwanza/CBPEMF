@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 
-import change.Changelog;
 import drivers.EPackageElementsNamesMap;
 
 public abstract class CBPResource extends ResourceImpl
@@ -24,8 +23,6 @@ public abstract class CBPResource extends ResourceImpl
 	{
 		
 	}
-	
-	
 	
 	public EPackageElementsNamesMap populateEPackageElementNamesMap(EPackage ePackage)
 	{

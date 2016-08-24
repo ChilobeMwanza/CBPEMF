@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -18,6 +17,7 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -27,382 +27,394 @@ import exceptions.UnknownPackageException;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.map.hash.TObjectIntHashMap;
 
-public class CBPTextDeserializer 
-{
+public class CBPTextDeserializer {
 	private final String classname = this.getClass().getSimpleName();
 	private EPackage ePackage = null;
 	private final Changelog changelog;
-	
+
 	private final TIntObjectMap<EObject> IDToEObjectMap = new TIntObjectHashMap<EObject>();
 
+	private final TObjectIntMap<String> commonsimpleTypeNameMap;
 	
+	private final TObjectIntMap<String> textSimpleTypeNameMap;
+
 	private PersistenceManager manager;
 	private final EPackageElementsNamesMap ePackageElementsNamesMap;
-	
+
 	public CBPTextDeserializer(PersistenceManager manager, Changelog aChangelog,
-			EPackageElementsNamesMap ePackageElementsNamesMap)
-	{
+			EPackageElementsNamesMap ePackageElementsNamesMap) {
 		this.manager = manager;
 		this.changelog = aChangelog;
 		this.ePackageElementsNamesMap = ePackageElementsNamesMap;
+
+		this.commonsimpleTypeNameMap = manager.getCommonSimpleTypesMap();
+		this.textSimpleTypeNameMap = manager.getTextSimpleTypesMap();
 	}
-	
-	public void load(Map<?,?> options) throws Exception
-	{	
+
+	public void load(Map<?, ?> options) throws Exception {
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(new FileInputStream(manager.getURI().path()), manager.STRING_ENCODING));
-		
+
 		String line;
-		
-		br.readLine(); //skip file format info
-		
-		if((line = br.readLine()) != null)
-		{
+
+		br.readLine(); // skip file format info
+
+		if ((line = br.readLine()) != null) {
 			String[] stringArray = line.split(" ");
 			ePackage = loadMetamodel(stringArray[1]);
-		}
-		else
-		{
-			System.out.println(classname+" Error, file empty");
+		} else {
+			System.out.println(classname + " Error, file empty");
 			System.exit(0);
 		}
-		
-		while((line = br.readLine()) != null)
-		{
-			//System.out.println(line);
+
+		while ((line = br.readLine()) != null) {
+			// System.out.println(line);
 			StringTokenizer st = new StringTokenizer(line);
-			
+
 			int eventType = -1;
-			
-			if(st.hasMoreElements())
+
+			if (st.hasMoreElements())
 				eventType = Integer.valueOf(st.nextToken());
-		
-				
-			/* Switches over various event types, calls appropriate handler method*/
-			switch(eventType)
-			{
-			case PersistenceManager.CREATE_AND_ADD_TO_RESOURCE:
-				handleCreateAndAddToResourceEvent(line);
+
+			/*
+			 * Switches over various event types, calls appropriate handler
+			 * method
+			 */
+			switch (eventType) {
+			case PersistenceManager.CREATE_AND_ADD_EOBJECTS_TO_RESOURCE:
+				createAndAddEObjectsToResource(line);
 				break;
-			case PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE:
-				handeCreateAndSetEReferenceValueEvent(line);
+			case PersistenceManager.CREATE_EOBJECTS_AND_SET_EREFERENCE_VALUES:
+				createEObjectsAndSetEReferenceValues(line);
 				break;
-			case PersistenceManager.SET_COMPLEX_EATTRIBUTE_VALUE:
-				handleSetEAttributeEvent(line);
+			case PersistenceManager.SET_EOBJECT_EATTRIBUTE_VALUES:
+				setEObjectEAttributeValues(line);
 				break;
-			case PersistenceManager.SET_EREFERENCE_VALUE:
-				handleSetEReferenceEvent(line);
+			case PersistenceManager.SET_EOBJECT_EREFERENCE_VALUES:
+				setEObjectEReferenceValues(line);
 				break;
-			case PersistenceManager.UNSET_COMPLEX_EATTRIBUTE_VALUE: 
-				handleUnsetEAttributeEvent(line);
+			case PersistenceManager.UNSET_EOBJECT_EATTRIBUTE_VALUES:
+				unsetEObjectEAttributeValues(line);
 				break;
-			case PersistenceManager.UNSET_EREFERENCE_VALUE:
-				handleUnsetEReferenceEvent(line);
+			case PersistenceManager.UNSET_EOBJECT_EREFERENCE_VALUES:
+				unsetEObjectEReferenceValues(line);
 				break;
-			case PersistenceManager.ADD_TO_RESOURCE:
-				handleAddToResourceEvent(line);
+			case PersistenceManager.ADD_EOBJECTS_TO_RESOURCE:
+				createAndAddEObjectsToResource(line);
 				break;
-			case PersistenceManager.DELETE_FROM_RESOURCE:
-				handleRemoveFromResourceEvent(line);
+			case PersistenceManager.REMOVE_EOBJECTS_FROM_RESOURCE:
+				removeEObjectsFromResource(line);
 				break;
 			default:
 				break;
-			}	
+			}
 		}
 		br.close();
 		manager.setResume(true);
 	}
-	
-	private void handeCreateAndSetEReferenceValueEvent(String line)
-	{
+
+	private void setEObjectEReferenceValues(String line) {
 		String[] stringArray = line.split(" ");
+
+		EObject focusObj = IDToEObjectMap.get(Integer.valueOf(stringArray[1]));
+
+		EReference ref = (EReference) focusObj.eClass()
+				.getEStructuralFeature(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[2])));
+
+		String[] featureValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
+
+		if (ref.isMany()) {
+			@SuppressWarnings("unchecked")
+			EList<EObject> featureValuesList = (EList<EObject>) focusObj.eGet(ref);
+
+			for (String str : featureValueStringsArray) {
+				featureValuesList.add(IDToEObjectMap.get(Integer.valueOf(str)));
+			}
+		} else {
+			focusObj.eSet(ref, IDToEObjectMap.get(Integer.valueOf(featureValueStringsArray[0])));
+		}
+	}
+
+	private void setEObjectEAttributeValues(String line) 
+	{
 		
-		 EObject focus_obj = IDToEObjectMap.get(Integer.valueOf(stringArray[2]));
-		 
-		 EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
-	                (ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
-		 
-		 String[] obj_str_array = tokeniseString(getValueInSquareBrackets(line));
-		 
-		 List <EObject> objects_to_add = new ArrayList<EObject>();
-		 
-		 for(String str : obj_str_array)
-	     {
-	        String [] temp = str.split(" ");
-	        
-	        EObject obj = createEObject(ePackageElementsNamesMap.getName
-	                (Integer.valueOf(temp[0])));
-	        
-	        int id = Integer.valueOf(temp[1]); 
-	        
-	        changelog.addObjectToMap(obj, id);  
-	        IDToEObjectMap.put(id, obj);
-	        objects_to_add.add(obj);
-	     }
-		 
-		 if(ref.isMany())
+		
+		String[] stringArray = line.split(" ");
+
+		EObject focusObj = IDToEObjectMap.get(Integer.valueOf(stringArray[1]));
+
+		EAttribute attr = (EAttribute) focusObj.eClass()
+				.getEStructuralFeature(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[2])));
+
+		EDataType dataType = attr.getEAttributeType();
+
+		String[] attrValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
+
+		int primitiveTypeID = getTypeID(dataType);
+
+		if (attr.isMany()) 
+		{
+			@SuppressWarnings("unchecked")
+			EList<Object> featureValuesList = (EList<Object>) focusObj.eGet(attr);
+
+			if (primitiveTypeID == PersistenceManager.COMPLEX_TYPE) 
 			{
-				@SuppressWarnings("unchecked")
-				EList<EObject> feature_value_list = (EList<EObject>) focus_obj.eGet(ref);
-				
-				for(EObject obj : objects_to_add)
+				for (String str : attrValueStringsArray) 
 				{
-					feature_value_list.add(obj);
+					if (str.equals(manager.NULL_STRING))
+						featureValuesList.add(null);
+					else
+						featureValuesList.add(EcoreUtil.createFromString(attr.getEAttributeType(), str));
+				}
+			} 
+			else // primitiveTypeID != PersistenceManager.COMPLEX_TYPE
+			{
+				for (String str : attrValueStringsArray) 
+				{
+					if (str.equals(manager.NULL_STRING))
+						featureValuesList.add(null);
+					else
+						featureValuesList.add(convertStringToPrimitive(str, primitiveTypeID));
 				}
 			}
-			else
+		} 
+		else 
+		{
+			
+			if (attrValueStringsArray[0].equals(manager.NULL_STRING)) 
 			{
-				focus_obj.eSet(ref, objects_to_add.get(0));
+				focusObj.eSet(attr, null);
+			} 
+			else 
+			{
+				if (primitiveTypeID == PersistenceManager.COMPLEX_TYPE) 
+				{
+					focusObj.eSet(attr, EcoreUtil.createFromString(attr.getEAttributeType(), attrValueStringsArray[0]));
+				} 
+				else 
+				{
+					focusObj.eSet(attr, convertStringToPrimitive(attrValueStringsArray[0], primitiveTypeID));
+				}
 			}
-		 
-		
-		
+		}
 	}
-	private void handleCreateAndAddToResourceEvent(String line)
-	{
-		 String[] obj_str_array = tokeniseString(getValueInSquareBrackets(line));
-		 
-		 for(String str : obj_str_array)
-	     {
-	        String [] stringArray = str.split(" ");
-	        
-	        EObject obj = createEObject(ePackageElementsNamesMap.getName
-	                (Integer.valueOf(stringArray[0])));
-	        
-	        int id = Integer.valueOf(stringArray[1]); 
-	        
-	        changelog.addObjectToMap(obj, id);  
-	        IDToEObjectMap.put(id, obj);
-	        
-	        manager.addEObjectToContents(obj); //add to resource contents
-	     }
-		
-	}
-	private void handleSetEReferenceEvent(String line)
+
+	private void unsetEObjectEAttributeValues(String line) 
 	{
 		
 		String[] stringArray = line.split(" ");
-		EObject focus_obj = IDToEObjectMap.get(Integer.valueOf(stringArray[2]));
-		
-		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
-				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
-		
-		String[] feature_values_array = tokeniseString(getValueInSquareBrackets(line));
-		
-		if(ref.isMany())
+
+		EObject focusObj = IDToEObjectMap.get(Integer.valueOf(stringArray[1]));
+
+		EAttribute attr = (EAttribute) focusObj.eClass()
+				.getEStructuralFeature(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[2])));
+
+		int primitiveTypeID = getTypeID(attr.getEAttributeType());
+
+		if (attr.isMany()) 
 		{
-			@SuppressWarnings("unchecked")
-			EList<EObject> feature_value_list = (EList<EObject>) focus_obj.eGet(ref);
 			
-			for(String str : feature_values_array)
+			@SuppressWarnings("unchecked")
+			EList<Object> featureValuesList = (EList<Object>) focusObj.eGet(attr);
+
+			String[] attrValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
+
+			if (primitiveTypeID == PersistenceManager.COMPLEX_TYPE) 
 			{
-				feature_value_list.add(IDToEObjectMap.get(Integer.valueOf(str)));
+				for (String str : attrValueStringsArray) 
+				{
+					if (str.equals(manager.NULL_STRING))
+						featureValuesList.remove(null);
+
+					else
+						featureValuesList.remove(EcoreUtil.createFromString(attr.getEAttributeType(), str));
+				}
+			} 
+			else // primitiveTypeID != PersistenceManager.COMPLEX_TYPE
+			{
+				for (String str : attrValueStringsArray) 
+				{
+					if (str.equals(manager.NULL_STRING))
+						featureValuesList.remove(null);
+
+					else
+						featureValuesList.remove(convertStringToPrimitive(str, primitiveTypeID));
+				}
 			}
-		}
-		else
+		} 
+		else 
 		{
-			focus_obj.eSet(ref, IDToEObjectMap.get(Integer.valueOf(feature_values_array [0])));
+			focusObj.eUnset(attr);
 		}
 	}
-	
-	private void handleUnsetEReferenceEvent(String line)
-	{
+
+	private void createEObjectsAndSetEReferenceValues(String line) {
 		String[] stringArray = line.split(" ");
-		
-		EObject focus_obj = IDToEObjectMap.get(Integer.valueOf(stringArray[2]));
-		
-		EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
-				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
-		
-		if(ref.isMany())
-		{
-			String[] feature_values_array = tokeniseString(getValueInSquareBrackets(line));
-			
+
+		EObject focusObj = IDToEObjectMap.get(Integer.valueOf(stringArray[1]));
+
+		EReference ref = (EReference) focusObj.eClass()
+				.getEStructuralFeature(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[2])));
+
+		String[] refValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
+
+		List<EObject> eObjectToAddList = new ArrayList<EObject>();
+
+		for (String str : refValueStringsArray) {
+			String[] temp = str.split(" ");
+
+			EObject obj = createEObject(ePackageElementsNamesMap.getName(Integer.valueOf(temp[0])));
+
+			int id = Integer.valueOf(temp[1]);
+
+			changelog.addObjectToMap(obj, id);
+
+			IDToEObjectMap.put(id, obj);
+
+			eObjectToAddList.add(obj);
+		}
+
+		if (ref.isMany()) {
 			@SuppressWarnings("unchecked")
-			EList<EObject> feature_value_list = (EList<EObject>) focus_obj.eGet(ref);
-			
-			for(String str : feature_values_array)
-			{
-				feature_value_list.remove(IDToEObjectMap.get(Integer.valueOf(str)));				
+			EList<EObject> featureValuesList = (EList<EObject>) focusObj.eGet(ref);
+
+			for (EObject obj : eObjectToAddList) {
+				featureValuesList.add(obj);
 			}
-		}
-		else
-		{
-			focus_obj.eUnset(ref);
+		} else {
+			focusObj.eSet(ref, eObjectToAddList.get(0));
 		}
 	}
-	
-	private void handleSetEAttributeEvent(String line) 
-	{
-		
-		String[] stringArray = line.split(" ");
-		
-		EObject focus_obj = IDToEObjectMap .get(Integer.valueOf(stringArray[2]));
-		
-		if(focus_obj == null)
-		{
-			System.out.println("NULL!");
+
+	private void createAndAddEObjectsToResource(String line) {
+		String[] objToCreateAndAddArray = tokeniseString(getValueInSquareBrackets(line));
+
+
+		for (String str : objToCreateAndAddArray) {
+			String[] stringArray = str.split(" ");
+			
+			EObject obj = createEObject(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[0])));
+
+			int id = Integer.valueOf(stringArray[1]);
+
+			changelog.addObjectToMap(obj, id);
+			IDToEObjectMap.put(id, obj);
+
+			manager.addEObjectToContents(obj); // add to resource contents
 		}
-		
-		EAttribute attr = (EAttribute)focus_obj.eClass().getEStructuralFeature
-				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
-		
-		String[] feature_values_array = tokeniseString(getValueInSquareBrackets(line));
-		
-		if(attr.isMany())
+	}
+
+	private int getTypeID(EDataType type) 
+	{
+		if(commonsimpleTypeNameMap.containsKey(type.getName()))
+    	{
+			return commonsimpleTypeNameMap.get(type.getName());
+    	}
+		else if(textSimpleTypeNameMap.containsKey(type.getName()))
 		{
+			return textSimpleTypeNameMap.get(type.getName());
+		}
+    	
+    	return PersistenceManager.COMPLEX_TYPE;
+	}
+
+	private void unsetEObjectEReferenceValues(String line) {
+		String[] stringsArray = line.split(" ");
+
+		EObject focusObj = IDToEObjectMap.get(Integer.valueOf(stringsArray[1]));
+
+		EReference ref = (EReference) focusObj.eClass()
+				.getEStructuralFeature(ePackageElementsNamesMap.getName(Integer.valueOf(stringsArray[2])));
+
+		if (ref.isMany()) {
+			String[] featureValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
+
 			@SuppressWarnings("unchecked")
-			EList<Object> feature_value_list = (EList<Object>) focus_obj.eGet(attr);  //change nam of var!
-			
-			for(String str : feature_values_array)
-			{
-				if(str.equals(manager.NULL_STRING))
-					feature_value_list.add(null);
-				else
-					feature_value_list.add(EcoreUtil.createFromString(attr.getEAttributeType(),str));
+			EList<EObject> featureValuesList = (EList<EObject>) focusObj.eGet(ref);
+
+			for (String str : featureValueStringsArray) {
+				featureValuesList.remove(IDToEObjectMap.get(Integer.valueOf(str)));
 			}
-		}
-		else
-		{
-			//System.out.println(classname+" "+feature_values_array [0]);
-			if(feature_values_array [0].equals(manager.NULL_STRING))
-				focus_obj.eSet(attr, null);
-			else
-				focus_obj.eSet(attr, EcoreUtil.createFromString(attr.getEAttributeType(),feature_values_array [0]));
+		} else {
+			focusObj.eUnset(ref);
 		}
 	}
-	
-	
-	
-	private void handleAddToResourceEvent(String line)
-	{
-		String[] obj_str_array = tokeniseString(getValueInSquareBrackets(line));
-		
-		for(String str : obj_str_array)
-		{
-			manager.addEObjectToContents(IDToEObjectMap.get(Integer.valueOf(str)));
-		}
-	}
-	
-	private void handleRemoveFromResourceEvent(String line)
-	{
-		String[] obj_str_array = tokeniseString(getValueInSquareBrackets(line));
-		
-		for(String str : obj_str_array)
-		{
+
+	private void removeEObjectsFromResource(String line) {
+		String[] objValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
+
+		for (String str : objValueStringsArray) {
 			manager.removeEObjectFromContents(IDToEObjectMap.get(Integer.valueOf(str)));
 		}
 	}
-	
-	/*private void handleCreateEvent(String line)
-	{
-		String[] obj_str_array = tokeniseString(getValueInSquareBrackets(line));
-		
-		for(String str : obj_str_array)
-		{
-			String [] stringArray = str.split(" ");
-			
-			EObject obj = createEObject(ePackageElementsNamesMap.getName
-					(Integer.valueOf(stringArray[0])));
-			
-			int id = Integer.valueOf(stringArray[1]); 
-			
-			changelog.addObjectToMap(obj, id);	
-			IDToEObjectMap.put(id, obj);
-		}
-	}*/
-	
-	private void handleUnsetEAttributeEvent(String line)
-	{
-		String[] stringArray = line.split(" ");
-		
-		int obj_id = Integer.valueOf(stringArray[2]);
-		
-		EObject obj = IDToEObjectMap.get(obj_id);
-		
-		EAttribute attr = (EAttribute) obj.eClass().getEStructuralFeature
-				(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[1])));
-		
-		if(attr.isMany())
-		{
-			@SuppressWarnings("unchecked")
-			EList<Object> attrValueList = (EList<Object>) obj.eGet(attr);  
-			String[] obj_attr_str_array = tokeniseString(getValueInSquareBrackets(line));
-			
-			for(String str : obj_attr_str_array)
-			{
-				attrValueList.remove(EcoreUtil.createFromString(attr.getEAttributeType(),str));
-			}
-		}
-		else
-		{
-			obj.eUnset(attr);
-		}
-	}
-	
-	private EPackage loadMetamodel(String metamodelURI) throws UnknownPackageException
-	{
+
+	private EPackage loadMetamodel(String metamodelURI) throws UnknownPackageException {
 		EPackage ePackage = null;
-		
-		if(EPackage.Registry.INSTANCE.containsKey(metamodelURI))
+
+		if (EPackage.Registry.INSTANCE.containsKey(metamodelURI))
 			ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelURI);
-		
+
 		else
 			throw new UnknownPackageException(metamodelURI);
-		
+
 		return ePackage;
 	}
-	
-	private EObject createEObject(String eClassName) //does this need to be a method?
+
+	private EObject createEObject(String eClassName)
 	{
-		return ePackage.getEFactoryInstance().create((EClass)
-				ePackage.getEClassifier(eClassName));
+		return ePackage.getEFactoryInstance().create((EClass) ePackage.getEClassifier(eClassName));
 	}
-	
-	/*private String getNthWord(String input, int n)
-	{
-		String [] stringArray = input.split(" ");
-		if(n-1 < stringArray.length)
-			return stringArray[n-1];
-		return null;
-	}*/
-	
-	
-	
 
-	
-
-	
-	/*Tokenises a string seperated by a specified delimiter
-	 *http://stackoverflow.com/questions/18677762/handling-delimiter-with-escape-
-	  -in-java-string-split-method
-	 * */
-	private String[] tokeniseString(String input)
-	{
-		String regex = "(?<!" + Pattern.quote(PersistenceManager.ESCAPE_CHAR) + ")" + Pattern.quote(PersistenceManager.DELIMITER);
+	/*
+	 * Tokenises a string seperated by a specified delimiter
+	 * http://stackoverflow.com/questions/18677762/handling-delimiter-with-
+	 * escape- -in-java-string-split-method
+	 */
+	private String[] tokeniseString(String input) {
+		String regex = "(?<!" + Pattern.quote(PersistenceManager.ESCAPE_CHAR) + ")"
+				+ Pattern.quote(PersistenceManager.DELIMITER);
 
 		String[] output = input.split(regex);
-		
-		for(int i = 0; i < output.length; i++)
-		{
-			output[i] = output[i].replace(PersistenceManager.ESCAPE_CHAR+PersistenceManager.DELIMITER, PersistenceManager.DELIMITER);
+
+		for (int i = 0; i < output.length; i++) {
+			output[i] = output[i].replace(PersistenceManager.ESCAPE_CHAR + PersistenceManager.DELIMITER,
+					PersistenceManager.DELIMITER);
 		}
-		
+
 		return output;
 	}
-	
-	//returns everything inbetween []
-	private String getValueInSquareBrackets(String str)
-	{
+
+	// returns everything inbetween []
+	private String getValueInSquareBrackets(String str) {
 		Pattern p = Pattern.compile("\\[(.*?)\\]");
 		Matcher m = p.matcher(str);
-		
+
 		String result = "";
-		
-		if(m.find())
+
+		if (m.find())
 			result = m.group(1);
 		return result;
 	}
+
+	private Object convertStringToPrimitive(String str, int primitiveTypeID) {
+		switch (primitiveTypeID) {
+		case PersistenceManager.SIMPLE_TYPE_INT:
+			return Integer.valueOf(str);
+		case PersistenceManager.SIMPLE_TYPE_SHORT:
+			return Short.valueOf(str);
+		case PersistenceManager.SIMPLE_TYPE_LONG:
+			return Long.valueOf(str);
+		case PersistenceManager.SIMPLE_TYPE_FLOAT:
+			return Float.valueOf(str);
+		case PersistenceManager.SIMPLE_TYPE_DOUBLE:
+			return Double.valueOf(str);
+		case PersistenceManager.SIMPLE_TYPE_CHAR:
+			return str.charAt(0);
+		case PersistenceManager.SIMPLE_TYPE_BOOLEAN:
+			return Boolean.valueOf(str);
+		}
+		return str;
+	}
+
 }

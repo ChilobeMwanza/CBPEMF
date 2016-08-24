@@ -2,37 +2,37 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="buf" key="selection"/>
+		<item value="System.out" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="true" key="wholeword"/>
 		<list key="findhistory">
-			<item value="private void writeInitialRecord (OutputStream out, String s) throws IOException"/>
-			<item value="buf"/>
-			<item value="save"/>
-			<item value="writeCom"/>
-			<item value="writeIn"/>
-			<item value="write"/>
-			<item value="save("/>
-			<item value="OutputStream"/>
+			<item value="System.out"/>
+			<item value="manager.NULL_STRING"/>
+			<item value="=="/>
+			<item value="System"/>
+			<item value="dataType"/>
+			<item value="datatype"/>
+			<item value="ref.is"/>
+			<item value="many"/>
 		</list>
 		<list key="replacehistory">
+			<item value="writePrimitive"/>
+			<item value="simpleTypesMap"/>
 			<item value="ePackageElementsNamesMap.getID(added_obj.eClass().getName())"/>
 			<item value="ePackageElementsNamesMap.getID(e.getEReference().getName())"/>
 			<item value="ePackageElementsNamesMap.getID(attr.getName())"/>
 			<item value="outputList"/>
 			<item value="eventList"/>
 			<item value="namesMapPopulated"/>
-			<item value="namesMap"/>
-			<item value="EPackageElementsNamesMap"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="305" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="444" key="DIALOG_HEIGHT"/>
-		<item value="1908" key="DIALOG_X_ORIGIN"/>
-		<item value="775" key="DIALOG_Y_ORIGIN"/>
+		<item value="1907" key="DIALOG_X_ORIGIN"/>
+		<item value="766" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

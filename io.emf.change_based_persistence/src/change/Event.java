@@ -2,26 +2,20 @@ package change;
 
 public abstract class Event 
 {
-	public static enum NotifierType
-	{
-		EOBJECT,
-		RESOURCE;
-	}
-	
-	private int event_type;
-	
+	private int eventType;
+
 	public static final int SET_EATTRIBUTE_EVENT = 0;
 	public static final int SET_EREFERENCE_EVENT = 1;
-	public static final int UNSET_EREFERENCE_EVENT= 2;
+	public static final int UNSET_EREFERENCE_EVENT = 2;
 	public static final int UNSET_EATTRIBUTE_EVENT = 3;
 
-	public Event(int event_type)
+	public Event(int eventType)
 	{
-		this.event_type = event_type;
+		this.eventType = eventType;
 	}
 	
 	public int getEventType()
 	{
-		return event_type;
+		return eventType;
 	}
 }

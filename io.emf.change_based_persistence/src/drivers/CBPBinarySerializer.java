@@ -1,3 +1,7 @@
+/**
+ * TODO, SET EATTRIBUTE/ UNSET EATRRIBUTE, IMPROVE NULL HANDLING, SEE TEXT VERSION!
+ * i.e, unset eattribute, obj CAN have null value, e.t.c
+ */
 package drivers;
 
 import java.io.BufferedOutputStream;
@@ -19,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import change.Changelog;
+import change.EReferenceEvent.NotifierType;
 import change.Event;
 import change.SetEAttributeEvent;
 import change.SetEReferenceEvent;
@@ -28,16 +33,12 @@ import change.UnsetEReferenceEvent;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.TObjectIntMap;
-import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class CBPBinarySerializer 
 {
 	private  final String classname = this.getClass().getSimpleName();
 	private final String FORMAT_ID = "CBP_BIN"; 
 	private final int FORMAT_VERSION = 1;
-	
-	//private final int BUFFER_SIZE = 8 * 1024;
-	
 	
 	private final List<Event> eventList;
     
@@ -47,11 +48,10 @@ public class CBPBinarySerializer
     
     private final EPackageElementsNamesMap ePackageElementsNamesMap;
     
-    private OutputStream outputStream;
-    private final TObjectIntMap<String> simpleTypeNameMap;
+    private final TObjectIntMap<String> commonSimpleTypeNameMap;
     
     public CBPBinarySerializer(PersistenceManager manager, Changelog changelog,EPackageElementsNamesMap 
-    		ePackageElementsNamesMap,TObjectIntMap<String>   simpleTypeNameMap)
+    		ePackageElementsNamesMap)
     {
     	this.manager =  manager;
         this.changelog = changelog;
@@ -59,7 +59,7 @@ public class CBPBinarySerializer
         
         this.eventList = manager.getChangelog().getEventsList();
         
-        this.simpleTypeNameMap = simpleTypeNameMap;
+        this.commonSimpleTypeNameMap = manager.getCommonSimpleTypesMap();
     }
     
     public void save(Map<?,?> options) throws IOException
@@ -67,7 +67,7 @@ public class CBPBinarySerializer
     	if(eventList.isEmpty())
     		return;
     	
-        outputStream = new BufferedOutputStream
+    	 OutputStream  outputStream = new BufferedOutputStream
         		(new FileOutputStream(manager.getURI().path(), manager.isResume()));
     
         //if we're not in resume mode, serialise initial entry
@@ -110,7 +110,7 @@ public class CBPBinarySerializer
             handleUnsetComplexEAttributes(e,out);
             return;
         }
-        
+       
         switch(getTypeID(type))
         {
         case PersistenceManager.SIMPLE_TYPE_INT:
@@ -144,7 +144,7 @@ public class CBPBinarySerializer
     {
     	EObject focus_obj = e.getFocusObj();
     	EAttribute attr = e.getEAttribute();
-    	List<Object> attr_values_list = e.getAttributeValuesList();
+    	List<Object> attr_values_list = e.getEAttributeValuesList();
     	
     	 writePrimitive(out,PersistenceManager.UNSET_PRIMITIVE_EATTRIBUTE_VALUE);
          writePrimitive(out,changelog.getObjectId(focus_obj));
@@ -159,13 +159,14 @@ public class CBPBinarySerializer
     
     private void handleUnsetComplexEAttributes(UnsetEAttributeEvent e,OutputStream out) throws IOException
     {
+    	
     	EObject focus_obj = e.getFocusObj();
     	
     	EAttribute attr = e.getEAttribute();
     	
     	EDataType dataType = attr.getEAttributeType();
     	
-    	List<Object> attr_values = e.getAttributeValuesList();
+    	List<Object> attr_values = e.getEAttributeValuesList();
     	
     	writePrimitive(out,PersistenceManager.UNSET_COMPLEX_EATTRIBUTE_VALUE);
     	writePrimitive(out,changelog.getObjectId(focus_obj));
@@ -174,6 +175,7 @@ public class CBPBinarySerializer
     	
     	if(dataType.getName().equals("EString"))
     	{
+    		
     		for(Object obj : attr_values)
     		{
     			if(obj == null)
@@ -195,8 +197,6 @@ public class CBPBinarySerializer
     		}
     	}
     }
-    
-    
     
     private void handleSetEAttributeEvent(SetEAttributeEvent e, OutputStream out) throws IOException
     {
@@ -241,7 +241,7 @@ public class CBPBinarySerializer
     {
     	EObject focus_obj = e.getFocusObj();
     	EAttribute attr = e.getEAttribute();
-    	List<Object> attr_values_list = e.getAttributeValuesList();
+    	List<Object> attr_values_list = e.getEAttributeValuesList();
     	
         writePrimitive(out,PersistenceManager.SET_PRIMITIVE_EATTRIBUTE_VALUE);
         writePrimitive(out,changelog.getObjectId(focus_obj));
@@ -308,16 +308,16 @@ public class CBPBinarySerializer
     
     private void handleSetComplexEAttributes(SetEAttributeEvent e,OutputStream out) throws IOException
     {
-    	handleSetComplexEAttributes(out,e.getFocusObj(),e.getEAttribute(),e.getAttributeValuesList());
+    	 
+    	handleSetComplexEAttributes(out,e.getFocusObj(),e.getEAttribute(),e.getEAttributeValuesList());
     }
     
     private int getTypeID(EDataType type)
     {
-    	if(simpleTypeNameMap.containsKey(type.getName()))
+    	if(commonSimpleTypeNameMap.containsKey(type.getName()))
     	{
-    		return simpleTypeNameMap.get(type.getName());
+    		return commonSimpleTypeNameMap.get(type.getName());
     	}
-    	
     	return PersistenceManager.COMPLEX_TYPE;
     }
     
@@ -339,11 +339,11 @@ public class CBPBinarySerializer
     		}
     	}
     		
-    	if(e.getNotifierType() == Event.NotifierType.RESOURCE) 
+    	if(e.getNotifierType() == NotifierType.RESOURCE) 
     	{
     		if(!obj_create_list.isEmpty()) //CREATE_AND_ADD_TO_RESOURCE 
     		{
-    			writePrimitive(out,PersistenceManager.CREATE_AND_ADD_TO_RESOURCE);
+    			writePrimitive(out,PersistenceManager.CREATE_AND_ADD_EOBJECTS_TO_RESOURCE);
     			writePrimitive(out,obj_create_list.size());
     			
     			for(TIntIterator it = obj_create_list.iterator(); it.hasNext();)
@@ -354,7 +354,7 @@ public class CBPBinarySerializer
     		}
     		if(!added_obj_list.isEmpty()) //ADD TO RESOURCE
     		{
-    			writePrimitive(out, PersistenceManager.ADD_TO_RESOURCE);
+    			writePrimitive(out, PersistenceManager.ADD_EOBJECTS_TO_RESOURCE);
     			writePrimitive(out,added_obj_list.size());
     			
     			for(TIntIterator it = added_obj_list.iterator(); it.hasNext();)
@@ -364,13 +364,13 @@ public class CBPBinarySerializer
     			added_obj_list.clear();
     		}
     	}
-    	else if(e.getNotifierType() == Event.NotifierType.EOBJECT)
+    	else if(e.getNotifierType() == NotifierType.EOBJECT)
     	{
-    		EObject focus_obj = e.getFocusObj(); 
+    		EObject focus_obj = e.getFocusObject(); 
     		
     		if(!obj_create_list.isEmpty())//CREATE_AND_SET_REF_VALUE
     		{
-    			writePrimitive(out,PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE);
+    			writePrimitive(out,PersistenceManager.CREATE_EOBJECTS_AND_SET_EREFERENCE_VALUES);
     			writePrimitive(out,changelog.getObjectId(focus_obj));
     			writePrimitive(out,ePackageElementsNamesMap.getID(e.getEReference().getName()));
     			writePrimitive(out,obj_create_list.size());
@@ -382,7 +382,7 @@ public class CBPBinarySerializer
     		}
     		if(!added_obj_list.isEmpty()) //SET_REFERENCE_VALUE
     		{
-    			writePrimitive(out,PersistenceManager.SET_EREFERENCE_VALUE);
+    			writePrimitive(out,PersistenceManager.SET_EOBJECT_EREFERENCE_VALUES);
     			writePrimitive(out,changelog.getObjectId(focus_obj));
     			writePrimitive(out,ePackageElementsNamesMap.getID(e.getEReference().getName()));
     			writePrimitive(out,added_obj_list.size());
@@ -397,13 +397,11 @@ public class CBPBinarySerializer
     
     private void handleUnsetEReferenceEvent(UnsetEReferenceEvent e, OutputStream out) throws IOException
     {
-    	List<EObject> removed_obj_list = e.getObjectList();
+    	List<EObject> removed_obj_list = e.getEObjectList();
     	
-    	
-    
-    	if(e.getNotiferType() == Event.NotifierType.RESOURCE)
+    	if(e.getNotifierType() == NotifierType.RESOURCE)
     	{
-    		writePrimitive(out, PersistenceManager.DELETE_FROM_RESOURCE);
+    		writePrimitive(out, PersistenceManager.REMOVE_EOBJECTS_FROM_RESOURCE);
     		writePrimitive(out,removed_obj_list.size());
     		
     		for(EObject obj : removed_obj_list)
@@ -411,11 +409,11 @@ public class CBPBinarySerializer
     			writePrimitive(out,changelog.getObjectId(obj));
     		}
     	}
-    	else if(e.getNotiferType() == Event.NotifierType.EOBJECT)
+    	else if(e.getNotifierType() == NotifierType.EOBJECT)
     	{
-    		EObject focus_obj = e.getFocusObj();
+    		EObject focus_obj = e.getFocusObject();
     		
-    		writePrimitive(out,PersistenceManager.UNSET_EREFERENCE_VALUE);
+    		writePrimitive(out,PersistenceManager.UNSET_EOBJECT_EREFERENCE_VALUES);
     		writePrimitive(out,changelog.getObjectId(focus_obj));
     		writePrimitive(out,ePackageElementsNamesMap.getID(e.getEReference().getName()));
     		writePrimitive(out,removed_obj_list.size());

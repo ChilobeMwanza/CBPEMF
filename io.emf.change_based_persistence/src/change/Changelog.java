@@ -2,13 +2,11 @@ package change;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 import org.eclipse.emf.ecore.EObject;
 
-import gnu.trove.map.TMap;
 import gnu.trove.map.TObjectIntMap;
-import gnu.trove.map.hash.THashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 
 
@@ -26,13 +24,6 @@ public class Changelog
 	{
 		event_list = new ArrayList<Event>();
 	}
-	
-	
-	
-	/*public BiMap<EObject,Long> getObjectToIdMap()
-	{
-		return map;
-	}*/
 	
 	public boolean addObjectToMap(EObject obj)
 	{
@@ -63,8 +54,6 @@ public class Changelog
 	
 	public void deleteEObjectFromMap(EObject obj)
 	{
-		
-		
 		eObjectToIDMap.remove(obj);
 		
 		if(eObjectToIDMap.containsKey(obj)) //tbr
@@ -72,10 +61,7 @@ public class Changelog
 			System.out.println(classname+ " nope!!");
 			System.exit(0);
 		}
-		
 	}
-	
-	
 	
 	public int getObjectId(EObject obj)
 	{
@@ -88,12 +74,7 @@ public class Changelog
 		return eObjectToIDMap.get(obj);
 	
 	}
-	
-	/*public EObject getEObject(long id)
-	{
-		return  map.inverse().get(id);
-	}*/
-	
+
 	public void addEvent(Event e)
 	{
 		event_list.add(e);

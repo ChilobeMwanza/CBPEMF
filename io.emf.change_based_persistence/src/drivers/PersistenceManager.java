@@ -3,6 +3,7 @@
 //http://www.javapractices.com/topic/TopicAction.do?Id=31
 package drivers;
 
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -10,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import change.Changelog;
 import gnu.trove.map.TObjectIntMap;
@@ -21,17 +21,19 @@ import impl.CBPTextResourceImpl;
 
 public class PersistenceManager 
 {
-	
-	public static final int CREATE_AND_ADD_TO_RESOURCE = 0;
-	public static final int CREATE_AND_SET_EREFERENCE_VALUE = 1;
-    public static final int ADD_TO_RESOURCE = 2;
+	//REMOVE COMPLEX V PRIMITIVE
+	public static final int CREATE_AND_ADD_EOBJECTS_TO_RESOURCE = 0;
+	public static final int CREATE_EOBJECTS_AND_SET_EREFERENCE_VALUES = 1;
+    public static final int ADD_EOBJECTS_TO_RESOURCE = 2;
     public static final int SET_PRIMITIVE_EATTRIBUTE_VALUE = 3;
     public static final int SET_COMPLEX_EATTRIBUTE_VALUE = 4;
-    public static final int SET_EREFERENCE_VALUE = 5;
-    public static final int DELETE_FROM_RESOURCE = 6;
+    public static final int SET_EOBJECT_EREFERENCE_VALUES = 5;
+    public static final int REMOVE_EOBJECTS_FROM_RESOURCE = 6;
     public static final int UNSET_PRIMITIVE_EATTRIBUTE_VALUE = 7;
     public static final int UNSET_COMPLEX_EATTRIBUTE_VALUE = 8;
-    public static final int UNSET_EREFERENCE_VALUE = 9;
+    public static final int UNSET_EOBJECT_EREFERENCE_VALUES = 9;
+    public static final int SET_EOBJECT_EATTRIBUTE_VALUES = 10;
+    public static final int UNSET_EOBJECT_EATTRIBUTE_VALUES = 11;
     
     public static final int SIMPLE_TYPE_INT = 0;
     public static final int SIMPLE_TYPE_BOOLEAN = 1;
@@ -41,6 +43,7 @@ public class PersistenceManager
     public static final int SIMPLE_TYPE_SHORT = 5;
     public static final int SIMPLE_TYPE_LONG = 6;
     public static final int SIMPLE_TYPE_CHAR = 7;
+    public static final int TEXT_SIMPLE_TYPE_ESTRING = 9;
     public static final int COMPLEX_TYPE = 8;
     
     public final int INTEGER_SIZE = 4;
@@ -64,8 +67,15 @@ public class PersistenceManager
 	
 	private boolean resume = false;
 	
-	private final TObjectIntMap<String> simpleTypesMap = 
-									new TObjectIntHashMap<String>(15);;
+
+	
+	private final TObjectIntMap<String> textSimpleTypesMap = 
+			new TObjectIntHashMap<String>(2);
+	
+	private final TObjectIntMap<String> commonSimpleTypesMap = 
+			new TObjectIntHashMap<String>(13);
+	
+
     
 	public PersistenceManager(Changelog changelog, CBPResource resource, 
 			EPackageElementsNamesMap ePackageElementsNamesMap)
@@ -74,7 +84,8 @@ public class PersistenceManager
 		this.resource = resource;
 		this.ePackageElementsNamesMap = ePackageElementsNamesMap;
 		
-		populateSimpleTypesMap();
+		populatecommonSimpleTypesMap();
+		populateTextSimpleTypesMap();
 	}
 	
 	public void setResume(boolean b)
@@ -82,23 +93,37 @@ public class PersistenceManager
 		resume = b;
 	}
 	
-	private void populateSimpleTypesMap()
+	private void populateTextSimpleTypesMap()
 	{
-		simpleTypesMap.put("EInt", SIMPLE_TYPE_INT);
-    	simpleTypesMap.put("EIntegerObject", SIMPLE_TYPE_INT);
-    	simpleTypesMap.put("EBoolean", SIMPLE_TYPE_BOOLEAN);
-    	simpleTypesMap.put("EBooleanObject", SIMPLE_TYPE_BOOLEAN);
-    	simpleTypesMap.put("EFloat", SIMPLE_TYPE_FLOAT);
-    	simpleTypesMap.put("EFloatObject", SIMPLE_TYPE_FLOAT);
-    	simpleTypesMap.put("EDouble", SIMPLE_TYPE_DOUBLE);
-    	simpleTypesMap.put("EDoubleObject", SIMPLE_TYPE_DOUBLE);
-    	simpleTypesMap.put("EByte", SIMPLE_TYPE_BYTE);
-    	simpleTypesMap.put("EByteObject", SIMPLE_TYPE_BYTE);
-    	simpleTypesMap.put("EShort", SIMPLE_TYPE_SHORT);
-    	simpleTypesMap.put("EShortObject", SIMPLE_TYPE_SHORT);
-    	simpleTypesMap.put("ELong", SIMPLE_TYPE_LONG);
-    	simpleTypesMap.put("ELongObject", SIMPLE_TYPE_LONG);
-    	simpleTypesMap.put("EChar", SIMPLE_TYPE_CHAR);
+    	textSimpleTypesMap.put("EString", TEXT_SIMPLE_TYPE_ESTRING);
+    	textSimpleTypesMap.put("EStringObject", TEXT_SIMPLE_TYPE_ESTRING);
+	}
+	
+	private void populatecommonSimpleTypesMap()
+	{
+		commonSimpleTypesMap.put("EInt", SIMPLE_TYPE_INT);
+		commonSimpleTypesMap.put("EIntegerObject", SIMPLE_TYPE_INT);
+		commonSimpleTypesMap.put("EBoolean", SIMPLE_TYPE_BOOLEAN);
+		commonSimpleTypesMap.put("EBooleanObject", SIMPLE_TYPE_BOOLEAN);
+		commonSimpleTypesMap.put("EFloat", SIMPLE_TYPE_FLOAT);
+		commonSimpleTypesMap.put("EFloatObject", SIMPLE_TYPE_FLOAT);
+		commonSimpleTypesMap.put("EDouble", SIMPLE_TYPE_DOUBLE);
+		commonSimpleTypesMap.put("EDoubleObject", SIMPLE_TYPE_DOUBLE);
+		commonSimpleTypesMap.put("EShort", SIMPLE_TYPE_SHORT);
+		commonSimpleTypesMap.put("EShortObject", SIMPLE_TYPE_SHORT);
+		commonSimpleTypesMap.put("ELong", SIMPLE_TYPE_LONG);
+		commonSimpleTypesMap.put("ELongObject", SIMPLE_TYPE_LONG);
+		commonSimpleTypesMap.put("EChar", SIMPLE_TYPE_CHAR);
+	}
+	
+	public TObjectIntMap<String> getCommonSimpleTypesMap()
+	{
+		return commonSimpleTypesMap;
+	}
+	
+	public TObjectIntMap<String> getTextSimpleTypesMap()
+	{
+		return textSimpleTypesMap;
 	}
 	
 	public boolean isResume()
@@ -140,7 +165,7 @@ public class PersistenceManager
 	{
 		if(resource instanceof CBPBinaryResourceImpl)
 		{
-			CBPBinarySerializer serializer = new CBPBinarySerializer(this,changelog, ePackageElementsNamesMap,simpleTypesMap);
+			CBPBinarySerializer serializer = new CBPBinarySerializer(this,changelog, ePackageElementsNamesMap);
 			try {
 				serializer.save(options);
 			} catch (IOException e) {
@@ -162,7 +187,7 @@ public class PersistenceManager
 	{	
 		if(resource instanceof CBPBinaryResourceImpl)
 		{
-			CBPBinaryDeserializer deserializer = new CBPBinaryDeserializer(this,changelog,ePackageElementsNamesMap,simpleTypesMap);
+			CBPBinaryDeserializer deserializer = new CBPBinaryDeserializer(this,changelog,ePackageElementsNamesMap);
 			deserializer.load(options);
 		}
 		else if(resource instanceof CBPTextResourceImpl)

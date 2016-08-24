@@ -38,15 +38,18 @@ public class CBPBinaryDeserializer
     private final EPackageElementsNamesMap ePackageElementsNamesMap;
     private final Charset STRING_ENCODING = StandardCharsets.UTF_8;
     
-    private final TObjectIntMap<String> simpleTypeNameMap;
+    private final TObjectIntMap<String> commonSimpleTypeNameMap;
+	
+
     
     public CBPBinaryDeserializer(PersistenceManager manager, Changelog aChangelog,
-            EPackageElementsNamesMap ePackageElementsNamesMap,TObjectIntMap<String>   simpleTypeNameMap)
+            EPackageElementsNamesMap ePackageElementsNamesMap)
     {
     	 this.manager = manager;
          this.changelog = aChangelog;
          this.ePackageElementsNamesMap = ePackageElementsNamesMap;
-         this.simpleTypeNameMap = simpleTypeNameMap;
+         
+         this.commonSimpleTypeNameMap = manager.getCommonSimpleTypesMap();
     }
     
     public void load(Map<?,?> options) throws Exception
@@ -66,22 +69,22 @@ public class CBPBinaryDeserializer
 		{
 			switch (readInt(inputStream))
 			{
-			case PersistenceManager.CREATE_AND_ADD_TO_RESOURCE:
+			case PersistenceManager.CREATE_AND_ADD_EOBJECTS_TO_RESOURCE:
 				handleCreateAndAddToResource(inputStream);
 				break;
-			case PersistenceManager.CREATE_AND_SET_EREFERENCE_VALUE:
+			case PersistenceManager.CREATE_EOBJECTS_AND_SET_EREFERENCE_VALUES:
 				handeCreateAndSetEReferenceValue(inputStream);
 				break;
-			case PersistenceManager.ADD_TO_RESOURCE:
+			case PersistenceManager.ADD_EOBJECTS_TO_RESOURCE:
 				handleAddToResource(inputStream);
 				break;
-			case PersistenceManager.DELETE_FROM_RESOURCE:
+			case PersistenceManager.REMOVE_EOBJECTS_FROM_RESOURCE:
 				handleRemoveFromResource(inputStream);
 				break;
-			case PersistenceManager.SET_EREFERENCE_VALUE:
+			case PersistenceManager.SET_EOBJECT_EREFERENCE_VALUES:
 				handleSetEReference(inputStream);
 				break;
-			case PersistenceManager.UNSET_EREFERENCE_VALUE:
+			case PersistenceManager.UNSET_EOBJECT_EREFERENCE_VALUES:
 				handleUnsetEReferenceValue(inputStream);
 				break;
 			case PersistenceManager.SET_COMPLEX_EATTRIBUTE_VALUE:
@@ -104,11 +107,10 @@ public class CBPBinaryDeserializer
     
     private int getTypeID(EDataType type)
     {
-    	if(simpleTypeNameMap.containsKey(type.getName()))
+    	if(commonSimpleTypeNameMap.containsKey(type.getName()))
     	{
-    		return simpleTypeNameMap.get(type.getName());
+    		return commonSimpleTypeNameMap.get(type.getName());
     	}
-    	
     	return PersistenceManager.COMPLEX_TYPE;
     }
     

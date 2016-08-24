@@ -1,0 +1,24 @@
+package change;
+
+public abstract class Event 
+{
+	
+	
+	private int event_type;
+	
+	//public static final int EATTRIBUTE_EVENT = -1;
+	public static final int SET_EATTRIBUTE_EVENT = 0;
+	public static final int SET_EREFERENCE_EVENT = 1;
+	public static final int UNSET_EREFERENCE_EVENT= 2;
+	public static final int UNSET_EATTRIBUTE_EVENT = 3;
+
+	public Event(int event_type)
+	{
+		this.event_type = event_type;
+	}
+	
+	public int getEventType()
+	{
+		return event_type;
+	}
+}

@@ -37,24 +37,34 @@ public class EventAdapter extends EContentAdapter
 			case Notification.ADD:
 			{
 				if(n.getNewValue() instanceof EObject)
+				{
 					changelog.addEvent(new SetEReferenceEvent(n));
-				
+				}
+					
 				else if(n.getFeature() instanceof EAttribute)
+				{
 					changelog.addEvent(new SetEAttributeEvent(n));
-				
+				}
+					
 				break;
 			}
 			case Notification.SET:
 			{
 				if(n.getNewValue() instanceof EObject)
+				{
 					changelog.addEvent(new SetEReferenceEvent(n));
-				
+				}
+					
 				else if(n.getFeature() instanceof EAttribute)
+				{
 					changelog.addEvent(new SetEAttributeEvent(n));
+				}
 				
 				else if(n.getNewValue() == null)
+				{
 					changelog.addEvent(new UnsetEReferenceEvent(n));
-				
+				}
+					
 				break;
 			}
 			case Notification.ADD_MANY:
@@ -62,21 +72,29 @@ public class EventAdapter extends EContentAdapter
 				@SuppressWarnings("unchecked")
 				List<Object> list =  (List<Object>) n.getNewValue();
 				if(list.get(0) instanceof EObject)
+				{
 					changelog.addEvent(new SetEReferenceEvent(n));
-				
+				}
+					
 				else if(n.getFeature() instanceof EAttribute)
+				{
 					changelog.addEvent(new SetEAttributeEvent(n));
-				
+				}
+					
 				break;
 			}
 			case Notification.REMOVE:
 			{
 				if(n.getOldValue() instanceof EObject)
+				{
 					changelog.addEvent(new UnsetEReferenceEvent(n));
-				
+				}
+					
 				else if(n.getFeature() instanceof EAttribute)
+				{
 					changelog.addEvent(new UnsetEAttributeEvent(n));
-				
+				}
+					
 				break;
 			}
 			case Notification.REMOVE_MANY:
@@ -84,11 +102,15 @@ public class EventAdapter extends EContentAdapter
 				@SuppressWarnings("unchecked")
 				List<Object> list =  (List<Object>) n.getOldValue();
 				if(list.get(0) instanceof EObject)
+				{
 					changelog.addEvent(new UnsetEReferenceEvent(n));
-				
+				}
+					
 				else if(n.getFeature() instanceof EAttribute)
+				{
 					changelog.addEvent(new UnsetEAttributeEvent(n));
-				
+				}
+					
 				break;
 			}
 			default:

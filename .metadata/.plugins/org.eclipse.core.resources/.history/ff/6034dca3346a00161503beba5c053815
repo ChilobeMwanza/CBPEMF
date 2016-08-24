@@ -1,0 +1,22 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+
+public class SetEReferenceEvent extends EReferenceEvent
+{
+	
+	public SetEReferenceEvent(EObject focusObject,EObject newValue,EReference eReference, NotifierType notifierType)
+    {
+        super(Event.SET_EREFERENCE_EVENT, focusObject, newValue, eReference,notifierType);
+    }
+    
+
+    public SetEReferenceEvent(Notification n)
+    {
+       super(Event.SET_EREFERENCE_EVENT,n);
+    } 
+}
+
+
