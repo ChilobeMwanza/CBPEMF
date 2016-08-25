@@ -1,44 +1,44 @@
-<p><strong>A Change Based Model Persistence Format</strong></p>
-<p>This project contains ecliplse project folders. The project org.emf.persistence is an eclipse epsilon project and as such, it should work with a current version of epsilon without requiring any modifications to the users development environment.</p>
-<p><strong>io.emf.change_based_persistence</strong></p>
-<p>This project aims to persist models using a change based model representation format. To persist models in a text based format, use the CBPTextResourceImpl class. To persist models to a binary format, use the CBPBinaryResourceImpl class.</p>
-<p><strong>Overview</strong></p>
-<p>EMF adapters are used to keep track of changes made to a model (via notifications). &nbsp;When the save operation is invoked, these changes are persisted to disk. The model used during development is available within the '<a href="https://github.com/ChilobeMwanza/EMFPersistence/tree/master/io.emf.change_based_persistence/model" target="_blank">model</a>' folder.</p>
-<p><strong>Key Classes</strong></p>
-<ul>
+<p style="text-align: justify;"><strong>A Change Based Model Persistence Format</strong></p>
+<p style="text-align: justify;">This project contains ecliplse project folders. The project org.emf.persistence is an eclipse epsilon project and as such, it should work with a current version of epsilon without requiring any modifications to the users development environment.</p>
+<p style="text-align: justify;"><strong>io.emf.change_based_persistence</strong></p>
+<p style="text-align: justify;">This project aims to persist models using a change based model representation format. To persist models in a text based format, use the CBPTextResourceImpl class. To persist models to a binary format, use the CBPBinaryResourceImpl class.</p>
+<p style="text-align: justify;"><strong>Overview</strong></p>
+<p style="text-align: justify;">EMF adapters are used to keep track of changes made to a model (via notifications). &nbsp;When the save operation is invoked, these changes are persisted to disk. The model used during development is available within the '<a href="https://github.com/ChilobeMwanza/EMFPersistence/tree/master/io.emf.change_based_persistence/model" target="_blank">model</a>' folder.</p>
+<p style="text-align: justify;"><strong>Key Classes</strong></p>
+<ul style="text-align: justify;">
 <li><a href="https://github.com/ChilobeMwanza/EMFPersistence/blob/master/io.emf.change_based_persistence/src/impl/CBPBinaryResourceImpl.java" target="_blank">CBPBinaryResourceImpl</a>&nbsp;: The resource implementation which enables one to save and load models via the binary cbp format.</li>
 </ul>
-<ul>
+<ul style="text-align: justify;">
 <li><a href="https://github.com/ChilobeMwanza/EMFPersistence/blob/master/io.emf.change_based_persistence/src/impl/CBPTextResourceImpl.java" target="_blank">CBPTextResourceImpl</a>&nbsp;: The resource implementation which enables one to save and load models via the text cbp format.</li>
 </ul>
-<ul>
+<ul style="text-align: justify;">
 <li><a href="https://github.com/ChilobeMwanza/EMFPersistence/blob/master/io.emf.change_based_persistence/src/drivers/CBPBinarySerializer.java" target="_blank">CBPBinarySerializer</a>&nbsp;: Serializes models to disk via the the cbp binary format.</li>
 </ul>
-<ul>
+<ul style="text-align: justify;">
 <li><a href="https://github.com/ChilobeMwanza/EMFPersistence/blob/master/io.emf.change_based_persistence/src/drivers/CBPBinaryDeserializer.java" target="_blank">CBPBinaryDeserializer</a>&nbsp;: Deserializes models saved in the cbp binary format.</li>
 </ul>
-<ul>
+<ul style="text-align: justify;">
 <li><a href="https://github.com/ChilobeMwanza/EMFPersistence/blob/master/io.emf.change_based_persistence/src/drivers/CBPTextSerializer.java" target="_blank">CBPTextSerializer</a>&nbsp;: Serializes models to disk via the cbp text format.</li>
 </ul>
-<ul>
+<ul style="text-align: justify;">
 <li><a href="https://github.com/ChilobeMwanza/EMFPersistence/blob/master/io.emf.change_based_persistence/src/drivers/CBPTextDeserializer.java" target="_blank">CBPTextDeserializer</a>&nbsp;: Deserializes models persisted in the cbp text format.</li>
 </ul>
-<p><strong>Key Packages</strong></p>
-<ul>
+<p style="text-align: justify;"><strong>Key Packages</strong></p>
+<ul style="text-align: justify;">
 <li><a href="https://github.com/ChilobeMwanza/EMFPersistence/tree/master/io.emf.change_based_persistence/src/change" target="_blank">change</a>&nbsp;: Contains the classes partaining to models changes, e.g. Event, Changlog e.t.c.&nbsp;</li>
 </ul>
-<ul>
+<ul style="text-align: justify;">
 <li><a href="https://github.com/ChilobeMwanza/EMFPersistence/tree/master/io.emf.change_based_persistence/src/drivers" target="_blank">drivers</a>&nbsp;: contains serializers and deserializeers.</li>
 </ul>
-<ul>
+<ul style="text-align: justify;">
 <li><a href="https://github.com/ChilobeMwanza/EMFPersistence/tree/master/io.emf.change_based_persistence/src/dynamic_emf_tests" target="_blank">dynamic_emf_tests</a>&nbsp;: Test for dymic EMF.</li>
 </ul>
-<ul>
+<ul style="text-align: justify;">
 <li><a href="https://github.com/ChilobeMwanza/EMFPersistence/tree/master/io.emf.change_based_persistence/src/generated_emf_tests" target="_blank">generated_emf_tests</a>&nbsp;: JUnit tests for generated EMF.</li>
 </ul>
-<ul>
+<ul style="text-align: justify;">
 <li><a href="https://github.com/ChilobeMwanza/EMFPersistence/tree/master/io.emf.change_based_persistence/src/impl" target="_blank">impl</a>&nbsp;: Resource implementation classes, e.g CBPBinaryResourceImpl.&nbsp;</li>
 </ul>
 <ul>
-<li><a href="https://github.com/ChilobeMwanza/EMFPersistence/tree/master/io.emf.change_based_persistence/src/university" target="_blank">university</a>&nbsp;: Autogenerated EMF classes, used during testing and development, see&nbsp;<a href="https://github.com/ChilobeMwanza/EMFPersistence/blob/master/io.emf.change_based_persistence/model/university.emf" target="_blank">metamodel</a>&nbsp;.</li>
+<li style="text-align: justify;"><a href="https://github.com/ChilobeMwanza/EMFPersistence/tree/master/io.emf.change_based_persistence/src/university" target="_blank">university</a>&nbsp;: Autogenerated EMF classes, used during testing and development, see&nbsp;<a href="https://github.com/ChilobeMwanza/EMFPersistence/blob/master/io.emf.change_based_persistence/model/university.emf" target="_blank">metamodel</a>&nbsp;.</li>
 </ul>
