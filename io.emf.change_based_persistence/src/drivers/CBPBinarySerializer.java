@@ -1,7 +1,4 @@
-/**
- * TODO, SET EATTRIBUTE/ UNSET EATRRIBUTE, IMPROVE NULL HANDLING, SEE TEXT VERSION!
- * i.e, unset eattribute, obj CAN have null value, e.t.c
- */
+
 package drivers;
 
 import java.io.BufferedOutputStream;

@@ -1,7 +1,4 @@
-/*
- * TO DO:
- * Throw proper exceptions
- */
+
 package drivers;
 
 import java.io.BufferedReader;

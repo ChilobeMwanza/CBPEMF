@@ -88,17 +88,17 @@ public class CBPTextDeserializer {
 			case PersistenceManager.CREATE_EOBJECTS_AND_SET_EREFERENCE_VALUES:
 				createEObjectsAndSetEReferenceValues(line);
 				break;
-			case PersistenceManager.SET_EOBJECT_EATTRIBUTE_VALUES:
-				setEObjectEAttributeValues(line);
+			case PersistenceManager.SET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES:
+				handleEAttributeEvent(line,true);
 				break;
 			case PersistenceManager.SET_EOBJECT_EREFERENCE_VALUES:
-				setEObjectEReferenceValues(line);
+				handleEReferenceEvent(line,true);
 				break;
-			case PersistenceManager.UNSET_EOBJECT_EATTRIBUTE_VALUES:
-				unsetEObjectEAttributeValues(line);
+			case PersistenceManager.UNSET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES:
+				handleEAttributeEvent(line,false);
 				break;
 			case PersistenceManager.UNSET_EOBJECT_EREFERENCE_VALUES:
-				unsetEObjectEReferenceValues(line);
+				handleEReferenceEvent(line,false);
 				break;
 			case PersistenceManager.ADD_EOBJECTS_TO_RESOURCE:
 				createAndAddEObjectsToResource(line);
@@ -113,64 +113,74 @@ public class CBPTextDeserializer {
 		br.close();
 		manager.setResume(true);
 	}
-
-	private void setEObjectEReferenceValues(String line) {
-		String[] stringArray = line.split(" ");
-
-		EObject focusObj = IDToEObjectMap.get(Integer.valueOf(stringArray[1]));
-
-		EReference ref = (EReference) focusObj.eClass()
-				.getEStructuralFeature(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[2])));
-
-		String[] featureValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
-
-		if (ref.isMany()) {
+	private void setEReferenceValues(EObject focusObject, EReference eReference, String[] featureValueStringsArray)
+	{
+		if (eReference.isMany()) {
 			@SuppressWarnings("unchecked")
-			EList<EObject> featureValuesList = (EList<EObject>) focusObj.eGet(ref);
+			EList<EObject> featureValuesList = (EList<EObject>) focusObject.eGet(eReference);
 
 			for (String str : featureValueStringsArray) {
 				featureValuesList.add(IDToEObjectMap.get(Integer.valueOf(str)));
 			}
 		} else {
-			focusObj.eSet(ref, IDToEObjectMap.get(Integer.valueOf(featureValueStringsArray[0])));
+			focusObject.eSet(eReference, IDToEObjectMap.get(Integer.valueOf(featureValueStringsArray[0])));
 		}
 	}
-
-	private void setEObjectEAttributeValues(String line) 
+	
+	private void unsetEReferenceValues(EObject focusObject, EReference eReference, String[] featureValueStringsArray)
 	{
-		
-		
+		if (eReference.isMany()) {
+			@SuppressWarnings("unchecked")
+			EList<EObject> featureValuesList = (EList<EObject>) focusObject.eGet(eReference);
+
+			for (String str : featureValueStringsArray) {
+				featureValuesList.remove(IDToEObjectMap.get(Integer.valueOf(str)));
+			}
+		} else {
+			focusObject.eUnset(eReference);
+		}
+	}
+	
+	private void handleEReferenceEvent(String line, boolean isSetEReference)
+	{
 		String[] stringArray = line.split(" ");
 
-		EObject focusObj = IDToEObjectMap.get(Integer.valueOf(stringArray[1]));
+		EObject focusObject = IDToEObjectMap.get(Integer.valueOf(stringArray[1]));
 
-		EAttribute attr = (EAttribute) focusObj.eClass()
+		EReference eReference = (EReference) focusObject.eClass()
 				.getEStructuralFeature(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[2])));
 
-		EDataType dataType = attr.getEAttributeType();
+		String[] featureValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
+		
+		if(isSetEReference)
+			setEReferenceValues(focusObject, eReference,featureValueStringsArray);
+		
+		else
+			unsetEReferenceValues(focusObject, eReference,featureValueStringsArray);
 
-		String[] attrValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
+	}
+	private void setEAttributeValues(EObject focusObject, EAttribute eAttribute, String[] featureValuesArray )
+	{
+		int primitiveTypeID = getTypeID(eAttribute.getEAttributeType());
 
-		int primitiveTypeID = getTypeID(dataType);
-
-		if (attr.isMany()) 
+		if (eAttribute.isMany()) 
 		{
 			@SuppressWarnings("unchecked")
-			EList<Object> featureValuesList = (EList<Object>) focusObj.eGet(attr);
+			EList<Object> featureValuesList = (EList<Object>) focusObject.eGet(eAttribute);
 
 			if (primitiveTypeID == PersistenceManager.COMPLEX_TYPE) 
 			{
-				for (String str : attrValueStringsArray) 
+				for (String str : featureValuesArray) 
 				{
 					if (str.equals(manager.NULL_STRING))
 						featureValuesList.add(null);
 					else
-						featureValuesList.add(EcoreUtil.createFromString(attr.getEAttributeType(), str));
+						featureValuesList.add(EcoreUtil.createFromString(eAttribute.getEAttributeType(), str));
 				}
 			} 
 			else // primitiveTypeID != PersistenceManager.COMPLEX_TYPE
 			{
-				for (String str : attrValueStringsArray) 
+				for (String str : featureValuesArray) 
 				{
 					if (str.equals(manager.NULL_STRING))
 						featureValuesList.add(null);
@@ -182,58 +192,47 @@ public class CBPTextDeserializer {
 		else 
 		{
 			
-			if (attrValueStringsArray[0].equals(manager.NULL_STRING)) 
+			if (featureValuesArray[0].equals(manager.NULL_STRING)) 
 			{
-				focusObj.eSet(attr, null);
+				focusObject.eSet(eAttribute, null);
 			} 
 			else 
 			{
 				if (primitiveTypeID == PersistenceManager.COMPLEX_TYPE) 
 				{
-					focusObj.eSet(attr, EcoreUtil.createFromString(attr.getEAttributeType(), attrValueStringsArray[0]));
+					focusObject.eSet(eAttribute, EcoreUtil.createFromString(eAttribute.getEAttributeType(), featureValuesArray[0]));
 				} 
 				else 
 				{
-					focusObj.eSet(attr, convertStringToPrimitive(attrValueStringsArray[0], primitiveTypeID));
+					focusObject.eSet(eAttribute, convertStringToPrimitive(featureValuesArray[0], primitiveTypeID));
 				}
 			}
 		}
 	}
-
-	private void unsetEObjectEAttributeValues(String line) 
+	
+	private void unsetEAttributeValues(EObject focusObject, EAttribute eAttribute, String[] featureValuesArray )
 	{
-		
-		String[] stringArray = line.split(" ");
+		int primitiveTypeID = getTypeID(eAttribute.getEAttributeType());
 
-		EObject focusObj = IDToEObjectMap.get(Integer.valueOf(stringArray[1]));
-
-		EAttribute attr = (EAttribute) focusObj.eClass()
-				.getEStructuralFeature(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[2])));
-
-		int primitiveTypeID = getTypeID(attr.getEAttributeType());
-
-		if (attr.isMany()) 
+		if (eAttribute.isMany()) 
 		{
-			
 			@SuppressWarnings("unchecked")
-			EList<Object> featureValuesList = (EList<Object>) focusObj.eGet(attr);
-
-			String[] attrValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
-
+			EList<Object> featureValuesList = (EList<Object>) focusObject.eGet(eAttribute);
+			
 			if (primitiveTypeID == PersistenceManager.COMPLEX_TYPE) 
 			{
-				for (String str : attrValueStringsArray) 
+				for (String str : featureValuesArray) 
 				{
 					if (str.equals(manager.NULL_STRING))
 						featureValuesList.remove(null);
 
 					else
-						featureValuesList.remove(EcoreUtil.createFromString(attr.getEAttributeType(), str));
+						featureValuesList.remove(EcoreUtil.createFromString(eAttribute.getEAttributeType(), str));
 				}
 			} 
 			else // primitiveTypeID != PersistenceManager.COMPLEX_TYPE
 			{
-				for (String str : attrValueStringsArray) 
+				for (String str : featureValuesArray) 
 				{
 					if (str.equals(manager.NULL_STRING))
 						featureValuesList.remove(null);
@@ -245,16 +244,36 @@ public class CBPTextDeserializer {
 		} 
 		else 
 		{
-			focusObj.eUnset(attr);
+			focusObject.eUnset(eAttribute);
 		}
 	}
-
-	private void createEObjectsAndSetEReferenceValues(String line) {
+	
+	private void handleEAttributeEvent(String line, boolean isSetEAttribute)
+	{
 		String[] stringArray = line.split(" ");
 
-		EObject focusObj = IDToEObjectMap.get(Integer.valueOf(stringArray[1]));
+		EObject focusObject = IDToEObjectMap.get(Integer.valueOf(stringArray[1]));
 
-		EReference ref = (EReference) focusObj.eClass()
+		EAttribute eAttribute = (EAttribute) focusObject.eClass()
+				.getEStructuralFeature(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[2])));
+
+		String[] featureValuesArray = tokeniseString(getValueInSquareBrackets(line));
+
+		if(isSetEAttribute)
+			setEAttributeValues(focusObject, eAttribute, featureValuesArray);
+		
+		else
+			unsetEAttributeValues(focusObject, eAttribute, featureValuesArray);
+	}
+
+	
+	private void createEObjectsAndSetEReferenceValues(String line) 
+	{
+		String[] stringArray = line.split(" ");
+
+		EObject focusObject = IDToEObjectMap.get(Integer.valueOf(stringArray[1]));
+
+		EReference eReference = (EReference) focusObject.eClass()
 				.getEStructuralFeature(ePackageElementsNamesMap.getName(Integer.valueOf(stringArray[2])));
 
 		String[] refValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
@@ -275,15 +294,15 @@ public class CBPTextDeserializer {
 			eObjectToAddList.add(obj);
 		}
 
-		if (ref.isMany()) {
+		if (eReference.isMany()) {
 			@SuppressWarnings("unchecked")
-			EList<EObject> featureValuesList = (EList<EObject>) focusObj.eGet(ref);
+			EList<EObject> featureValuesList = (EList<EObject>) focusObject.eGet(eReference);
 
 			for (EObject obj : eObjectToAddList) {
 				featureValuesList.add(obj);
 			}
 		} else {
-			focusObj.eSet(ref, eObjectToAddList.get(0));
+			focusObject.eSet(eReference, eObjectToAddList.get(0));
 		}
 	}
 
@@ -317,28 +336,6 @@ public class CBPTextDeserializer {
 		}
     	
     	return PersistenceManager.COMPLEX_TYPE;
-	}
-
-	private void unsetEObjectEReferenceValues(String line) {
-		String[] stringsArray = line.split(" ");
-
-		EObject focusObj = IDToEObjectMap.get(Integer.valueOf(stringsArray[1]));
-
-		EReference ref = (EReference) focusObj.eClass()
-				.getEStructuralFeature(ePackageElementsNamesMap.getName(Integer.valueOf(stringsArray[2])));
-
-		if (ref.isMany()) {
-			String[] featureValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
-
-			@SuppressWarnings("unchecked")
-			EList<EObject> featureValuesList = (EList<EObject>) focusObj.eGet(ref);
-
-			for (String str : featureValueStringsArray) {
-				featureValuesList.remove(IDToEObjectMap.get(Integer.valueOf(str)));
-			}
-		} else {
-			focusObj.eUnset(ref);
-		}
 	}
 
 	private void removeEObjectsFromResource(String line) {
