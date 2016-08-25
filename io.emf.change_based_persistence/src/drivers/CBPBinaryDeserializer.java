@@ -80,22 +80,22 @@ public class CBPBinaryDeserializer
 				handleRemoveFromResource(inputStream);
 				break;
 			case PersistenceManager.SET_EOBJECT_EREFERENCE_VALUES:
-				handleSetEReference(inputStream);
+				handleEReferenceEvent(inputStream,true);
 				break;
 			case PersistenceManager.UNSET_EOBJECT_EREFERENCE_VALUES:
-				handleUnsetEReferenceValue(inputStream);
+				handleEReferenceEvent(inputStream,false);
 				break;
 			case PersistenceManager.SET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES:
-				handleSetComplexEAttributeValue(inputStream);
+				handleComplexEAttributeType(inputStream,true);
 				break;
 			case PersistenceManager.UNSET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES:
-				handleUnsetComplexEAttributeValue(inputStream);
+				handleComplexEAttributeType(inputStream,false);
 				break;
 			case PersistenceManager.SET_EOBJECT_PRIMITIVE_EATTRIBUTE_VALUES:
-				handleSetPrimitiveEAttributeType(inputStream);
+				handlePrimitiveEAttributeType(inputStream, true);
 				break;
 			case PersistenceManager.UNSET_EOBJECT_PRIMITIVE_EATTRIBUTE_VALUES:
-				handleUnsetPrimitiveEAttributeType(inputStream);
+				handlePrimitiveEAttributeType(inputStream,false);
 				break;
 			}
 		}
@@ -112,297 +112,259 @@ public class CBPBinaryDeserializer
     	return PersistenceManager.COMPLEX_TYPE;
     }
     
-    private void handleUnsetPrimitiveEAttributeType(InputStream in) throws IOException
+    private void setPrimitiveEAttributeValues(EObject focusObject, EAttribute eAttribute, Object[] featureValuesArray)
     {
-    	EObject focus_obj = IDToEObjectMap.get(readInt(in));
-    	
-    	EAttribute attr = (EAttribute) focus_obj.eClass().getEStructuralFeature
-				(ePackageElementsNamesMap.getName(readInt(in)));
-    	
-    	EDataType type = attr.getEAttributeType();
-    	
-    	int primitiveSize = -1;
-    	int primitiveType = -1;
-    	
-    	switch(getTypeID(type))
-    	{
-    	case PersistenceManager.SIMPLE_TYPE_INT:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_INT;
-    		primitiveSize = manager.INTEGER_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_SHORT:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_SHORT;
-    		primitiveSize = manager.SHORT_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_LONG:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_LONG;
-    		primitiveSize = manager.LONG_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_FLOAT:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_FLOAT;
-    		primitiveSize = manager.FLOAT_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_DOUBLE:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_DOUBLE;
-    		primitiveSize = manager.DOUBLE_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_BOOLEAN:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_BOOLEAN;
-    		primitiveSize = manager.INTEGER_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_CHAR:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_CHAR;
-    		primitiveSize = manager.CHAR_SIZE;
-    		return;
-    	}
-    	
-    	int numPrimitives = readInt(in);
-    	
-    	Object[] featureValuesArray = new Object[numPrimitives];
-    	
-    	byte[] buffer = new byte[numPrimitives * primitiveSize];
-    	
-    	in.read(buffer);
-    	
-    	int index = 0;
-    	
-    	for(int i = 0; i < numPrimitives; i++)
-    	{
-    		featureValuesArray[i] = byteArrayToPrimitive(Arrays.copyOfRange(buffer, index, index+primitiveSize),primitiveType);
-    		
-    		index = index + primitiveSize;
-    	}
-    	
-    	if(primitiveType == PersistenceManager.SIMPLE_TYPE_BOOLEAN)
-    	{
-    		boolean b = true;
-    		
-    		if(attr.isMany())
-    		{
-    			@SuppressWarnings("unchecked")
-                EList<Object> feature_value_list = (EList<Object>) focus_obj.eGet(attr);  
-    			
-    			for(Object obj : featureValuesArray)
-    			{
-    				if((int)obj == 0)
-    					b = false;
-    				
-    				feature_value_list.remove(b);
-    			}
-    		}
-    		else
-    		{
-    			focus_obj.eUnset(attr);
-    		}
-    	}
-    	else
-    	{
-    		if(attr.isMany())
-    		{
-        		@SuppressWarnings("unchecked")
-                EList<Object> feature_value_list = (EList<Object>) focus_obj.eGet(attr);  
-        		
-    			for(Object obj : featureValuesArray)
-    			{
-    				feature_value_list.remove(obj);
-    			}
-    		}
-    		else
-    		{
-    			focus_obj.eUnset(attr);
-    		}
-    	}
-    }
-    private void handleSetPrimitiveEAttributeType(InputStream in) throws IOException //combine set and unset
-    {
-    	EObject focus_obj = IDToEObjectMap.get(readInt(in));
-    	
-    	EAttribute attr = (EAttribute) focus_obj.eClass().getEStructuralFeature
-				(ePackageElementsNamesMap.getName(readInt(in)));
-    	
-    	EDataType type = attr.getEAttributeType();
-    	
-    	int primitiveSize = -1;
-    	int primitiveType = -1;
-    	
-    	switch(getTypeID(type))
-    	{
-    	case PersistenceManager.SIMPLE_TYPE_INT:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_INT;
-    		primitiveSize = manager.INTEGER_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_SHORT:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_SHORT;
-    		primitiveSize = manager.SHORT_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_LONG:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_LONG;
-    		primitiveSize = manager.LONG_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_FLOAT:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_FLOAT;
-    		primitiveSize = manager.FLOAT_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_DOUBLE:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_DOUBLE;
-    		primitiveSize = manager.DOUBLE_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_BOOLEAN:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_BOOLEAN;
-    		primitiveSize = manager.INTEGER_SIZE;
-    		break;
-    	case PersistenceManager.SIMPLE_TYPE_CHAR:
-    		primitiveType = PersistenceManager.SIMPLE_TYPE_CHAR;
-    		primitiveSize = manager.CHAR_SIZE;
-    		return;
-    	}
-    	
-    	int numPrimitives = readInt(in);
-    	
-    	Object[] featureValuesArray = new Object[numPrimitives];
-    	
-    	byte[] buffer = new byte[numPrimitives * primitiveSize];
-    	
-    	in.read(buffer);
-    	
-    	int index = 0;
-    	
-    	for(int i = 0; i < numPrimitives; i++)
-    	{
-    		featureValuesArray[i] = byteArrayToPrimitive(Arrays.copyOfRange(buffer, index, index+primitiveSize),primitiveType);
-    		
-    		index = index + primitiveSize;
-    	}
-    	
-    	if(primitiveType == PersistenceManager.SIMPLE_TYPE_BOOLEAN)
-    	{
-    		boolean b = true;
-    		
-    		if(attr.isMany())
-    		{
-    			@SuppressWarnings("unchecked")
-                EList<Object> feature_value_list = (EList<Object>) focus_obj.eGet(attr); 
-    			
-    			for(Object obj : featureValuesArray)
-    			{
-    				if((int)obj == 0)
-    					b = false;
-    				
-    				feature_value_list.add(b);
-    			}
-    		}
-    		else
-    		{
-    			if((int)featureValuesArray[0] == 0)
-    				b = false;
-    			
-    			focus_obj.eSet(attr,b);
-    		}
-    	}
-    	else
-    	{
-    		
-    		if(attr.isMany())
-    		{
-    			@SuppressWarnings("unchecked")
-                EList<Object> feature_value_list = (EList<Object>) focus_obj.eGet(attr);  
-    			
-    			for(Object obj : featureValuesArray)
-    			{
-    				feature_value_list.add(obj);
-    			}
-    		}
-    		else
-    		{
-    			focus_obj.eSet(attr,featureValuesArray[0]);
-    		}
-    	}
-    }
-    
-    private void handleUnsetComplexEAttributeValue(InputStream in) throws IOException
-    {
-    	EObject focus_obj = IDToEObjectMap.get(readInt(in));
-    	
-    	EAttribute attr = (EAttribute) focus_obj.eClass().getEStructuralFeature
-				(ePackageElementsNamesMap.getName(readInt(in)));
-    
-    	int numStrings = readInt(in);
-    	
-    	String[] feature_values_array = new String[numStrings];
-    	
-    	for(int i = 0; i < numStrings; i++)
-    	{
-    		int numBytes = readInt(in);
-    		
-    		feature_values_array[i] = readString(in,numBytes);
-    	}
-    	
-    	if(attr.isMany())
-    	{
-    		
-    		@SuppressWarnings("unchecked")
-			EList<Object> feature_value_list = (EList<Object>)focus_obj.eGet(attr);
-    		
-			for(String str : feature_values_array)
+		if(eAttribute.isMany())
+		{
+			@SuppressWarnings("unchecked")
+	        EList<Object> featureValuesList = (EList<Object>) focusObject.eGet(eAttribute);  
+			
+			for(Object obj : featureValuesArray)
 			{
-				if(str.equals(manager.NULL_STRING))
-					feature_value_list.remove(null);
-				else
-					feature_value_list.remove(EcoreUtil.createFromString(attr.getEAttributeType(), str));
+				featureValuesList.add(obj);
 			}
-    	}
-    	else
-    	{
-    		focus_obj.eUnset(attr);
-    	}
+		}
+		else
+		{
+			focusObject.eSet(eAttribute,featureValuesArray[0]);
+		}
     }
     
-    private void handleSetComplexEAttributeValue(InputStream in) throws IOException
+    private void unsetPrimitiveEAttributeValues(EObject focusObject, EAttribute eAttribute,Object[] featureValuesArray)
     {
-    	EObject focus_obj = IDToEObjectMap.get(readInt(in));
-    	
-    	EAttribute attr = (EAttribute) focus_obj.eClass().getEStructuralFeature
-				(ePackageElementsNamesMap.getName(readInt(in)));
+		if(eAttribute.isMany())
+		{
+			@SuppressWarnings("unchecked")
+	        EList<Object> featureValuesList = (EList<Object>) focusObject.eGet(eAttribute);  
+			
+			for(Object obj : featureValuesArray)
+			{
+				featureValuesList.remove(obj);
+			}
+		}
+		else
+		{
+			focusObject.eUnset(eAttribute);
+		}
+    }
     
-    	int numStrings = readInt(in);
+    private void setComplexEAttributeValues(EObject focusObject, EAttribute eAttribute, String[] featureValuesArray)
+    {
+    	EDataType eDataType = eAttribute.getEAttributeType();
     	
-    	String[] feature_values_array = new String[numStrings];
-    	
-    	for(int i = 0; i < numStrings; i++)
-    	{
-    		int numBytes = readInt(in);
-    		
-    		feature_values_array[i] = readString(in,numBytes);
-    	}
-    	
-    	if(attr.isMany())
-    	{
-    		@SuppressWarnings("unchecked")
-			EList<Object> feature_value_list = (EList<Object>)focus_obj.eGet(attr);
-    		
-			for(String str : feature_values_array)
+		if(eAttribute.isMany())
+		{
+			@SuppressWarnings("unchecked")
+	        EList<Object> featureValueList = (EList<Object>) focusObject.eGet(eAttribute);  
+			
+			for(String str : featureValuesArray)
 			{
 				if(str.equals(manager.NULL_STRING))
-					feature_value_list.add(null);
+					featureValueList.add(null);
 				
+				else if (eDataType.getName().equals("EString"))
+						featureValueList.add(str);
 				else
-					feature_value_list.add(EcoreUtil.createFromString(attr.getEAttributeType(), str));
+					featureValueList.add(EcoreUtil.createFromString(eDataType,str));
 			}
+		}
+		else
+		{
+			String str = featureValuesArray[0];
+			
+			if(str.equals(manager.NULL_STRING))
+				focusObject.eSet(eAttribute,null);
+			
+			else if (eDataType.getName().equals("EString"))
+				focusObject.eSet(eAttribute,str);
+			
+			else
+				focusObject.eSet(eAttribute,EcoreUtil.createFromString(eDataType, str));
+		}
+    }
+    
+    private void unsetComplexEAttributeValues(EObject focusObject, EAttribute eAttribute, String[] featureValuesArray)
+    {
+    	EDataType eDataType = eAttribute.getEAttributeType();
+    	
+		if(eAttribute.isMany())
+		{
+			@SuppressWarnings("unchecked")
+	        EList<Object> featureValueList = (EList<Object>) focusObject.eGet(eAttribute);  
+			
+			for(String str : featureValuesArray)
+			{
+				if(str.equals(manager.NULL_STRING))
+					featureValueList.remove(null);
+				
+				else if (eDataType.getName().equals("EString"))
+						featureValueList.remove(str);
+				else
+					featureValueList.remove(EcoreUtil.createFromString(eDataType,str));
+			}
+		}
+		else
+		{
+			focusObject.eUnset(eAttribute);
+		}
+    }
+    
+    private void setPrimitiveBooleanEAttributeValues(EObject focusObject, EAttribute eAttribute, Object[] featureValuesArray)
+    {
+    	boolean b = true;
+		
+		if(eAttribute.isMany())
+		{
+			@SuppressWarnings("unchecked")
+            EList<Object> featureValuesList = (EList<Object>) focusObject.eGet(eAttribute);  
+			
+			for(Object obj : featureValuesArray)
+			{
+				if((int)obj == 0)
+					b = false;
+				
+				featureValuesList.add(b);
+			}
+		}
+		else
+		{
+			focusObject.eSet(eAttribute,b);
+		}
+    }
+    
+    private void unsetPrimitiveBooleanEAttributeValues(EObject focusObject, EAttribute eAttribute, Object[] featureValuesArray)
+    {
+    	boolean b = true;
+		
+		if(eAttribute.isMany())
+		{
+			@SuppressWarnings("unchecked")
+            EList<Object> featureValuesList = (EList<Object>) focusObject.eGet(eAttribute);  
+			
+			for(Object obj : featureValuesArray)
+			{
+				if((int)obj == 0)
+					b = false;
+				
+				featureValuesList.remove(b);
+			}
+		}
+		else
+		{
+			focusObject.eUnset(eAttribute);
+		}
+    }
+   
+    
+    private void handlePrimitiveEAttributeType(InputStream in, boolean isSetEAttribute) throws IOException
+    {
+    	EObject focusObject = IDToEObjectMap.get(readInt(in));
+    	
+    	EAttribute eAttribute = (EAttribute) focusObject.eClass().getEStructuralFeature
+				(ePackageElementsNamesMap.getName(readInt(in)));
+    	
+    	EDataType eDataType = eAttribute.getEAttributeType();
+    	
+    	int primitiveSize = -1;
+    	int primitiveType = -1;
+    	
+    	switch(getTypeID(eDataType))
+    	{
+    	case PersistenceManager.SIMPLE_TYPE_INT:
+    		primitiveType = PersistenceManager.SIMPLE_TYPE_INT;
+    		primitiveSize = manager.INTEGER_SIZE;
+    		break;
+    	case PersistenceManager.SIMPLE_TYPE_SHORT:
+    		primitiveType = PersistenceManager.SIMPLE_TYPE_SHORT;
+    		primitiveSize = manager.SHORT_SIZE;
+    		break;
+    	case PersistenceManager.SIMPLE_TYPE_LONG:
+    		primitiveType = PersistenceManager.SIMPLE_TYPE_LONG;
+    		primitiveSize = manager.LONG_SIZE;
+    		break;
+    	case PersistenceManager.SIMPLE_TYPE_FLOAT:
+    		primitiveType = PersistenceManager.SIMPLE_TYPE_FLOAT;
+    		primitiveSize = manager.FLOAT_SIZE;
+    		break;
+    	case PersistenceManager.SIMPLE_TYPE_DOUBLE:
+    		primitiveType = PersistenceManager.SIMPLE_TYPE_DOUBLE;
+    		primitiveSize = manager.DOUBLE_SIZE;
+    		break;
+    	case PersistenceManager.SIMPLE_TYPE_BOOLEAN:
+    		primitiveType = PersistenceManager.SIMPLE_TYPE_BOOLEAN;
+    		primitiveSize = manager.INTEGER_SIZE;
+    		break;
+    	case PersistenceManager.SIMPLE_TYPE_CHAR:
+    		primitiveType = PersistenceManager.SIMPLE_TYPE_CHAR;
+    		primitiveSize = manager.CHAR_SIZE;
+    		return;
+    	}
+    	
+    	int numPrimitives = readInt(in);
+    	
+    	Object[] featureValuesArray = new Object[numPrimitives];
+    	
+    	byte[] buffer = new byte[numPrimitives * primitiveSize];
+    	
+    	in.read(buffer);
+    	
+    	int index = 0;
+    	
+    	for(int i = 0; i < numPrimitives; i++)
+    	{
+    		featureValuesArray[i] = byteArrayToPrimitive(Arrays.copyOfRange(buffer, index, index+primitiveSize),primitiveType);
+    		
+    		index = index + primitiveSize;
+    	}
+    	
+    	if(isSetEAttribute)
+    	{
+    		if(primitiveType == PersistenceManager.SIMPLE_TYPE_BOOLEAN)
+    			setPrimitiveBooleanEAttributeValues(focusObject,eAttribute,featureValuesArray);
+    		
+    		else
+    			setPrimitiveEAttributeValues(focusObject,eAttribute,featureValuesArray);
     	}
     	else
     	{
-    		if(feature_values_array [0].equals(manager.NULL_STRING))
-                focus_obj.eSet(attr, null);
+    		if(primitiveType == PersistenceManager.SIMPLE_TYPE_BOOLEAN)
+    			unsetPrimitiveBooleanEAttributeValues(focusObject,eAttribute,featureValuesArray);
     		
-            else
-                focus_obj.eSet(attr, EcoreUtil.createFromString(attr.getEAttributeType(),feature_values_array [0]));
+    		else
+    			unsetPrimitiveEAttributeValues(focusObject,eAttribute,featureValuesArray);
     	}
     }
-    private void handleUnsetEReferenceValue(InputStream in) throws IOException
+
+    private void handleComplexEAttributeType(InputStream in, boolean isSetEAttribute) throws IOException
     {
-    	EObject focus_obj = IDToEObjectMap.get(readInt(in));
+    	EObject focusObject = IDToEObjectMap.get(readInt(in));
     	
-    	EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
+    	EAttribute eAttribute = (EAttribute) focusObject.eClass().getEStructuralFeature
+				(ePackageElementsNamesMap.getName(readInt(in)));
+    
+    	int numStrings = readInt(in);
+    	
+    	String[] featureValuesArray = new String[numStrings];
+    	
+    	for(int i = 0; i < numStrings; i++)
+    	{
+    		int numBytes = readInt(in);
+    		
+    		featureValuesArray[i] = readString(in,numBytes);
+    	}
+    	
+    	if(isSetEAttribute)
+    		setComplexEAttributeValues(focusObject,eAttribute,featureValuesArray);
+    	
+    	else
+    		unsetComplexEAttributeValues(focusObject,eAttribute,featureValuesArray);	
+    }
+    
+    private void handleEReferenceEvent(InputStream in, boolean isSetEReference) throws IOException
+    {
+    	EObject focusObject = IDToEObjectMap.get(readInt(in));
+    	
+    	EReference eReference = (EReference) focusObject.eClass().getEStructuralFeature
 				(ePackageElementsNamesMap.getName(readInt(in)));
     	
     	int numInts = readInt(in);
@@ -422,22 +384,14 @@ public class CBPBinaryDeserializer
     		index = index + 4;
     	}
     	
-    	if(ref.isMany())
-    	{
-    		@SuppressWarnings("unchecked")
-			EList<EObject> feature_value_list = (EList<EObject>) focus_obj.eGet(ref);
-    		
-    		for(int i : intArray)
-    		{
-    			feature_value_list.remove(IDToEObjectMap.remove(i));
-    		}
-    	}
-    	else
-    	{
-    		focus_obj.eUnset(ref);
-    	}
+    	if(isSetEReference)
+    		setEReferenceValues(focusObject,eReference,intArray);
     	
+    	else
+    		unsetEReferenceValues(focusObject,eReference,intArray);
+    		
     }
+    
     private void handleRemoveFromResource(InputStream in) throws IOException
     {
     	int numInts = readInt(in);
@@ -458,46 +412,41 @@ public class CBPBinaryDeserializer
     	}
     }
     
-    private void handleSetEReference(InputStream in) throws IOException
+    private void setEReferenceValues(EObject focusObject, EReference eReference, int[] eObjectIDArray)
     {
-    	EObject focus_obj = IDToEObjectMap.get(readInt(in));
-    	
-    	EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
-				(ePackageElementsNamesMap.getName(readInt(in)));
-    	
-    	int numInts = readInt(in);
-    	
-    	byte[] buffer = new byte[numInts * 4]; //stores bytes for all 'n' numbers
-    	
-    	in.read(buffer); //read in bytes for all 'n' numbers
-    	
-    	int[] intArray = new int[numInts]; //stores 'n' numbers
-    	
-    	int index = 0;
-    	
-    	for(int i = 0; i < numInts; i++)
-    	{
-    		intArray[i] = byteArrayToInt(Arrays.copyOfRange(buffer, index,index+4));
-    		
-    		index = index + 4;
-    	}
-    	
-    	if(ref.isMany())
+    	if(eReference.isMany())
     	{
     		@SuppressWarnings("unchecked")
-			EList<EObject> feature_value_list = (EList<EObject>) focus_obj.eGet(ref);
+			EList<EObject> featureValuesList = (EList<EObject>) focusObject.eGet(eReference);
     		
-    		for(int i : intArray)
+    		for(int i : eObjectIDArray)
     		{
-    			feature_value_list.add(IDToEObjectMap.get(i));
+    			featureValuesList.add(IDToEObjectMap.get(i));
     		}
     	}
     	else
     	{
-    		focus_obj.eSet(ref, IDToEObjectMap.get(intArray[0]));
+    		focusObject.eSet(eReference, IDToEObjectMap.get(eObjectIDArray[0]));
     	}
     }
     
+    private void unsetEReferenceValues(EObject focusObject, EReference eReference, int[] eObjectIDArray)
+    {
+    	if(eReference.isMany())
+    	{
+    		@SuppressWarnings("unchecked")
+			EList<EObject> featureValuesList = (EList<EObject>) focusObject.eGet(eReference);
+    		
+    		for(int i : eObjectIDArray)
+    		{
+    			featureValuesList.remove(IDToEObjectMap.get(i));
+    		}
+    	}
+    	else
+    	{
+    		focusObject.eUnset(eReference);
+    	}
+    }
     
     private void handleCreateAndAddToResource(InputStream in) throws IOException
     {
@@ -537,9 +486,9 @@ public class CBPBinaryDeserializer
     
     private void handeCreateAndSetEReferenceValue(InputStream in) throws IOException
     {
-    	EObject focus_obj = IDToEObjectMap.get(readInt(in));
+    	EObject focusObject = IDToEObjectMap.get(readInt(in));
     	
-    	EReference ref = (EReference) focus_obj.eClass().getEStructuralFeature
+    	EReference ref = (EReference) focusObject.eClass().getEStructuralFeature
                 (ePackageElementsNamesMap.getName(readInt(in)));
     	
     	int numInts = readInt(in);
@@ -577,18 +526,17 @@ public class CBPBinaryDeserializer
     	if(ref.isMany())
     	{
     		@SuppressWarnings("unchecked")
-			EList<EObject> feature_value_list = (EList<EObject>) focus_obj.eGet(ref);
+			EList<EObject> featureValuesList = (EList<EObject>) focusObject.eGet(ref);
     		
     		for(int i = 1; i < numInts; i = i + 2)
     		{
-    			feature_value_list.add(IDToEObjectMap.get(intArray[i]));
+    			featureValuesList.add(IDToEObjectMap.get(intArray[i]));
     		}
     	}
     	else
     	{
-    		focus_obj.eSet(ref, IDToEObjectMap.get(intArray[1]));
+    		focusObject.eSet(ref, IDToEObjectMap.get(intArray[1]));
     	}
-    	
     }
     
     private void handleAddToResource(InputStream in) throws IOException
