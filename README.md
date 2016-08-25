@@ -1,5 +1,5 @@
-<p style="text-align: justify;"><strong>A Change Based Model Persistence Format</strong></p>
-<p style="text-align: justify;">This project contains ecliplse project folders. The project org.emf.persistence is an eclipse epsilon project and as such, it should work with a current version of epsilon without requiring any modifications to the users development environment.</p>
+<p style="text-align: justify;"><strong>Change Based Persistence EMF</strong></p>
+<p style="text-align: justify;">CBPEMF (pronounced CBP-MF) is a project that aims to persist EMF models in a change based based persistence format. The general idea is that as models are being edited, the changes made to them are tracked and recored. These changes can then be used to serialize / deserialize the EMF model. The folder io.emf_change_based_persistence is an epsilon eclipse project folder, as such, &nbsp;you should be able to simply clone this repository and open it in eclipse.</p>
 <p style="text-align: justify;"><strong>io.emf.change_based_persistence</strong></p>
 <p style="text-align: justify;">This project aims to persist models using a change based model representation format. To persist models in a text based format, use the CBPTextResourceImpl class. To persist models to a binary format, use the CBPBinaryResourceImpl class.</p>
 <p style="text-align: justify;"><strong>Overview</strong></p>
