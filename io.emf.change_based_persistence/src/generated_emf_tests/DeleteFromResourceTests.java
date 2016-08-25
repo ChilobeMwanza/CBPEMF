@@ -32,7 +32,6 @@ public class DeleteFromResourceTests extends TestBase
 		 loadedContentsList = null;
 	 }
 	
-	 
 	/*
 	 * Tests (adding and) deleting a single item
 	 */

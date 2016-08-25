@@ -38,7 +38,6 @@ public abstract class TestBase
 			
 			res = new CBPBinaryResourceImpl(URI.createURI
 					(fileSaveLocation),UniversityPackage.eINSTANCE);
-			
 		}
 		else
 		{

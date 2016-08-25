@@ -2,30 +2,30 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="System.out" key="selection"/>
+		<item value="eReference" key="selection"/>
 		<item value="true" key="casesensitive"/>
-		<item value="false" key="incremental"/>
-		<item value="true" key="wrap"/>
+		<item value="true" key="incremental"/>
+		<item value="false" key="wrap"/>
 		<item value="true" key="wholeword"/>
 		<list key="findhistory">
-			<item value="System.out"/>
-			<item value="manager.NULL_STRING"/>
-			<item value="=="/>
-			<item value="System"/>
-			<item value="dataType"/>
-			<item value="datatype"/>
-			<item value="ref.is"/>
-			<item value="many"/>
+			<item value="ref"/>
+			<item value="focusObj"/>
+			<item value="attr"/>
+			<item value="focus_obj"/>
+			<item value="convertStringToPrimitive"/>
+			<item value="convertStringTo"/>
+			<item value="feature_value_list"/>
+			<item value="primitiveSize"/>
 		</list>
 		<list key="replacehistory">
+			<item value="eReference"/>
+			<item value="focusObject"/>
+			<item value="eAttribute"/>
+			<item value="featureValuesList"/>
+			<item value="featureValuesArray"/>
 			<item value="writePrimitive"/>
 			<item value="simpleTypesMap"/>
 			<item value="ePackageElementsNamesMap.getID(added_obj.eClass().getName())"/>
-			<item value="ePackageElementsNamesMap.getID(e.getEReference().getName())"/>
-			<item value="ePackageElementsNamesMap.getID(attr.getName())"/>
-			<item value="outputList"/>
-			<item value="eventList"/>
-			<item value="namesMapPopulated"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

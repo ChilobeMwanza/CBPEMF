@@ -1,0 +1,36 @@
+package drivers;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
+public abstract class CBPDeserializer 
+{
+	private void unsetComplexEAttributeValues(EObject focusObject, EAttribute eAttribute, String[] featureValuesArray)
+    {
+    	EDataType eDataType = eAttribute.getEAttributeType();
+    	
+		if(eAttribute.isMany())
+		{
+			@SuppressWarnings("unchecked")
+	        EList<Object> featureValueList = (EList<Object>) focusObject.eGet(eAttribute);  
+			
+			for(String str : featureValuesArray)
+			{
+				if(str.equals(PersistenceManager.NULL_STRING))
+					featureValueList.remove(null);
+				
+				else if (eDataType.getName().equals("EString"))
+						featureValueList.remove(str);
+				else
+					featureValueList.remove(EcoreUtil.createFromString(eDataType,str));
+			}
+		}
+		else
+		{
+			focusObject.eUnset(eAttribute);
+		}
+    }
+}
