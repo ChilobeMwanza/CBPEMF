@@ -88,13 +88,13 @@ public class CBPTextDeserializer {
 			case PersistenceManager.CREATE_EOBJECTS_AND_SET_EREFERENCE_VALUES:
 				createEObjectsAndSetEReferenceValues(line);
 				break;
-			case PersistenceManager.SET_EOBJECT_EATTRIBUTE_VALUES:
+			case PersistenceManager.SET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES:
 				setEObjectEAttributeValues(line);
 				break;
 			case PersistenceManager.SET_EOBJECT_EREFERENCE_VALUES:
 				setEObjectEReferenceValues(line);
 				break;
-			case PersistenceManager.UNSET_EOBJECT_EATTRIBUTE_VALUES:
+			case PersistenceManager.UNSET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES:
 				unsetEObjectEAttributeValues(line);
 				break;
 			case PersistenceManager.UNSET_EOBJECT_EREFERENCE_VALUES:

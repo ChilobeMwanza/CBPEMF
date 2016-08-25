@@ -58,7 +58,7 @@ public abstract class EAttributeEvent extends Event
      	   this.eAttributeValuesList.add(value);
     }
     
-    public EObject getFocusObj()
+    public EObject getFocusObject()
     {
         return focusObject;
     }

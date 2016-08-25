@@ -21,20 +21,19 @@ import impl.CBPTextResourceImpl;
 
 public class PersistenceManager 
 {
-	//REMOVE COMPLEX V PRIMITIVE
+	//serialization event types
 	public static final int CREATE_AND_ADD_EOBJECTS_TO_RESOURCE = 0;
 	public static final int CREATE_EOBJECTS_AND_SET_EREFERENCE_VALUES = 1;
     public static final int ADD_EOBJECTS_TO_RESOURCE = 2;
-    public static final int SET_PRIMITIVE_EATTRIBUTE_VALUE = 3;
-    public static final int SET_COMPLEX_EATTRIBUTE_VALUE = 4;
-    public static final int SET_EOBJECT_EREFERENCE_VALUES = 5;
+    public static final int SET_EOBJECT_EREFERENCE_VALUES = 3;
+    public static final int SET_EOBJECT_PRIMITIVE_EATTRIBUTE_VALUES = 4;
+    public static final int SET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES = 5;
     public static final int REMOVE_EOBJECTS_FROM_RESOURCE = 6;
-    public static final int UNSET_PRIMITIVE_EATTRIBUTE_VALUE = 7;
-    public static final int UNSET_COMPLEX_EATTRIBUTE_VALUE = 8;
+    public static final int UNSET_EOBJECT_PRIMITIVE_EATTRIBUTE_VALUES = 7;
+    public static final int UNSET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES = 8;
     public static final int UNSET_EOBJECT_EREFERENCE_VALUES = 9;
-    public static final int SET_EOBJECT_EATTRIBUTE_VALUES = 10;
-    public static final int UNSET_EOBJECT_EATTRIBUTE_VALUES = 11;
-    
+
+    //simple types
     public static final int SIMPLE_TYPE_INT = 0;
     public static final int SIMPLE_TYPE_BOOLEAN = 1;
     public static final int SIMPLE_TYPE_FLOAT = 2;
@@ -46,6 +45,7 @@ public class PersistenceManager
     public static final int TEXT_SIMPLE_TYPE_ESTRING = 9;
     public static final int COMPLEX_TYPE = 8;
     
+    //size of java primitives, bytes.
     public final int INTEGER_SIZE = 4;
     public final int BYTE_SIZE = 1;
     public final int CHAR_SIZE = 2;

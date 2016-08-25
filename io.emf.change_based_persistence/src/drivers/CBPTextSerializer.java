@@ -112,20 +112,20 @@ public class CBPTextSerializer
 		manager.setResume(true);
 	}
 	
-	private void writeEAttributeEvent(EAttributeEvent e, PrintWriter out) //FIDFD DFIDJLFJ DIF DJ!!! DFF !
+	private void writeEAttributeEvent(EAttributeEvent e, PrintWriter out) 
 	{
-		EObject focus_obj = e.getFocusObj();
+		EObject focus_obj = e.getFocusObject();
 		
 		EAttribute attr = e.getEAttribute();
 		
 		EDataType dataType = attr.getEAttributeType();
 		
-		int eventType = PersistenceManager.SET_EOBJECT_EATTRIBUTE_VALUES;
+		int serializationType = PersistenceManager.SET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES;
 		
 		if(e.getEventType() == Event.UNSET_EATTRIBUTE_EVENT)
-			eventType = PersistenceManager.UNSET_EOBJECT_EATTRIBUTE_VALUES;
+			serializationType = PersistenceManager.UNSET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES;
 		
-		out.print((eventType+" "+changelog.getObjectId(focus_obj)+" "+
+		out.print((serializationType+" "+changelog.getObjectId(focus_obj)+" "+
 				ePackageElementsNamesMap.getID(attr.getName())+" ["));
 
 		String newValue ;

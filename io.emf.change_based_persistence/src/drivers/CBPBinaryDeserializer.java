@@ -39,9 +39,7 @@ public class CBPBinaryDeserializer
     private final Charset STRING_ENCODING = StandardCharsets.UTF_8;
     
     private final TObjectIntMap<String> commonSimpleTypeNameMap;
-	
 
-    
     public CBPBinaryDeserializer(PersistenceManager manager, Changelog aChangelog,
             EPackageElementsNamesMap ePackageElementsNamesMap)
     {
@@ -87,16 +85,16 @@ public class CBPBinaryDeserializer
 			case PersistenceManager.UNSET_EOBJECT_EREFERENCE_VALUES:
 				handleUnsetEReferenceValue(inputStream);
 				break;
-			case PersistenceManager.SET_COMPLEX_EATTRIBUTE_VALUE:
+			case PersistenceManager.SET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES:
 				handleSetComplexEAttributeValue(inputStream);
 				break;
-			case PersistenceManager.UNSET_COMPLEX_EATTRIBUTE_VALUE:
+			case PersistenceManager.UNSET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES:
 				handleUnsetComplexEAttributeValue(inputStream);
 				break;
-			case PersistenceManager.SET_PRIMITIVE_EATTRIBUTE_VALUE:
+			case PersistenceManager.SET_EOBJECT_PRIMITIVE_EATTRIBUTE_VALUES:
 				handleSetPrimitiveEAttributeType(inputStream);
 				break;
-			case PersistenceManager.UNSET_PRIMITIVE_EATTRIBUTE_VALUE:
+			case PersistenceManager.UNSET_EOBJECT_PRIMITIVE_EATTRIBUTE_VALUES:
 				handleUnsetPrimitiveEAttributeType(inputStream);
 				break;
 			}
@@ -116,7 +114,7 @@ public class CBPBinaryDeserializer
     
     private void handleUnsetPrimitiveEAttributeType(InputStream in) throws IOException
     {
-EObject focus_obj = IDToEObjectMap.get(readInt(in));
+    	EObject focus_obj = IDToEObjectMap.get(readInt(in));
     	
     	EAttribute attr = (EAttribute) focus_obj.eClass().getEStructuralFeature
 				(ePackageElementsNamesMap.getName(readInt(in)));
@@ -341,12 +339,16 @@ EObject focus_obj = IDToEObjectMap.get(readInt(in));
     	
     	if(attr.isMany())
     	{
+    		
     		@SuppressWarnings("unchecked")
 			EList<Object> feature_value_list = (EList<Object>)focus_obj.eGet(attr);
     		
 			for(String str : feature_values_array)
 			{
-				feature_value_list.remove(EcoreUtil.createFromString(attr.getEAttributeType(), str));
+				if(str.equals(manager.NULL_STRING))
+					feature_value_list.remove(null);
+				else
+					feature_value_list.remove(EcoreUtil.createFromString(attr.getEAttributeType(), str));
 			}
     	}
     	else
