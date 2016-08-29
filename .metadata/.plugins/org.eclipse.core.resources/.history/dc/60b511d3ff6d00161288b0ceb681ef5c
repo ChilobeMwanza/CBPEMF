@@ -1,0 +1,18 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+
+public class AddValueToAttributeEvent extends EAttributeEvent
+{
+	public AddValueToAttributeEvent(EObject focusObject, EAttribute eAttribute, Object newValue)
+    {
+       super(Event.ADD_VALUE_TO_EATTRIBUTE_EVENT, focusObject, eAttribute, newValue);  
+    }
+    
+    public AddValueToAttributeEvent(Notification n)
+    {
+        this((EObject) n.getNotifier(),(EAttribute) n.getFeature(),n.getNewValue());
+    }
+}

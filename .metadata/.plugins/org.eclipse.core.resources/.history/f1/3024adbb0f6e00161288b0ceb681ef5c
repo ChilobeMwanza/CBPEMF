@@ -1,0 +1,27 @@
+package change;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+
+public class AddEObjectsToEReferenceEvent extends EReferenceEvent
+{
+	/*EObject added to another EObject via some EReference*/
+	public AddEObjectsToEReferenceEvent(EObject focusObject,Object newValue,EReference eReference)
+    {
+        super(Event.ADD_EOBJECTS_TO_EREFERENCE_EVENT, focusObject, newValue, eReference);
+    }
+	
+	/*EObject added directly to resource contents*/
+	public AddEObjectsToEReferenceEvent(Object newValue) //i.e objects added to resource
+	{
+		super(Event.ADD_EOBJECTS_TO_EREFERENCE_EVENT,newValue);
+	}
+    
+    public AddEObjectsToEReferenceEvent(Notification n)
+    {
+       super(Event.ADD_EOBJECTS_TO_EREFERENCE_EVENT,n);
+    } 
+}
+
+

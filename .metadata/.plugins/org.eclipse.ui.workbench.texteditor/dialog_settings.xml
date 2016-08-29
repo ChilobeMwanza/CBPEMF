@@ -2,37 +2,37 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="eReference" key="selection"/>
+		<item value="eDataType" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="true" key="incremental"/>
 		<item value="false" key="wrap"/>
 		<item value="true" key="wholeword"/>
 		<list key="findhistory">
-			<item value="ref"/>
-			<item value="focusObj"/>
+			<item value="dataType"/>
 			<item value="attr"/>
 			<item value="focus_obj"/>
-			<item value="convertStringToPrimitive"/>
-			<item value="convertStringTo"/>
-			<item value="feature_value_list"/>
-			<item value="primitiveSize"/>
+			<item value="obj_create_list"/>
+			<item value="added_obj_list"/>
+			<item value="added_obj_"/>
+			<item value="addedEObjectsList"/>
+			<item value="list"/>
 		</list>
 		<list key="replacehistory">
-			<item value="eReference"/>
-			<item value="focusObject"/>
+			<item value="eDataType"/>
 			<item value="eAttribute"/>
+			<item value="focusObject"/>
+			<item value="eObjectsToCreateList"/>
+			<item value="eObjectsToAddList"/>
+			<item value="eObjectsList"/>
+			<item value="eReference"/>
 			<item value="featureValuesList"/>
-			<item value="featureValuesArray"/>
-			<item value="writePrimitive"/>
-			<item value="simpleTypesMap"/>
-			<item value="ePackageElementsNamesMap.getID(added_obj.eClass().getName())"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="305" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="444" key="DIALOG_HEIGHT"/>
-		<item value="1907" key="DIALOG_X_ORIGIN"/>
+		<item value="983" key="DIALOG_X_ORIGIN"/>
 		<item value="766" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

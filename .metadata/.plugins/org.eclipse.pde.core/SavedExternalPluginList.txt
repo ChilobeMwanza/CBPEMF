@@ -1,4 +1,4 @@
-# List of external plug-in models previously loaded. Timestamp: 1472155270487
+# List of external plug-in models previously loaded. Timestamp: 1472482024420
 file:/C:/eclipse-epsilon/plugins/com.google.eclipse.protobuf_2.2.1.201601041517.jar
 file:/C:/eclipse-epsilon/plugins/com.google.eclipse.protobuf.ui_2.2.1.201601041517.jar
 file:/C:/eclipse-epsilon/plugins/com.google.gdata_1.47.1_1.47.1.jar
@@ -13,6 +13,15 @@ file:/C:/eclipse-epsilon/plugins/com.mountainminds.eclemma.core_2.3.3.2016022319
 file:/C:/eclipse-epsilon/plugins/com.mountainminds.eclemma.debug.ui.compatibility_2.3.3.201602231923.jar
 file:/C:/eclipse-epsilon/plugins/com.mountainminds.eclemma.doc_2.3.3.201602231923.jar
 file:/C:/eclipse-epsilon/plugins/com.mountainminds.eclemma.ui_2.3.3.201602231923.jar
+file:/C:/eclipse-epsilon/plugins/com.objectaid.uml_1.1.10.jar
+file:/C:/eclipse-epsilon/plugins/com.objectaid.uml.addon_1.1.10.jar
+file:/C:/eclipse-epsilon/plugins/com.objectaid.uml.addon.cls_1.1.10.jar
+file:/C:/eclipse-epsilon/plugins/com.objectaid.uml.addon.java_1.1.10.jar
+file:/C:/eclipse-epsilon/plugins/com.objectaid.uml.cls_1.1.10.jar
+file:/C:/eclipse-epsilon/plugins/com.objectaid.uml.cls.java_1.1.10.jar
+file:/C:/eclipse-epsilon/plugins/com.objectaid.uml.java_1.1.10.jar
+file:/C:/eclipse-epsilon/plugins/com.objectaid.uml.seq_1.1.10.jar
+file:/C:/eclipse-epsilon/plugins/com.objectaid.uml.seq.java_1.1.10.jar
 file:/C:/eclipse-epsilon/plugins/com.sun.el_2.2.0.v201303151357.jar
 file:/C:/eclipse-epsilon/plugins/es.modelum.morsa_1.0.0.jar
 file:/C:/eclipse-epsilon/plugins/es.modelum.morsa.mongodb_1.0.0/
@@ -33,11 +42,14 @@ file:/C:/eclipse-epsilon/plugins/org.apache.batik.bridge_1.6.0.v201011041432.jar
 file:/C:/eclipse-epsilon/plugins/org.apache.batik.css_1.7.0.v201011041433.jar
 file:/C:/eclipse-epsilon/plugins/org.apache.batik.css_1.6.0.v201011041432.jar
 file:/C:/eclipse-epsilon/plugins/org.apache.batik.dom_1.6.1.v201505192100.jar
+file:/C:/eclipse-epsilon/plugins/org.apache.batik.dom_1.6.0.v201011041432.jar
 file:/C:/eclipse-epsilon/plugins/org.apache.batik.dom.svg_1.6.0.v201011041432.jar
 file:/C:/eclipse-epsilon/plugins/org.apache.batik.ext.awt_1.6.0.v201011041432.jar
+file:/C:/eclipse-epsilon/plugins/org.apache.batik.extension_1.6.0.v201011041432.jar
 file:/C:/eclipse-epsilon/plugins/org.apache.batik.parser_1.6.0.v201011041432.jar
 file:/C:/eclipse-epsilon/plugins/org.apache.batik.pdf_1.6.0.v201105071520.jar
 file:/C:/eclipse-epsilon/plugins/org.apache.batik.svggen_1.6.0.v201011041432.jar
+file:/C:/eclipse-epsilon/plugins/org.apache.batik.swing_1.6.0.v201011041432.jar
 file:/C:/eclipse-epsilon/plugins/org.apache.batik.transcoder_1.6.0.v201011041432.jar
 file:/C:/eclipse-epsilon/plugins/org.apache.batik.util_1.7.0.v201011041433.jar
 file:/C:/eclipse-epsilon/plugins/org.apache.batik.util_1.6.0.v201011041432.jar

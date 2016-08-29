@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
-<fullyQualifiedTypeName name="java.nio.charset.Charset"/>
-<fullyQualifiedTypeName name="gnu.trove.map.TIntObjectMap"/>
-<fullyQualifiedTypeName name="gnu.trove.map.hash.TIntObjectHashMap"/>
-<fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.io.BufferedInputStream"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="exceptions.UnknownPackageException"/>
@@ -40,13 +35,10 @@
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EAttribute"/>
 <fullyQualifiedTypeName name="change.EAttributeEvent"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Method"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EReference"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.Collection"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notification"/>
-<fullyQualifiedTypeName name="impl.CBPResource"/>
 <fullyQualifiedTypeName name="change.EReferenceEvent.EReferenceEventType"/>
 <fullyQualifiedTypeName name="change.Event.NotifierType"/>
 <fullyQualifiedTypeName name="java.util.Iterator"/>
@@ -60,4 +52,12 @@
 <fullyQualifiedTypeName name="drivers.PersistenceManager"/>
 <fullyQualifiedTypeName name="change.EReferenceEvent.NotifierType"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="gnu.trove.map.TIntObjectMap"/>
+<fullyQualifiedTypeName name="gnu.trove.map.hash.TIntObjectHashMap"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notification"/>
+<fullyQualifiedTypeName name="impl.CBPResource"/>
+<fullyQualifiedTypeName name="change.ResourceEvent"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EReference"/>
+<fullyQualifiedTypeName name="change.AddEObjectsToResourceEvent"/>
+<fullyQualifiedTypeName name="change.RemoveEObjectsFromResourceEvent"/>
 </qualifiedTypeNameHistroy>

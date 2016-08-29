@@ -1,0 +1,6 @@
+package util;
+
+public class Snippet {
+	 As previously discussed in blah, when creating a 3rd party EMF persistence layer, the convention is to extend one or more of EMFs \textit{Resource} interfaces
+}
+

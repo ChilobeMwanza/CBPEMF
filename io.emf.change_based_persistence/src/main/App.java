@@ -81,7 +81,7 @@ public class App
 		// TODO Auto-generated method stub
 		App app = new App();
 		//app.loadResource() ;
-		//app.createResource();
+		app.createResource();
 		
 		
 		//Integer x = new Integer(4);
@@ -100,9 +100,7 @@ public class App
 		
 		System.out.println(String.valueOf(obj));*/
 		
-		char c = 'd';
 		
-		String s = String.valueOf(c);
 		
 	
 		
@@ -142,18 +140,35 @@ public class App
 	
 	public void createResource() throws Exception
 	{
+		
+		
 		Resource res = new 
 				CBPTextResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
 		
+		
+		Map<String,Boolean> options = new HashMap<String,Boolean>();
+		options.put("OPTIMISE_MODEL", true);
+		
 		Book book = UniversityFactory.eINSTANCE.createBook();
 		
-		res.getContents().add(book);
+		book.getAuthorNames().add("A");
+		book.getAuthorNames().add("A");
+		
+		
+		for(String s : book.getAuthorNames())
+		{
+			System.out.println(s);
+		}
+		
+		/*res.getContents().add(book);
 		
 		book.getAuthorNames().add("a");
 		book.getAuthorNames().add(null);
 		book.getAuthorNames().add("C");
 		
-		book.getAuthorNames().remove(null);
+		book.getAuthorNames().remove(null);*/
+		
+		
 		
 		
 		
@@ -166,7 +181,7 @@ public class App
 
 
 	
-		res.save(null);
+		res.save(options);
 		
 		
 		//s1.setStaffMemberType(null);

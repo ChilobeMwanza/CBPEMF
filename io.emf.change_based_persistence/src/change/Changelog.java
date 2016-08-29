@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
+import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 
 
@@ -68,7 +70,7 @@ public class Changelog
 	
 		if(!eObjectToIDMap.containsKey(obj)) //tbr
 		{
-			System.out.println(classname+" search retrun false");
+			System.out.println(classname+" search returned false");
 			System.exit(0);
 		}
 		return eObjectToIDMap.get(obj);
@@ -93,5 +95,19 @@ public class Changelog
 	public List<Event> getEventsList()
 	{
 		return event_list;
+	}
+	
+	public void removeRedundantEvents()
+	{
+	//	TObjectArrayList foo;
+	
+		//map of eattribute names
+		TIntObjectMap<List<Object>> attributeIDToValueMap = new TIntObjectHashMap<List<Object>>();
+		
+		TIntObjectMap<TIntObjectMap<List<Object>>> eObjectToEAttributeMap = new TIntObjectHashMap<TIntObjectMap<List<Object>>>();
+		
+		//TIntegerObjectArrayList;
+		
+
 	}
 }

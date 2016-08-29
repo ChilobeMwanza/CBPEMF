@@ -38,11 +38,11 @@ public abstract class EAttributeEvent extends Event
     	
         Object value = null;
         
-        if(eventType == Event.SET_EATTRIBUTE_EVENT)
+        if(eventType == Event.ADD_OBJECTS_TO_EATTRIBUTE_EVENT)
         {
         	value = n.getNewValue();
         }
-        else //eventType == Event.UNSET_EATTRIBUTE_EVENT
+        else 
         {
         	value = n.getOldValue();
         }

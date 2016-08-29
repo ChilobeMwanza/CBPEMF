@@ -17,17 +17,18 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import change.Changelog;
 import change.EAttributeEvent;
-import change.EReferenceEvent.NotifierType;
+import change.EReferenceEvent;
 import change.Event;
-import change.SetEAttributeEvent;
-import change.SetEReferenceEvent;
-import change.UnsetEAttributeEvent;
-import change.UnsetEReferenceEvent;
-
+import change.AddEObjectsToEReferenceEvent;
+import change.AddEObjectsToResourceEvent;
+import change.ResourceEvent;
+import change.RemoveEObjectsFromEReferenceEvent;
+import change.RemoveEObjectsFromResourceEvent;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.TObjectIntMap;
@@ -76,14 +77,20 @@ public class CBPBinarySerializer
         {
         	switch(e.getEventType())
         	{
-        	case Event.SET_EREFERENCE_EVENT:
-        		handleSetEReferenceEvent((SetEReferenceEvent)e,outputStream);
+        	case Event.ADD_EOBJECTS_TO_RESOURCE_EVENT:
+        		writeEObjectAdditionEvent((AddEObjectsToResourceEvent)e, outputStream);
         		break;
-        	case Event.UNSET_EREFERENCE_EVENT:
-        		handleUnsetEReferenceEvent((UnsetEReferenceEvent)e, outputStream);
+        	case Event.ADD_EOBJECTS_TO_EREFERENCE_EVENT:
+        		writeEObjectAdditionEvent((AddEObjectsToEReferenceEvent)e,outputStream);
         		break;
-        	case Event.SET_EATTRIBUTE_EVENT:
-        	case Event.UNSET_EATTRIBUTE_EVENT:
+        	case Event.REMOVE_EOBJECTS_FROM_RESOURCE_EVENT:
+        		writeEObjectRemovalEvent((RemoveEObjectsFromResourceEvent)e,outputStream);
+        		break;
+        	case Event.REMOVE_EOBJECTS_FROM_EREFERENCE_EVENT:
+        		writeEObjectRemovalEvent((RemoveEObjectsFromEReferenceEvent)e, outputStream);
+        		break;
+        	case Event.ADD_OBJECTS_TO_EATTRIBUTE_EVENT:
+        	case Event.REMOVE_OBJECTS_FROM_EATTRIBUTE_EVENT:
         		writeEAttributeEvent((EAttributeEvent)e,outputStream);
         		break;
         	}
@@ -146,7 +153,7 @@ public class CBPBinarySerializer
     	
     	int serializationType = PersistenceManager.SET_EOBJECT_PRIMITIVE_EATTRIBUTE_VALUES;
     	
-    	if(e.getEventType() == Event.UNSET_EATTRIBUTE_EVENT)
+    	if(e.getEventType() == Event.REMOVE_OBJECTS_FROM_EATTRIBUTE_EVENT)
     		serializationType = PersistenceManager.UNSET_EOBJECT_PRIMITIVE_EATTRIBUTE_VALUES;
     	
         writePrimitive(out,serializationType);
@@ -188,14 +195,14 @@ public class CBPBinarySerializer
     		OutputStream out) throws IOException
     {
     	
-    	EDataType dataType = eAttribute.getEAttributeType();
+    	EDataType eDataType = eAttribute.getEAttributeType();
   
     	writePrimitive(out,serializationType);
     	writePrimitive(out,changelog.getObjectId(focusObject));
     	writePrimitive(out,ePackageElementsNamesMap.getID(eAttribute.getName()));
     	writePrimitive(out,eAttributeValuesList.size());
     	
-    	if(dataType.getName().equals("EString"))
+    	if(eDataType.getName().equals("EString"))
     	{
     		for(Object obj : eAttributeValuesList)
     		{
@@ -209,7 +216,7 @@ public class CBPBinarySerializer
     	{
     		for(Object obj : eAttributeValuesList)
     		{
-    			String valueString = EcoreUtil.convertToString(dataType, obj);
+    			String valueString = EcoreUtil.convertToString(eDataType, obj);
     			
     			if(valueString == null)
     				valueString = manager.NULL_STRING;
@@ -223,7 +230,7 @@ public class CBPBinarySerializer
     {
     	int serializationType = PersistenceManager.SET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES;
     	
-    	if(e.getEventType() == Event.UNSET_EATTRIBUTE_EVENT)
+    	if(e.getEventType() == Event.REMOVE_OBJECTS_FROM_EATTRIBUTE_EVENT)
     		serializationType = PersistenceManager.UNSET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES;
     	
     	writeComplexEAttributes(e.getFocusObject(),e.getEAttribute(),e.getEAttributeValuesList(),serializationType,out);
@@ -238,122 +245,148 @@ public class CBPBinarySerializer
     	return PersistenceManager.COMPLEX_TYPE;
     }
     
-    private void handleSetEReferenceEvent(SetEReferenceEvent e, OutputStream out) throws IOException
+    private void writeEObjectAdditionEvent(AddEObjectsToEReferenceEvent e, OutputStream out) throws IOException
     {
-    	TIntArrayList added_obj_list = new TIntArrayList();
-    	TIntArrayList obj_create_list = new TIntArrayList();
+        writeEObjectAdditionEvent(e.getEObjectList(),e.getFocusObject(),e.getEReference(),false,out);
+    }
+    
+    private void writeEObjectAdditionEvent(AddEObjectsToResourceEvent e, OutputStream out) throws IOException
+    {
+        writeEObjectAdditionEvent(e.getEObjectList(),null,null,true,out);
+    }
+    
+    private void writeEObjectAdditionEvent(List<EObject> eObjectsList,EObject focusObject, 
+            EReference eReference,boolean isAddToResource, OutputStream out) throws IOException
+    {
+    	TIntArrayList eObjectsToAddList = new TIntArrayList();
+    	TIntArrayList eObjectsToCreateList = new TIntArrayList();
     	
-    	for(EObject obj : e.getEObjectList())
+    	for(EObject obj : eObjectsList)
     	{
     		if(changelog.addObjectToMap(obj))
     		{
-    			obj_create_list.add(ePackageElementsNamesMap.getID(obj.eClass().getName()));
-    			obj_create_list.add(changelog.getObjectId(obj));
+    			eObjectsToCreateList.add(ePackageElementsNamesMap.getID(obj.eClass().getName()));
+    			eObjectsToCreateList.add(changelog.getObjectId(obj));
     		}
     		else
     		{
-    			added_obj_list.add(changelog.getObjectId(obj));
+    			eObjectsToAddList.add(changelog.getObjectId(obj));
     		}
     	}
     		
-    	if(e.getNotifierType() == NotifierType.RESOURCE) 
+    	if(isAddToResource) 
     	{
-    		if(!obj_create_list.isEmpty()) //CREATE_AND_ADD_TO_RESOURCE 
+    		if(!eObjectsToCreateList.isEmpty()) //CREATE_AND_ADD_TO_RESOURCE 
     		{
     			writePrimitive(out,PersistenceManager.CREATE_AND_ADD_EOBJECTS_TO_RESOURCE);
-    			writePrimitive(out,obj_create_list.size());
+    			writePrimitive(out,eObjectsToCreateList.size());
     			
-    			for(TIntIterator it = obj_create_list.iterator(); it.hasNext();)
+    			for(TIntIterator it = eObjectsToCreateList.iterator(); it.hasNext();)
     			{
     				writePrimitive(out,it.next());
     			}
-    			obj_create_list.clear();
+    			eObjectsToCreateList.clear();
     		}
-    		if(!added_obj_list.isEmpty()) //ADD TO RESOURCE
+    		if(!eObjectsToAddList.isEmpty()) //ADD TO RESOURCE
     		{
     			writePrimitive(out, PersistenceManager.ADD_EOBJECTS_TO_RESOURCE);
-    			writePrimitive(out,added_obj_list.size());
+    			writePrimitive(out,eObjectsToAddList.size());
     			
-    			for(TIntIterator it = added_obj_list.iterator(); it.hasNext();)
+    			for(TIntIterator it = eObjectsToAddList.iterator(); it.hasNext();)
     			{
     				writePrimitive(out,it.next());
     			}
-    			added_obj_list.clear();
+    			eObjectsToAddList.clear();
     		}
     	}
-    	else if(e.getNotifierType() == NotifierType.EOBJECT)
+    	else 
     	{
-    		EObject focus_obj = e.getFocusObject(); 
-    		
-    		if(!obj_create_list.isEmpty())//CREATE_AND_SET_REF_VALUE
+    		if(!eObjectsToCreateList.isEmpty())//CREATE_AND_SET_REF_VALUE
     		{
     			writePrimitive(out,PersistenceManager.CREATE_EOBJECTS_AND_SET_EREFERENCE_VALUES);
-    			writePrimitive(out,changelog.getObjectId(focus_obj));
-    			writePrimitive(out,ePackageElementsNamesMap.getID(e.getEReference().getName()));
-    			writePrimitive(out,obj_create_list.size());
+    			writePrimitive(out,changelog.getObjectId(focusObject));
+    			writePrimitive(out,ePackageElementsNamesMap.getID(eReference.getName()));
+    			writePrimitive(out,eObjectsToCreateList.size());
     			
-    			for(TIntIterator it = obj_create_list.iterator(); it.hasNext();)
+    			for(TIntIterator it = eObjectsToCreateList.iterator(); it.hasNext();)
     			{
     				writePrimitive(out,it.next());
     			}
     		}
-    		if(!added_obj_list.isEmpty()) //SET_REFERENCE_VALUE
+    		if(!eObjectsToAddList.isEmpty()) //SET_REFERENCE_VALUE
     		{
     			writePrimitive(out,PersistenceManager.SET_EOBJECT_EREFERENCE_VALUES);
-    			writePrimitive(out,changelog.getObjectId(focus_obj));
-    			writePrimitive(out,ePackageElementsNamesMap.getID(e.getEReference().getName()));
-    			writePrimitive(out,added_obj_list.size());
+    			writePrimitive(out,changelog.getObjectId(focusObject));
+    			writePrimitive(out,ePackageElementsNamesMap.getID(eReference.getName()));
+    			writePrimitive(out,eObjectsToAddList.size());
     			
-    			for(TIntIterator it = added_obj_list.iterator(); it.hasNext();)
+    			for(TIntIterator it = eObjectsToAddList.iterator(); it.hasNext();)
     			{
     				writePrimitive(out,it.next());
     			}
     		}
     	}
     }
-    
-    private void handleUnsetEReferenceEvent(UnsetEReferenceEvent e, OutputStream out) throws IOException
+
+    private void writeEObjectRemovalEvent(RemoveEObjectsFromEReferenceEvent e, OutputStream out) throws IOException
     {
-    	List<EObject> removed_obj_list = e.getEObjectList();
+        writeEObjectRemovalEvent(e.getEObjectList(),e.getFocusObject(),e.getEReference(),false,out);
+    }
+    
+    private void writeEObjectRemovalEvent(RemoveEObjectsFromResourceEvent e, OutputStream out) throws IOException
+    {
+        writeEObjectRemovalEvent(e.getEObjectList(),null,null,true,out);
+    }
+    
+    private void writeEObjectRemovalEvent(List<EObject> eObjectsList,EObject focusObject, 
+            EReference eReference,boolean isRemoveFromResource, OutputStream out) throws IOException
+    {
+    	//List<EObject> removed_obj_list = e.getEObjectList();
     	
-    	if(e.getNotifierType() == NotifierType.RESOURCE)
+    	if(isRemoveFromResource)
     	{
     		writePrimitive(out, PersistenceManager.REMOVE_EOBJECTS_FROM_RESOURCE);
-    		writePrimitive(out,removed_obj_list.size());
+    		writePrimitive(out,eObjectsList.size());
     		
-    		for(EObject obj : removed_obj_list)
+    		for(EObject obj : eObjectsList)
     		{
     			writePrimitive(out,changelog.getObjectId(obj));
     		}
     	}
-    	else if(e.getNotifierType() == NotifierType.EOBJECT)
+    	else 
     	{
-    		EObject focus_obj = e.getFocusObject();
+    		
     		
     		writePrimitive(out,PersistenceManager.UNSET_EOBJECT_EREFERENCE_VALUES);
-    		writePrimitive(out,changelog.getObjectId(focus_obj));
-    		writePrimitive(out,ePackageElementsNamesMap.getID(e.getEReference().getName()));
-    		writePrimitive(out,removed_obj_list.size());
+    		writePrimitive(out,changelog.getObjectId(focusObject));
+    		writePrimitive(out,ePackageElementsNamesMap.getID(eReference.getName()));
+    		writePrimitive(out,eObjectsList.size());
     		
-    		for(EObject obj: removed_obj_list)
+    		for(EObject obj: eObjectsList)
     		{
     			writePrimitive(out,changelog.getObjectId(obj));
     		}
     	}
     }
-    
 	private void writeInitialRecord(OutputStream out) throws IOException 
 	{
 		EObject obj = null;
 		Event e = eventList.get(0);
-
 		
-		if(e.getEventType()!= Event.SET_EREFERENCE_EVENT) //tbr
+		if(e instanceof EReferenceEvent)
+		{
+			obj = ((EReferenceEvent)e).getEObjectList().get(0);
+		}
+		else if(e instanceof ResourceEvent)
+		{
+			obj = ((ResourceEvent)e).getEObjectList().get(0);
+		}
+		else //throw tantrum
 		{
 			try 
 			{
 				System.out.println(classname+" "+e.getEventType());
-				throw new Exception("Error! first item in events list was not an Add event.");
+				throw new Exception("Error! first item in events list was not a ResourceEvent or an EReference event.");
 			} 
 			catch (Exception e1) 
 			{
@@ -361,12 +394,10 @@ public class CBPBinarySerializer
 				System.exit(0);
 			}
 		}
-		obj = ((SetEReferenceEvent)e).getEObjectList().get(0);
 		
-		if (obj == null) //tbr
+		if(obj == null) //TBR
 		{
-			System.out.println(classname+" Null obj!");
-			System.out.println(classname+" "+e.getEventType()); 
+			System.out.println(classname+" "+e.getEventType());
 			System.exit(0);
 		}
 		
