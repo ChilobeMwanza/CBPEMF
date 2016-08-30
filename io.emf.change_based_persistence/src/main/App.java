@@ -54,10 +54,12 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import com.google.common.hash.HashCode;
 import com.google.common.io.Files;
 
+import change.AddEObjectsToResourceEvent;
 import impl.CBPBinaryResourceImpl;
 import impl.CBPTextResourceImpl;
 import university.Book;
 import university.Department;
+import university.Library;
 import university.PrimitiveType;
 import university.StaffMember;
 import university.StaffMemberType;
@@ -102,7 +104,7 @@ public class App
 		
 		
 		
-	
+	//  AddEObjectsToResourceEvent e = new AddEObjectsToResourceEvent(null);
 		
 		
 	}
@@ -140,25 +142,32 @@ public class App
 	
 	public void createResource() throws Exception
 	{
-		
-		
 		Resource res = new 
 				CBPTextResourceImpl(URI.createURI(fileSaveLocation),UniversityPackage.eINSTANCE);
-		
 		
 		Map<String,Boolean> options = new HashMap<String,Boolean>();
 		options.put("OPTIMISE_MODEL", true);
 		
 		Book book = UniversityFactory.eINSTANCE.createBook();
+		Book book1 = UniversityFactory.eINSTANCE.createBook();
+		Book book2 = UniversityFactory.eINSTANCE.createBook();
 		
-		book.getAuthorNames().add("A");
-		book.getAuthorNames().add("A");
+		
+		res.getContents().add(book);
+		res.getContents().add(book1);
+		res.getContents().add(book2);
+		
+		res.getContents().remove(book1);
 		
 		
-		for(String s : book.getAuthorNames())
-		{
-			System.out.println(s);
-		}
+		
+		Library lib = UniversityFactory.eINSTANCE.createLibrary();
+		res.getContents().add(lib);
+		
+		
+		
+		lib.getBooks().add(book);
+		lib.getBooks().add(book1);
 		
 		/*res.getContents().add(book);
 		

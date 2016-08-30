@@ -1,11 +1,15 @@
 package change;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-
+import java.util.ListIterator;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 
+import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
@@ -14,7 +18,7 @@ import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class Changelog 
 {
-	private final List<Event> event_list;
+	private final List<Event> eventList;
 	
 	private final TObjectIntMap<EObject> eObjectToIDMap = new TObjectIntHashMap<EObject>();
 
@@ -24,7 +28,7 @@ public class Changelog
 	
 	public Changelog()
 	{
-		event_list = new ArrayList<Event>();
+		eventList = new ArrayList<Event>();
 	}
 	
 	public boolean addObjectToMap(EObject obj)
@@ -67,47 +71,96 @@ public class Changelog
 	
 	public int getObjectId(EObject obj)
 	{
-	
 		if(!eObjectToIDMap.containsKey(obj)) //tbr
 		{
 			System.out.println(classname+" search returned false");
 			System.exit(0);
 		}
 		return eObjectToIDMap.get(obj);
-	
 	}
 
 	public void addEvent(Event e)
 	{
-		event_list.add(e);
+		eventList.add(e);
 	}
 	
 	public void removeEvent(Event e)
 	{
-		event_list.remove(e);
+		eventList.remove(e);
 	}
 	
 	public void clearEvents()
 	{
-		event_list.clear();
+		eventList.clear();
 	}
 	
 	public List<Event> getEventsList()
 	{
-		return event_list;
+		return eventList;
 	}
 	
 	public void removeRedundantEvents()
-	{
-	//	TObjectArrayList foo;
-	
-		//map of eattribute names
-		TIntObjectMap<List<Object>> attributeIDToValueMap = new TIntObjectHashMap<List<Object>>();
+	{   
+		if(eventList.isEmpty())
+			return;
 		
-		TIntObjectMap<TIntObjectMap<List<Object>>> eObjectToEAttributeMap = new TIntObjectHashMap<TIntObjectMap<List<Object>>>();
+		Map<EObject,Event> eObjectEventMap = new HashMap<EObject,Event>();
 		
-		//TIntegerObjectArrayList;
+		/*Pass 1: Make sure each object is mapped to its most recent event*/
+		for(Event e : eventList)
+		{
+			for(EObject obj : e.getEObjectList())
+			{
+				eObjectEventMap.put(obj, e);
+			}
+		}
 		
-
+		List<EObject> removedEObjects = new ArrayList<EObject>();
+		
+		for(Iterator <Event> eventListIterator = eventList.iterator(); eventListIterator.hasNext();)
+		{
+			Event e = eventListIterator.next();
+			
+			if(e instanceof EAttributeEvent)
+				continue;
+			
+			//For all EOBjects
+			for(Iterator<EObject> eObjectListIterator = e.getEObjectList().iterator(); eObjectListIterator.hasNext();)
+			{
+				EObject obj = eObjectListIterator.next();
+				
+				Event objMostRecentEvent = eObjectEventMap.get(obj) ; //get the 'most recent' event for this object
+				
+				if(objMostRecentEvent instanceof AddEObjectsToResourceEvent || objMostRecentEvent instanceof AddEObjectsToEReferenceEvent)
+				{
+					if(e != objMostRecentEvent) //if this event is not the objects 'most recent event'
+					{
+						eObjectListIterator.remove(); //remove obj from this event
+					}
+				}
+				else if (objMostRecentEvent instanceof  RemoveEObjectsFromResourceEvent || objMostRecentEvent instanceof RemoveEObjectsFromEReferenceEvent)
+				{
+					if( e != objMostRecentEvent)
+					{
+						//remove obj from this event
+						removedEObjects.add(obj); //note that we prevented this obj from being added.
+						
+						eObjectListIterator.remove();
+					}
+					else
+					{
+						if(removedEObjects.contains(obj)) //no need to remove objects that we prevented from being added
+						{
+							eObjectListIterator.remove();
+						}
+					}
+				}
+					
+			}
+			
+			if(e.getEObjectList().isEmpty())
+				eventListIterator.remove();
+		}
+		System.out.println(eObjectEventMap.size());
 	}
 }

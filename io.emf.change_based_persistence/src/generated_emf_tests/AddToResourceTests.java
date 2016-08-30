@@ -24,6 +24,7 @@ import org.junit.*;
 
 import impl.CBPBinaryResourceImpl;
 import impl.CBPTextResourceImpl;
+import university.Book;
 import university.Department;
 import university.Library;
 import university.Student;
@@ -228,5 +229,41 @@ public class AddToResourceTests extends TestBase
 		loadedContentsList = getResourceContentsList(loadedRes);
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
+	}
+	
+	@Test
+	public void foo() throws IOException//tbr
+	{
+		Book book = UniversityFactory.eINSTANCE.createBook();
+		Book book1 = UniversityFactory.eINSTANCE.createBook();
+		Book book2 = UniversityFactory.eINSTANCE.createBook();
+		
+		
+		res.getContents().add(book);
+		res.getContents().add(book1);
+		res.getContents().add(book2);
+		
+		res.getContents().remove(book1);
+		
+		
+		
+		Library lib = UniversityFactory.eINSTANCE.createLibrary();
+		res.getContents().add(lib);
+		
+		
+		
+		lib.getBooks().add(book);
+		lib.getBooks().add(book1);
+		
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
+		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
+		
 	}
 }

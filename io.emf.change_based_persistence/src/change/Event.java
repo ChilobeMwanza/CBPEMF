@@ -1,5 +1,11 @@
 package change;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
+
 public abstract class Event 
 {
 	private int eventType;
@@ -11,6 +17,9 @@ public abstract class Event
 	public static final int REMOVE_EOBJECTS_FROM_EREFERENCE_EVENT = 4;
 	public static final int REMOVE_OBJECTS_FROM_EATTRIBUTE_EVENT = 5;
 	
+	protected List<EObject> eObjectList = new ArrayList<EObject>();
+	protected List<Object> eAttributeValuesList = new ArrayList<Object>();
+
 	public Event(int eventType)
 	{
 		this.eventType = eventType;
@@ -20,4 +29,15 @@ public abstract class Event
 	{
 		return eventType;
 	}
+	
+	public List<Object> getEAttributeValuesList()
+	{
+		return eAttributeValuesList;	
+	}
+	
+	public List<EObject> getEObjectList()
+	{
+		return eObjectList;	
+	}
+	
 }

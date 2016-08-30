@@ -1,6 +1,5 @@
 package change;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,8 +8,6 @@ import org.eclipse.emf.ecore.EObject;
 
 public abstract class ResourceEvent extends Event
 {
-	private List<EObject> eObjectList = new ArrayList<EObject>();
-	
     @SuppressWarnings("unchecked")
 	public ResourceEvent(int eventType, Object value)
     {
@@ -44,11 +41,6 @@ public abstract class ResourceEvent extends Event
     		else //n.getNewValue() ! instanceof Collection
     			this.eObjectList.add((EObject) n.getOldValue());
     	}	
-    }
-    
-    public List<EObject> getEObjectList()
-    {
-        return eObjectList;
     }
 }
 

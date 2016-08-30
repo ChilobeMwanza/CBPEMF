@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.io.BufferedInputStream"/>
-<fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="exceptions.UnknownPackageException"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
 <fullyQualifiedTypeName name="change.Changelog"/>
@@ -11,7 +9,6 @@
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
 <fullyQualifiedTypeName name="java.io.EOFException"/>
-<fullyQualifiedTypeName name="gnu.trove.list.array.TIntArrayList"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
 <fullyQualifiedTypeName name="change.SetEAttributeSingleEvent"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClass"/>
@@ -35,13 +32,8 @@
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EAttribute"/>
 <fullyQualifiedTypeName name="change.EAttributeEvent"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Method"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
-<fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="java.util.Collection"/>
 <fullyQualifiedTypeName name="change.EReferenceEvent.EReferenceEventType"/>
 <fullyQualifiedTypeName name="change.Event.NotifierType"/>
-<fullyQualifiedTypeName name="java.util.Iterator"/>
 <fullyQualifiedTypeName name="change.EAttributeEvent.EAttributeEventType"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="university.UniversityFactory"/>
@@ -58,6 +50,14 @@
 <fullyQualifiedTypeName name="impl.CBPResource"/>
 <fullyQualifiedTypeName name="change.ResourceEvent"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EReference"/>
-<fullyQualifiedTypeName name="change.AddEObjectsToResourceEvent"/>
 <fullyQualifiedTypeName name="change.RemoveEObjectsFromResourceEvent"/>
+<fullyQualifiedTypeName name="java.util.ListIterator"/>
+<fullyQualifiedTypeName name="university.Library"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
+<fullyQualifiedTypeName name="java.util.Collection"/>
+<fullyQualifiedTypeName name="gnu.trove.list.array.TIntArrayList"/>
+<fullyQualifiedTypeName name="change.AddEObjectsToResourceEvent"/>
+<fullyQualifiedTypeName name="java.util.Iterator"/>
 </qualifiedTypeNameHistroy>

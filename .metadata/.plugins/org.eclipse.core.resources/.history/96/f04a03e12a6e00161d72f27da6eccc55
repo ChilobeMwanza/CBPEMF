@@ -1,0 +1,70 @@
+package change;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
+
+public abstract class Event 
+{
+	private int eventType;
+	
+	public static final int ADD_EOBJECTS_TO_RESOURCE_EVENT = 0;
+	public static final int ADD_EOBJECTS_TO_EREFERENCE_EVENT = 1;
+	public static final int ADD_OBJECTS_TO_EATTRIBUTE_EVENT = 2;
+	public static final int REMOVE_EOBJECTS_FROM_RESOURCE_EVENT = 3;
+	public static final int REMOVE_EOBJECTS_FROM_EREFERENCE_EVENT = 4;
+	public static final int REMOVE_OBJECTS_FROM_EATTRIBUTE_EVENT = 5;
+	
+	protected List<EObject> eObjectsList;
+
+	
+	public Event(int eventType)
+	{
+		this.eventType = eventType;
+		
+		this.objectValue = objectValue;
+	}
+	
+	protected void setEObjectList(List<EObject> eObjectList)
+	{
+		this.eObjectsList = eObjectsList;
+	}
+	
+	public int getEventType()
+	{
+		return eventType;
+	}
+	
+	protected void setObjectValue(List<Object> objectList)
+	{
+		this.objectValue = objectList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object> getObjectList()
+	{
+		if(objectValue instanceof Collection)
+		{
+			return (List<Object>)objectValue;
+		}
+		List<Object> objectList = new ArrayList<Object>();
+		objectList.add((EObject)objectValue);
+		
+		return objectList;	
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<EObject> getEObjectList()
+	{
+		if(objectValue instanceof Collection)
+		{
+			return (List<EObject>)objectValue;
+		}
+		List<EObject> eObjectList = new ArrayList<EObject>();
+		eObjectList.add((EObject)objectValue);
+		
+		return eObjectList;	
+	}
+}

@@ -35,6 +35,7 @@ public class DeleteFromResourceTests extends TestBase
 	/*
 	 * Tests (adding and) deleting a single item
 	 */
+	
 	@Test
 	public void testDeleteSingleFromResource() throws IOException
 	{

@@ -69,10 +69,14 @@ public class CBPTextSerializer
 		this.textSimpleTypeNameMap = manager.getTextSimpleTypesMap();
 	}
 	
-	public void save(Map<?,?> options)
+	public void save(Map<?,?> options) //tbr
 	{
-		if(eventList.isEmpty())
+		if(eventList.isEmpty()) //tbr
+		{
+			System.out.println(classname+" no events found, returning!");
 			return;
+		}
+			
 		
 		PrintWriter printWriter = null;
 		//setup printwriter

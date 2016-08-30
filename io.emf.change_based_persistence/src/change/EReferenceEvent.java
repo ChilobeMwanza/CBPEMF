@@ -10,8 +10,6 @@ import org.eclipse.emf.ecore.EReference;
 
 public abstract class EReferenceEvent extends Event
 {
-	private List<EObject> eObjectList = new ArrayList<EObject>();
-	
 	private EObject focusObject;
 	
 	private EReference eReference;
@@ -29,9 +27,7 @@ public abstract class EReferenceEvent extends Event
         	this.eObjectList = (List<EObject>) value;
         
         else
-        	this.eObjectList.add((EObject) value);
-        
-        
+        	this.eObjectList.add((EObject)value);
     }
     
     @SuppressWarnings("unchecked")
@@ -45,6 +41,7 @@ public abstract class EReferenceEvent extends Event
     	
     	if(eventType == Event.ADD_EOBJECTS_TO_EREFERENCE_EVENT)
     	{
+    		
     		if(n.getNewValue() instanceof Collection)
     			this.eObjectList = (List<EObject>) n.getNewValue();
     		
@@ -64,11 +61,6 @@ public abstract class EReferenceEvent extends Event
     public EObject getFocusObject()
     {
         return focusObject;
-    }
-    
-    public List<EObject> getEObjectList()
-    {
-        return eObjectList;
     }
     
     public EReference getEReference()

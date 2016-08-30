@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TestSuite" project="io.emf.change_based_persistence" tests="45" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="generated_emf_tests.TestSuite" incomplete="true">
+    <testsuite name="generated_emf_tests.AddToResourceTests" incomplete="true">
+      <testcase name="testAllAddToResource" classname="generated_emf_tests.AddToResourceTests" incomplete="true"/>
+      <testcase name="testAddManyToResource" classname="generated_emf_tests.AddToResourceTests" incomplete="true"/>
+      <testcase name="foo" classname="generated_emf_tests.AddToResourceTests" incomplete="true"/>
+      <testcase name="testAddSingleToResource" classname="generated_emf_tests.AddToResourceTests" incomplete="true"/>
+      <testcase name="testAddSingleRepeatedToResource" classname="generated_emf_tests.AddToResourceTests" incomplete="true"/>
+      <testcase name="testAddListToResource" classname="generated_emf_tests.AddToResourceTests" incomplete="true"/>
+    </testsuite>
+    <testsuite name="generated_emf_tests.DeleteFromResourceTests" incomplete="true">
+      <testcase name="testDeleteCollectionFromResource" classname="generated_emf_tests.DeleteFromResourceTests" incomplete="true"/>
+      <testcase name="testAllDeleteFromResource" classname="generated_emf_tests.DeleteFromResourceTests" incomplete="true"/>
+      <testcase name="testDeleteRepeatedFromResource" classname="generated_emf_tests.DeleteFromResourceTests" incomplete="true"/>
+      <testcase name="testDeleteSingleFromResource" classname="generated_emf_tests.DeleteFromResourceTests" incomplete="true"/>
+    </testsuite>
+    <testsuite name="generated_emf_tests.GeneralSaveTests" incomplete="true">
+      <testcase name="testMultipleSaveWithModifications" classname="generated_emf_tests.GeneralSaveTests" incomplete="true"/>
+      <testcase name="testBasicSaveAndLoad" classname="generated_emf_tests.GeneralSaveTests" incomplete="true"/>
+      <testcase name="testEmptySave" classname="generated_emf_tests.GeneralSaveTests" incomplete="true"/>
+      <testcase name="testRedundantModification" classname="generated_emf_tests.GeneralSaveTests" incomplete="true"/>
+      <testcase name="testRepeatedSaveNoModification" classname="generated_emf_tests.GeneralSaveTests" incomplete="true"/>
+    </testsuite>
+    <testsuite name="generated_emf_tests.SetUnsetReferenceTests" incomplete="true">
+      <testcase name="testMultipleAddToManyValuedContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testRemoveOneFromManyValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testAddAllIToManyValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testUnsetOneSingleValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testUnsetMultipleSingleValuedNonContainmentRefs" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testRemoveAllFromManyValuedContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testSetOneSingleValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testRemoveOneFromManyValuedContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testRemoveAllFromManyValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testSetMultipleSingleValuedContainmentRefs" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testSetMultipleSingleValuedNonContainmentRefs" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testSetOppositeReference" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testSetOneSingleValuedContainmentReference" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testAddMultipleToManyValuedNonContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testAddAllIToManyValuedContainmentRef" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testUnsetMultipleSingleValuedContainmentRefs" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testUnsetOppositeReference" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+      <testcase name="testUnsetOneSingleValuedContainmentReference" classname="generated_emf_tests.SetUnsetReferenceTests" incomplete="true"/>
+    </testsuite>
+    <testsuite name="generated_emf_tests.SetUnsetAttributeTests" incomplete="true">
+      <testcase name="testSetMultipleSingleValueAttributes" classname="generated_emf_tests.SetUnsetAttributeTests" incomplete="true"/>
+      <testcase name="testRemoveFromManyValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" incomplete="true"/>
+      <testcase name="testAddToManyValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" incomplete="true"/>
+      <testcase name="testUnsetOneSingleValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" incomplete="true"/>
+      <testcase name="testUnsetMultipleSingleValueAttributes" classname="generated_emf_tests.SetUnsetAttributeTests" incomplete="true"/>
+      <testcase name="testEscapingDelimiterWhenUnsetEAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" incomplete="true"/>
+      <testcase name="testEscapingDelimiterWhenSetEAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" incomplete="true"/>
+      <testcase name="testSetEnum" classname="generated_emf_tests.SetUnsetAttributeTests" incomplete="true"/>
+      <testcase name="testRemoveAllFromManyValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" incomplete="true"/>
+      <testcase name="testAddAllToManyValuedAtribute" classname="generated_emf_tests.SetUnsetAttributeTests" incomplete="true"/>
+      <testcase name="testSetOneSingleValuedAttribute" classname="generated_emf_tests.SetUnsetAttributeTests" incomplete="true"/>
+    </testsuite>
+    <testsuite name="generated_emf_tests.DeltaResouceImplTests" incomplete="true">
+      <testcase name="testGetChangelog" classname="generated_emf_tests.DeltaResouceImplTests" incomplete="true"/>
+    </testsuite>
+  </testsuite>
+</testrun>

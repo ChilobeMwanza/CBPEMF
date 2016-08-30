@@ -25,7 +25,7 @@ public abstract class TestBase
 {
 	protected static String fileSaveLocation = null;
 	protected final EPackage ePackage = UniversityPackage.eINSTANCE;
-	private static boolean testingBinary = true;
+	private static boolean testingBinary = false;
 	protected Resource res = null;
 	private static String ext = null;
 	
