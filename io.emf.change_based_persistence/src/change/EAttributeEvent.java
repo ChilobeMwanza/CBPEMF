@@ -1,5 +1,6 @@
 package change;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public abstract class EAttributeEvent extends Event
 	
 	private EAttribute eAttribute;
 	
+	private List<Object> eAttributeValuesList = new ArrayList<Object>();
 	
 	
     @SuppressWarnings("unchecked")
@@ -68,4 +70,9 @@ public abstract class EAttributeEvent extends Event
     {
         return eAttribute;
     }
+    
+    public List<Object> getEAttributeValuesList()
+	{
+		return eAttributeValuesList;	
+	}
 }

@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="change.Changelog"/>
-<fullyQualifiedTypeName name="change.EventAdapter"/>
-<fullyQualifiedTypeName name="drivers.EPackageElementsNamesMap"/>
-<fullyQualifiedTypeName name="impl.CBPBinaryResourceImpl"/>
-<fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
-<fullyQualifiedTypeName name="java.io.EOFException"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
 <fullyQualifiedTypeName name="change.SetEAttributeSingleEvent"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClass"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.util.EList"/>
@@ -25,7 +18,6 @@
 <fullyQualifiedTypeName name="change.SetEAttributeEvent"/>
 <fullyQualifiedTypeName name="javax.management.Notification"/>
 <fullyQualifiedTypeName name="change.UnsetEAttributeEvent"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
 <fullyQualifiedTypeName name="change.EAttributeEvent"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Method"/>
 <fullyQualifiedTypeName name="change.EReferenceEvent.EReferenceEventType"/>
@@ -45,19 +37,27 @@
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notification"/>
 <fullyQualifiedTypeName name="impl.CBPResource"/>
 <fullyQualifiedTypeName name="change.ResourceEvent"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EReference"/>
 <fullyQualifiedTypeName name="change.RemoveEObjectsFromResourceEvent"/>
 <fullyQualifiedTypeName name="java.util.ListIterator"/>
 <fullyQualifiedTypeName name="university.Library"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
 <fullyQualifiedTypeName name="java.util.Collection"/>
 <fullyQualifiedTypeName name="gnu.trove.list.array.TIntArrayList"/>
-<fullyQualifiedTypeName name="change.AddEObjectsToResourceEvent"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EAttribute"/>
-<fullyQualifiedTypeName name="java.util.Iterator"/>
 <fullyQualifiedTypeName name="java.util.Map.Entry"/>
+<fullyQualifiedTypeName name="change.Changelog"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.Resource"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
+<fullyQualifiedTypeName name="change.AddEObjectsToResourceEvent"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EAttribute"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.util.TreeIterator"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EReference"/>
+<fullyQualifiedTypeName name="change.AddEObjectsToEReferenceEvent"/>
+<fullyQualifiedTypeName name="university.University"/>
+<fullyQualifiedTypeName name="java.util.Iterator"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EStructuralFeature"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

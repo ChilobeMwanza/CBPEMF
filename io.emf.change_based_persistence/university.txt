@@ -2,3 +2,5 @@ CBP_TEXT 1.0
 NAMESPACE_URI http://io.emf.change_based_persistence.text
 0 [9 0]
 1 0 11 [14 1]
+5 1 1 [fuck!]
+5 1 16 [A]

@@ -148,20 +148,20 @@ public class App
 		Map<String,Boolean> options = new HashMap<String,Boolean>();
 		options.put("OPTIMISE_MODEL", true);
 		
+		
+		Library library = UniversityFactory.eINSTANCE.createLibrary();
+		
+		
 		Book book = UniversityFactory.eINSTANCE.createBook();
 		Book book1 = UniversityFactory.eINSTANCE.createBook();
 		Book book2 = UniversityFactory.eINSTANCE.createBook();
 		
+		res.getContents().add(library);
+		library.getBooks().add(book);
 		
-		res.getContents().add(book);
-
 		book.getAuthorNames().add("A");
 		book.getAuthorNames().add("A");
-		
-		for(String str : book.getAuthorNames())
-		{
-			System.out.println(str);
-		}
+		book.setName("fuck!");
 		
 		/*res.getContents().add(book);
 		
@@ -184,7 +184,7 @@ public class App
 
 
 	
-		//res.save(options);
+		res.save(options);
 		
 		
 		//s1.setStaffMemberType(null);

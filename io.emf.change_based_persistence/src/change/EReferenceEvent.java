@@ -14,6 +14,8 @@ public abstract class EReferenceEvent extends Event
 	
 	private EReference eReference;
 	
+	
+	
     @SuppressWarnings("unchecked")
 	public EReferenceEvent(int eventType, EObject focusObject,EReference eReference,Object value)
     {
@@ -67,6 +69,8 @@ public abstract class EReferenceEvent extends Event
     {
         return eReference;
     }
+    
+  
 }
 
 

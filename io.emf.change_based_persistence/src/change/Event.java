@@ -16,8 +16,8 @@ public abstract class Event
 	public static final int REMOVE_EOBJECTS_FROM_EREFERENCE_EVENT = 4;
 	public static final int REMOVE_OBJECTS_FROM_EATTRIBUTE_EVENT = 5;
 	
+	
 	protected List<EObject> eObjectList = new ArrayList<EObject>();
-	protected List<Object> eAttributeValuesList = new ArrayList<Object>();
 
 	public Event(int eventType)
 	{
@@ -29,14 +29,11 @@ public abstract class Event
 		return eventType;
 	}
 	
-	public List<Object> getEAttributeValuesList()
-	{
-		return eAttributeValuesList;	
-	}
 	
-	public List<EObject> getEObjectList()
+    public List<EObject> getEObjectList()
 	{
 		return eObjectList;	
 	}
+	
 	
 }

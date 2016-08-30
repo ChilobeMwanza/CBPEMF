@@ -11,14 +11,7 @@ import drivers.EPackageElementsNamesMap;
 
 public abstract class CBPResource extends ResourceImpl
 {
-	/*
-	 * Only remove redundant changes made during the current session.
-	 */
-	String OPTION_OPTIMISE_SESSION = "OPTIMISE_SESSION";
-	/*
-	 * Remove redundant changes from the entire model.
-	 */
-	String OPTION_OPTIMISE_MODEL ="OPTIMISE_MODEL";
+
 
 	
 	public CBPResource(URI uri)

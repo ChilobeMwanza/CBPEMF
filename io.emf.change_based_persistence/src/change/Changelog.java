@@ -4,18 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 
-import change.Changelog.EAttributeHolder;
-import gnu.trove.list.array.TIntArrayList;
-import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.TObjectIntMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
+
 import gnu.trove.map.hash.TObjectIntHashMap;
 
 
@@ -32,6 +28,13 @@ public class Changelog
 	public Changelog()
 	{
 		eventList = new ArrayList<Event>();
+	}
+	
+	public void clear()
+	{
+		eventList.clear();
+		eObjectToIDMap.clear();
+		current_id = 0;
 	}
 	
 	public boolean addObjectToMap(EObject obj)
@@ -157,7 +160,7 @@ public class Changelog
 				}
 				else //e instanceof RemoveObjectsFromEAttributeEvent
 				{
-					for(Iterator<Object> it = e.getEAttributeValuesList().iterator(); it.hasNext();)
+					for(Iterator<Object> it = ((EAttributeEvent) e).getEAttributeValuesList().iterator(); it.hasNext();)
 					{
 						Object obj = it.next();
 						
@@ -168,7 +171,7 @@ public class Changelog
 						}
 					}
 					
-					if(e.getEAttributeValuesList().isEmpty())
+					if(((EAttributeEvent) e).getEAttributeValuesList().isEmpty())
 						eventListIterator.remove();
 				}
 						

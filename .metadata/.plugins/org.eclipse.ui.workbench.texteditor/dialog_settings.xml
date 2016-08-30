@@ -2,20 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="IDToEObjectMap" key="selection"/>
-		<item value="true" key="casesensitive"/>
+		<item value="System" key="selection"/>
+		<item value="false" key="casesensitive"/>
 		<item value="true" key="incremental"/>
-		<item value="false" key="wrap"/>
-		<item value="true" key="wholeword"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="System"/>
+			<item value="&#x09;&#x09;writeEObjectAdditionEvent(e.getEObjectList(),e.getFocusObject(),e.getEReference(),false,out);"/>
+			<item value="changelog"/>
+			<item value="changelog."/>
+			<item value="ghg"/>
 			<item value="IDToEObjectMap"/>
 			<item value="IDToEObjectMap."/>
 			<item value="."/>
-			<item value="remove"/>
-			<item value="eventsList"/>
-			<item value="event_list"/>
-			<item value="dataType"/>
-			<item value="attr"/>
 		</list>
 		<list key="replacehistory">
 			<item value="eventList"/>
@@ -32,7 +32,7 @@
 		<item value="305" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="444" key="DIALOG_HEIGHT"/>
-		<item value="983" key="DIALOG_X_ORIGIN"/>
-		<item value="766" key="DIALOG_Y_ORIGIN"/>
+		<item value="1282" key="DIALOG_X_ORIGIN"/>
+		<item value="736" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

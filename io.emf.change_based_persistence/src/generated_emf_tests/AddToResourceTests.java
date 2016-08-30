@@ -235,15 +235,15 @@ public class AddToResourceTests extends TestBase
 	public void foo() throws IOException//tbr
 	{
 		Book book = UniversityFactory.eINSTANCE.createBook();
-		Book book1 = UniversityFactory.eINSTANCE.createBook();
-		Book book2 = UniversityFactory.eINSTANCE.createBook();
+		//Book book1 = UniversityFactory.eINSTANCE.createBook();
+		//Book book2 = UniversityFactory.eINSTANCE.createBook();
 		
 		
-		res.getContents().add(book);
-		res.getContents().add(book1);
-		res.getContents().add(book2);
+		//res.getContents().add(book);
+		//res.getContents().add(book1);
+		//res.getContents().add(book2);
 		
-		res.getContents().remove(book1);
+		//res.getContents().remove(book1);
 		
 		
 		
@@ -253,7 +253,7 @@ public class AddToResourceTests extends TestBase
 		
 		
 		lib.getBooks().add(book);
-		lib.getBooks().add(book1);
+		//lib.getBooks().add(book1);
 		
 		res.save(null);
 		

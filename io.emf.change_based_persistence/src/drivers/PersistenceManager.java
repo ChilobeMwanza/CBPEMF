@@ -59,6 +59,15 @@ public class PersistenceManager
 	public final Charset STRING_ENCODING = StandardCharsets.UTF_8;
 	public final String NULL_STRING = "pFgrW";
 	
+	/*
+	 * Only remove redundant changes made during the current session.
+	 */
+	String OPTION_OPTIMISE_SESSION = "OPTIMISE_SESSION";
+	/*
+	 * Remove redundant changes from the entire model.
+	 */
+	String OPTION_OPTIMISE_MODEL ="OPTIMISE_MODEL";
+	
 	private final Changelog changelog; 
 
 	private final CBPResource resource;
@@ -67,16 +76,12 @@ public class PersistenceManager
 	
 	private boolean resume = false;
 	
-
-	
 	private final TObjectIntMap<String> textSimpleTypesMap = 
 			new TObjectIntHashMap<String>(2);
 	
 	private final TObjectIntMap<String> commonSimpleTypesMap = 
 			new TObjectIntHashMap<String>(13);
 	
-
-    
 	public PersistenceManager(Changelog changelog, CBPResource resource, 
 			EPackageElementsNamesMap ePackageElementsNamesMap)
 	{
@@ -163,9 +168,31 @@ public class PersistenceManager
 
 	public void save(Map<?,?> options)
 	{
+		if(options != null)
+		{
+			if(options.containsKey(OPTION_OPTIMISE_MODEL))
+			{
+				if((boolean)options.get(OPTION_OPTIMISE_MODEL ) == true)
+				{
+					ResourceContentsToEventsConverter rc = 
+							new ResourceContentsToEventsConverter(changelog,resource);
+					rc.convert();
+					resume = false;
+				}	
+			}
+			else if(options.containsKey(OPTION_OPTIMISE_SESSION))
+			{
+				if((boolean)options.get(OPTION_OPTIMISE_SESSION) == true)
+				{
+					changelog.removeRedundantEvents();
+				}
+			}
+		}
+		
 		if(resource instanceof CBPBinaryResourceImpl)
 		{
-			CBPBinarySerializer serializer = new CBPBinarySerializer(this,changelog, ePackageElementsNamesMap);
+			CBPBinarySerializer serializer = 
+					new CBPBinarySerializer(this,changelog, ePackageElementsNamesMap);
 			try {
 				serializer.save(options);
 			} catch (IOException e) {
@@ -175,13 +202,11 @@ public class PersistenceManager
 		}
 		else if(resource instanceof CBPTextResourceImpl)
 		{
-			CBPTextSerializer serializer = new CBPTextSerializer(this, changelog,ePackageElementsNamesMap);
+			CBPTextSerializer serializer = 
+					new CBPTextSerializer(this, changelog,ePackageElementsNamesMap);
 			serializer.save(options);
 		}
-		//
-		
 	}
-
 	
 	public void load(Map<?,?> options) throws Exception
 	{	
@@ -201,4 +226,5 @@ public class PersistenceManager
 	{
 		return this.changelog;
 	}
+	
 }

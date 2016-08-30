@@ -226,11 +226,15 @@ public class CBPTextSerializer
     		if(changelog.addObjectToMap(obj))
     		{
     			eObjectsToCreateList.add(ePackageElementsNamesMap.getID(obj.eClass().getName())); 
+    			
     			eObjectsToCreateList.add(changelog.getObjectId(obj));
+    			
     		}
     		else
     		{
+    			
     			eObjectsToAddList.add(changelog.getObjectId(obj));
+    			
     		}
     	}
     	
@@ -243,10 +247,10 @@ public class CBPTextSerializer
 			}
 			else 
 			{
-	    		
 				out.print(PersistenceManager.CREATE_EOBJECTS_AND_SET_EREFERENCE_VALUES+" "+
 						changelog.getObjectId(focusObject)+" "+
 						ePackageElementsNamesMap.getID(eReference.getName())+" [");
+				
 			}
 			
 	        int index = 0;
@@ -270,7 +274,6 @@ public class CBPTextSerializer
 			}
 			else 
 			{
-	    		
 				out.print(PersistenceManager.SET_EOBJECT_EREFERENCE_VALUES+" "+
 						changelog.getObjectId(focusObject)+" "+
 						ePackageElementsNamesMap.getID(eReference.getName())+

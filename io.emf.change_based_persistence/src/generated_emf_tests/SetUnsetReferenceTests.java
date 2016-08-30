@@ -197,7 +197,7 @@ public class SetUnsetReferenceTests extends TestBase
 		
 		loadedContentsList = getResourceContentsList(loadedRes);
 		
-		verify(savedContentsList,loadedContentsList);
+		
 		
 		
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
@@ -362,19 +362,15 @@ public class SetUnsetReferenceTests extends TestBase
 	public void testSetMultipleSingleValuedNonContainmentRefs() throws IOException
 	{
 	
-		
-		Student s = UniversityFactory.eINSTANCE.createStudent();
-		res.getContents().add(s);
-		
-		Vehicle v = UniversityFactory.eINSTANCE.createVehicle();
-		s.setRegisteredVehicle(v);
-		
 		University uni = UniversityFactory.eINSTANCE.createUniversity();
 		res.getContents().add(uni);
 		
 		StaffMember sm = UniversityFactory.eINSTANCE.createStaffMember();
 		
 		uni.setChancelor(sm);
+		
+		Vehicle v = UniversityFactory.eINSTANCE.createVehicle();
+		sm.getRegisteredVehicles().add(v);
 		
 		res.save(null);
 		
