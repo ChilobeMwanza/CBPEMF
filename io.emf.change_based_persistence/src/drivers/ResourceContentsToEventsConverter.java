@@ -46,7 +46,7 @@ public class ResourceContentsToEventsConverter
 		}
 	}
 	
-	private List<EReference> opositeReferences = new ArrayList<EReference>();
+	private List<EObject> resolvedOposites = new ArrayList<EObject>();
 	
 	private void handleReferences(EObject root) 
 	{
@@ -73,11 +73,11 @@ public class ResourceContentsToEventsConverter
 						//handle any of this objects containments
 						if(rf.getEOpposite() != null)
 						{
-							if(opositeReferences.contains(rf))
+							if(resolvedOposites.contains(obj))
 							{
 								return;
 							}
-							opositeReferences.add(rf);
+							resolvedOposites.add(obj);
 						}
 						handleReferences(obj);
 					}
