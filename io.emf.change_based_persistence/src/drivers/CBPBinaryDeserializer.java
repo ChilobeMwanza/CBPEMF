@@ -364,6 +364,8 @@ public class CBPBinaryDeserializer
     {
     	EObject focusObject = IDToEObjectMap.get(readInt(in));
     	
+    	
+    	
     	EReference eReference = (EReference) focusObject.eClass().getEStructuralFeature
 				(ePackageElementsNamesMap.getName(readInt(in)));
     	
@@ -406,7 +408,7 @@ public class CBPBinaryDeserializer
     	{
     		int id = byteArrayToInt(Arrays.copyOfRange(buffer, index,index+4));
     		
-    		manager.removeEObjectFromContents(IDToEObjectMap.remove(id));
+    		manager.removeEObjectFromContents(IDToEObjectMap.get(id));
     		
     		index = index + 4;
     	}
@@ -463,7 +465,6 @@ public class CBPBinaryDeserializer
     	for(int i = 0; i < numInts; i++)
     	{
     		intArray[i] = byteArrayToInt(Arrays.copyOfRange(buffer, index,index+4));
-    		
     		index = index + 4;
     	}
     	

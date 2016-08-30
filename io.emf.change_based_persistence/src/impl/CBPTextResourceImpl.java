@@ -63,16 +63,16 @@ public class CBPTextResourceImpl extends CBPResource
 	@Override
 	public void save(Map<?, ?> options)
 	{
-		changelog.removeRedundantEvents();
-		if(options != null && options.containsKey(OPTION_OPTIMISE_MODEL))
+		
+		/*if(options != null && options.containsKey(OPTION_OPTIMISE_MODEL))
 		{
 			if((boolean)options.get(OPTION_OPTIMISE_MODEL) == true)
 			{
-				System.out.println(classname+"yes");
 				changelog.removeRedundantEvents();
 			}
 			
-		}
+		}*/
+		
 		persistenceManager.save(options);
 		
 		/*If save file exists, print contents to console*/

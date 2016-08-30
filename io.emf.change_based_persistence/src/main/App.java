@@ -154,20 +154,14 @@ public class App
 		
 		
 		res.getContents().add(book);
-		res.getContents().add(book1);
-		res.getContents().add(book2);
+
+		book.getAuthorNames().add("A");
+		book.getAuthorNames().add("A");
 		
-		res.getContents().remove(book1);
-		
-		
-		
-		Library lib = UniversityFactory.eINSTANCE.createLibrary();
-		res.getContents().add(lib);
-		
-		
-		
-		lib.getBooks().add(book);
-		lib.getBooks().add(book1);
+		for(String str : book.getAuthorNames())
+		{
+			System.out.println(str);
+		}
 		
 		/*res.getContents().add(book);
 		
@@ -190,7 +184,7 @@ public class App
 
 
 	
-		res.save(options);
+		//res.save(options);
 		
 		
 		//s1.setStaffMemberType(null);

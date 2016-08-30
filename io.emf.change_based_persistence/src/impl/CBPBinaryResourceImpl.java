@@ -52,6 +52,13 @@ public class CBPBinaryResourceImpl extends CBPResource
 	@Override
 	public void save(Map<?, ?> options)
 	{
+		if(options != null && options.containsKey(OPTION_OPTIMISE_MODEL))
+		{
+			if((boolean)options.get(OPTION_OPTIMISE_MODEL) == true)
+			{
+				changelog.removeRedundantEvents();
+			}	
+		}
 		persistenceManager.save(options);
 	}
 	

@@ -23,8 +23,10 @@ public abstract class EAttributeEvent extends Event
        this.focusObject = focusObject;
        this.eAttribute = eAttribute;
        
+       /*if you do eAttributeValuesList = value you get unmodifiable EList,
+        *  breaks changelog optimisation*/
        if(value instanceof Collection)
-    	   this.eAttributeValuesList = (List<Object>) value;
+    	   this.eAttributeValuesList.addAll((List<Object>) value); 
        
        else 
     	   this.eAttributeValuesList .add(value);

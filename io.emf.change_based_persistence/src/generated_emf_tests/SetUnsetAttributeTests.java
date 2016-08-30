@@ -247,6 +247,37 @@ public class SetUnsetAttributeTests extends TestBase
 	}
 	
 	@Test
+	public void foo3() throws IOException
+	{
+		
+		
+		Book b = UniversityFactory.eINSTANCE.createBook();
+		
+		res.getContents().add(b);
+		
+		List<String> authorList = new ArrayList<String>();
+		
+		List<String> removeList = new ArrayList<String>();
+		
+		authorList.add("A,B,C,D");
+	
+
+		
+		b.getAuthorNames().addAll(authorList);
+		b.getAuthorNames().clear();
+		
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
+		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
+	}
+	
+	@Test
 	public void testRemoveAllFromManyValuedAttribute() throws IOException
 	{
 		

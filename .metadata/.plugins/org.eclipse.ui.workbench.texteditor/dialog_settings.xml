@@ -2,20 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="eventList" key="selection"/>
+		<item value="IDToEObjectMap" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="true" key="incremental"/>
 		<item value="false" key="wrap"/>
 		<item value="true" key="wholeword"/>
 		<list key="findhistory">
+			<item value="IDToEObjectMap"/>
+			<item value="IDToEObjectMap."/>
+			<item value="."/>
+			<item value="remove"/>
 			<item value="eventsList"/>
 			<item value="event_list"/>
 			<item value="dataType"/>
 			<item value="attr"/>
-			<item value="focus_obj"/>
-			<item value="obj_create_list"/>
-			<item value="added_obj_list"/>
-			<item value="added_obj_"/>
 		</list>
 		<list key="replacehistory">
 			<item value="eventList"/>

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="exceptions.UnknownPackageException"/>
-<fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
 <fullyQualifiedTypeName name="change.Changelog"/>
 <fullyQualifiedTypeName name="change.EventAdapter"/>
 <fullyQualifiedTypeName name="drivers.EPackageElementsNamesMap"/>
 <fullyQualifiedTypeName name="impl.CBPBinaryResourceImpl"/>
-<fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
 <fullyQualifiedTypeName name="java.io.EOFException"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EPackage"/>
@@ -29,7 +26,6 @@
 <fullyQualifiedTypeName name="javax.management.Notification"/>
 <fullyQualifiedTypeName name="change.UnsetEAttributeEvent"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.util.EcoreUtil"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EAttribute"/>
 <fullyQualifiedTypeName name="change.EAttributeEvent"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Method"/>
 <fullyQualifiedTypeName name="change.EReferenceEvent.EReferenceEventType"/>
@@ -59,5 +55,9 @@
 <fullyQualifiedTypeName name="java.util.Collection"/>
 <fullyQualifiedTypeName name="gnu.trove.list.array.TIntArrayList"/>
 <fullyQualifiedTypeName name="change.AddEObjectsToResourceEvent"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EAttribute"/>
 <fullyQualifiedTypeName name="java.util.Iterator"/>
+<fullyQualifiedTypeName name="java.util.Map.Entry"/>
 </qualifiedTypeNameHistroy>

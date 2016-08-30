@@ -6,9 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 
+import change.Changelog.EAttributeHolder;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.TObjectIntMap;
@@ -58,17 +61,6 @@ public class Changelog
 		return false;
 	}
 	
-	public void deleteEObjectFromMap(EObject obj)
-	{
-		eObjectToIDMap.remove(obj);
-		
-		if(eObjectToIDMap.containsKey(obj)) //tbr
-		{
-			System.out.println(classname+ " nope!!");
-			System.exit(0);
-		}
-	}
-	
 	public int getObjectId(EObject obj)
 	{
 		if(!eObjectToIDMap.containsKey(obj)) //tbr
@@ -99,22 +91,100 @@ public class Changelog
 		return eventList;
 	}
 	
+	public void debug()
+	{
+		System.out.println(classname+" DEBUG!");
+		for(Event e : eventList)
+		{
+			System.out.println(e.getEventType());
+		}
+	}
+	
+	private boolean redundantEntryCheck() //tbr
+	{
+		//check for duplicate eobject occurances, tbr
+		Map<EObject,Event> duplicateCheckMap = new HashMap<EObject, Event>();
+		
+		for(Event e : eventList)
+		{
+			for(EObject obj : e.getEObjectList())
+			{
+				if(!duplicateCheckMap.containsKey(obj))
+					duplicateCheckMap.put(obj, e);
+				
+				else
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	public void removeRedundantEvents()
 	{   
 		if(eventList.isEmpty())
 			return;
 		
-		Map<EObject,Event> eObjectEventMap = new HashMap<EObject,Event>();
+		Map<EObject,Event> eObjectToEventMap = new HashMap<EObject,Event>();
 		
-		/*Pass 1: Make sure each object is mapped to its most recent event*/
-		for(Event e : eventList)
+		Map<EObject, EAttributeHolder >eObjectToEAttributeHolderMap = 
+				new HashMap<EObject,EAttributeHolder>();
+		
+		/* Pass 1: For EAttributeEvents, populate EAttributeHolders.
+		 * For all other events, map each EObject to its most recent event.
+		 */
+		for(Iterator<Event> eventListIterator = eventList.iterator(); eventListIterator.hasNext();)
 		{
-			for(EObject obj : e.getEObjectList())
+			Event e =  eventListIterator.next();
+			
+			if(e instanceof EAttributeEvent)
 			{
-				eObjectEventMap.put(obj, e);
+				// Make EAttribute Holder for currennt object, if not exists
+				if(!eObjectToEAttributeHolderMap.containsKey(((EAttributeEvent) e).getFocusObject()))
+				{
+					eObjectToEAttributeHolderMap.put(((EAttributeEvent) e).
+							getFocusObject(), new EAttributeHolder());
+				}
+				
+				//handle add event
+				if(e instanceof AddObjectsToEAttributeEvent)
+				{
+					eObjectToEAttributeHolderMap.get(((EAttributeEvent) e).getFocusObject()).
+					addObjects(((EAttributeEvent) e).getEAttribute(),
+							((EAttributeEvent) e).getEAttributeValuesList());
+					
+					eventListIterator.remove();
+				}
+				else //e instanceof RemoveObjectsFromEAttributeEvent
+				{
+					for(Iterator<Object> it = e.getEAttributeValuesList().iterator(); it.hasNext();)
+					{
+						Object obj = it.next();
+						
+						if(eObjectToEAttributeHolderMap.get(((EAttributeEvent) e).getFocusObject()).
+								removeObject(((EAttributeEvent) e).getEAttribute(), obj))
+						{
+							it.remove(); 
+						}
+					}
+					
+					if(e.getEAttributeValuesList().isEmpty())
+						eventListIterator.remove();
+				}
+						
+			}
+			else //EObject events
+			{
+				for(EObject obj : e.getEObjectList())
+				{
+					eObjectToEventMap.put(obj, e);
+				}
 			}
 		}
 		
+		/*Pass 2: Remove redundant eobj entries, 
+		 * add set attribute events for eattributes, if any
+		 * */
 		List<EObject> removedEObjects = new ArrayList<EObject>();
 		
 		for(Iterator <Event> eventListIterator = eventList.iterator(); eventListIterator.hasNext();)
@@ -129,23 +199,27 @@ public class Changelog
 			{
 				EObject obj = eObjectListIterator.next();
 				
-				Event objMostRecentEvent = eObjectEventMap.get(obj) ; //get the 'most recent' event for this object
+				Event objMostRecentEvent = eObjectToEventMap.get(obj) ; //get the 'most recent' event for this object
 				
-				if(objMostRecentEvent instanceof AddEObjectsToResourceEvent || objMostRecentEvent instanceof AddEObjectsToEReferenceEvent)
+				if(objMostRecentEvent instanceof AddEObjectsToResourceEvent || 
+						objMostRecentEvent instanceof AddEObjectsToEReferenceEvent)
 				{
 					if(e != objMostRecentEvent) //if this event is not the objects 'most recent event'
 					{
 						eObjectListIterator.remove(); //remove obj from this event
 					}
 				}
-				else if (objMostRecentEvent instanceof  RemoveEObjectsFromResourceEvent || objMostRecentEvent instanceof RemoveEObjectsFromEReferenceEvent)
+				/*if (objMostRecentEvent instanceof  RemoveEObjectsFromResourceEvent || 
+				 * objMostRecentEvent instanceof RemoveEObjectsFromEReferenceEvent)
+				 */
+				else 
 				{
 					if( e != objMostRecentEvent)
 					{
-						//remove obj from this event
+						
 						removedEObjects.add(obj); //note that we prevented this obj from being added.
 						
-						eObjectListIterator.remove();
+						eObjectListIterator.remove();//remove obj from this event
 					}
 					else
 					{
@@ -155,12 +229,78 @@ public class Changelog
 						}
 					}
 				}
-					
 			}
 			
-			if(e.getEObjectList().isEmpty())
+			if(e.getEObjectList().isEmpty()) //discard empty events
 				eventListIterator.remove();
 		}
-		System.out.println(eObjectEventMap.size());
+		
+		/*Reinsert optimised add events, if any*/
+		for(Iterator<Entry<EObject, EAttributeHolder>> it = eObjectToEAttributeHolderMap.entrySet().iterator(); it.hasNext();)
+		{
+			Entry<EObject, EAttributeHolder>  pair = (Map.Entry<EObject, EAttributeHolder>) it.next();
+			
+			EAttributeHolder ah = pair.getValue();
+			
+			Map<EAttribute,List<Object>> eAttributeToObjectValuesMap = ah.getEAttributeToObjectValuesMap();
+			
+			for(Iterator<Entry<EAttribute, List<Object>>> iter = 
+					eAttributeToObjectValuesMap.entrySet().iterator(); iter.hasNext();)
+			{
+				Entry <EAttribute, List<Object>> pair2  = (Map.Entry<EAttribute, List<Object>>) iter.next();
+				
+				if(!pair2.getValue().isEmpty())
+				{
+					AddObjectsToEAttributeEvent event = 
+							new AddObjectsToEAttributeEvent(pair.getKey(),pair2.getKey(),pair2.getValue());
+					eventList.add(event);
+				}
+				iter.remove(); //clean up.
+			}
+			
+			it.remove(); //clean up
+		}
+		
+		if(redundantEntryCheck()) //tbr
+		{
+			System.out.println(classname+"redundant entries found");
+			System.exit(0);
+		}
+	}
+	
+	class EAttributeHolder //wrapper, holds eattributes and their values
+	{
+		Map<EAttribute,List<Object>> eAttributeToObjectValuesMap = new HashMap<EAttribute,List<Object>>();
+		
+		public boolean removeObject(EAttribute attr, Object obj)
+		{
+			if(!eAttributeToObjectValuesMap.containsKey(attr)) //tbr
+			{
+				return false;
+			}
+			return eAttributeToObjectValuesMap.get(attr).remove(obj);
+		}
+		
+		public void addObjects(EAttribute attr, List<Object> objList)
+		{
+			if(!eAttributeToObjectValuesMap.containsKey(attr))
+			{
+				eAttributeToObjectValuesMap.put(attr, new ArrayList<Object>());
+			}
+			
+			if(!attr.isMany())
+			{
+				eAttributeToObjectValuesMap.get(attr).add(0,objList.get(0));
+			}
+			else
+			{
+				eAttributeToObjectValuesMap.get(attr).addAll(objList);
+			}	
+		}
+		
+		public Map<EAttribute,List<Object>> getEAttributeToObjectValuesMap()
+		{
+			return this.eAttributeToObjectValuesMap;
+		}	
 	}
 }
