@@ -15,4 +15,5 @@ public class AddObjectsToEAttributeEvent extends EAttributeEvent
     {
         this((EObject) n.getNotifier(),(EAttribute) n.getFeature(),n.getNewValue());
     }
+    
 }

@@ -12,3 +12,8 @@
 1472488661804	Rename field 'SET_EREFERENCE_EVENT'
 1472488678115	Rename field 'UNSET_EREFERENCE_EVENT'
 1472498382425	Delete element
+1472649992229	Move folder
+1472650969773	Rename compilation unit 'XMIChangeDetectionEvaluation.java'
+1472659165877	Delete element
+1472661986296	Delete element
+1472671566082	Rename type 'XMIChangeDetectionEvaluator'

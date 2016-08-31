@@ -1,0 +1,10 @@
+package evaluation;
+
+public class Difference 
+{
+	
+	public Difference(int eventType)
+	{
+		
+	}
+}
