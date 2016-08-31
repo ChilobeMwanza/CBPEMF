@@ -1,6 +1,7 @@
 package drivers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -46,8 +47,8 @@ public class ResourceContentsToEventsConverter
 		}
 	}
 	
-	private List<EObject> resolvedOposites = new ArrayList<EObject>();
 	
+	@SuppressWarnings("unchecked")
 	private void handleReferences(EObject root) 
 	{
 		for(Iterator<EObject> it = root.eAllContents(); it.hasNext();) //containment refs
@@ -59,52 +60,106 @@ public class ResourceContentsToEventsConverter
 			createSetAttributeEntries(obj);
 		}
 		
-		for(EObject obj : root.eCrossReferences()) //non containment refs
+		for(EReference rf : root.eClass().getEAllReferences())//non containment refs
 		{
-			for(EReference rf : root.eClass().getEAllReferences())
+			if(!rf.isContainment())
 			{
-				if(!rf.isContainment())
+				if(root.eIsSet(rf))
 				{
-					if(root.eIsSet(rf))
-					{
-						createAddEObjectsToEReferenceEvent(root,obj,rf);
-						createSetAttributeEntries(obj);
-						
-						//handle any of this objects containments
-						if(rf.getEOpposite() != null)
-						{
-							if(resolvedOposites.contains(obj))
-							{
-								return;
-							}
-							resolvedOposites.add(obj);
-						}
-						handleReferences(obj);
-					}
+				   createAddEObjectsToEReferenceEvent(root,root.eGet(rf),rf);
+				   createSetAttributeEntries(root.eGet(rf));
+				   
+				   //handle  containments of eObjects within root.eGet
+				   List <EObject> children = new ArrayList<EObject>();
+				   
+				   if(root.eGet(rf) instanceof Collection)
+				   {
+					   children = (List<EObject>) root.eGet(rf);
+				   }
+				   else
+				   {
+					   children.add((EObject)root.eGet(rf));
+				   }
+				   
+				   for(EObject obj : children)
+				   {
+					   /*
+					    * For opposite references, we try to always pick the same ref. We don't want to recurse 
+					    * for both ends of the ref. Choose ref by comparing name lengths 
+					    */
+					   if(rf.getEOpposite() != null)
+					   {
+						   //choose based on feature id.
+						   if((rf.getContainerClass().getName().length()+rf.getName().length()) > 
+						   			(rf.getEOpposite().getContainerClass().getName().length()
+						   					+rf.getEOpposite().getName().length()))	   
+						   { 
+							   if(rf.getFeatureID() > rf.getEOpposite().getFeatureID())
+							   {
+								   handleReferences(obj);  
+							   }
+						   }					   
+					   }
+					   else //for non opposites
+					   {
+						   handleReferences(obj);
+					   }
+				   }
 				}
 			}
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void createAddEObjectsToEReferenceEvent
-		(EObject focusObject,EObject addedObject, EReference eRef)
+		(EObject focusObject,Object value, EReference eRef)
 	{
-		AddEObjectsToEReferenceEvent e = 
-				new AddEObjectsToEReferenceEvent(focusObject,addedObject,eRef);
+		List<EObject> eObjectList = new ArrayList<EObject>();
 		
-		changelog.addEvent(e);
+		if(value instanceof Collection)
+		{
+			 eObjectList = (List<EObject>) value;
+		}
+		else
+		{
+			eObjectList.add((EObject) value);
+		}
+		
+		for(EObject obj : eObjectList)
+		{
+			AddEObjectsToEReferenceEvent e = 
+					new AddEObjectsToEReferenceEvent(focusObject,obj,eRef);
+			changelog.addEvent(e);
+		}
 	}
 	
-	private void createSetAttributeEntries(EObject focusObject)
+	@SuppressWarnings("unchecked")
+	private void createSetAttributeEntries(Object value)
 	{
-		for(EAttribute attr : focusObject.eClass().getEAllAttributes())
+		List<EObject> eObjectList = new ArrayList<EObject>();
+		
+		if(value instanceof Collection)
 		{
-			if(focusObject.eIsSet(attr))
+			 eObjectList = (List<EObject>) value;
+		}
+		else
+		{
+			eObjectList.add((EObject) value);
+		}
+		
+		for(EObject obj : eObjectList)
+		{
+			for(EAttribute attr : obj.eClass().getEAllAttributes())
 			{
-				AddObjectsToEAttributeEvent e =
-						new AddObjectsToEAttributeEvent(focusObject,attr,focusObject.eGet(attr));
-				changelog.addEvent(e); //add to entry
+				if(obj.eIsSet(attr) && attr.isChangeable() && 
+						!attr.isTransient() && !attr.isVolatile())
+				{
+					AddObjectsToEAttributeEvent e =
+							new AddObjectsToEAttributeEvent(obj,attr,obj.eGet(attr));
+					changelog.addEvent(e); //add to entry
+				}
 			}
 		}
+		
 	}
 }

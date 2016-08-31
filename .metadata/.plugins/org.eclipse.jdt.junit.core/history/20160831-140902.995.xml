@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun generated_emf_tests.SetUnsetReferenceTests.testSetOppositeReference" project="io.emf.change_based_persistence" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testcase name="testSetOppositeReference" classname="generated_emf_tests.SetUnsetReferenceTests" time="0.053"/>
+</testrun>

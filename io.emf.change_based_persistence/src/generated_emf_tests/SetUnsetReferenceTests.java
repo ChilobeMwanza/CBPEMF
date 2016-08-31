@@ -329,6 +329,32 @@ public class SetUnsetReferenceTests extends TestBase
 		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
 	}
 	
+	@Test
+	public void temp() throws IOException
+	{
+		StaffMember sm = UniversityFactory.eINSTANCE.createStaffMember();
+		res.getContents().add(sm);
+		
+		
+		Vehicle v1 = UniversityFactory.eINSTANCE.createVehicle();
+		Vehicle v2 = UniversityFactory.eINSTANCE.createVehicle();
+		Vehicle v3 = UniversityFactory.eINSTANCE.createVehicle();
+		
+		sm.getRegisteredVehicles().add(v1);
+		sm.getRegisteredVehicles().add(v2);
+		sm.getRegisteredVehicles().add(v3);
+		
+		res.save(null);
+		
+		savedContentsList = getResourceContentsList(res);
+		
+		Resource loadedRes = loadResource();
+		
+		loadedContentsList = getResourceContentsList(loadedRes);
+		
+		assertTrue(EcoreUtil.equals(savedContentsList, loadedContentsList));
+	}
+	
 	/*
 	 * Tests un-setting 1 single valued non-containment ref
 	 */

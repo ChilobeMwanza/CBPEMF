@@ -168,6 +168,8 @@ public class PersistenceManager
 
 	public void save(Map<?,?> options)
 	{
+		
+		
 		if(options != null)
 		{
 			if(options.containsKey(OPTION_OPTIMISE_MODEL))
