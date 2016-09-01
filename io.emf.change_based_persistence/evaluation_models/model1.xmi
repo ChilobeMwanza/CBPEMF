@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbp="http://io.emf.change_based_persistence.text">
+  <cbp:Library name="Library0">
+    <books name="Book0"/>
+    <books name="Book1"/>
+    <books name="Book2"/>
+    <books name="Book3"/>
+    <books name="Book4"/>
+    <books name="Book5"/>
+    <books name="Book6"/>
+    <books name="Book7"/>
+    <books name="Book8"/>
+    <books name="Book9"/>
+  </cbp:Library>
+  <cbp:Library name="Library1">
+    <books name="Book0"/>
+    <books name="Book1"/>
+    <books name="Book2"/>
+    <books name="Book3"/>
+    <books name="Book4"/>
+    <books name="Book5"/>
+    <books name="Book6"/>
+    <books name="Book7"/>
+    <books name="Book8"/>
+    <books name="Book9"/>
+  </cbp:Library>
+  <cbp:Library name="Library2">
+    <books name="Book0"/>
+    <books name="Book1"/>
+    <books name="Book2"/>
+    <books name="Book3"/>
+    <books name="Book4"/>
+    <books name="Book5"/>
+    <books name="Book6"/>
+    <books name="Book7"/>
+    <books name="Book8"/>
+    <books name="Book9"/>
+  </cbp:Library>
+  <cbp:Library name="Library3">
+    <books name="Book0"/>
+    <books name="Book1"/>
+    <books name="Book2"/>
+    <books name="Book3"/>
+    <books name="Book4"/>
+    <books name="Book5"/>
+    <books name="Book6"/>
+    <books name="Book7"/>
+    <books name="Book8"/>
+    <books name="Book9"/>
+  </cbp:Library>
+  <cbp:Library name="Library4">
+    <books name="Book0"/>
+    <books name="Book1"/>
+    <books name="Book2"/>
+    <books name="Book3"/>
+    <books name="Book4"/>
+    <books name="Book5"/>
+    <books name="Book6"/>
+    <books name="Book7"/>
+    <books name="Book8"/>
+    <books name="Book9"/>
+  </cbp:Library>
+  <cbp:Library name="Library5">
+    <books name="Book0"/>
+    <books name="Book1"/>
+    <books name="Book2"/>
+    <books name="Book3"/>
+    <books name="Book4"/>
+    <books name="Book5"/>
+    <books name="Book6"/>
+    <books name="Book7"/>
+    <books name="Book8"/>
+    <books name="Book9"/>
+  </cbp:Library>
+  <cbp:Library name="Library6">
+    <books name="Book0"/>
+    <books name="Book1"/>
+    <books name="Book2"/>
+    <books name="Book3"/>
+    <books name="Book4"/>
+    <books name="Book5"/>
+    <books name="Book6"/>
+    <books name="Book7"/>
+    <books name="Book8"/>
+    <books name="Book9"/>
+  </cbp:Library>
+  <cbp:Library name="Library7">
+    <books name="Book0"/>
+    <books name="Book1"/>
+    <books name="Book2"/>
+    <books name="Book3"/>
+    <books name="Book4"/>
+    <books name="Book5"/>
+    <books name="Book6"/>
+    <books name="Book7"/>
+    <books name="Book8"/>
+    <books name="Book9"/>
+  </cbp:Library>
+  <cbp:Library name="Library8">
+    <books name="Book0"/>
+    <books name="Book1"/>
+    <books name="Book2"/>
+    <books name="Book3"/>
+    <books name="Book4"/>
+    <books name="Book5"/>
+    <books name="Book6"/>
+    <books name="Book7"/>
+    <books name="Book8"/>
+    <books name="Book9"/>
+  </cbp:Library>
+  <cbp:Library name="Library9">
+    <books name="Book0"/>
+    <books name="Book1"/>
+    <books name="Book2"/>
+    <books name="Book3"/>
+    <books name="Book4"/>
+    <books name="Book5"/>
+    <books name="Book6"/>
+    <books name="Book7"/>
+    <books name="Book8"/>
+    <books name="Book9"/>
+  </cbp:Library>
+</xmi:XMI>

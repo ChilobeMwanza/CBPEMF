@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbp="http://io.emf.change_based_persistence.text">
+  <cbp:Library name="Library01">
+    <books name="Book01"/>
+    <books name="Book11"/>
+    <books name="Book21"/>
+    <books name="Book31"/>
+    <books name="Book41"/>
+    <books name="Book51"/>
+    <books name="Book61"/>
+    <books name="Book71"/>
+    <books name="Book81"/>
+    <books name="Book91"/>
+  </cbp:Library>
+  <cbp:Library name="Library11">
+    <books name="Book01"/>
+    <books name="Book11"/>
+    <books name="Book21"/>
+    <books name="Book31"/>
+    <books name="Book41"/>
+    <books name="Book51"/>
+    <books name="Book61"/>
+    <books name="Book71"/>
+    <books name="Book81"/>
+    <books name="Book91"/>
+  </cbp:Library>
+  <cbp:Library name="Library21">
+    <books name="Book01"/>
+    <books name="Book11"/>
+    <books name="Book21"/>
+    <books name="Book31"/>
+    <books name="Book41"/>
+    <books name="Book51"/>
+    <books name="Book61"/>
+    <books name="Book71"/>
+    <books name="Book81"/>
+    <books name="Book91"/>
+  </cbp:Library>
+  <cbp:Library name="Library31">
+    <books name="Book01"/>
+    <books name="Book11"/>
+    <books name="Book21"/>
+    <books name="Book31"/>
+    <books name="Book41"/>
+    <books name="Book51"/>
+    <books name="Book61"/>
+    <books name="Book71"/>
+    <books name="Book81"/>
+    <books name="Book91"/>
+  </cbp:Library>
+  <cbp:Library name="Library41">
+    <books name="Book01"/>
+    <books name="Book11"/>
+    <books name="Book21"/>
+    <books name="Book31"/>
+    <books name="Book41"/>
+    <books name="Book51"/>
+    <books name="Book61"/>
+    <books name="Book71"/>
+    <books name="Book81"/>
+    <books name="Book91"/>
+  </cbp:Library>
+  <cbp:Library name="Library51">
+    <books name="Book01"/>
+    <books name="Book11"/>
+    <books name="Book21"/>
+    <books name="Book31"/>
+    <books name="Book41"/>
+    <books name="Book51"/>
+    <books name="Book61"/>
+    <books name="Book71"/>
+    <books name="Book81"/>
+    <books name="Book91"/>
+  </cbp:Library>
+  <cbp:Library name="Library61">
+    <books name="Book01"/>
+    <books name="Book11"/>
+    <books name="Book21"/>
+    <books name="Book31"/>
+    <books name="Book41"/>
+    <books name="Book51"/>
+    <books name="Book61"/>
+    <books name="Book71"/>
+    <books name="Book81"/>
+    <books name="Book91"/>
+  </cbp:Library>
+  <cbp:Library name="Library71">
+    <books name="Book01"/>
+    <books name="Book11"/>
+    <books name="Book21"/>
+    <books name="Book31"/>
+    <books name="Book41"/>
+    <books name="Book51"/>
+    <books name="Book61"/>
+    <books name="Book71"/>
+    <books name="Book81"/>
+    <books name="Book91"/>
+  </cbp:Library>
+  <cbp:Library name="Library81">
+    <books name="Book01"/>
+    <books name="Book11"/>
+    <books name="Book21"/>
+    <books name="Book31"/>
+    <books name="Book41"/>
+    <books name="Book51"/>
+    <books name="Book61"/>
+    <books name="Book71"/>
+    <books name="Book81"/>
+    <books name="Book91"/>
+  </cbp:Library>
+  <cbp:Library name="Library91">
+    <books name="Book01"/>
+    <books name="Book11"/>
+    <books name="Book21"/>
+    <books name="Book31"/>
+    <books name="Book41"/>
+    <books name="Book51"/>
+    <books name="Book61"/>
+    <books name="Book71"/>
+    <books name="Book81"/>
+    <books name="Book91"/>
+  </cbp:Library>
+</xmi:XMI>

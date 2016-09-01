@@ -2,20 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Source" key="selection"/>
+		<item value="System" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="true" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="SYSTEM"/>
+			<item value="system"/>
+			<item value="ctc"/>
 			<item value="source"/>
 			<item value="isInf"/>
 			<item value="isInfo"/>
 			<item value="isInfor"/>
 			<item value="Logger"/>
-			<item value="temp"/>
-			<item value="System"/>
-			<item value="&#x09;&#x09;writeEObjectAdditionEvent(e.getEObjectList(),e.getFocusObject(),e.getEReference(),false,out);"/>
 		</list>
 		<list key="replacehistory">
 			<item value="eventList"/>

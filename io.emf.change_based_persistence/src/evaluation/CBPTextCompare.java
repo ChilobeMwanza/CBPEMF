@@ -6,13 +6,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.epsilon.profiling.Stopwatch;
 
 import drivers.EPackageElementsNamesMap;
@@ -29,13 +32,12 @@ public class CBPTextCompare
 	
 	public void compare(String model1Location, String model2Location) throws IOException
 	{
-		
-		
 		 getChangeEvents(countLines(model1Location)+1,model2Location);
 	}
 	
 	public void getChangeEvents(int startLine,String fileLocation) throws IOException
 	{
+		
 		BufferedReader br = new BufferedReader(
                 new InputStreamReader(new FileInputStream(fileLocation), PersistenceManager.STRING_ENCODING));
 		
@@ -51,7 +53,7 @@ public class CBPTextCompare
 		
 		while((line = br.readLine())!=null)
 		{
-			//System.out.println(line);
+			
 			StringTokenizer st = new StringTokenizer(line);
 
             if (st.hasMoreElements())
@@ -60,44 +62,100 @@ public class CBPTextCompare
 			switch(eventType)
 			{
 			case PersistenceManager.CREATE_AND_ADD_EOBJECTS_TO_RESOURCE:
-				System.out.println(eventType);
-                //createAndAddEObjectsToResource(line);
+                createAndAddEObjectsToResource(line);
                 break;
             case PersistenceManager.CREATE_EOBJECTS_AND_SET_EREFERENCE_VALUES:
-            	System.out.println(eventType);
-               // createEObjectsAndSetEReferenceValues(line);
+                createEObjectsAndSetEReferenceValues(line);
                 break;
             case PersistenceManager.SET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES:
-                handleEAttributeEvent(line);
+                handleEAttributeEvent(line,true);
                 break;
             case PersistenceManager.SET_EOBJECT_EREFERENCE_VALUES:
-            	System.out.println(eventType);
-               // handleEReferenceEvent(line,true);
+                handleEReferenceEvent(line,true);
                 break;
             case PersistenceManager.UNSET_EOBJECT_COMPLEX_EATTRIBUTE_VALUES:
-            	System.out.println(eventType);
-               // handleEAttributeEvent(line,false);
+                handleEAttributeEvent(line,false);
                 break;
             case PersistenceManager.UNSET_EOBJECT_EREFERENCE_VALUES:
-            	System.out.println(eventType);
-               // handleEReferenceEvent(line,false);
+               handleEReferenceEvent(line,false);
                 break;
             case PersistenceManager.ADD_EOBJECTS_TO_RESOURCE:
-            	System.out.println(eventType);
-                //createAndAddEObjectsToResource(line);
+                createAndAddEObjectsToResource(line);
                 break;
             case PersistenceManager.REMOVE_EOBJECTS_FROM_RESOURCE:
-            	System.out.println(eventType);
-                //removeEObjectsFromResource(line);
+                removeEObjectsFromResource(line);
                 break;
             default:
 			}
-			
 		}
 		br.close();
 	}
 	
-	public void handleEAttributeEvent(String line)
+	
+	private void removeEObjectsFromResource(String line) {
+		String[] objValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
+
+		StringBuilder sb = new StringBuilder("RemoveEObjectsFromResourceEvent {EOobjectIDs = ");
+		
+        String delimeter = "";
+		
+		for (String str : objValueStringsArray) {
+			sb.append(delimeter+str);
+			delimeter = ",";
+		}
+		
+		sb.append("}");
+		
+		differences.add(sb.toString());
+	}
+	
+	private void handleEReferenceEvent(String line, boolean isSetEReference)
+	{
+		String[] stringArray = line.split(" ");
+
+		String[] featureValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
+		
+		String s = "add";
+		
+		if(!isSetEReference)
+			s = "remove";
+		
+		
+        StringBuilder sb = new StringBuilder("setEReferenceEvent {EOobjectID"+stringArray[1]+" EReferenceID "+stringArray[2]+" IDs of obj to "+s+"=");
+		
+        String delimeter = "";
+        for(String str : featureValueStringsArray)
+        {
+        	sb.append(delimeter+str);
+        	delimeter = ",";
+        }
+		
+		sb.append("}");
+		
+		differences.add(sb.toString());
+	}
+	private void createAndAddEObjectsToResource(String line) 
+	{
+		String[] objToCreateAndAddArray = tokeniseString(getValueInSquareBrackets(line));
+
+        StringBuilder sb = new StringBuilder("createAndAddEObjectsToResource {objectType ID and AssigedID list = ");
+		
+		String delimeter = "";
+		
+		for (String str : objToCreateAndAddArray) {
+			String[] stringArray = str.split(" ");
+			
+			sb.append(delimeter+stringArray[0]+" "+stringArray[1]);
+			
+			delimeter = ",";
+		}
+		
+		sb.append("}");
+		
+		differences.add(sb.toString());
+	}
+	
+	public void handleEAttributeEvent(String line,boolean isSetEAttributeEvent)
 	{
 		String[] stringArray = line.split(" ");
 
@@ -106,8 +164,15 @@ public class CBPTextCompare
 		int eAttributeID = Integer.valueOf(stringArray[2]);
 		
 		String[] featureValuesArray = tokeniseString(getValueInSquareBrackets(line));
+		
+		String start = "SetEAttributeEventChangeSpec";
+		
+		if(!isSetEAttributeEvent)
+		{
+			start = "UnSetEAttributeEventChangeSpec";
+		}
 
-		StringBuilder sb = new StringBuilder("EAttributeChangeSpec{focusObjectID = "+focusObjectID+" attributeID = "+eAttributeID+" value = ");
+		StringBuilder sb = new StringBuilder(start+"{focusObjectID = "+focusObjectID+" attributeID = "+eAttributeID+" value = ");
 	
 		String delimeter = "";
 		
@@ -121,6 +186,34 @@ public class CBPTextCompare
 		differences.add(sb.toString());
 		
 		//System.out.println(sb.toString());
+	}
+	
+	private void createEObjectsAndSetEReferenceValues(String line) 
+	{
+		String[] stringArray = line.split(" ");
+
+		String focusObjectID = stringArray[1];
+
+		String eReferenceID = stringArray[2];
+
+		String[] refValueStringsArray = tokeniseString(getValueInSquareBrackets(line));
+
+		StringBuilder sb = new StringBuilder("createEObjectsAndSetEReferenceValues{focusObjectID = "+focusObjectID+" eReferenceID = "+eReferenceID+" objects To Create And Add = ");
+		
+		String delimeter = "";
+		
+		for (String str : refValueStringsArray) 
+		{
+			String[] temp = str.split(" ");
+
+			sb.append(delimeter+temp[0]+" "+temp[1]);
+			
+			delimeter = ",";
+		}
+		
+		sb.append("}");
+		
+		differences.add(sb.toString());
 	}
 	
 	public List<String> getDifferences()

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="change.Event"/>
-<fullyQualifiedTypeName name="change.EReferenceEvent.NotifierType"/>
-<fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="gnu.trove.map.TIntObjectMap"/>
 <fullyQualifiedTypeName name="gnu.trove.map.hash.TIntObjectHashMap"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notification"/>
@@ -49,7 +46,6 @@
 <fullyQualifiedTypeName name="drivers.PersistenceManager"/>
 <fullyQualifiedTypeName name="java.util.StringTokenizer"/>
 <fullyQualifiedTypeName name="drivers.EPackageElementsNamesMap"/>
-<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
 <fullyQualifiedTypeName name="org.eclipse.emf.ecore.EAttribute"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.List"/>
@@ -60,4 +56,8 @@
 <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
 <fullyQualifiedTypeName name="org.apache.log4j.Level"/>
 <fullyQualifiedTypeName name="org.eclipse.epsilon.profiling.Stopwatch"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl"/>
+<fullyQualifiedTypeName name="impl.CBPBinaryResourceImpl"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EObject"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl"/>
 </qualifiedTypeNameHistroy>

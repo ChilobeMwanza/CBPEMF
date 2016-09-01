@@ -20,16 +20,20 @@ import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.epsilon.profiling.Stopwatch;
 
 import drivers.EPackageElementsNamesMap;
+import impl.CBPBinaryResourceImpl;
 import impl.CBPTextResourceImpl;
 
 import org.eclipse.emf.compare.Comparison;
@@ -48,11 +52,32 @@ import university.UniversityPackage;
 
 public class ChangeDetectionEvaluations 
 {
-    private static final String XMI_MODEL1_LOCATION =  new File("").getAbsolutePath()+"/evaluation models/model1.xmi";
-    private static final String XMI_MODEL2_LOCATION =  new File("").getAbsolutePath()+"/evaluation models/model2.xmi";
+    private static final String XMI_MODEL1_LOCATION =  new File("").getAbsolutePath()+"/evaluation_models/model1.xmi";
+    private static final String XMI_MODEL2_LOCATION =  new File("").getAbsolutePath()+"/evaluation_models/model2.xmi";
     
-    private static final String CBP_TEXT_MODEL1_LOCATION = "model1.cbpt";
-    private static final String CBP_TEXT_MODEL2_LOCATION = "model2.cbpt";
+    private static final String BIN_MODEL1_LOCATION =  new File("").getAbsolutePath()+"/evaluation_models/model1.bin";
+    private static final String BIN_MODEL2_LOCATION =  new File("").getAbsolutePath()+"/evaluation_models/model2.bin";
+    
+    private static final String CBP_TEXT_MODEL1_LOCATION = new File("").getAbsolutePath()+"/evaluation_models/model1.cbpt";
+    private static final String CBP_TEXT_MODEL2_LOCATION = new File("").getAbsolutePath()+"/evaluation_models/model2.cbpt";
+    
+    private static final String CBP_BINARY_MODEL1_LOCATION = new File("").getAbsolutePath()+"/evaluation_models/model1.cbpb";
+    private static final String CBP_BINARY_MODEL2_LOCATION = new File("").getAbsolutePath()+"/evaluation_models/model2.cbpb";
+    
+    private final String classname = this.getClass().getSimpleName();
+    
+    enum TestMode
+    {
+    	SmallEAttributes,
+    	MediumEAttributes,
+    	LargeEATtributes,
+    	SmallEReferences,
+    	MediumEreferences,
+    	LargeEreferences,
+    	SmallMixed,
+    	MediuamMixed,
+    	LargeMixed
+    }
     
     
     public static void main(String[] args) throws Exception
@@ -66,29 +91,25 @@ public class ChangeDetectionEvaluations
         for ( Logger logger : loggers ) {
             logger.setLevel(Level.OFF);
         }
+      
+        ChangeDetectionEvaluations App = new ChangeDetectionEvaluations();
+        
+       
+       
+       App.populateModels(TestMode.SmallEAttributes);
+        
+        
+     
         
         
         
-        ChangeDetectionEvaluations eval = new ChangeDetectionEvaluations();
-        
-        /*eval.generateXMIModel1();
-        eval.generateXMIModel2();
-        eval.compare(URI.createFileURI(XMI_MODEL1_LOCATION), URI.createFileURI(XMI_MODEL2_LOCATION));*/
-        
-        eval.populateCBPTModels();
-        eval.populateXMIModels();
-        
-        
-       /* long cbTime = 0;
-        CBPTextCompare ctc = new CBPTextCompare();
-        
-        Stopwatch sw = new Stopwatch();
+        /*Stopwatch sw = new Stopwatch();
         
         sw.resume();
         for(int i =0; i < 100; i++)
         {
         	
-            ctc.compare(CBP_TEXT_MODEL1_LOCATION , CBP_TEXT_MODEL2_LOCATION );
+          App.CBPTCompare();
             
         }
         
@@ -100,33 +121,77 @@ public class ChangeDetectionEvaluations
         sw.resume();
         for(int i =0; i < 100; i++)
         {
-        	
-        	 eval.XMIcompare(URI.createFileURI(XMI_MODEL1_LOCATION),URI.createFileURI(XMI_MODEL2_LOCATION));
+        	//eval.EMFBinaryCompare(URI.createFileURI(BIN_MODEL1_LOCATION),URI.createFileURI(BIN_MODEL2_LOCATION));
+        	App.XMIcompare(URI.createFileURI(XMI_MODEL1_LOCATION),URI.createFileURI(XMI_MODEL2_LOCATION));
         }
         sw.pause();
         
         System.out.println("xmi time : "+ sw.getElapsed());*/
-        eval.XMIcompare(URI.createFileURI(XMI_MODEL1_LOCATION),URI.createFileURI(XMI_MODEL2_LOCATION));
-          
+       
+      // App.XMIcompare(URI.createFileURI(XMI_MODEL1_LOCATION),URI.createFileURI(XMI_MODEL2_LOCATION));
+     App.CBPTCompare();
+        
+      //  App.BINCompare(URI.createFileURI(BIN_MODEL1_LOCATION ), URI.createFileURI(BIN_MODEL2_LOCATION ));
     }
     
-    private void populateXMIModels() throws FileNotFoundException, IOException
+
+    
+    private void populateModels(TestMode mode) throws FileNotFoundException, IOException
     {
-        Resource res1 = new XMLResourceImpl();
-        Resource res2 = new XMLResourceImpl();
+    	Resource xmires1 = new XMIResourceImpl();
+        Resource xmires2 = new XMIResourceImpl();
+        
+        Resource binres1 = new BinaryResourceImpl();
+        Resource binres2 = new BinaryResourceImpl();
+        
+        Resource cbptres1 = new CBPTextResourceImpl(URI.createFileURI(CBP_TEXT_MODEL1_LOCATION),UniversityPackage.eINSTANCE);
+        Resource cbptres2 = new CBPTextResourceImpl(URI.createFileURI(CBP_TEXT_MODEL2_LOCATION),UniversityPackage.eINSTANCE);
+        
+       // Resource cbpbres1 = new CBPBinaryResourceImpl(URI.createFileURI(CBP_BINARY_MODEL1_LOCATION),UniversityPackage.eINSTANCE);
+      //  Resource cbpbres2 = new CBPBinaryResourceImpl(URI.createFileURI(CBP_BINARY_MODEL2_LOCATION),UniversityPackage.eINSTANCE);
         
         
+       
+        switch(mode)
+        {
+		case LargeEATtributes:
+			break;
+		case LargeEreferences:
+			break;
+		case LargeMixed:
+			break;
+		case MediuamMixed:
+			break;
+		case MediumEAttributes:
+			break;
+		case MediumEreferences:
+			break;
+		case SmallEAttributes:
+			smallModelEAttributeModification(xmires1,xmires2);
+			smallModelEAttributeModification(binres1,binres2);
+			smallModelEAttributeModification(cbptres1,cbptres2);
+			break;
+		case SmallEReferences:
+			break;
+		case SmallMixed:
+			break;
+		default:
+			break;
         
-        addModel1Contents(res1);
-        addModel2Contents(res2);
+        }
+       
+        xmires1.save(new FileOutputStream(new File(XMI_MODEL1_LOCATION)),null);
+       
+        xmires2.save(new FileOutputStream(new File(XMI_MODEL2_LOCATION)),null);
+       
         
-        res1.save(new FileOutputStream(new File(XMI_MODEL1_LOCATION)),null);
-        res2.save(new FileOutputStream(new File(XMI_MODEL2_LOCATION)),null);
+        binres1.save(new FileOutputStream(new File(BIN_MODEL1_LOCATION)),null);
+        binres2.save(new FileOutputStream(new File(BIN_MODEL1_LOCATION)),null);
+        
+        cbptres1.save(null);
+        cbptres2.save(null);
+  
     }
-    
-    
-    
-    
     private void XMIcompare(URI uri1, URI uri2)
     {
         Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put
@@ -142,51 +207,98 @@ public class ChangeDetectionEvaluations
         Comparison comparison = EMFCompare.builder().build().compare(scope);
         
         
-        List<Diff> differences = comparison.getDifferences();
+       List<Diff> differences = comparison.getDifferences();
         
-        for(Diff d : differences)
+       System.out.println("XMI Num Differences: "+differences.size());
+       
+       /* for(Diff d : differences)
         {
             System.out.println(d);
-        }
+        }*/
+    }  
+    
+    private void CBPTCompare() throws IOException
+    {
+    	CBPTextCompare ctc = new CBPTextCompare();
+    	ctc.compare(CBP_TEXT_MODEL1_LOCATION , CBP_TEXT_MODEL2_LOCATION );
+    	
+    	List<String> differences = ctc.getDifferences();
+    	
+    	/*for(String str : differences)
+    	{
+    		System.out.println(str);
+    	}*/
+    	
+    	System.out.println("CBP TEXT Num differences:"+differences.size());
     }
     
-    private void populateCBPTModels() throws IOException
+    private void BINCompare(URI uri1, URI uri2)
     {
-        Resource res = new 
-                CBPTextResourceImpl(URI.createFileURI(CBP_TEXT_MODEL1_LOCATION),UniversityPackage.eINSTANCE);
-        
-        Resource res2 = new 
-                CBPTextResourceImpl(URI.createFileURI(CBP_TEXT_MODEL2_LOCATION),UniversityPackage.eINSTANCE);
-        
-        addModel1Contents(res);
-        addModel2Contents(res2);
-        
-        
-        res.save(null);
-        res2.save(null);
+     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put
+         ("bin", new XMIResourceFactoryImpl());
+     
+     ResourceSet resourceSet1 = new ResourceSetImpl();
+     ResourceSet resourceSet2 = new ResourceSetImpl();
+
+     resourceSet1.getResource(uri1, true);
+     resourceSet2.getResource(uri2, true);
+     
+     IComparisonScope scope = new DefaultComparisonScope(resourceSet1, resourceSet2,null);
+     Comparison comparison = EMFCompare.builder().build().compare(scope);
+     
+     
+    /* List<Diff> differences = comparison.getDifferences();
+     
+     for(Diff d : differences)
+     {
+         System.out.println(d);
+     }*/
+     
     }
     
-    
-    private void addModel1Contents(Resource res)
+    public void smallModelEAttributeModification(Resource original, Resource updated)
     {
-        Library library = UniversityFactory.eINSTANCE.createLibrary();
-        res.getContents().add(library);
-        
-        library.setName("York Library");
-    }
-    
-    private void addModel2Contents(Resource res)
-    {
-        Library library = UniversityFactory.eINSTANCE.createLibrary();
-        res.getContents().add(library);
-        
-        library.setName("York Library");
-        library.setName("Leeds University Library");
+    	//base model
+    	for(int i = 0; i < 10; i++)
+    	{
+    		Library l = UniversityFactory.eINSTANCE.createLibrary();
+    		original.getContents().add(l);
+    		
+    		l.setName("Library"+i);
+    		
+    		for(int j = 0; j < 10; j++)
+    		{
+    			Book b = UniversityFactory.eINSTANCE.createBook();
+    			l.getBooks().add(b);
+    			b.setName("Book" + j);
+    		}
+    	}
+    	
+    	//updated
+    	for(int i = 0; i < 10; i++)
+    	{
+    		Library l = UniversityFactory.eINSTANCE.createLibrary();
+    		updated.getContents().add(l);
+    		
+    		l.setName("Library"+i);
+    		l.setName("Library"+i+1);
+    		
+    		for(int j = 0; j < 10; j++)
+    		{
+    			Book b = UniversityFactory.eINSTANCE.createBook();
+    			l.getBooks().add(b);
+    			
+    			b.setName("Book" + j);
+    			b.setName("Book" + j+1);
+    		}
+    		
+    	}
+    	
+    	
     }
     
    
+   
     
-    
-    
-    
+   
 }
